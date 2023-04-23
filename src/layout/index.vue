@@ -1,13 +1,18 @@
 <template>
-  <el-container>
+  <el-container class="layout-content">
     <Header />
-    <!-- <el-header>Header</el-header>
-    <el-container>
-      <el-aside width="200px">Aside</el-aside>
-      <el-main>Main</el-main>
-    </el-container> -->
+    <div class="layout-main">
+      <Aside />
+    </div>
   </el-container>
 </template>
 <script lang="ts" setup>
-import Header from '@/layout/header/index.vue'
+import Header from '@/layout/header/index.vue';
+import Aside from '@/layout/aside/index.vue';
 </script>
+<style lang="scss" scoped>
+.layout-content {
+  height: 100%;
+  flex-direction: column;
+}
+</style>

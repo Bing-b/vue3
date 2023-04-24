@@ -6,7 +6,7 @@
       </el-icon>
       <h2>Space</h2>
     </div>
-    <el-icon size="25" @click="switchMenu">
+    <el-icon size="25" @click.stop="switchMenu">
       <Fold />
     </el-icon>
   </div>
@@ -15,10 +15,10 @@
 import { getCurrentInstance, ref } from 'vue';
 
 
-const { proxy } = getCurrentInstance() as any;
+const { proxy } = getCurrentInstance() as any
 
 // 菜单收展状态
-const isExpansion = ref(true);
+const isExpansion = ref(false);
 
 // 切换菜单收展状态
 const switchMenu = () => {
@@ -30,6 +30,8 @@ const switchMenu = () => {
 .logo-box {
   display: flex;
   align-items: center;
+  width: 180px;
+  justify-content: space-between;
 
   .logo {
     display: flex;

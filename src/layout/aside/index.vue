@@ -1,69 +1,164 @@
 <template>
-  <div>
-    <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="isCollapse" @open="handleOpen"
-      @close="handleClose">
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon>
-            <location />
-          </el-icon>
-          <span>Navigator One</span>
-        </template>
-        <el-menu-item-group>
-          <template #title><span>Group One</span></template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-sub-menu index="1-4">
-          <template #title><span>item four</span></template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
+  <div class="menu-box">
+    <el-menu router :default-active="defaultActive" class="el-menu-vertical-demo" :collapse="isCollapse"
+      @open="handleOpen" unique-opened @close="handleClose">
+      <template v-for="menu in menuLists" :key="menu.path">
+        <el-sub-menu :index="menu.path" :key="menu.path" v-if="menu.children && menu.children.length > 0"
+          :class="{ 'choseMenu': menu.choose }" @click="openFirst(menu)">
+          <template #title>
+            <el-icon :size="20">
+              <component :is="menu.meta.icon" />
+            </el-icon>
+            <span>{{ menu.meta.title }}</span>
+          </template>
+
+          <!-- 子菜单 -->
+          <template v-for="val in menu.children">
+            <el-sub-menu :index="val.path" :key="val.path" v-if="val.children && val.children.length > 0">
+              <template #title>
+                <span>{{ val.meta.title }}</span>
+              </template>
+              <sub-item :chil="val.children" />
+            </el-sub-menu>
+            <el-menu-item :index="val.path" :key="val.name" v-else>
+              <template #title>
+                <span>{{ val.meta.title }}</span>
+              </template>
+            </el-menu-item>
+          </template>
         </el-sub-menu>
-      </el-sub-menu>
-      <el-menu-item index="2">
-        <el-icon>
-          <Menu />
-        </el-icon>
-        <template #title>Navigator Two</template>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <el-icon>
-          <Document />
-        </el-icon>
-        <template #title>Navigator Three</template>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <el-icon>
-          <setting />
-        </el-icon>
-        <template #title>Navigator Four</template>
-      </el-menu-item>
+        <el-menu-item :index="menu.path" :key="menu.name" v-else @click="clickSingle">
+          <el-icon :size="20">
+            <component :is="menu.meta.icon" />
+          </el-icon>
+          <template #title>
+            <span>{{ menu.meta.title }}</span>
+          </template>
+        </el-menu-item>
+      </template>
     </el-menu>
   </div>
 </template>
 <script lang="ts" setup>
-import { getCurrentInstance, ref } from 'vue'
+import { computed, getCurrentInstance, nextTick, onBeforeMount, onUnmounted, ref } from 'vue'
+import { onBeforeRouteUpdate, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
+
+const props = withDefaults(defineProps<{
+  menuList: any[],
+}>(), {
+  menuList: () => []
+})
+
+// 菜单默认展开
 const isCollapse = ref(false);
 
-const { proxy } = getCurrentInstance as any
+// 默认选中栏目
+const defaultActive = ref(null)
+
+const { proxy } = getCurrentInstance() as any;
+
+// 菜单列表
+const menuLists = computed(() => props.menuList);
+
+const route = useRoute();
+const router = useRouter();
 
 // 监听header切换菜单
 proxy.mittBus.on('onChangeAsideBar', (isExpansion: boolean) => {
   isCollapse.value = isExpansion;
 });
 
+// 设置当前路由高亮
+const setCurrentRouterHighlight = (currentRoute: RouteRecordRaw) => {
+  const { path, meta } = currentRoute;
+  if (meta?.isHide) {
+    defaultActive.value = meta.parentPath;
+  } else {
+    defaultActive.value = path
+  }
+
+  // 设置当前有子元素的路由高亮
+  nextTick(() => {
+    props.menuList.forEach((menu: any) => {
+      if (menu.children) {
+        let isCurrentMenuArr = [];
+        isCurrentMenuArr = menu.children.filter((child: any) => child.path === path);
+        if (isCurrentMenuArr.length > 0) {
+          menu.choose = true;
+        }
+      }
+    });
+  });
+}
+
+// 打开一级菜单时修改样式，并默认打开
+const openFirst = (menu) => {
+  menuLists.value.forEach((element: any) => {
+    element!.choose = false;
+  });
+  // 控制样式
+  menu.choose = true;
+  // 判断当前高亮路径是否是当前点击的菜单中，不在此菜单中时打开自菜单中第一个菜单
+  const hasCurrentMenuArr: string[] = menu.children.filter((child) => child.path === defaultActive.value);
+  if (hasCurrentMenuArr.length === 0) {
+    defaultActive.value = menu.children[0].path;
+    router.push(defaultActive.value);
+  }
+};
+
+// 点击没有自菜单的菜单时清楚样式
+const clickSingle = () => {
+  menuLists.value.forEach((element: any) => {
+    element!.choose = false;
+  });
+};
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
+
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
+
+// 页面加载时
+onBeforeMount(() => {
+  setCurrentRouterHighlight(route);
+});
+
+// 路由更新时
+onBeforeRouteUpdate((to) => {
+  setCurrentRouterHighlight(to);
+});
+
+// 离开时销毁
+onUnmounted(() => {
+  proxy.mittBus.off("onChangeAsideBar")
+})
+
 </script>
-<style>
+<style lang="scss" scoped>
+.menu-box {
+  height: calc(100vh - 60px);
+
+  :deep .el-menu {
+    height: 100%;
+
+    .choseMenu {
+      :deep(.el-sub-menu__title) {
+        color: white !important;
+        border-left: 8px solid theme("colors.primary") !important;
+      }
+
+      :deep(.el-menu-item.is-active) {
+        color: white;
+      }
+    }
+  }
+}
+
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
-  min-height: 400px;
+  height: calc(100vh - 60px);
 }
 </style>

@@ -6,7 +6,7 @@ import "element-plus/dist/index.css";
 import * as ElIcons from "@element-plus/icons-vue";
 import router from "./router";
 
-import mitt from "mitt"; // 时间总线
+import mitt from "mitt"; // 事件总线
 
 const app = createApp(App);
 app.use(ElementPlus);

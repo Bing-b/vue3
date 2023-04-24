@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view></router-view>
 </template>
 
 <script setup lang="ts">
@@ -7,9 +7,9 @@
 import { watch } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute();
-// 监听路由的变化，设置网站标题
-//watch(() => route.path, () => { title(); });
+// const route = useRoute();
+// // 监听路由的变化，设置网站标题
+// watch(() => route.path, () => { title(); });
 </script>
 
 <style scoped>

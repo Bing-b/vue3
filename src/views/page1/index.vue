@@ -1,3 +1,18 @@
 <template>
   <p>页面2</p>
+  <Switch :component="component">
+    <el-button type="default" @click="handClick">切换卡片</el-button>
+  </Switch>
 </template>
+<script lang="ts" setup>
+import { ref } from 'vue';
+import Switch from '../switch/index.vue';
+
+// 卡片切换
+const component = ref<'Card1' | 'Card2'>('Card1');
+
+const handClick = () => {
+
+  component.value = component.value === 'Card2' ? 'Card1' : 'Card2';
+}
+</script>

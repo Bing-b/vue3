@@ -39,6 +39,11 @@ onMounted(() => {
 
   .layout-main {
     display: flex;
+
+    main {
+      flex: 1;
+      height: 100%;
+    }
   }
 }
 </style>

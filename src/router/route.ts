@@ -10,10 +10,11 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/home',
         name: 'home',
+        redirect: '/page2',
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '栏目1',
-          icon: 'MilkTea',
+          icon: 'Discount',
         },
         children:[
           {
@@ -21,7 +22,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'page2',
             component: () => import('@/views/page2/index.vue'),
             meta: {
-              title: '栏目3',
+              title: '子3',
               icon: 'MilkTea',
             },
           },
@@ -33,7 +34,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/page1/index.vue'),
         meta: {
           title: '栏目2',
-          icon: 'MilkTea',
+          icon: 'PieChart',
         },
       },
     ]

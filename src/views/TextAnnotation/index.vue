@@ -9,7 +9,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Annotator } from 'poplar-annotation';
+//import { Annotator } from 'poplar-annotation';
 import { ref } from 'vue';
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex ">
+  <div class="flex">
     <div class="editor w-1/2">
       <el-input v-model="textContent" type="textarea" autosize="none" rows="10" placeholder=""></el-input>
     </div>

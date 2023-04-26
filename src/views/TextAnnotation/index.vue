@@ -133,6 +133,7 @@ const extraction = () => {
   if (annotator.value) annotator.value.remove();
   annotator.value = new Annotator(data, eleAnnotator, anConfig);
 
+  // 抽取内容选取了一段文本后
   annotator.value.on('textSelected', (startIndex: number, endIndex: number) => {
     state.startIndex = startIndex;
     state.endIndex = endIndex;
@@ -140,17 +141,11 @@ const extraction = () => {
     CategorySelectMode.value = CategorySelectModes.CREATE;
   });
 
+  // 右键更新lable分类
   annotator.value.on("labelRightClicked", (labelId, event: MouseEvent) => {
-    debugger
-    if (event.ctrlKey) {
-      CategorySelectMode.value = CategorySelectModes.UPDATE;
-      state.selectedId = labelId;
-      showLabelCategoriesDialog.value = true;
-    } else {
-      annotator.value!.applyAction(Action.Label.Delete(labelId));
-    }
-    // this.updateJSON();
-
+    CategorySelectMode.value = CategorySelectModes.UPDATE;
+    state.selectedId = labelId;
+    showLabelCategoriesDialog.value = true;
   });
 }
 
@@ -159,12 +154,10 @@ const addLabel = (categoryId: number) => {
   if (CategorySelectMode.value === CategorySelectModes.CREATE) {
     annotator.value!.applyAction(Action.Label.Create(categoryId, state.startIndex, state.endIndex));
   } else {
-    annotator.value!.applyAction(Action.Label.Update(this.selectedId, categoryId));
+    annotator.value!.applyAction(Action.Label.Update(state.selectedId, categoryId));
   }
   showLabelCategoriesDialog.value = false;
-  console.log(categoryId)
 }
-
 
 
 // 动态计算当前实例已存在label类型数据

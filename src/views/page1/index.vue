@@ -11,7 +11,7 @@ import Switch from '../switch/index.vue';
 // 卡片切换
 const component = ref<'Card1' | 'Card2'>('Card1');
 
-const parent = ref('腹肌')
+const parent = ref('腹肌') 
 
 const handClick = () => {
 

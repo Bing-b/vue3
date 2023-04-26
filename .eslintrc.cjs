@@ -8,6 +8,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:vue/essential",
     "airbnb-base",
+    "standard-with-typescript" , 
   ],
   parserOptions: {
     ecmaVersion: 12,

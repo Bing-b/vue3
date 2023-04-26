@@ -3,7 +3,7 @@
     <Header />
     <div class="layout-main">
       <Aside :menuList="state.menuList" />
-      <main>
+      <main class="h-[calc(100%-60px)]">
         <Main />
       </main>
     </div>

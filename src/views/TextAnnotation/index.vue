@@ -150,6 +150,7 @@ const extraction = () => {
       annotator.value!.applyAction(Action.Label.Delete(labelId));
     }
     // this.updateJSON();
+
   });
 }
 

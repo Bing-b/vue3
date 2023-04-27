@@ -27,7 +27,7 @@ import { onMounted, ref, nextTick, computed, reactive } from 'vue';
 import { annototarData } from './interface/index'
 import LabelCategoryDialog from './labelCategoryDialog/index.vue';
 
-// 定义label新增或修改枚举
+// 定义 label & connection 新增或修改的行为
 enum CategorySelectModes {
   CREATE,
   UPDATE
@@ -51,7 +51,9 @@ const showLabelCategoriesDialog = ref<boolean>(false);
 const state = reactive<annototarData>({
   startIndex: -1,
   endIndex: -1,
-  selectedId: -1
+  selectedId: -1,
+  sourceId: -1,
+  targetId: -1,
 })
 
 // annotator默认配置项
@@ -142,11 +144,18 @@ const extraction = () => {
   });
 
   // 右键更新lable分类
-  annotator.value.on("labelRightClicked", (labelId, event: MouseEvent) => {
+  annotator.value.on('labelRightClicked', (labelId, event: MouseEvent) => {
     CategorySelectMode.value = CategorySelectModes.UPDATE;
     state.selectedId = labelId;
     showLabelCategoriesDialog.value = true;
   });
+
+  // 点击两个label后进行关系构建
+  annotator.value.on('twoLabelsClicked', (sourceId, targetId) => {
+    state.sourceId = sourceId;
+    state.targetId = targetId;
+    CategorySelectMode.value = CategorySelectModes.CREATE;
+  })
 }
 
 // 添加或修改lable

@@ -16,16 +16,23 @@
     <!-- label分类选择弹窗 -->
     <label-category-dialog v-model:visible="showLabelCategoriesDialog" :LabelCategorys="LabelCategorys"
       @updateLable="addLabel" />
+    
+    <!-- connection分类选择弹窗 -->
+    <connection-category-dialog v-model:visible="showConnectionCategoriesDialog" :connectionCategories="connectionCategories"
+    @updateConnection="addConnection" />
 
   </div>
 </template>
 <script lang="ts" setup>
+import { onMounted, ref, nextTick, computed, reactive } from 'vue';
 import { Annotator, Action } from 'poplar-annotation';
 import { LabelCategory } from "poplar-annotation/dist/Store/LabelCategory";
+import {ConnectionCategory} from "poplar-annotation/dist/Store/ConnectionCategory";
 import { ConfigInput } from 'poplar-annotation/dist/Config';
-import { onMounted, ref, nextTick, computed, reactive } from 'vue';
 import { annototarData } from './interface/index'
 import LabelCategoryDialog from './labelCategoryDialog/index.vue';
+import ConnectionCategoryDialog from './connectionCategoryDialog/index.vue';
+import { fa } from 'element-plus/es/locale';
 
 // 定义 label & connection 新增或修改的行为
 enum CategorySelectModes {
@@ -44,8 +51,11 @@ const textContent = ref<string>('');
 // 标注创建或更新
 const CategorySelectMode = ref<CategorySelectModes>(CategorySelectModes.CREATE);
 
-// 是否显示label分类选择弹窗
+// 显示label分类选择弹窗
 const showLabelCategoriesDialog = ref<boolean>(false);
+
+// 显示connection分类选择弹窗
+const showConnectionCategoriesDialog = ref<boolean>(false);
 
 // 定义编辑文本标注时所需数据类型
 const state = reactive<annototarData>({
@@ -152,9 +162,11 @@ const extraction = () => {
 
   // 点击两个label后进行关系构建
   annotator.value.on('twoLabelsClicked', (sourceId, targetId) => {
+    console.log('ss')
     state.sourceId = sourceId;
     state.targetId = targetId;
     CategorySelectMode.value = CategorySelectModes.CREATE;
+    showConnectionCategoriesDialog.value = true;
   })
 }
 
@@ -166,6 +178,16 @@ const addLabel = (categoryId: number) => {
     annotator.value!.applyAction(Action.Label.Update(state.selectedId, categoryId));
   }
   showLabelCategoriesDialog.value = false;
+}
+
+// 添加或修改connection
+const addConnection = (connectionId: number) => {
+  if(CategorySelectMode.value === CategorySelectModes.CREATE) {
+    annotator.value!.applyAction(Action.Connection.Create(connectionId, state.sourceId, state.targetId));
+  }else {
+    annotator.value!.applyAction(Action.Connection.Update(state.selectedId, connectionId));
+  }
+  showConnectionCategoriesDialog.value = false;
 }
 
 
@@ -181,6 +203,17 @@ const LabelCategorys: LabelCategory.Entity = computed(() => {
   return result;
 })
 
+// 动态技术当前实例已存在connection类型数据
+const connectionCategories: ConnectionCategory.Entity = computed(() => {
+  if(annotator.value === null) {
+    return []
+  }
+  const result = [];
+  for (const [_, category] of annotator.value.store.connectionCategoryRepo) {
+      result.push(category);
+  }
+  return result;
+})
 
 
 onMounted(() => {

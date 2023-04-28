@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex overflow-hidden h-full">
     <!-- 抽取文本输入框 -->
     <div class="editor w-1/2">
       <h4 class=" my-1">文本输入</h4>
@@ -9,17 +9,19 @@
 
     <!-- 文本标注容器 -->
     <div class="w-1/2  ml-5">
-      <h4 class=" my-1">标注</h4>
-      <div id="example" class="border border-[#dedede] rounded h-[calc(100%-30px)]"></div>
+      <h4 class=" my-1">文本标注</h4>
+      <div id="example" class="border border-[#dedede] rounded h-[300px] overflow-hidden"></div>
+      <div class="flex items-center mt-4 "> <el-button v-show="annotator" type="primary"
+          @click="exprotJson">导出JSON</el-button> <el-button type="primary" @click="exportSVG">导出SVG</el-button></div>
     </div>
 
     <!-- label分类选择弹窗 -->
     <label-category-dialog v-model:visible="showLabelCategoriesDialog" :LabelCategorys="LabelCategorys"
       @updateLable="addLabel" />
-    
+
     <!-- connection分类选择弹窗 -->
-    <connection-category-dialog v-model:visible="showConnectionCategoriesDialog" :connectionCategories="connectionCategories"
-    @updateConnection="addConnection" />
+    <connection-category-dialog v-model:visible="showConnectionCategoriesDialog"
+      :connectionCategories="connectionCategories" @updateConnection="addConnection" />
 
   </div>
 </template>
@@ -27,7 +29,7 @@
 import { onMounted, ref, nextTick, computed, reactive } from 'vue';
 import { Annotator, Action } from 'poplar-annotation';
 import { LabelCategory } from "poplar-annotation/dist/Store/LabelCategory";
-import {ConnectionCategory} from "poplar-annotation/dist/Store/ConnectionCategory";
+import { ConnectionCategory } from "poplar-annotation/dist/Store/ConnectionCategory";
 import { ConfigInput } from 'poplar-annotation/dist/Config';
 import { annototarData } from './interface/index'
 import LabelCategoryDialog from './labelCategoryDialog/index.vue';
@@ -162,10 +164,16 @@ const extraction = () => {
 
   // 点击两个label后进行关系构建
   annotator.value.on('twoLabelsClicked', (sourceId, targetId) => {
-    console.log('ss')
     state.sourceId = sourceId;
     state.targetId = targetId;
     CategorySelectMode.value = CategorySelectModes.CREATE;
+    showConnectionCategoriesDialog.value = true;
+  })
+
+  // 右击关系类型文字后更新关系类型
+  annotator.value.on('connectionRightClicked', (connectionId: number, event: MouseEvent) => {
+    state.selectedId = connectionId;
+    CategorySelectMode.value = CategorySelectModes.UPDATE;
     showConnectionCategoriesDialog.value = true;
   })
 }
@@ -182,14 +190,37 @@ const addLabel = (categoryId: number) => {
 
 // 添加或修改connection
 const addConnection = (connectionId: number) => {
-  if(CategorySelectMode.value === CategorySelectModes.CREATE) {
+  if (CategorySelectMode.value === CategorySelectModes.CREATE) {
     annotator.value!.applyAction(Action.Connection.Create(connectionId, state.sourceId, state.targetId));
-  }else {
+  } else {
     annotator.value!.applyAction(Action.Connection.Update(state.selectedId, connectionId));
   }
   showConnectionCategoriesDialog.value = false;
 }
 
+// 导出标注数据JSON
+const exprotJson = () => {
+  const eleLink = document.createElement("a");
+  eleLink.download = "data.json";
+  eleLink.style.display = "none";
+  const blob = new Blob([JSON.stringify(annotator.value!.store.json, null, 4)]);
+  eleLink.href = URL.createObjectURL(blob);
+  document.body.appendChild(eleLink);
+  eleLink.click();
+  document.body.removeChild(eleLink);
+}
+
+// 导出SVG
+const exportSVG = () => {
+  const eleLink = document.createElement("a");
+  eleLink.download = "data.svg";
+  eleLink.style.display = "none";
+  const blob = new Blob([annotator.value!.export()]);
+  eleLink.href = URL.createObjectURL(blob);
+  document.body.appendChild(eleLink);
+  eleLink.click();
+  document.body.removeChild(eleLink);
+}
 
 // 动态计算当前实例已存在label类型数据
 const LabelCategorys: LabelCategory.Entity = computed(() => {
@@ -205,12 +236,12 @@ const LabelCategorys: LabelCategory.Entity = computed(() => {
 
 // 动态技术当前实例已存在connection类型数据
 const connectionCategories: ConnectionCategory.Entity = computed(() => {
-  if(annotator.value === null) {
+  if (annotator.value === null) {
     return []
   }
   const result = [];
   for (const [_, category] of annotator.value.store.connectionCategoryRepo) {
-      result.push(category);
+    result.push(category);
   }
   return result;
 })
@@ -225,9 +256,15 @@ onMounted(() => {
 
 </script>
 <style lang="scss" >
-#example>svg {
-  width: 100%;
+#example {
+  padding: 20px 10px;
+
+  >svg {
+    width: 100%;
+  }
 }
+
+
 
 .c {
   color: #265ac9;

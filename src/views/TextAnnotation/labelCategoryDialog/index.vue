@@ -19,35 +19,34 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { LabelCategory } from "poplar-annotation/dist/Store/LabelCategory";
-
+import { LabelCategory } from 'poplar-annotation/dist/Store/LabelCategory';
 
 const props = withDefaults(defineProps<{
   visible: boolean,
   LabelCategorys: LabelCategory.Entity[]
 }>(), {
   visible: () => false
-})
+});
 
 const emits = defineEmits(['update:visible', 'updateLable']);
 
 const $visible = computed({
-  get() {
-    return props.visible
+  get () {
+    return props.visible;
   },
-  set(val: boolean) {
-    emits('update:visible', val)
+  set (val: boolean) {
+    emits('update:visible', val);
   }
-})
+});
 
 // 选择分类id
-const selectedLabelCategory = ref<number>()
+const selectedLabelCategory = ref<number>();
 
 // 新增或修改label分类
 const updateLabel = () => {
-  if (selectedLabelCategory) {
-    emits('updateLable', selectedLabelCategory.value)
+  if (selectedLabelCategory.value) {
+    emits('updateLable', selectedLabelCategory.value);
   }
-}
+};
 
 </script>

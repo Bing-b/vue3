@@ -16,7 +16,7 @@
     <!-- label分类选择弹窗 -->
     <label-category-dialog v-model:visible="showLabelCategoriesDialog" :LabelCategorys="LabelCategorys"
       @updateLable="addLabel" />
-    
+
     <!-- connection分类选择弹窗 -->
     <connection-category-dialog v-model:visible="showConnectionCategoriesDialog" :connectionCategories="connectionCategories"
     @updateConnection="addConnection" />
@@ -24,15 +24,14 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted, ref, nextTick, computed, reactive } from 'vue';
+import { onMounted, ref, computed, reactive, ComputedRef } from 'vue';
 import { Annotator, Action } from 'poplar-annotation';
-import { LabelCategory } from "poplar-annotation/dist/Store/LabelCategory";
-import {ConnectionCategory} from "poplar-annotation/dist/Store/ConnectionCategory";
+import { LabelCategory } from 'poplar-annotation/dist/Store/LabelCategory';
+import { ConnectionCategory } from 'poplar-annotation/dist/Store/ConnectionCategory';
 import { ConfigInput } from 'poplar-annotation/dist/Config';
-import { annototarData } from './interface/index'
+import { annototarData } from './interface/index';
 import LabelCategoryDialog from './labelCategoryDialog/index.vue';
 import ConnectionCategoryDialog from './connectionCategoryDialog/index.vue';
-import { fa } from 'element-plus/es/locale';
 
 // 定义 label & connection 新增或修改的行为
 enum CategorySelectModes {
@@ -40,10 +39,9 @@ enum CategorySelectModes {
   UPDATE
 }
 
-
 // 定义标注实例
 // let annotator = reactive<Annotator | null>(null) as Annotator | null;
-let annotator = ref<Annotator | null>(null);
+const annotator = ref<Annotator | null>(null);
 
 // 标注文本内容
 const textContent = ref<string>('');
@@ -63,14 +61,14 @@ const state = reactive<annototarData>({
   endIndex: -1,
   selectedId: -1,
   sourceId: -1,
-  targetId: -1,
-})
+  targetId: -1
+});
 
 // annotator默认配置项
 const anConfig: ConfigInput = {
   topContextMargin: 0, // Line顶部渲染内容的margin
   connectionWidthCalcMethod: 'line' // 计算connection的碰撞箱时使用的方案
-}
+};
 
 // 构建生成标注图
 const extraction = () => {
@@ -79,21 +77,21 @@ const extraction = () => {
     labelCategories: [ // 定义文本类型
       {
         id: 0,
-        text: "地方",
-        color: "#eac0a2",
-        borderColor: "#8c7361"
+        text: '地方',
+        color: '#eac0a2',
+        borderColor: '#8c7361'
       },
       {
         id: 1,
-        text: "动物",
-        color: "#6be1ac",
-        borderColor: "#2acd84"
+        text: '动物',
+        color: '#6be1ac',
+        borderColor: '#2acd84'
       },
       {
         id: 2,
-        text: "动作",
-        color: "#7da1ed",
-        borderColor: "#265ac9"
+        text: '动作',
+        color: '#7da1ed',
+        borderColor: '#265ac9'
       }
     ],
     labels: [ // 定义抽取结果
@@ -119,12 +117,12 @@ const extraction = () => {
     connectionCategories: [
       {
         id: 0,
-        text: "关系"
+        text: '关系'
       },
       {
         id: 1,
-        text: "行为"
-      },
+        text: '行为'
+      }
     ],
     connections: [
       {
@@ -138,7 +136,7 @@ const extraction = () => {
         categoryId: 1,
         fromId: 1,
         toId: 2
-      },
+      }
     ]
   };
   const eleAnnotator = document.getElementById('example') as HTMLElement;
@@ -162,13 +160,13 @@ const extraction = () => {
 
   // 点击两个label后进行关系构建
   annotator.value.on('twoLabelsClicked', (sourceId, targetId) => {
-    console.log('ss')
+    console.log('ss');
     state.sourceId = sourceId;
     state.targetId = targetId;
     CategorySelectMode.value = CategorySelectModes.CREATE;
     showConnectionCategoriesDialog.value = true;
-  })
-}
+  });
+};
 
 // 添加或修改lable
 const addLabel = (categoryId: number) => {
@@ -178,21 +176,20 @@ const addLabel = (categoryId: number) => {
     annotator.value!.applyAction(Action.Label.Update(state.selectedId, categoryId));
   }
   showLabelCategoriesDialog.value = false;
-}
+};
 
 // 添加或修改connection
 const addConnection = (connectionId: number) => {
-  if(CategorySelectMode.value === CategorySelectModes.CREATE) {
+  if (CategorySelectMode.value === CategorySelectModes.CREATE) {
     annotator.value!.applyAction(Action.Connection.Create(connectionId, state.sourceId, state.targetId));
-  }else {
+  } else {
     annotator.value!.applyAction(Action.Connection.Update(state.selectedId, connectionId));
   }
   showConnectionCategoriesDialog.value = false;
-}
-
+};
 
 // 动态计算当前实例已存在label类型数据
-const LabelCategorys: LabelCategory.Entity = computed(() => {
+const LabelCategorys: ComputedRef<LabelCategory.Entity[]> = computed(() => {
   if (annotator.value === null) {
     return [];
   }
@@ -201,27 +198,23 @@ const LabelCategorys: LabelCategory.Entity = computed(() => {
     result.push(category);
   }
   return result;
-})
+});
 
-// 动态技术当前实例已存在connection类型数据
-const connectionCategories: ConnectionCategory.Entity = computed(() => {
-  if(annotator.value === null) {
-    return []
+// 动态计算当前实例已存在connection类型数据
+const connectionCategories: ComputedRef<ConnectionCategory.Entity[]> = computed(() => {
+  if (annotator.value === null) {
+    return [];
   }
   const result = [];
   for (const [_, category] of annotator.value.store.connectionCategoryRepo) {
-      result.push(category);
+    result.push(category);
   }
   return result;
-})
-
+});
 
 onMounted(() => {
-  textContent.value = '北冥有鱼，其名为鲲。鲲之大，不知其几千里也；化而为鸟，其名为鹏。鹏之背，不知其几千里也；怒而飞，其翼若垂天之云。是鸟也，海运则将徙于南冥。南冥者，天池也。《齐谐》者，志怪者也。《谐》之言曰：“鹏之徙于南冥也，水击三千里，抟扶摇而上者九万里，去以六月息者也。”野马也，尘埃也，生物之以息相吹也。天之苍苍，其正色邪？其远而无所至极邪？其视下也，亦若是则已矣。'
-
-})
-
-
+  textContent.value = '北冥有鱼，其名为鲲。 鲲之大，不知其几千里也；化而为鸟，其名为鹏。鹏之背，不知其几千里也；怒而飞，其翼若垂天之云。是鸟也，海运则将徙于南冥。南冥者，天池也。《齐谐》者，志怪者也。《谐》之言曰：“鹏之徙于南冥也，水击三千里，抟扶摇而上者九万里，去以六月息者也。”野马也，尘埃也，生物之以息相吹也。天之苍苍，其正色邪？其远而无所至极邪？其视下也，亦若是则已矣。';
+});
 
 </script>
 <style lang="scss" >

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex overflow-hidden h-full">
     <!-- 抽取文本输入框 -->
     <div class="editor w-1/2">
       <h4 class=" my-1">文本输入</h4>
@@ -9,8 +9,10 @@
 
     <!-- 文本标注容器 -->
     <div class="w-1/2  ml-5">
-      <h4 class=" my-1">标注</h4>
-      <div id="example" class="border border-[#dedede] rounded h-[calc(100%-30px)]"></div>
+      <h4 class=" my-1">文本标注</h4>
+      <div id="example" class="border border-[#dedede] rounded h-[300px] overflow-hidden"></div>
+      <div class="flex items-center mt-4 "> <el-button v-show="annotator" type="primary"
+          @click="exprotJson">导出JSON</el-button> <el-button type="primary" @click="exportSVG">导出SVG</el-button></div>
     </div>
 
     <!-- label分类选择弹窗 -->
@@ -18,8 +20,8 @@
       @updateLable="addLabel" />
 
     <!-- connection分类选择弹窗 -->
-    <connection-category-dialog v-model:visible="showConnectionCategoriesDialog" :connectionCategories="connectionCategories"
-    @updateConnection="addConnection" />
+    <connection-category-dialog v-model:visible="showConnectionCategoriesDialog"
+      :connectionCategories="connectionCategories" @updateConnection="addConnection" />
 
   </div>
 </template>
@@ -160,10 +162,16 @@ const extraction = () => {
 
   // 点击两个label后进行关系构建
   annotator.value.on('twoLabelsClicked', (sourceId, targetId) => {
-    console.log('ss');
     state.sourceId = sourceId;
     state.targetId = targetId;
     CategorySelectMode.value = CategorySelectModes.CREATE;
+    showConnectionCategoriesDialog.value = true;
+  });
+
+  // 右击关系类型文字后更新关系类型
+  annotator.value.on('connectionRightClicked', (connectionId: number, event: MouseEvent) => {
+    state.selectedId = connectionId;
+    CategorySelectMode.value = CategorySelectModes.UPDATE;
     showConnectionCategoriesDialog.value = true;
   });
 };
@@ -186,6 +194,30 @@ const addConnection = (connectionId: number) => {
     annotator.value!.applyAction(Action.Connection.Update(state.selectedId, connectionId));
   }
   showConnectionCategoriesDialog.value = false;
+};
+
+// 导出标注数据JSON
+const exprotJson = () => {
+  const eleLink = document.createElement('a');
+  eleLink.download = 'data.json';
+  eleLink.style.display = 'none';
+  const blob = new Blob([JSON.stringify(annotator.value!.store.json, null, 4)]);
+  eleLink.href = URL.createObjectURL(blob);
+  document.body.appendChild(eleLink);
+  eleLink.click();
+  document.body.removeChild(eleLink);
+};
+
+// 导出SVG
+const exportSVG = () => {
+  const eleLink = document.createElement('a');
+  eleLink.download = 'data.svg';
+  eleLink.style.display = 'none';
+  const blob = new Blob([annotator.value!.export()]);
+  eleLink.href = URL.createObjectURL(blob);
+  document.body.appendChild(eleLink);
+  eleLink.click();
+  document.body.removeChild(eleLink);
 };
 
 // 动态计算当前实例已存在label类型数据
@@ -218,8 +250,12 @@ onMounted(() => {
 
 </script>
 <style lang="scss" >
-#example>svg {
-  width: 100%;
+#example {
+  padding: 20px 10px;
+
+  >svg {
+    width: 100%;
+  }
 }
 
 .c {

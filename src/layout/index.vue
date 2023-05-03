@@ -3,9 +3,7 @@
     <Header />
     <div class="layout-main">
       <Aside :menuList="state.menuList" />
-      <main class="h-[calc(100%-60px)]">
-        <Main />
-      </main>
+      <Main />
     </div>
   </el-container>
 </template>
@@ -42,7 +40,6 @@ onMounted(() => {
 
     main {
       flex: 1;
-      height: 100%;
     }
   }
 }

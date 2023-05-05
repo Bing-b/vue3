@@ -14,7 +14,7 @@ import { ref } from 'vue';
 
 const showLottieWeb = ref(false);
 const options = ref({
-  path: new URL('./404.json', import.meta.url).href
+  path: new URL('./google.json', import.meta.url).href
 });
 
 const DOMLoaded = () => {

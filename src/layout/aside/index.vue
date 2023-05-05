@@ -6,10 +6,8 @@
         <el-sub-menu :index="menu.path" :key="menu.path" v-if="menu.children && menu.children.length > 0"
           :class="{ 'choseMenu': menu.choose }" @click="openFirst(menu)">
           <template #title>
-            <el-icon :size="20">
-              <component :is="menu.meta.icon" />
-            </el-icon>
-            <span>{{ menu.meta.title }}</span>
+            <svgIcon :name="menu.meta.icon" size="20" />
+            <span class="ml-1">{{ menu.meta.title }}</span>
           </template>
 
           <!-- 子菜单 -->
@@ -28,11 +26,9 @@
           </template>
         </el-sub-menu>
         <el-menu-item :index="menu.path" :key="menu.name" v-else @click="clickSingle">
-          <el-icon :size="20">
-            <component :is="menu.meta.icon" />
-          </el-icon>
+          <svgIcon :name="menu.meta.icon" size="20" />
           <template #title>
-            <span>{{ menu.meta.title }}</span>
+            <span class="ml-1">{{ menu.meta.title }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -40,20 +36,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, getCurrentInstance, nextTick, onBeforeMount, onUnmounted, ref } from 'vue'
+import { computed, getCurrentInstance, nextTick, onBeforeMount, onUnmounted, ref } from 'vue';
 import { onBeforeRouteUpdate, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 
 const props = withDefaults(defineProps<{
   menuList: any[],
 }>(), {
   menuList: () => []
-})
+});
 
 // 菜单默认展开
 const isCollapse = ref(false);
 
 // 默认选中栏目
-const defaultActive = ref(null)
+const defaultActive = ref(null);
 
 const { proxy } = getCurrentInstance() as any;
 
@@ -74,7 +70,7 @@ const setCurrentRouterHighlight = (currentRoute: RouteRecordRaw) => {
   if (meta?.isHide) {
     defaultActive.value = meta.parentPath;
   } else {
-    defaultActive.value = path
+    defaultActive.value = path;
   }
 
   // 设置当前有子元素的路由高亮
@@ -89,7 +85,7 @@ const setCurrentRouterHighlight = (currentRoute: RouteRecordRaw) => {
       }
     });
   });
-}
+};
 
 // 打开一级菜单时修改样式，并默认打开
 const openFirst = (menu) => {
@@ -114,12 +110,12 @@ const clickSingle = () => {
 };
 
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+  console.log(key, keyPath);
+};
 
 const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+  console.log(key, keyPath);
+};
 
 // 页面加载时
 onBeforeMount(() => {
@@ -133,13 +129,17 @@ onBeforeRouteUpdate((to) => {
 
 // 离开时销毁
 onUnmounted(() => {
-  proxy.mittBus.off("onChangeAsideBar")
-})
+  proxy.mittBus.off('onChangeAsideBar');
+});
 
 </script>
 <style lang="scss" scoped>
 .menu-box {
   height: calc(100vh - 60px);
+
+  svg {
+    flex: none;
+  }
 
   :deep .el-menu {
     height: 100%;

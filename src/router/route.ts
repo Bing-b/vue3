@@ -13,31 +13,31 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/home',
         name: 'home',
-        redirect: '/page2',
+        redirect: '/tree',
         component: () => import('@/views/home/index.vue'),
         meta: {
-          title: '栏目1',
-          icon: 'Discount',
+          title: '首页',
+          icon: 'home',
         },
         children:[
           {
-            path: '/page2',
-            name: 'page2',
-            component: () => import('@/views/page2/index.vue'),
+            path: '/tree',
+            name: 'tree',
+            component: () => import('@/views/tree/index.vue'),
             meta: {
-              title: '子3',
-              icon: 'MilkTea',
+              title: '树型目录',
+              icon: 'Memo',
             },
           },
         ]
       },
       {
-        path: '/page1',
-        name: 'page1',
-        component: () => import('@/views/page1/index.vue'),
+        path: '/aceEditor',
+        name: 'aceEditor',
+        component: () => import('@/views/AceEditor/index.vue'),
         meta: {
-          title: '栏目2',
-          icon: 'PieChart',
+          title: '代码编辑',
+          icon: 'edit',
         },
       },
       {
@@ -46,7 +46,16 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/TextAnnotation/index.vue'),
         meta: {
           title: '文本标注',
-          icon: 'EditPen',
+          icon: 'mark',
+        },
+      },
+      {
+        path: '/lottieWeb',
+        name: 'lottieWeb',
+        component: () => import('@/views/lottieWeb/index.vue'),
+        meta: {
+          title: 'Lottie 动画',
+          icon: 'dinosaur',
         },
       },
     ]

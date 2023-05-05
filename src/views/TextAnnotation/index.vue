@@ -12,7 +12,8 @@
       <h4 class=" my-1">文本标注</h4>
       <div id="example" class="border border-[#dedede] rounded h-[300px] overflow-hidden"></div>
       <div class="flex items-center mt-4 "> <el-button v-show="annotator" type="primary"
-          @click="exprotJson">导出JSON</el-button> <el-button type="primary" @click="exportSVG">导出SVG</el-button></div>
+          @click="exprotJson">导出JSON</el-button> <el-button v-show="annotator" type="primary"
+          @click="exportSVG">导出SVG</el-button></div>
     </div>
 
     <!-- label分类选择弹窗 -->
@@ -41,8 +42,9 @@ enum CategorySelectModes {
   UPDATE
 }
 
-// 定义标注实例
+// 标注实例对象
 // let annotator = reactive<Annotator | null>(null) as Annotator | null;
+// const annotator: Annotator | null = reactive<Annotator | null>(null);
 const annotator = ref<Annotator | null>(null);
 
 // 标注文本内容

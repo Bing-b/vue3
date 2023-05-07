@@ -25,7 +25,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'tree',
             component: () => import('@/views/tree/index.vue'),
             meta: {
-              title: '树型目录',
+              title: 'VScode目录',
               icon: 'Memo',
             },
           },

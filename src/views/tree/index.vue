@@ -3,8 +3,13 @@
     <div class=" px-4 py-2 mb-2 bg-slate-600 rounded">
       <p class=" text-white">文件目录</p>
     </div>
-    <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick">
-
+    <el-tree
+    :data="treeData"
+    :props="defaultProps"
+    :expand-on-click-node="false"
+    node-key="id"
+    @node-click="handleNodeClick"
+    >
       <template #default="{ node, data }">
         <span class="mr-1">
           <svgIcon name="word" v-if="!data.children" />
@@ -13,11 +18,11 @@
         </span>
         <span class="custom-tree-node w-full items-center flex justify-between">
 
-          <span v-show="!data.showInput">{{ node.label }}</span>
-          <el-input size="small" ref="inputVal" v-if="data.showInput" :value="data.label" @focus="focus($event)"
-            @input="a => inp(a, data)" @blur="loseFocus(node, data, $event)" v-focus>
+          <span v-if="!data.showInput">{{ node.label }}</span>
+          <el-input size="small" v-else v-model="data.label" @focus="focus(data, $event)"
+            @input="a => inp(a, data)" @change="handleChange(node, data)" @blur="blur(node, data, $event)" v-focus>
           </el-input>
-          <el-dropdown :hide-on-click="false" trigger="click" class="el-drop" @click.stop>
+          <el-dropdown  trigger="click" class="el-drop">
             <span class="el-dropdown-link">
               <el-icon class="el-icon--right">
                 <More />
@@ -25,13 +30,13 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="handleOperation(OPERATION.CREATE_FOLDER, data)">
+                <el-dropdown-item @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
                   新增文件夹
                 </el-dropdown-item>
                 <el-dropdown-item>
                   新增文件
                 </el-dropdown-item>
-                <el-dropdown-item @click="handleOperation(OPERATION.EDIT, data)">
+                <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
                   编辑
                 </el-dropdown-item>
                 <el-dropdown-item>
@@ -47,9 +52,13 @@
 </template>
 
 <script lang="ts" setup>
+import { nextTick, ref } from 'vue';
+
 interface Tree {
+  id: number
   label: string
   children?: Tree[]
+  showInput?: boolean
 }
 
 enum OPERATION {
@@ -59,50 +68,119 @@ enum OPERATION {
   EDIT
 }
 
+let id = 5;
+
+const operationType = ref<OPERATION>();
+const historyLabel = ref<string>('');
+
+// 注册获取 el-input 输入框焦点指令
+const vFocus = {
+  mounted: (el:any) => {
+    const timer = setTimeout(() => {
+      nextTick(() => {
+        el.querySelector('.el-input__inner').focus();
+        clearTimeout(timer);
+      });
+    }, 600);
+  }
+};
+
 const defaultProps = {
   children: 'children',
   label: 'label'
 };
 
-const handleNodeClick = (data: Tree) => {
-  console.log(data);
+const handleNodeClick = (data: Tree, node) => {
+  // console.log(data);
 };
 
-const data: Tree[] = [
+const treeData = ref<Tree[]>([
   {
+    id: 0,
     label: '栏目1',
+    showInput: false,
     children: [
       {
-        label: '栏目1-1'
+        id: 1,
+        label: '栏目1-1',
+        showInput: false
       }
     ]
   },
   {
+    id: 2,
     label: '栏目2',
+    showInput: false,
     children: [
       {
-        label: '栏目2-1'
+        id: 3,
+        label: '栏目2-1',
+        showInput: false
       },
       {
-        label: '栏目2-2'
+        id: 4,
+        label: '栏目2-2',
+        showInput: false
       }
     ]
   }
-];
+]);
 
-const focus = ($event: MouseEvent) => {
-  $event.currentTarget.select();
+const focus = (data:Tree, $event: FocusEvent) => {
+  console.log('获取焦点');
+  // editText.value = data.label;
+  // $event.currentTarget.select(); // 选择文本
 };
 
-const loseFocus = (node, data, $event) => {
-  data.showInput = !data.showInput;
+const blur = (node, data, $event:FocusEvent) => {
+  console.log('失去焦点');
+  data.showInput = false;
 };
 
-const handleOperation = (type: OPERATION, data: any) => {
+// 树节点下拉菜单操作：新增文件夹、新增文件、编辑、删除
+const handleOperation = (type: OPERATION, node: any, data: any) => {
+  operationType.value = type;
   if (type === OPERATION.CREATE_FOLDER) {
-    console.log('ss');
+    addTreeNode(type, node, data);
   } else if (type === OPERATION.EDIT) {
+    historyLabel.value = data.label;
     data.showInput = true;
+  }
+};
+
+const inp = (val, d) => {
+  console.log(val);
+};
+
+// 树节点输入框失焦或enter时触发更新树数据
+const handleChange = (node, data:Tree) => {
+  console.log(node);
+  treeData.value.forEach((node) => {
+    if (node.id === data.id) {
+      if (operationType.value === OPERATION.EDIT && data.label) {
+        node.label = data.label;
+      } else {
+        node.label = historyLabel.value;
+      }
+    }
+    data.showInput = false;
+  });
+};
+
+// 新增文件夹或文件
+const addTreeNode = (type:OPERATION, node, data:Tree) => {
+  const newNode:Tree = {
+    id: id++,
+    label: '',
+    showInput: true
+  };
+  if (type === OPERATION.CREATE_FOLDER) {
+    newNode.children = [];
+    if (!data.children) {
+      data.children = [];
+    }
+    node.expand();
+    data.children.push(newNode);
   }
 };
 </script>
@@ -112,12 +190,12 @@ const handleOperation = (type: OPERATION, data: any) => {
 
 .el-drop {
   margin-right: 6px;
-  display: none;
+  opacity: 0;
 }
 
 .custom-tree-node:hover {
   .el-drop {
-    display: block;
+    opacity: 1;
   }
 }
 

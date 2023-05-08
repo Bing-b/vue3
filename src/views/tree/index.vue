@@ -3,13 +3,8 @@
     <div class=" px-4 py-2 mb-2 bg-slate-600 rounded">
       <p class=" text-white">文件目录</p>
     </div>
-    <el-tree
-    :data="treeData"
-    :props="defaultProps"
-    :expand-on-click-node="false"
-    node-key="id"
-    @node-click="handleNodeClick"
-    >
+    <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id"
+      @node-click="handleNodeClick">
       <template #default="{ node, data }">
         <span class="mr-1">
           <svgIcon name="word" v-if="!data.children" />
@@ -17,12 +12,19 @@
           <svgIcon name="folderClose" v-else />
         </span>
         <span class="custom-tree-node w-full items-center flex justify-between">
-
+          <!-- label 文本与输入框动态切换 -->
           <span v-if="!data.showInput">{{ node.label }}</span>
-          <el-input size="small" v-else v-model="data.label" @focus="focus(data, $event)"
-            @input="a => inp(a, data)" @change="handleChange(node, data)" @blur="blur(node, data, $event)" v-focus>
-          </el-input>
-          <el-dropdown  trigger="click" class="el-drop">
+          <el-popover trigger="focus" v-else :visible="showPopover" placement="bottom" title="提示" :width="180"
+            content="必须提供文件或文件名。">
+            <template #reference>
+              <el-input size="small" v-model="data.label" @focus="focus(data, $event)" @input="val => input(val)"
+                @change="handleChange(node, data)" @blur="blur(node, data)" @keydown.enter="blur(node, data)" v-focus>
+              </el-input>
+            </template>
+          </el-popover>
+
+          <!-- 下拉操作菜单 -->
+          <el-dropdown trigger="click" class="el-drop">
             <span class="el-dropdown-link">
               <el-icon class="el-icon--right">
                 <More />
@@ -30,16 +32,18 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
+                <el-dropdown-item v-if="data.children && data.children.length > 0"
+                  @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
                   新增文件夹
                 </el-dropdown-item>
-                <el-dropdown-item>
+                <el-dropdown-item v-if="data.children && data.children.length > 0"
+                  @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
                   新增文件
                 </el-dropdown-item>
                 <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
                   编辑
                 </el-dropdown-item>
-                <el-dropdown-item>
+                <el-dropdown-item @click.stop="handleOperation(OPERATION.DELETE, node, data)">
                   删除
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -53,35 +57,32 @@
 
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import type Node from 'element-plus/es/components/tree/src/model/node';
+import { Tree } from './interface/index';
+import { OPERATION } from './enum';
 
-interface Tree {
-  id: number
-  label: string
-  children?: Tree[]
-  showInput?: boolean
-}
-
-enum OPERATION {
-  CREATE_FOLDER,
-  CREATE_FILE,
-  DELETE,
-  EDIT
-}
-
+// 新增节点初始id
 let id = 5;
 
+// 显示输入框提示
+const showPopover = ref(false);
+
+// 当前下拉菜单操作 type
 const operationType = ref<OPERATION>();
+
+// 当前编辑节点原始 label 数据
 const historyLabel = ref<string>('');
 
 // 注册获取 el-input 输入框焦点指令
 const vFocus = {
-  mounted: (el:any) => {
+  mounted: (el: any) => {
     const timer = setTimeout(() => {
       nextTick(() => {
         el.querySelector('.el-input__inner').focus();
         clearTimeout(timer);
       });
-    }, 600);
+    }, 500);
   }
 };
 
@@ -126,62 +127,107 @@ const treeData = ref<Tree[]>([
   }
 ]);
 
-const focus = (data:Tree, $event: FocusEvent) => {
+// 节点输入框获取到焦点
+const focus = (data: Tree, $event: FocusEvent) => {
   console.log('获取焦点');
-  // editText.value = data.label;
   // $event.currentTarget.select(); // 选择文本
 };
 
-const blur = (node, data, $event:FocusEvent) => {
+// 节点输入框失去焦点
+const blur = (node, data) => {
   console.log('失去焦点');
   data.showInput = false;
 };
 
+// 监听节点输入框输入
+const input = (val: string) => {
+  if (!val) showPopover.value = true;
+  else showPopover.value = false;
+};
+
+// 监听键盘 enter
+
+// 树节点输入框失焦或 enter 时触发更新树数据
+const handleChange = (node: Node, data: Tree) => {
+  showPopover.value = false;
+  const targetNode = traverseTree(treeData.value, data);
+  if (targetNode) {
+    if (operationType.value === OPERATION.EDIT && data.label) {
+      targetNode.label = data.label;
+    } else {
+      targetNode.label = historyLabel.value;
+    }
+    data.showInput = false;
+  }
+};
+
+// 递归遍历树目录数据找出目标节点
+const traverseTree = (data: Tree[], targetNode: Tree): Tree | undefined => {
+  for (let i = 0; i < data.length; i++) {
+    const node = data[i];
+    if (node.id === targetNode.id) return node;
+    if (node.children && node.children.length > 0) {
+      const result = traverseTree(node.children, targetNode);
+      if (result) return result;
+    }
+  }
+};
+
 // 树节点下拉菜单操作：新增文件夹、新增文件、编辑、删除
-const handleOperation = (type: OPERATION, node: any, data: any) => {
+const handleOperation = (type: OPERATION, node: Node, data: any) => {
   operationType.value = type;
-  if (type === OPERATION.CREATE_FOLDER) {
+  if (type === OPERATION.CREATE_FOLDER || type === OPERATION.CREATE_FILE) {
     addTreeNode(type, node, data);
   } else if (type === OPERATION.EDIT) {
     historyLabel.value = data.label;
     data.showInput = true;
+  } else {
+    deleteTreeNode(node, data);
   }
 };
 
-const inp = (val, d) => {
-  console.log(val);
-};
-
-// 树节点输入框失焦或enter时触发更新树数据
-const handleChange = (node, data:Tree) => {
-  console.log(node);
-  treeData.value.forEach((node) => {
-    if (node.id === data.id) {
-      if (operationType.value === OPERATION.EDIT && data.label) {
-        node.label = data.label;
-      } else {
-        node.label = historyLabel.value;
-      }
-    }
-    data.showInput = false;
-  });
-};
-
-// 新增文件夹或文件
-const addTreeNode = (type:OPERATION, node, data:Tree) => {
-  const newNode:Tree = {
+// 目录新增文件夹/文件
+const addTreeNode = (type: OPERATION, node: Node, data: Tree) => {
+  const newNode: Tree = {
     id: id++,
     label: '',
     showInput: true
   };
-  if (type === OPERATION.CREATE_FOLDER) {
-    newNode.children = [];
-    if (!data.children) {
-      data.children = [];
-    }
-    node.expand();
-    data.children.push(newNode);
+  if (type === OPERATION.CREATE_FOLDER) { newNode.children = []; }
+  if (!data.children) {
+    data.children = [];
   }
+  node.expand();
+  data.children.push(newNode);
+};
+
+// 目录删除文件夹/文件
+const deleteTreeNode = (node: Node, data: Tree) => {
+  ElMessageBox.confirm(
+    '确定要删除该文件夹/文件?',
+    '警告',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }
+  )
+    .then(() => {
+      ElMessage({
+        type: 'success',
+        message: '删除成功'
+      });
+      const parent = node.parent;
+      const children: Tree[] = parent.data.children || parent.data;
+      const index = children.findIndex((d) => d.id === data.id);
+      children.splice(index, 1);
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '已取消'
+      });
+    });
 };
 </script>
 

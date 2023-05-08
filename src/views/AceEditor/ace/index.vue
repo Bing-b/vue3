@@ -85,8 +85,8 @@ onBeforeUnmount(() => {
 </script>
 <style>
 .aceEditor {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
 }
 
 /* 自定义语言，匹配不同类型关键词高亮颜色 */

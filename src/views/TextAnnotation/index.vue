@@ -71,7 +71,8 @@ const state = reactive<annototarData>({
 // annotator默认配置项
 const anConfig: ConfigInput = {
   topContextMargin: 0, // Line顶部渲染内容的margin
-  connectionWidthCalcMethod: 'line' // 计算connection的碰撞箱时使用的方案
+  connectionWidthCalcMethod: 'line', // 计算connection的碰撞箱时使用的方案
+  unconnectedLineStyle: 'curve' // 点击label 显示连线 'curve(曲线)'，'straight(直线)'，'none'
 };
 
 // 构建生成标注图
@@ -254,9 +255,14 @@ onMounted(() => {
 <style lang="scss" >
 #example {
   padding: 20px 10px;
+  overflow: auto;
 
   >svg {
     width: 100%;
+
+    // .poplar-annotation-connection {
+    //   transform: translateY(-10px);
+    // }
   }
 }
 

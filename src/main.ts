@@ -7,8 +7,8 @@ import "element-plus/dist/index.css";
 import * as ElIcons from "@element-plus/icons-vue";
 import router from "./router";
 import mitt from "mitt"; // 事件总线
-
 import 'virtual:svg-icons-register' // svg
+import utils from '@/utils/commonFuction'
 
 const app = createApp(App);
 app.use(ElementPlus);
@@ -19,3 +19,4 @@ for (const [key, component] of Object.entries(ElIcons)) {
 }
 
 app.config.globalProperties.mittBus = mitt();
+app.config.globalProperties.$getImg = utils.getImg; 

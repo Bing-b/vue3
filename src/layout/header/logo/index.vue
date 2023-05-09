@@ -1,8 +1,9 @@
 <template>
   <div class="logo-box">
     <div class="logo">
-      <svgIcon name="China_Post" color="#32353a" size="30" />
-      <h2 class="font-bold ml-1 text-[#32353a]" v-show="!isExpansion">NBank</h2>
+      <!-- <svgIcon name="China_Post" color="#32353a" size="30" /> -->
+      <img class="w-[40px]" src="@/assets/images/logo_square.png" />
+      <h2 class="font-bold ml-1 text-[#32353a]" v-show="!isExpansion">Jurassic</h2>
     </div>
     <svgIcon name="menu" size="22" @click.stop="switchMenu" />
   </div>

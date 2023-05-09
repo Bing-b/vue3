@@ -58,6 +58,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           icon: 'dinosaur',
         },
       },
+      {
+        path: '/page2',
+        name: 'page2',
+        component: () => import('@/views/page2/index.vue'),
+        meta: {
+          title: '标注',
+          icon: 'dinosaur',
+        },
+      },
     ]
   },
 ];

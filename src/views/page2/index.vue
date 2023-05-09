@@ -1,9 +1,5 @@
 <template>
-  <p>子页面</p>
   <div>
-
+    nothing
   </div>
 </template>
-<script>
-
-</script>

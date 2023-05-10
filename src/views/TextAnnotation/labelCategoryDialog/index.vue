@@ -31,10 +31,10 @@ const props = withDefaults(defineProps<{
 const emits = defineEmits(['update:visible', 'updateLable']);
 
 const $visible = computed({
-  get () {
+  get() {
     return props.visible;
   },
-  set (val: boolean) {
+  set(val: boolean) {
     emits('update:visible', val);
   }
 });
@@ -44,7 +44,7 @@ const selectedLabelCategory = ref<number>();
 
 // 新增或修改label分类
 const updateLabel = () => {
-  if (selectedLabelCategory.value) {
+  if (selectedLabelCategory.value !== null) {
     emits('updateLable', selectedLabelCategory.value);
   }
 };

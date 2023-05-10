@@ -22,8 +22,8 @@ import { computed, ref } from 'vue';
 import { ConnectionCategory } from 'poplar-annotation/dist/Store/ConnectionCategory';
 
 const props = withDefaults(defineProps<{
-    visible: boolean,
-    connectionCategories: ConnectionCategory.Entity[]
+  visible: boolean,
+  connectionCategories: ConnectionCategory.Entity[]
 }>(), {
   visible: () => false
 });
@@ -31,10 +31,10 @@ const props = withDefaults(defineProps<{
 const emits = defineEmits(['update:visible', 'updateConnection']);
 
 const $visible = computed({
-  get () {
+  get() {
     return props.visible;
   },
-  set (val:boolean) {
+  set(val: boolean) {
     emits('update:visible', val);
   }
 });
@@ -44,7 +44,7 @@ const selectedConnectionCategory = ref<number>();
 
 // 新增或修改label分类
 const updateConnection = () => {
-  if (selectedConnectionCategory.value) {
+  if (selectedConnectionCategory.value !== null) {
     emits('updateConnection', selectedConnectionCategory.value);
   }
 };

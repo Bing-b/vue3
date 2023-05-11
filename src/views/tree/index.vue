@@ -261,25 +261,25 @@ const deleteTreeNode = (node: Node, data: Tree) => {
 //   background-color: aqua;
 // }
 
-:deep .el-tree .el-tree-node__expand-icon svg {
+:deep(.el-tree .el-tree-node__expand-icon svg) {
   //原有的箭头 去掉
   display: none !important;
   height: 0;
   width: 0;
 }
 
-:deep .el-tree-node__expand-icon {
+:deep(.el-tree-node__expand-icon) {
   //引入的图标（图片）size大小 => 树节点前的预留空间大小
   font-size: 16px;
 }
 
 //图标是否旋转，如果是箭头类型的，可以设置旋转90度。如果是两张图片，则设为0
-:deep .el-tree .el-tree-node__expand-icon.expanded {
+:deep(.el-tree .el-tree-node__expand-icon.expanded) {
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
-:deep .el-tree .el-tree-node__expand-icon:before {
+:deep(.el-tree .el-tree-node__expand-icon:before) {
   // 未展开的节点
   background: url("@/assets/icons/right_arrow.svg");
   content: '';
@@ -302,7 +302,7 @@ const deleteTreeNode = (node: Node, data: Tree) => {
 //   transition: all .3s;
 // }
 
-:deep .el-tree .is-leaf.el-tree-node__expand-icon::before {
+:deep(.el-tree .is-leaf.el-tree-node__expand-icon::before) {
   //叶子节点（不显示图标）
   display: block;
   background: none !important;

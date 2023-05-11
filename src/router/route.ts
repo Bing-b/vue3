@@ -59,11 +59,11 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/page2',
-        name: 'page2',
-        component: () => import('@/views/page2/index.vue'),
+        path: '/skeleton',
+        name: '骨架',
+        component: () => import('@/views/skeleton/index.vue'),
         meta: {
-          title: '标注',
+          title: '骨架',
           icon: 'dinosaur',
         },
       },

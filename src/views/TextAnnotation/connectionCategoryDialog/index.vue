@@ -1,20 +1,16 @@
 <template>
-  <el-dialog title="选择分类" v-model="$visible" width="300">
-    <el-radio-group v-model="selectedConnectionCategory" class="ml-4">
-      <template v-for="item in connectionCategories" :key="item.id">
-        <el-radio :label="item.id" size="large">{{ item.text }}</el-radio>
-      </template>
-    </el-radio-group>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="$visible = false">取消</el-button>
-        <el-button type="primary" @click="updateConnection">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <div>
+    <el-dialog title="选择关系" v-model="$visible" width="300">
+      <el-select v-model="selectedConnectionCategory" placeholder="请选择" @change="updateConnection">
+        <el-option v-for="item in connectionCategories" :key="item.id" :label="item.text" :value="item.id">
+          <el-icon color="#fb9776" size="16" class="mr-1 translate-y-[2px]">
+            <Link />
+          </el-icon>
+          <span>{{ item.text }}</span>
+        </el-option>
+      </el-select>
+    </el-dialog>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -47,6 +43,16 @@ const updateConnection = () => {
   if (selectedConnectionCategory.value !== null) {
     emits('updateConnection', selectedConnectionCategory.value);
   }
+  selectedConnectionCategory.value = undefined;
 };
 
 </script>
+<style lang="scss" scoped>
+:deep(.el-dialog__title) {
+  font-size: 16px;
+}
+
+:deep(.el-dialog__body) {
+  padding: 10px 20px 15px;
+}
+</style>

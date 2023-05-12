@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex items-center justify-center">
     <LottieWeb :options="options" :style="{
-      height: '50vh',
+      height: '100vh',
       opacity: showLottieWeb ? 1 : 0,
       'margin-top': '-60px'
     }" @DOMLoaded="DOMLoaded" />

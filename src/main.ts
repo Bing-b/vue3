@@ -9,6 +9,7 @@ import router from "./router";
 import mitt from "mitt"; // 事件总线
 import 'virtual:svg-icons-register' // svg
 import utils from '@/utils/commonFuction'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 
 const app = createApp(App);
 app.use(ElementPlus);

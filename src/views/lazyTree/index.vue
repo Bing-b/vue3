@@ -1,9 +1,9 @@
 <template>
   <div class="w-[200px]">
     <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
-      <p class="text-white">文件目录</p>
+      <p class="text-white">懒文件目录</p>
     </div>
-    <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id"
+    <el-tree :load="loadNode" lazy :props="defaultProps" :expand-on-click-node="false" node-key="id"
       @node-click="handleNodeClick">
       <template #default="{ node, data }">
         <span class="mr-1">
@@ -86,7 +86,8 @@ const vFocus = {
 
 const defaultProps = {
   children: 'children',
-  label: 'label'
+  label: 'label',
+  isLeaf: 'leaf'
 };
 
 const handleNodeClick = (data: Tree, node) => {
@@ -232,6 +233,34 @@ const deleteTreeNode = (node: Node, data: Tree) => {
       });
     });
 };
+
+// 懒加载树目录
+const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
+  if (node.level === 0) {
+    return resolve([{ id: 0, label: '根栏目', showInput: false, leaf: false, children: [] }]);
+  }
+  if (node.level > 1) {
+    setTimeout(() => {
+      const start = node.children ? node.children.length : 0;
+      const count = 10;
+      const children = [];
+      for (let i = start; i < start + count && i < 100; i++) {
+        children.push({
+          id: node.id * 100 + i,
+          label: `子节点 ${i + 1}`,
+          leaf: node.level === 2
+        });
+      }
+      resolve(children);
+    }, 500);
+  }
+  if (node.level === 1) {
+    setTimeout(() => {
+      resolve([{ id: 0, label: '栏目1', showInput: false, leaf: false, children: [] }]);
+    }, 500);
+  }
+};
+
 </script>
 
 <style scoped lang="scss">
@@ -247,22 +276,6 @@ const deleteTreeNode = (node: Node, data: Tree) => {
     opacity: 1;
   }
 }
-
-// :deep .el-tree-node__expand-icon.expanded {
-//   transform: rotate(90deg);
-// }
-
-// :deep .el-icon-arrow-down:before {
-//   content: "\e73c"; // 这里可替换成自己需要的图标字体
-// }
-
-// :deep .el-icon-arrow-right:before {
-//   content: "\e64e"; // 这里可替换成自己需要的图标字体
-// }
-
-// :deep .el-tree-node__expand-icon {
-//   background-color: aqua;
-// }
 
 :deep(.el-tree .el-tree-node__expand-icon svg) {
   //原有的箭头 去掉

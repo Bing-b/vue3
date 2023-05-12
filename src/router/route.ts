@@ -25,7 +25,16 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'tree',
             component: () => import('@/views/tree/index.vue'),
             meta: {
-              title: 'VScode',
+              title: '植树',
+              icon: 'Memo',
+            },
+          },
+          {
+            path: '/lazyTree',
+            name: 'lazyTree',
+            component: () => import('@/views/lazyTree/index.vue'),
+            meta: {
+              title: '懒树',
               icon: 'Memo',
             },
           },

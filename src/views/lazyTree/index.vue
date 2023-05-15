@@ -50,6 +50,8 @@
         </span>
       </template>
     </el-tree>
+
+    <input type="file" />
   </div>
 </template>
 
@@ -221,6 +223,7 @@ const deleteTreeNode = (node: Node, data: Tree) => {
         type: 'success',
         message: '删除成功'
       });
+      console.log(node);
       const parent = node.parent;
       const children: Tree[] = parent.data.children || parent.data;
       const index = children.findIndex((d) => d.id === data.id);

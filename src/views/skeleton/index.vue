@@ -36,9 +36,10 @@ const loading = ref(true);
 
 const reload = () => {
   loading.value = true;
-  setTimeout(() => {
+  setTimeout((txt) => {
     loading.value = false;
-  }, 2000);
+    console.log(txt);
+  }, 2000, 'hello');
 };
 
 onMounted(() => {

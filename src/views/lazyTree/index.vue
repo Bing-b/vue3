@@ -50,8 +50,6 @@
         </span>
       </template>
     </el-tree>
-
-    <input type="file" />
   </div>
 </template>
 

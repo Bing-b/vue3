@@ -1,5 +1,6 @@
 <template>
-  <el-tooltip v-bind="$attrs" v-model:visible="tooltipVisible" :disabled="disabledTooltip">
+  <el-tooltip v-bind="$attrs" v-model:visible="tooltipVisible" :disabled="disabledTooltip" effect="light"
+    popper-class="tool-tip">
     <template #content>
       <slot :name="$slots.content ? 'content' : 'default'"></slot>
     </template>
@@ -62,5 +63,10 @@ function setTooltipDisabled() {
   white-space: nowrap;
   vertical-align: bottom;
   text-overflow: ellipsis;
+}
+</style>
+<style>
+.tool-tip {
+  max-width: 400px;
 }
 </style>

@@ -278,19 +278,28 @@ const labelStore: ComputedRef<{ id: number, text: string, color: string, borderC
     result.push(category.json);
   }
 
-  const labelCount = result.reduce((temp: any, item) => {
-    if (!temp[item.categoryId]) {
-      temp[item.categoryId] = 1;
-    } else {
-      temp[item.categoryId]++;
-    }
-    return temp;
-  }, {});
+  // const labelCount = result.reduce((temp: any, item) => {
+  //   if (!temp[item.categoryId]) {
+  //     temp[item.categoryId] = 1;
+  //   } else {
+  //     temp[item.categoryId]++;
+  //   }
+  //   return temp;
+  // }, {});
 
+  // labelCategories.forEach(item => {
+  //   const key = item.id;
+  //   if (key in labelCount) {
+  //     item.num = labelCount[key];
+  //   }
+  // });
+
+  // 代码简化
+  const labelCount = result.reduce((acc: any, item) => (acc.set(item.categoryId, (acc.get(item.categoryId) || 0) + 1), acc), new Map());
   labelCategories.forEach(item => {
     const key = item.id;
-    if (key in labelCount) {
-      item.num = labelCount[key];
+    if (labelCount.has(key)) {
+      item.num = labelCount.get(key);
     }
   });
 

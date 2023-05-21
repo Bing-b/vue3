@@ -38,6 +38,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'Memo',
             },
           },
+          {
+            path: '/elTable',
+            name: 'elTable',
+            component: () => import('@/views/elTable/index.vue'),
+            meta: {
+              title: '全局配置',
+              icon: 'Memo',
+            },
+          },
         ]
       },
       {

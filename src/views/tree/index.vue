@@ -3,7 +3,7 @@
     <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
       <p class="text-white">文件目录</p>
     </div>
-    <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id"
+    <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id" draggable
       @node-click="handleNodeClick">
       <template #default="{ node, data }">
         <span class="mr-1">

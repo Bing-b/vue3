@@ -1,13 +1,13 @@
 <template>
-  <el-tooltip v-bind="$attrs" v-model:visible="tooltipVisible" :disabled="disabledTooltip" effect="light"
-    popper-class="tool-tip">
+  <el-tooltip v-bind="$attrs" :disabled="disabledTooltip" effect="light" popper-class="maxWidth">
     <template #content>
       <slot :name="$slots.content ? 'content' : 'default'"></slot>
     </template>
     <span ref="triggerRef" :class="{
       'text-ellipsis': true,
-      'text-ellipsis-line-clamp': lineClamp
-    }" @mouseenter="setTooltipDisabled">
+      'text-ellipsis-line-clamp': lineClamp,
+    }
+      " @mouseenter="setTooltipDisabled">
       <span ref="triggerInnerRef" class="text-ellipsis-inner" :style="lineClampStyle">
         <slot></slot>
       </span>
@@ -16,16 +16,23 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, type HTMLAttributes } from 'vue';
+import { computed, ComputedRef, ref, StyleValue } from 'vue';
 
-const props = defineProps({
-  lineClamp: Number
+const props = withDefaults(defineProps<{
+  lineClamp: Number,
+}>(), {
 });
-const tooltipVisible = ref(false);
+
+// 文本父级DOM
 const triggerRef = ref<HTMLElement | null>(null);
+
+// 文本DOM
 const triggerInnerRef = ref<HTMLElement | null>(null);
+
+// 控制是否显示tooltip
 const disabledTooltip = ref(true);
-const lineClampStyle = computed<HTMLAttributes['style']>(() => {
+
+const lineClampStyle = computed(() => {
   return props.lineClamp
     ? {
       display: '-webkit-inline-box',
@@ -33,9 +40,10 @@ const lineClampStyle = computed<HTMLAttributes['style']>(() => {
       '-webkit-line-clamp': props.lineClamp
     }
     : {};
-});
+}) as ComputedRef<StyleValue>;
 
-function setTooltipDisabled() {
+// 判断文本内容是否超出容器，超出显示tooltip
+const setTooltipDisabled = () => {
   const { value: $trigger } = triggerRef;
   if ($trigger) {
     if (props.lineClamp) {
@@ -43,30 +51,30 @@ function setTooltipDisabled() {
     } else {
       const { value: $triggerInner } = triggerInnerRef;
       if ($triggerInner) {
-        disabledTooltip.value =
-          $triggerInner.getBoundingClientRect().width <=
-          $trigger.getBoundingClientRect().width;
+        disabledTooltip.value = $triggerInner.getBoundingClientRect().width <= $trigger.getBoundingClientRect().width;
       }
     }
   }
-}
+};
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .text-ellipsis {
   max-width: 100%;
   display: inline-block;
   overflow: hidden;
-}
 
-.text-ellipsis:not(.text-ellipsis-line-clamp) {
-  white-space: nowrap;
-  vertical-align: bottom;
-  text-overflow: ellipsis;
+  &:not(.text-ellipsis-line-clamp) {
+    white-space: nowrap;
+    vertical-align: bottom;
+    text-overflow: ellipsis;
+  }
 }
 </style>
+
 <style>
-.tool-tip {
+/* 控制tooltip最大宽度，避免文字过长导致显示不全问题 */
+.maxWidth {
   max-width: 400px;
 }
 </style>

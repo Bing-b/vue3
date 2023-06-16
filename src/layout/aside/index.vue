@@ -16,7 +16,7 @@
               <template #title>
                 <span>{{ val.meta.title }}</span>
               </template>
-              <sub-item :chil="val.children" />
+              <!-- <sub-item :chil="val.children" /> -->
             </el-sub-menu>
             <el-menu-item :index="val.path" :key="val.name" v-else>
               <template #title>

@@ -73,7 +73,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/lottieWeb/index.vue'),
         meta: {
           title: 'Lottie 动画',
-          icon: 'dinosaur',
+          icon: 'animate',
         },
       },
       {
@@ -82,7 +82,25 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/skeleton/index.vue'),
         meta: {
           title: '骨架',
-          icon: 'dinosaur',
+          icon: 'bood',
+        },
+      },
+      {
+        path: '/iframe',
+        name: '内嵌',
+        component: () => import('@/views/iframe/index.vue'),
+        meta: {
+          title: '内嵌',
+          icon: 'inside',
+        },
+      },
+      {
+        path: '/other',
+        name: '其他',
+        component: () => import('@/views/other/index.vue'),
+        meta: {
+          title: '其他',
+          icon: 'other',
         },
       },
     ]

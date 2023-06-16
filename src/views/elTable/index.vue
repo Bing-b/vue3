@@ -1,9 +1,14 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180" />
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
-  </el-table>
+  <div>
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="date" label="Date" width="180" />
+      <el-table-column prop="name" label="Name" width="180" />
+      <el-table-column prop="address" label="Address" />
+    </el-table>
+
+    <el-input @keyup.enter="send"></el-input>
+
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -29,4 +34,9 @@ const tableData = [
     address: 'No. 189, Grove St, Los Angeles'
   }
 ];
+
+const send = () => {
+  console.log('s');
+};
+
 </script>

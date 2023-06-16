@@ -1,14 +1,14 @@
 <template>
   <div class="flex overflow-hidden h-full">
     <!-- 抽取文本输入框 -->
-    <div class="editor w-1/4">
+    <div class="editor w-1/2">
       <h4 class="my-1">文本输入</h4>
       <el-input v-model="textContent" type="textarea" resize="none" :rows="10" placeholder=""></el-input>
       <el-button class="mt-[10px]" type="primary" @click="extraction">抽取</el-button>
     </div>
 
     <!-- 文本标注容器 -->
-    <div class="w-3/4  ml-5">
+    <div class="w-1/2  ml-5">
       <h4 class="my-1">文本标注</h4>
       <div class="mb-3 px-2 py-3 border border-[#dedede] rounded">
         <el-badge v-for="item in labelStore" :key="item.id" :value="item.num" class="item mr-4" type="warning">

@@ -15,6 +15,7 @@
     "lottie-web": "^5.11.0",
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
+    "pdfjs-dist": "^3.7.107",
     "poplar-annotation": "^2.0.3",
     "postcss-preset-env": "^8.3.2",
     "vue": "^3.2.47",

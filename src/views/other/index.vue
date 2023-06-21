@@ -83,9 +83,6 @@ onMounted(() => {
   if (img) {
     img.src = imgUrl;
   }
-  // const { name } = useUserStore();
-  // const { name } = useUserStore();
-  // console.log(name);
 });
 
 </script>

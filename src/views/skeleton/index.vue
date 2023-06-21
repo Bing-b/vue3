@@ -30,7 +30,6 @@
         </template>
       </el-skeleton>
     </div>
-
   </div>
 </template>
 

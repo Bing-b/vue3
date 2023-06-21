@@ -2,6 +2,8 @@ import { createApp } from "vue";
 import "./style.css";
 import '@/theme/index.scss';
 import App from "./App.vue";
+import { createPinia } from 'pinia';
+import piniaPersist from 'pinia-plugin-persist'; // pinia 持久化存储插件
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElIcons from "@element-plus/icons-vue";
@@ -22,8 +24,10 @@ tableColumnProps.align = {type:Boolean,default: 'center'};
 tableColumnProps.showOverflowTooptip = {type:Boolean,default: true}
 
 const app = createApp(App);
-app.use(ElementPlus);
-app.use(router).mount("#app");
+app
+.use(router)
+.use(ElementPlus)
+.mount("#app");
 
 for (const [key, component] of Object.entries(ElIcons)) {
   app.component(key, component);

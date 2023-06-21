@@ -16,6 +16,8 @@
     "mitt": "^3.0.0",
     "nprogress": "^0.2.0",
     "pdfjs-dist": "^3.7.107",
+    "pinia": "^2.1.4",
+    "pinia-plugin-persist": "^1.0.0",
     "poplar-annotation": "^2.0.3",
     "postcss-preset-env": "^8.3.2",
     "vue": "^3.2.47",

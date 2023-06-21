@@ -50,16 +50,43 @@
         </textEllipsis>
       </div>
     </el-card>
+    <!-- <img id="ii" /> -->
+
+    <el-card class="box-card">
+      <template #header>
+        <div class="card-header">
+          <span>大菠萝（pinia）</span>
+          <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible">显示PDF</el-button>
+        </div>
+      </template>
+      <div>
+        <p>名称：{{ userStore.name }}</p>
+      </div>
+    </el-card>
 
   </div>
 </template>
 <script lang="ts" setup>
 import useMousePositon from '@/hooks/useMousePosition';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import imgUrl from '@/assets/images/logo/logo_square.png';
+import useUserStore from '@/store/modules/user';
 
 const { x, y } = useMousePositon();
 
 const dialogTableVisible = ref(false);
+
+const userStore = useUserStore();
+
+onMounted(() => {
+  const img = document.getElementById('ii') as HTMLImageElement | null;
+  if (img) {
+    img.src = imgUrl;
+  }
+  // const { name } = useUserStore();
+  // const { name } = useUserStore();
+  // console.log(name);
+});
 
 </script>
 

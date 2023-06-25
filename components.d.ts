@@ -38,9 +38,8 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
-    TextEillipsis: typeof import('./src/components/textEillipsis/index.vue')['default']
     TextEllipsis: typeof import('./src/components/textEllipsis/index.vue')['default']
-    ToolTip: typeof import('./src/components/toolTip/index.vue')['default']
-    Tootip: typeof import('./src/components/tootip/index.vue')['default']
+    Xbutton: typeof import('./src/components/xbutton/index.vue')['default']
+    XButton: typeof import('./src/components/xButton/index.vue')['default']
   }
 }

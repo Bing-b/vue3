@@ -66,6 +66,9 @@
         <p>计数：{{ userStore.counter }}</p>
       </div>
     </el-card>
+    <div class="w-[300px]">
+      <xButton class=" px-5">ssdd</xButton>
+    </div>
 
   </div>
 </template>
@@ -96,8 +99,8 @@ onMounted(() => {
 
 <style lang="scss">
 .container {
-
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .card-header {

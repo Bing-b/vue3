@@ -25,6 +25,7 @@ tableColumnProps.showOverflowTooptip = {type:Boolean,default: true}
 
 const app = createApp(App);
 app
+.use(createPinia().use(piniaPersist))
 .use(router)
 .use(ElementPlus)
 .mount("#app");

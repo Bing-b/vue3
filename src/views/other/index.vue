@@ -56,11 +56,14 @@
       <template #header>
         <div class="card-header">
           <span>大菠萝（pinia）</span>
-          <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible">显示PDF</el-button>
+          <el-button type="primary" @click="addCount">计数++</el-button>
+          <el-button type="primary" @click="userStore.clear()">清除pinia</el-button>
         </div>
       </template>
       <div>
-        <p>名称：{{ userStore.name }}</p>
+        <el-input v-model="userStore.name" placeholder="请输入名称" clearable></el-input>
+        <p class="mt-2">名称：{{ userStore.name }}</p>
+        <p>计数：{{ userStore.counter }}</p>
       </div>
     </el-card>
 
@@ -77,6 +80,10 @@ const { x, y } = useMousePositon();
 const dialogTableVisible = ref(false);
 
 const userStore = useUserStore();
+
+const addCount = () => {
+  userStore.counter++;
+};
 
 onMounted(() => {
   const img = document.getElementById('ii') as HTMLImageElement | null;

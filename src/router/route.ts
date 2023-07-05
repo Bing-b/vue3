@@ -95,11 +95,38 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: '/G6',
+        name: 'G6',
+        component: () => import('@/views/graph/index.vue'),
+        meta: {
+          title: 'G6',
+          icon: 'other',
+        },
+      },
+      {
+        path: '/components',
+        name: '组件',
+        component: () => import('@/views/wComponents/index.vue'),
+        meta: {
+          title: '组件',
+          icon: 'component',
+        },
+      },
+      {
         path: '/other',
         name: '其他',
         component: () => import('@/views/other/index.vue'),
         meta: {
           title: '其他',
+          icon: 'other',
+        },
+      },
+      {
+        path: '/div',
+        name: '拖拽div',
+        component: () => import('@/views/dragDiv/index.vue'),
+        meta: {
+          title: '拖拽div',
           icon: 'other',
         },
       },

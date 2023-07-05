@@ -1,55 +1,62 @@
 <template>
-  <div class="w-[200px]">
-    <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
-      <p class="text-white">文件目录</p>
-    </div>
-    <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id" draggable
-      @node-click="handleNodeClick">
-      <template #default="{ node, data }">
-        <span class="mr-1">
-          <svgIcon name="word" v-if="!data.children" />
-          <svgIcon name="folderOpen" v-else-if="node.expanded" />
-          <svgIcon name="folderClose" v-else />
-        </span>
-        <span class="custom-tree-node w-full items-center flex justify-between">
-          <!-- label 文本与输入框动态切换 -->
-          <span v-if="!data.showInput">{{ node.label }}</span>
-          <el-popover trigger="focus" v-else :visible="showPopover" placement="bottom" title="提示" :width="180"
-            content="必须提供文件或文件名。">
-            <template #reference>
-              <el-input size="small" v-model="data.label" @focus="focus(data, $event)" @input="val => input(val)"
-                @change="handleChange(node, data)" @blur="blur(node, data)" @keydown.enter="blur(node, data)" v-focus>
-              </el-input>
-            </template>
-          </el-popover>
+  <div class="box px-2 py-2 flex h-full bg-[#e3edf1]">
+    <div class="relative w-[200px] h-full px-2 py-2 border border-[#dedede] bg-white">
+      <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
+        <p class="text-white">文件目录</p>
+      </div>
+      <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id" draggable
+        @node-click="handleNodeClick">
+        <template #default="{ node, data }">
+          <span class="mr-1">
+            <svgIcon name="word" v-if="!data.children" />
+            <svgIcon name="folderOpen" v-else-if="node.expanded" />
+            <svgIcon name="folderClose" v-else />
+          </span>
+          <span class="custom-tree-node w-full items-center flex justify-between">
+            <!-- label 文本与输入框动态切换 -->
+            <span v-if="!data.showInput">{{ node.label }}</span>
+            <el-popover trigger="focus" v-else :visible="showPopover" placement="bottom" title="提示" :width="180"
+              content="必须提供文件或文件名。">
+              <template #reference>
+                <el-input size="small" v-model="data.label" @focus="focus(data, $event)" @input="val => input(val)"
+                  @change="handleChange(node, data)" @blur="blur(node, data)" @keydown.enter="blur(node, data)" v-focus>
+                </el-input>
+              </template>
+            </el-popover>
 
-          <!-- 下拉操作菜单 -->
-          <el-dropdown trigger="click" class="el-drop">
-            <span class="el-dropdown-link">
-              <el-icon class="el-icon--right">
-                <More />
-              </el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-if="data.children" @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
-                  新增文件夹
-                </el-dropdown-item>
-                <el-dropdown-item v-if="data.children" @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
-                  新增文件
-                </el-dropdown-item>
-                <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
-                  编辑
-                </el-dropdown-item>
-                <el-dropdown-item @click.stop="handleOperation(OPERATION.DELETE, node, data)">
-                  删除
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </span>
-      </template>
-    </el-tree>
+            <!-- 下拉操作菜单 -->
+            <el-dropdown trigger="click" class="el-drop">
+              <span class="el-dropdown-link">
+                <el-icon class="el-icon--right">
+                  <More />
+                </el-icon>
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-if="data.children"
+                    @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
+                    新增文件夹
+                  </el-dropdown-item>
+                  <el-dropdown-item v-if="data.children" @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
+                    新增文件
+                  </el-dropdown-item>
+                  <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
+                    编辑
+                  </el-dropdown-item>
+                  <el-dropdown-item @click.stop="handleOperation(OPERATION.DELETE, node, data)">
+                    删除
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </span>
+        </template>
+      </el-tree>
+      <div class="drag  w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize"></div>
+    </div>
+    <div class=" flex-1  bg-white">
+
+    </div>
   </div>
 </template>
 

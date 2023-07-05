@@ -1,6 +1,6 @@
 <template>
   <div class="box px-2 py-2 flex h-full bg-[#e3edf1]">
-    <div class="relative w-[200px] h-full px-2 py-2 border border-[#dedede] bg-white">
+    <div id="pp" class="relative min-w-[240px] h-full px-2 py-2 border border-[#dedede] bg-white" v-move>
       <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
         <p class="text-white">文件目录</p>
       </div>
@@ -66,6 +66,24 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import { Tree } from './interface/index';
 import { OPERATION } from './enum';
+
+const vMove = {
+  mounted: (el: any) => {
+    el.onmousedown = function (e) {
+      const init = e.clientX;
+      const parent = document.getElementById('pp');
+      const initWidth = parent!.offsetWidth;
+      document.onmousemove = function (e) {
+        const end = e.clientX;
+        const newWidth = end - init + initWidth;
+        parent!.style.width = newWidth + 'px';
+      };
+      document.onmouseup = function () {
+        document.onmousemove = document.onmouseup = null;
+      };
+    };
+  }
+};
 
 // 新增节点初始id
 let id = 5;

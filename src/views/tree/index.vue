@@ -1,6 +1,7 @@
 <template>
   <div class="box px-2 py-2 flex h-full bg-[#e3edf1]">
-    <div id="pp" class="relative min-w-[240px] h-full px-2 py-2 border border-[#dedede] bg-white" v-move>
+    <div id="targetBox" class="relative min-w-[240px] max-w-[400px] h-full px-2 py-2 border border-[#dedede] bg-white"
+      v-move>
       <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
         <p class="text-white">文件目录</p>
       </div>
@@ -54,8 +55,7 @@
       </el-tree>
       <div class="drag  w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize"></div>
     </div>
-    <div class=" flex-1  bg-white">
-
+    <div class=" flex-1  bg-white ">
     </div>
   </div>
 </template>
@@ -67,13 +67,14 @@ import type Node from 'element-plus/es/components/tree/src/model/node';
 import { Tree } from './interface/index';
 import { OPERATION } from './enum';
 
+// 自定义指定拖拽监听改变宽度
 const vMove = {
-  mounted: (el: any) => {
-    el.onmousedown = function (e) {
+  mounted: (el: HTMLElement) => {
+    el.onmousedown = function (e: MouseEvent) {
       const init = e.clientX;
-      const parent = document.getElementById('pp');
+      const parent = document.getElementById('targetBox');
       const initWidth = parent!.offsetWidth;
-      document.onmousemove = function (e) {
+      document.onmousemove = function (e: MouseEvent) {
         const end = e.clientX;
         const newWidth = end - init + initWidth;
         parent!.style.width = newWidth + 'px';

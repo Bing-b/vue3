@@ -56,6 +56,7 @@
       <div class="drag  w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize"></div>
     </div>
     <div class=" flex-1  bg-white ">
+
     </div>
   </div>
 </template>
@@ -66,7 +67,6 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import { Tree } from './interface/index';
 import { OPERATION } from './enum';
-
 // 自定义指定拖拽监听改变宽度
 const vMove = {
   mounted: (el: HTMLElement) => {

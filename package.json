@@ -12,6 +12,7 @@
     "@element-plus/icons-vue": "^2.1.0",
     "axios": "^1.4.0",
     "element-plus": "^2.3.3",
+    "gdm-horizon": "^1.1.40",
     "label-studio": "^1.0.1",
     "lottie-web": "^5.11.0",
     "mitt": "^3.0.0",

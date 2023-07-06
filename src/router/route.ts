@@ -130,6 +130,16 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           icon: 'other',
         },
       },
+      
+      {
+        path: '/gdm',
+        name: 'gdm',
+        component: () => import('@/views/gdm/index.vue'),
+        meta: {
+          title: 'dgm绘图',
+          icon: 'other',
+        },
+      },
     ]
   },
 ];

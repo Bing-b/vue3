@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
+    SwitchBtn: typeof import('./src/components/switchBtn/index.vue')['default']
     TextEllipsis: typeof import('./src/components/textEllipsis/index.vue')['default']
     Xbutton: typeof import('./src/components/xbutton/index.vue')['default']
     XButton: typeof import('./src/components/xButton/index.vue')['default']

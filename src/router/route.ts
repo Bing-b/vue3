@@ -140,6 +140,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           icon: 'other',
         },
       },
+      {
+        path: '/upload',
+        name: 'upload',
+        component: () => import('@/views/upload/index.vue'),
+        meta: {
+          title: 'upload',
+          icon: 'other',
+        },
+      },
     ]
   },
 ];

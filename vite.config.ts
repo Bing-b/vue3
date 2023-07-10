@@ -34,7 +34,14 @@ export const viteConfig = defineConfig(() => ({
   ],
   resolve: { alias, extensions },
   server: {
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    proxy: {
+      '/upload': {
+        target: 'http://127.0.0.1:4523/m1/1304360-0-default/minio/upload',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/upload/, ''),
+      },
+    },
   }
 })) 
 

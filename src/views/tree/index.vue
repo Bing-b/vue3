@@ -5,8 +5,10 @@
       <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
         <p class="text-white">文件目录</p>
       </div>
-      <el-tree :data="treeData" :props="defaultProps" :expand-on-click-node="false" node-key="id" draggable
-        @node-click="handleNodeClick">
+      <el-input v-model="keywords" placeholder="请输入" suffix-icon="search" @change="search"></el-input>
+
+      <el-tree ref="xTree" v-model="expandedKeys" :data="treeData" :props="defaultProps" :expand-on-click-node="false"
+        node-key="id" draggable @node-click="handleNodeClick">
         <template #default="{ node, data }">
           <span class="mr-1">
             <svgIcon name="word" v-if="!data.children" />
@@ -62,11 +64,12 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref } from 'vue';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { nextTick, ref, watch } from 'vue';
+import { ElMessage, ElMessageBox, ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import { Tree } from './interface/index';
 import { OPERATION } from './enum';
+
 // 自定义指定拖拽监听改变宽度
 const vMove = {
   mounted: (el: HTMLElement) => {
@@ -85,6 +88,8 @@ const vMove = {
     };
   }
 };
+
+const xTree = ref<InstanceType<typeof ElTree>>();
 
 // 新增节点初始id
 let id = 5;
@@ -110,6 +115,8 @@ const vFocus = {
   }
 };
 
+const keywords = ref('');
+
 const defaultProps = {
   children: 'children',
   label: 'label'
@@ -128,7 +135,14 @@ const treeData = ref<Tree[]>([
       {
         id: 1,
         label: '栏目1-1',
-        showInput: false
+        showInput: false,
+        children: [
+          {
+            id: 5,
+            label: '栏目1-2',
+            showInput: false
+          }
+        ]
       }
     ]
   },
@@ -145,6 +159,23 @@ const treeData = ref<Tree[]>([
       {
         id: 4,
         label: '栏目2-2',
+        showInput: false
+      }
+    ]
+  },
+  {
+    id: 6,
+    label: '栏目3',
+    showInput: false,
+    children: [
+      {
+        id: 7,
+        label: '栏目3-1',
+        showInput: false
+      },
+      {
+        id: 8,
+        label: '栏目3-2',
         showInput: false
       }
     ]
@@ -258,6 +289,51 @@ const deleteTreeNode = (node: Node, data: Tree) => {
       });
     });
 };
+
+// 搜索
+const search = () => {
+  treeData.value.forEach((node) => {
+    expandNode(node);
+  });
+};
+
+const expandNode = (node) => {
+  const treeNode = xTree.value?.getNode(node.id);
+  if (node.label.includes(keywords.value)) {
+    treeNode?.expand();
+    if (node.children) {
+      node.children.forEach(cnode => {
+        expandNode(cnode);
+      });
+    }
+  } else {
+    if (node.children) {
+      node.children.forEach(cnode => {
+        expandNode(cnode);
+      });
+    } else {
+      collapseNode(node);
+    }
+  }
+};
+
+const collapseNode = (node) => {
+  node.expanded = false;
+  const treeNode = xTree.value?.getNode(node.id);
+  treeNode?.collapse();
+  if (node.children) {
+    node.children.forEach((childNode) => {
+      collapseNode(childNode);
+    });
+  }
+};
+
+const expandedKeys = ref([]);
+
+watch(() => expandedKeys.value, () => {
+  console.log(expandedKeys.value);
+});
+
 </script>
 
 <style scoped lang="scss">

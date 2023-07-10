@@ -15,6 +15,15 @@
   return new URL(`../assets/images/${url}`, import.meta.url).href
 }
 
+const formatSize = (size) => {
+  if (size === 0) return '0 B';
+  const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const idx = Math.floor(Math.log(size) / Math.log(1024));
+  const formattedSize = Number((size / Math.pow(1024, idx)).toFixed(2));
+  return `${formattedSize} ${units[idx]}`;
+};
+
 export default {
   getImg,
+  formatSize
 }

@@ -36,3 +36,4 @@ for (const [key, component] of Object.entries(ElIcons)) {
 
 app.config.globalProperties.mittBus = mitt();
 app.config.globalProperties.$getImg = utils.getImg; 
+app.config.globalProperties.$formatSize = utils.formatSize; 

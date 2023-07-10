@@ -1,0 +1,74 @@
+<template>
+  <div>
+    <ul>
+      <li v-for="file in files" :key="file.name">
+
+        <span class="txt">文件名：</span> {{ file.name }}
+        <span class="txt">文件大小：</span>{{ $formatSize(file.size) }}
+        <span class="txt">上传状态: </span>{{ file.success }}
+        <span class="txt">Error: </span>{{ file.error }}
+      </li>
+    </ul>
+    <div class="w-full mb-4">
+      <VueUpload ref="upload" :post-action="postUrl" v-model="files" @input-file="inputFile" @input-filter="inputFilter"
+        :multiple="true">选择文件
+      </VueUpload>
+    </div>
+
+    <el-button type="primary" @click.prevent="uploadFiles">上传</el-button>
+  </div>
+</template>
+
+<script lang='ts' setup>
+import { ref } from 'vue';
+import VueUpload from 'vue-upload-component';
+
+const postUrl = '/upload';
+
+// 上传文件列表
+const files = ref([]);
+
+// 上传文件实例
+const upload = ref();
+
+const inputFile = (newFile, oldFile) => {
+  if (newFile && oldFile && !newFile.active && oldFile.active) {
+    // 获得相应数据
+    console.log('response', newFile.response);
+    if (newFile.xhr) {
+      //  获得响应状态码
+      console.log('status', newFile.xhr.status);
+    }
+  }
+};
+
+// 文件过滤
+const inputFilter = (newFile, oldFile, prevent) => {
+  if (newFile && !oldFile) {
+    // 过滤不是图片后缀的文件
+    if (!/\.(jpeg|jpe|jpg|gif|png|webp|svg)$/i.test(newFile.name)) {
+      alert('文件格式不支持');
+      return prevent();
+    }
+  }
+
+  // 创建 blob 字段 用于图片预览
+  newFile.blob = '';
+  const URL = window.URL || window.webkitURL;
+  if (URL && URL.createObjectURL) {
+    newFile.blob = URL.createObjectURL(newFile.file);
+  }
+};
+
+const uploadFiles = () => {
+  if (upload.value) {
+    upload.value.active = true;
+  }
+};
+</script>
+
+<style scoped>
+.txt {
+  color: brown;
+}
+</style>

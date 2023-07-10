@@ -2,10 +2,11 @@
   <div>
     <ul>
       <li v-for="file in files" :key="file.name">
-
+        <img class="td-image-thumb w-[100px]" v-if="file.blob" :src="file.blob" />
+        <span v-else>No Image</span>
         <span class="txt">文件名：</span> {{ file.name }}
         <span class="txt">文件大小：</span>{{ $formatSize(file.size) }}
-        <span class="txt">上传状态: </span>{{ file.success }}
+        <span class="txt">上传状态: </span> {{ file.success }}
         <span class="txt">Error: </span>{{ file.error }}
       </li>
     </ul>
@@ -23,10 +24,10 @@
 import { ref } from 'vue';
 import VueUpload from 'vue-upload-component';
 
-const postUrl = '/upload';
+const postUrl = 'http://127.0.0.1:3000/oss/upload';
 
 // 上传文件列表
-const files = ref([]);
+const files = ref<any[]>([]);
 
 // 上传文件实例
 const upload = ref();
@@ -45,8 +46,9 @@ const inputFile = (newFile, oldFile) => {
 // 文件过滤
 const inputFilter = (newFile, oldFile, prevent) => {
   if (newFile && !oldFile) {
+    console.log(newFile);
     // 过滤不是图片后缀的文件
-    if (!/\.(jpeg|jpe|jpg|gif|png|webp|svg)$/i.test(newFile.name)) {
+    if (!/\.(jpeg|jpe|jpg|gif|png|webp|svg|zip)$/i.test(newFile.name)) {
       alert('文件格式不支持');
       return prevent();
     }

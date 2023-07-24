@@ -1,58 +1,61 @@
 <template>
-  <div v-bind="$attrs" class="x-button" :class="{ 'active': isClick }" @click="handleClick">
+  <button class="custom-button" :class="{ 'is-active': isActive }" @click="handleClick" @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp">
     <slot></slot>
-  </div>
+  </button>
 </template>
-<script lang="ts" setup>
+
+<script setup lang="ts">
 import { ref } from 'vue';
 
-const isClick = ref(false);
-const handleClick = () => {
-  isClick.value = true;
+const isActive = ref<boolean>(false);
 
-  setTimeout(() => {
-    isClick.value = false;
-  }, 200);
+const emits = defineEmits(['click']);
+
+const handleClick = () => {
+  emits('click');
+  isActive.value = false; // 恢复默认样式
 };
+
+const handleMouseDown = () => {
+  isActive.value = true; // 添加活动样式
+};
+
+const handleMouseUp = () => {
+  isActive.value = false; // 移除活动样式
+};
+
 </script>
+
 <style lang="scss" scoped>
-.x-button {
+.custom-button {
   position: relative;
   display: inline-block;
-  padding: 4px 15px;
-  background-color: #E77A29;
-  border: 1px solid #dedede;
+  padding: 4px 16px;
   font-size: 14px;
-  color: #fff;
-  box-sizing: border-box;
+  line-height: 1.5;
   border-radius: 4px;
   cursor: pointer;
-  z-index: 1;
-  overflow: hidden;
-
-  &::before {
-    position: absolute;
-    content: '';
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #eab48a;
-    border-radius: 4px;
-    transform: translateX(-100%);
-    transition: .2s;
-    z-index: -1;
-  }
+  outline: none;
+  transition: all .3s cubic-bezier(.645, .045, .355, 1);
+  border: none;
+  color: #fff;
+  background-color: #1890ff;
+  touch-action: manipulation;
 
   &:hover {
-    background-color: #E77A29;
+    //background-color: #096dd9;
   }
+}
+
+.custom-button:active {
+
+  transform: translateY(2px);
 
 }
 
-.active {
-  &::before {
-    transform: translate(100%);
-  }
+.custom-button.is-active {
+  background-color: #096dd9;
+  /* 自定义活动样式颜色 */
 }
 </style>

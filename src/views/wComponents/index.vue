@@ -2,15 +2,8 @@
   <div class="flex h-full overflow-hidden">
 
     <div class="main flex-1 overflow-hidden ">
-      <xButton class=" px-5">确认</xButton>
+      <xButton class="ml-3 mt-3 px-5 mb-3">确认</xButton>
       <switchBtn />
-
-      <div class="mt-3 w-[300px] border overflow-x-hidden">
-        <div class="p w-full wrapper flex ">
-          <div v-for="i in 20" :key="i" class="c flex-none w-[50px] h-[50px] border-r bg-slate-200 border-[#000]">{{ i }}
-          </div>
-        </div>
-      </div>
 
       <div class="tab-list" id="nav">
         <div class="flex items-center justify-center flex-none  tab-item w-[100px] h-[50px]" v-for="i in 10" :key="i">
@@ -27,24 +20,6 @@
 
 <script lang='ts' setup>
 import { onMounted } from 'vue';
-
-let x = 0;
-const addEvent = () => {
-  const parent = document.querySelector('.p');
-  const container = document.querySelector('.c');
-  if (parent && container) {
-    parent.addEventListener('wheel', (event) => {
-      event.preventDefault();
-
-      if (x >= 0 && x <= 600) {
-        x += event.deltaY;
-        console.log(x);
-        if (x === -100) x = 0;
-        parent.style.transform = `translateX(${-x}px)`;
-      }
-    });
-  }
-};
 
 const handler = (event) => {
   // 获取要绑定事件的元素
@@ -75,7 +50,6 @@ const scrollInit = () => {
 };
 
 onMounted(() => {
-  addEvent();
   scrollInit();
 });
 </script>

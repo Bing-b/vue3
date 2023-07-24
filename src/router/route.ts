@@ -95,21 +95,71 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/G6',
-        name: 'G6',
-        component: () => import('@/views/graph/index.vue'),
+        path: '/drawGraph',
+        name: '绘图',
+        redirect: '/G6',
         meta: {
-          title: 'G6',
-          icon: 'other',
+          title: '绘图',
+          icon: 'inside',
         },
+        children: [
+          {
+            path: '/G6',
+            name: 'G6',
+            component: () => import('@/views/graph/index.vue'),
+            meta: {
+              title: 'G6',
+              icon: 'other',
+            },
+          },
+          {
+            path: '/gdm',
+            name: 'gdm',
+            component: () => import('@/views/gdm/index.vue'),
+            meta: {
+              title: 'dgm绘图',
+              icon: 'other',
+            },
+          },
+        ]
       },
       {
         path: '/components',
         name: '组件',
-        component: () => import('@/views/wComponents/index.vue'),
+        redirect: '/upload',
         meta: {
           title: '组件',
           icon: 'component',
+        },
+        children: [
+          {
+            path: '/upload',
+            name: 'upload',
+            component: () => import('@/views/upload/index.vue'),
+            meta: {
+              title: 'upload',
+              icon: 'other',
+            },
+          },
+          {
+            path: '/div',
+            name: '拖拽div',
+            component: () => import('@/views/dragDiv/index.vue'),
+            meta: {
+              title: '拖拽div',
+              icon: 'other',
+            },
+          },
+        ]
+      },
+      
+      {
+        path: '/animation',
+        name: '交互',
+        component: () => import('@/views/wComponents/index.vue'),
+        meta: {
+          title: '交互',
+          icon: 'other',
         },
       },
       {
@@ -121,34 +171,9 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           icon: 'other',
         },
       },
-      {
-        path: '/div',
-        name: '拖拽div',
-        component: () => import('@/views/dragDiv/index.vue'),
-        meta: {
-          title: '拖拽div',
-          icon: 'other',
-        },
-      },
+
       
-      {
-        path: '/gdm',
-        name: 'gdm',
-        component: () => import('@/views/gdm/index.vue'),
-        meta: {
-          title: 'dgm绘图',
-          icon: 'other',
-        },
-      },
-      {
-        path: '/upload',
-        name: 'upload',
-        component: () => import('@/views/upload/index.vue'),
-        meta: {
-          title: 'upload',
-          icon: 'other',
-        },
-      },
+
     ]
   },
 ];

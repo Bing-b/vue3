@@ -40,12 +40,9 @@ const handleMouseUp = () => {
   transition: all .3s cubic-bezier(.645, .045, .355, 1);
   border: none;
   color: #fff;
-  background-color: #1890ff;
+  background-color: #E77A29;
   touch-action: manipulation;
 
-  &:hover {
-    //background-color: #096dd9;
-  }
 }
 
 .custom-button:active {
@@ -55,7 +52,7 @@ const handleMouseUp = () => {
 }
 
 .custom-button.is-active {
-  background-color: #096dd9;
+  background-color: #d26817;
   /* 自定义活动样式颜色 */
 }
 </style>

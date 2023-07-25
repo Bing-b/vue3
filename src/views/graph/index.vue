@@ -2,18 +2,18 @@
   <div class="flex w-full h-full">
     <div class="w-1/4">
       <ul>
-        <li v-for="item in data.nodes" :key="item.id" @dragstart="dragStart($event, entity)"
-          @dragend.stop="dragEnd($event, entity)" draggable="true">{{ item.label }}</li>
+        <li v-for="item in data.nodes" :key="item.id" @dragstart="dragStart($event)" @dragend.stop="dragEnd($event, item)"
+          draggable="true">{{ item.label }}</li>
       </ul>
     </div>
-    <div id="graphG6" class="w-3/4 h-full border"></div>
+    <div id="graphG6" class="w-3/4 h-full border" @dragOver="dragOver"></div>
   </div>
 </template>
 
 <script lang='ts' setup>
 import G6, { Graph, GraphData } from '@antv/g6';
 import {
-  onMounted
+  onMounted, ref
 } from 'vue';
 
 let graph: Graph;
@@ -64,6 +64,8 @@ const createGraph = ($data: GraphData) => {
   graph.data($data);
   graph.render();
 };
+
+const count = ref(0);
 const data = {
   nodes: [
     {
@@ -87,6 +89,28 @@ const data = {
   ]
 };
 
+const dragStart = (event: DragEvent) => {
+  event.dataTransfer!.setData('text/plain', 'dragStart!');
+};
+
+const dragEnd = (event: DragEvent, ele: any) => {
+  // 新增实体数据，处理鼠标坐标与画布坐标偏移
+  const { x, y } = graph.getPointByClient(event.x, event.y);
+  const newNode = {
+    id: `node${count.value}`,
+    label: ele.label,
+    x,
+    y
+  };
+  graph.addItem('node', newNode);
+  count.value = count.value + 1;
+};
+
+// 监听拖拽完成
+const dragOver = (event: DragEvent) => {
+  event.preventDefault();
+  event.dataTransfer!.dropEffect = 'move';
+};
 onMounted(() => {
   createGraph(data);
 });

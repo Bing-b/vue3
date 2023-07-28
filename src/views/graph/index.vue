@@ -28,11 +28,13 @@ const createGraph = ($data: GraphData) => {
     width,
     height,
     fitCenter: true,
+    autoPaint: false,
+    fitView: true,
     modes: {
-      default: ['drag-node', 'drag-canvas']
+      default: ['drag-node', 'drag-canvas', 'zoom-canvas']
     },
     defaultNode: {
-      size: [40],
+      size: [30],
       type: 'circle',
       style: {
         fill: '#DEE9FF',
@@ -53,10 +55,13 @@ const createGraph = ($data: GraphData) => {
       }
     },
     layout: {
-      type: 'force',
-      preventOverlap: true, // 是否防止重叠
-      nodeSize: 40, // 节点大小
-      linkDistance: 100 // 边距离
+      type: 'force2',
+      center: [200, 200], // 可选，默认为图的中心
+      linkDistance: 50, // 可选，边长
+      nodeStrength: 30, // 可选
+      edgeStrength: 0.1, // 可选
+      nodeSize: 30,
+      workerEnabled: true
     }
   });
 
@@ -89,6 +94,24 @@ const data = {
   ]
 };
 
+const randomData = () => {
+  const data = { nodes: [], edges: [] };
+  for (let i = 0; i < 1000; i++) {
+    data.nodes.push({
+      id: `node${i}`,
+      label: `实体${i}`
+    });
+  }
+  for (let j = 1; j < 1000; j++) {
+    data.edges.push({
+      source: 'node0',
+      target: `node${j}`
+    });
+  }
+
+  return data;
+};
+
 const dragStart = (event: DragEvent) => {
   event.dataTransfer!.setData('text/plain', 'dragStart!');
 };
@@ -112,6 +135,8 @@ const dragOver = (event: DragEvent) => {
   event.dataTransfer!.dropEffect = 'move';
 };
 onMounted(() => {
-  createGraph(data);
+  const maxData = randomData();
+  console.log(maxData);
+  createGraph(maxData);
 });
 </script>

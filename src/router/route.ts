@@ -120,6 +120,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: 'dgm绘图',
               icon: 'other',
             },
+          },   {
+            path: '/echarts',
+            name: 'echarts',
+            component: () => import('@/views/echart/index.vue'),
+            meta: {
+              title: 'echarts',
+              icon: 'other',
+            },
           },
         ]
       },

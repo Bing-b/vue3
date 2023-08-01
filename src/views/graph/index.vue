@@ -27,9 +27,9 @@ const createGraph = ($data: GraphData) => {
     container: 'graphG6',
     width,
     height,
-    fitCenter: true,
+    // fitCenter: true,
     autoPaint: false,
-    fitView: true,
+    // fitView: true,
     modes: {
       default: ['drag-node', 'drag-canvas', 'zoom-canvas']
     },
@@ -63,6 +63,7 @@ const createGraph = ($data: GraphData) => {
       nodeSize: 30,
       workerEnabled: true
     }
+
   });
 
   graph.clear();
@@ -126,6 +127,7 @@ const dragEnd = (event: DragEvent, ele: any) => {
     y
   };
   graph.addItem('node', newNode);
+  graph.fitCenter()
   count.value = count.value + 1;
 };
 
@@ -137,6 +139,6 @@ const dragOver = (event: DragEvent) => {
 onMounted(() => {
   const maxData = randomData();
   console.log(maxData);
-  createGraph(maxData);
+  createGraph(data);
 });
 </script>

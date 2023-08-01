@@ -13,35 +13,21 @@ import { onMounted } from 'vue';
 
 const optionData = ref([{
   name: '林地面积统计',
-  value: 10000,
+  value: 20000,
   itemStyle: {
-    color: '#22c4ff'
+    color: '#0542a6'
   }
 }, {
   name: '草地面积统计',
-  value: 12116,
+  value: 4000,
   itemStyle: {
-    color: '#aaff00'
+    color: '#55bdc1'
   }
 }, {
   name: '耕地地面积统计',
-  value: 16616,
+  value: 10616,
   itemStyle: {
-    color: '#ffaaff'
-  }
-},
-{
-  name: '领地面积统计',
-  value: 4000,
-  itemStyle: {
-    color: '#fff'
-  }
-},
-{
-  name: '领地面积统计',
-  value: 22000,
-  itemStyle: {
-    color: '#cf21cd'
+    color: '#00ade7'
   }
 },
 ]);
@@ -137,7 +123,7 @@ const getPie3D = (pieData, internalDiameterRatio) => {
     },
     label: {
       show: true,
-      position: 'outside',
+      position: 'inside',
       rich: {
         b: {
           color: '#fff',
@@ -178,7 +164,7 @@ const getPie3D = (pieData, internalDiameterRatio) => {
       show: false,
       boxHeight, // 圆环的高度
       viewControl: { // 3d效果可以放大、旋转等，请自己去查看官方配置
-        alpha: 40, // 角度
+        alpha: 20, // 角度
         distance: 300, // 调整视角到主体的距离，类似调整zoom
         rotateSensitivity: 0, // 设置为0无法旋转
         zoomSensitivity: 0, // 设置为0无法缩放
@@ -399,6 +385,9 @@ const init = () => {
       length: 30,
       length2: 40
     },
+    label: {
+      show: true
+    },
     startAngle: -20, // 起始角度，支持范围[0, 360]。
     clockwise: false, // 饼图的扇区是否是顺时针排布。上述这两项配置主要是为了对齐3d的样式
     radius: ['20%', '50%'],
@@ -424,7 +413,7 @@ onMounted(() => {
 .water-eval-container {
   width: 100%;
   height: 100%;
-  background-color: rgb(3, 26, 59);
+  background-color: #0c1b54;
 }
 
 .cityGreenLand-charts {

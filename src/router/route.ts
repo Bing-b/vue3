@@ -121,6 +121,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
         children:[
           {
+            path: '/ot',
+            name: 'ot',
+            component: () => import('@/views/other/index.vue'),
+            meta: {
+              title: '砸碎',
+            },
+          },
+          {
             path: '/lottieWeb',
             name: 'lottieWeb',
             component: () => import('@/views/lottieWeb/index.vue'),

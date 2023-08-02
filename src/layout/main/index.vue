@@ -1,10 +1,12 @@
 <template>
-  <el-main class=" !overflow-hidden">
-    <router-view v-slot="{ Component }">
-      <transition name="slide" mode="out-in">
-        <component :is="Component" :key="$route.path" />
-      </transition>
-    </router-view>
+  <el-main class="!overflow-hidden">
+    <transition name="slide" mode="out-in">
+      <router-view>
+        <template #default="{ Component }">
+          <component :is="Component" :key="$route.path" />
+        </template>
+      </router-view>
+    </transition>
   </el-main>
 </template>
 <script lang="ts" setup>

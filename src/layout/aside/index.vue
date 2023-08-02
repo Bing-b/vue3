@@ -1,7 +1,7 @@
 <template>
-  <div class="menu-box">
+  <div class="menu-box shadow-md">
     <el-menu router :default-active="defaultActive" class="el-menu-vertical-demo" :collapse="isCollapse"
-      @open="handleOpen" unique-opened @close="handleClose">
+      :unique-opened="true">
       <template v-for="menu in menuLists" :key="menu.path">
         <el-sub-menu :index="menu.path" :key="menu.path" v-if="menu.children && menu.children.length > 0"
           :class="{ 'choseMenu': menu.choose }" @click="openFirst(menu)">
@@ -16,7 +16,6 @@
               <template #title>
                 <span>{{ val.meta.title }}</span>
               </template>
-              <!-- <sub-item :chil="val.children" /> -->
             </el-sub-menu>
             <el-menu-item :index="val.path" :key="val.name" v-else>
               <template #title>
@@ -25,7 +24,8 @@
             </el-menu-item>
           </template>
         </el-sub-menu>
-        <el-menu-item :index="menu.path" :key="menu.name" v-else @click="clickSingle">
+        <el-menu-item :index="menu.path" :key="menu.name" :class="{ 'choseMenu': menu.choose }" v-else
+          @click="clickSingle">
           <svgIcon :name="menu.meta.icon" size="20" />
           <template #title>
             <span class="ml-1">{{ menu.meta.title }}</span>
@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<{
 const isCollapse = ref(false);
 
 // 默认选中栏目
-const defaultActive = ref(null);
+const defaultActive = ref<string>('/');
 
 const { proxy } = getCurrentInstance() as any;
 
@@ -68,7 +68,7 @@ proxy.mittBus.on('onChangeAsideBar', (isExpansion: boolean) => {
 const setCurrentRouterHighlight = (currentRoute: RouteRecordRaw) => {
   const { path, meta } = currentRoute;
   if (meta?.isHide) {
-    defaultActive.value = meta.parentPath;
+    defaultActive.value = meta.parentPath as string;
   } else {
     defaultActive.value = path;
   }
@@ -82,6 +82,9 @@ const setCurrentRouterHighlight = (currentRoute: RouteRecordRaw) => {
         if (isCurrentMenuArr.length > 0) {
           menu.choose = true;
         }
+      }
+      if (menu.path === path) {
+        menu.choose = true;
       }
     });
   });
@@ -109,13 +112,13 @@ const clickSingle = () => {
   });
 };
 
-const handleOpen = (key: string, keyPath: string[]) => {
-  // console.log(key, keyPath);
-};
+// const handleOpen = (key: string, keyPath: string[]) => {
+//   console.log(key, keyPath);
+// };
 
-const handleClose = (key: string, keyPath: string[]) => {
-  // console.log(key, keyPath);
-};
+// const handleClose = (key: string, keyPath: string[]) => {
+//   console.log(key, keyPath);
+// };
 
 // 页面加载时
 onBeforeMount(() => {
@@ -135,30 +138,55 @@ onUnmounted(() => {
 </script>
 <style lang="scss" scoped>
 .menu-box {
+  padding-top: 15px;
   height: calc(100vh - 60px);
 
   svg {
     flex: none;
   }
 
-  :deep .el-menu {
+  :deep(.el-menu) {
     height: 100%;
+    border-right: 0;
 
     .choseMenu {
-      :deep(.el-sub-menu__title) {
-        color: white !important;
-        border-left: 8px solid theme("colors.primary") !important;
+
+      .el-sub-menu__title {
+
+        color: #5f85e4 !important;
+        border-left: 4px solid #1c53d9 !important;
+        background-color: #edf1fc;
+
       }
 
-      :deep(.el-menu-item.is-active) {
-        color: white;
-      }
+    }
+
+    .el-menu-item.is-active.choseMenu {
+
+      color: #5f85e4 !important;
+      border-left: 4px solid #1c53d9 !important;
+      background-color: #edf1fc;
+    }
+
+    .el-menu-item.is-active {
+      color: #5f85e4 !important;
+    }
+
+    .el-menu-item {
+
+      height: 50px;
+      line-height: 50px;
+    }
+
+    .el-sub-menu__title {
+      height: 50px;
+      line-height: 50px;
     }
   }
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: 160px;
   height: calc(100vh - 60px);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <el-header class="header flex justify-between items-center border-b border-[#dcdfe6]">
+  <el-header class="header flex justify-between items-center shadow-sm !p-0 !h-[40px]">
     <logo />
     <NavBox />
   </el-header>

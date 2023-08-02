@@ -16,18 +16,18 @@ import { onMounted, reactive } from 'vue';
 
 const state = reactive({
   menuList: []
-})
+});
 
 // 过滤模板路由
 const filterRoutes = () => {
   let templateRoutes = [] as any;
   templateRoutes = mainRoutes.filter((item) => item.name === 'home');
   state.menuList = templateRoutes[0].children;
-}
+};
 
 onMounted(() => {
-  filterRoutes()
-})
+  filterRoutes();
+});
 
 </script>
 <style lang="scss" scoped>

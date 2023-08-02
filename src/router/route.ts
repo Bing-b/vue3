@@ -13,11 +13,19 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/home',
         name: 'home',
-        redirect: '/tree',
         component: () => import('@/views/home/index.vue'),
         meta: {
           title: '首页',
-          icon: 'home',
+          icon: 'menu-menu_home',
+        }
+      },
+      {
+        path: '/components',
+        name: 'components',
+        redirect:'/tree',
+        meta: {
+          title: '组件',
+          icon: 'menu-menu_style',
         },
         children:[
           {
@@ -26,7 +34,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/tree/index.vue'),
             meta: {
               title: '植树',
-              icon: 'Memo',
             },
           },
           {
@@ -35,72 +42,36 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/lazyTree/index.vue'),
             meta: {
               title: '懒树',
-              icon: 'Memo',
             },
           },
           {
-            path: '/elTable',
-            name: 'elTable',
-            component: () => import('@/views/elTable/index.vue'),
+            path: '/upload',
+            name: 'upload',
+            component: () => import('@/views/upload/index.vue'),
             meta: {
-              title: '全局配置',
-              icon: 'Memo',
+              title: 'upload',
+              icon: 'other',
+            },
+          },
+          {
+            path: '/div',
+            name: '拖拽div',
+            component: () => import('@/views/dragDiv/index.vue'),
+            meta: {
+              title: '拖拽div',
+              icon: 'other',
             },
           },
         ]
       },
+
       {
-        path: '/aceEditor',
-        name: 'aceEditor',
-        component: () => import('@/views/AceEditor/index.vue'),
+        path: '/garph',
+        name: 'garph',
+        redirect:'/G6',
         meta: {
-          title: '代码编辑',
-          icon: 'edit',
-        },
-      },
-      {
-        path: '/annotation',
-        name: 'annotation',
-        component: () => import('@/views/TextAnnotation/index.vue'),
-        meta: {
-          title: '文本标注',
-          icon: 'mark',
-        },
-      },
-      {
-        path: '/lottieWeb',
-        name: 'lottieWeb',
-        component: () => import('@/views/lottieWeb/index.vue'),
-        meta: {
-          title: 'Lottie 动画',
-          icon: 'animate',
-        },
-      },
-      {
-        path: '/skeleton',
-        name: '骨架',
-        component: () => import('@/views/skeleton/index.vue'),
-        meta: {
-          title: '骨架',
-          icon: 'bood',
-        },
-      },
-      {
-        path: '/iframe',
-        name: '内嵌',
-        component: () => import('@/views/iframe/index.vue'),
-        meta: {
-          title: '内嵌',
-          icon: 'inside',
-        },
-      },
-      {
-        path: '/drawGraph',
-        name: '绘图',
-        redirect: '/G6',
-        meta: {
-          title: '绘图',
-          icon: 'inside',
+          title: '可视化',
+          icon: 'menu-menu_graph',
         },
         children: [
           {
@@ -132,56 +103,54 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         ]
       },
       {
-        path: '/components',
-        name: '组件',
-        redirect: '/upload',
-        meta: {
-          title: '组件',
-          icon: 'component',
-        },
-        children: [
-          {
-            path: '/upload',
-            name: 'upload',
-            component: () => import('@/views/upload/index.vue'),
-            meta: {
-              title: 'upload',
-              icon: 'other',
-            },
-          },
-          {
-            path: '/div',
-            name: '拖拽div',
-            component: () => import('@/views/dragDiv/index.vue'),
-            meta: {
-              title: '拖拽div',
-              icon: 'other',
-            },
-          },
-        ]
-      },
-      
-      {
         path: '/animation',
-        name: '交互',
+        name: 'animation',
         component: () => import('@/views/wComponents/index.vue'),
         meta: {
           title: '交互',
-          icon: 'other',
+          icon: 'menu-menu_animation',
         },
       },
       {
         path: '/other',
-        name: '其他',
-        component: () => import('@/views/other/index.vue'),
+        name: 'other',
+        redirect:'/lottieWeb',
         meta: {
           title: '其他',
-          icon: 'other',
+          icon: 'menu-menu_other',
         },
+        children:[
+          {
+            path: '/lottieWeb',
+            name: 'lottieWeb',
+            component: () => import('@/views/lottieWeb/index.vue'),
+            meta: {
+              title: 'Lottie 动画',
+              icon: 'animate',
+            },
+          },
+          {
+            path: '/skeleton',
+            name: '骨架',
+            component: () => import('@/views/skeleton/index.vue'),
+            meta: {
+              title: '骨架',
+              icon: 'bood',
+            },
+          },
+          {
+            path: '/iframe',
+            name: '内嵌',
+            component: () => import('@/views/iframe/index.vue'),
+            meta: {
+              title: '内嵌',
+              icon: 'inside',
+            },
+          },
+          
+        ]
       },
-
-      
-
+   
     ]
   },
 ];

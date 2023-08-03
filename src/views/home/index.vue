@@ -13,12 +13,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onMounted } from 'vue';
-import intro from 'intro.js';
+import { ComponentInternalInstance, getCurrentInstance, onMounted } from 'vue';
+const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 
 onMounted(() => {
   setTimeout(() => {
-    intro()
+    proxy!.$intro()
       .setOption('nextLabel', ' 下一步 ')
       .setOption('prevLabel', ' 上一步 ')
       .setOption('doneLabel', ' 完成 ')

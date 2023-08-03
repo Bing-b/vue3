@@ -11,7 +11,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     DragBox: typeof import('./src/components/dragBox/index.vue')['default']
     DragItem: typeof import('./src/components/dragItem/index.vue')['default']
-    ElBadge: typeof import('element-plus/es')['ElBadge']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElContainer: typeof import('element-plus/es')['ElContainer']
@@ -26,15 +25,10 @@ declare module '@vue/runtime-core' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElOption: typeof import('element-plus/es')['ElOption']
     ElPopover: typeof import('element-plus/es')['ElPopover']
-    ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
-    ElTable: typeof import('element-plus/es')['ElTable']
-    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
-    ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -42,7 +36,6 @@ declare module '@vue/runtime-core' {
     SvgIcon: typeof import('./src/components/svgIcon/index.vue')['default']
     SwitchBtn: typeof import('./src/components/switchBtn/index.vue')['default']
     TextEllipsis: typeof import('./src/components/textEllipsis/index.vue')['default']
-    Xbutton: typeof import('./src/components/xbutton/index.vue')['default']
     XButton: typeof import('./src/components/xButton/index.vue')['default']
   }
 }

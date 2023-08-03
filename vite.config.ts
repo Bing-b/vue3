@@ -42,7 +42,14 @@ export const viteConfig = defineConfig(() => ({
     //     rewrite: (path) => path.replace(/^\/upload/, ''),
     //   },
     // },
+  },
+  terserOptions: {
+    compress: {
+      drop_console: true, // 构建时去除console/debugger
+      drop_debugger: true
+    }
   }
+  
 })) 
 
 export default viteConfig;

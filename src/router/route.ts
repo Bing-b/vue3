@@ -62,6 +62,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'other',
             },
           },
+          {
+            path: '/ace',
+            name: '代码编辑器',
+            component: () => import('@/views/AceEditor/index.vue'),
+            meta: {
+              title: '代码编辑器',
+            },
+          },
         ]
       },
 

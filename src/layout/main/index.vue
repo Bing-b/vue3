@@ -1,5 +1,5 @@
 <template>
-  <el-main class="!overflow-hidden">
+  <el-main class="!overflow-hidden bg-[#f0f2f5]  !px-2 !py-2">
     <transition name="slide" mode="out-in">
       <router-view>
         <template #default="{ Component }">

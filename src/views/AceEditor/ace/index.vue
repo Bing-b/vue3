@@ -11,7 +11,7 @@ import 'ace-builds/src-noconflict/ext-language_tools'; // 语法提示
 import 'ace-builds/src-noconflict/snippets/javascript'; // 语法段提示模块
 
 // 自定义语言
-import 'ace-builds/src-noconflict/mode-mylang'; // 此模块需对应目录创建
+import './mode-mylang'; // 此模块需对应目录创建
 // import '../assets/ace/mylang.js';
 
 const props = withDefaults(defineProps<{

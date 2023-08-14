@@ -58,8 +58,8 @@
 <script lang="ts" setup>
 import { computed, watch, reactive, ComponentInternalInstance, getCurrentInstance, onMounted, ref } from 'vue';
 import Iframe from '@/views/iframe/index.vue';
+import { getWeather } from '@/assets/api/common';
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
-
 // const date = reactive<{ [key: string]: number }>({
 //   year: 2022,
 //   month: 1,
@@ -69,6 +69,12 @@ const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 //   second: 0,
 //   process: 0
 // });
+
+const getCityWeather = () => {
+  getWeather({ city: '成都' }).then((data) => {
+    console.log(data);
+  });
+};
 
 const date = computed(() => {
   const date = {} as any;
@@ -91,6 +97,7 @@ const date = computed(() => {
 });
 
 onMounted(() => {
+  getCityWeather();
   setTimeout(() => {
     proxy!.$intro()
       .setOption('nextLabel', ' 下一步 ')

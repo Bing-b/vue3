@@ -88,15 +88,30 @@
       </div>
     </el-card>
 
+    <el-card class="box-card">
+      <template #header>
+        <div class="card-header" v-loading="loading">
+          <span>loading Hook</span>
+        </div>
+      </template>
+      <div>
+        <xButton @click="handleShowLoading">{{ loading ? '关闭' : '显示' }}</xButton>
+      </div>
+    </el-card>
+
   </div>
 </template>
 <script lang="ts" setup>
 import useMousePositon from '@/hooks/useMousePosition';
+import useLoading from '@/hooks/useLoading';
 import { onMounted, ref } from 'vue';
 import imgUrl from '@/assets/images/logo/logo_square.png';
 import useUserStore from '@/store/modules/user';
+import { ElMessage } from 'element-plus';
 
 const { x, y } = useMousePositon();
+
+const { loading, showLoading, hideLoading } = useLoading();
 
 const dialogTableVisible = ref(false);
 
@@ -106,7 +121,7 @@ const addCount = () => {
   userStore.counter++;
 };
 
-const handler = (event) => {
+const handler = (event: any) => {
   // 获取要绑定事件的元素
   const nav = document.getElementById('nav');
   // 获取滚动方向
@@ -132,6 +147,11 @@ const scrollInit = () => {
   if (nav) {
     nav.addEventListener('mousewheel', handler, false);
   }
+};
+
+const handleShowLoading = () => {
+  if (loading.value) hideLoading();
+  else showLoading();
 };
 
 onMounted(() => {

@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElPopover: typeof import('element-plus/es')['ElPopover']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElSkeleton: typeof import('element-plus/es')['ElSkeleton']
     ElSkeletonItem: typeof import('element-plus/es')['ElSkeletonItem']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
@@ -37,5 +38,9 @@ declare module '@vue/runtime-core' {
     SwitchBtn: typeof import('./src/components/switchBtn/index.vue')['default']
     TextEllipsis: typeof import('./src/components/textEllipsis/index.vue')['default']
     XButton: typeof import('./src/components/xButton/index.vue')['default']
+    XMessage: typeof import('./src/components/xMessage/index.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

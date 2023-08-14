@@ -23,7 +23,18 @@ const formatSize = (size) => {
   return `${formattedSize} ${units[idx]}`;
 };
 
+import { ElMessage } from 'element-plus';
+
+const message = (type: string, message: string) => {
+  ElMessage.closeAll();
+  ElMessage({
+    type: type as 'success' | 'warning' | 'info' | 'error',
+    message 
+  });
+};
+
 export default {
   getImg,
-  formatSize
+  formatSize,
+  message
 }

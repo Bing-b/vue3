@@ -1,12 +1,10 @@
 <template>
   <el-main class="!overflow-hidden bg-[#f0f2f5]  !px-2 !py-2">
-    <transition name="slide" mode="out-in">
-      <router-view>
-        <template #default="{ Component }">
-          <component :is="Component" :key="$route.path" />
-        </template>
-      </router-view>
-    </transition>
+    <router-view #default="{ Component }">
+      <transition name="slide" mode="out-in">
+        <component :is="Component" :key="$route.path" />
+      </transition>
+    </router-view>
   </el-main>
 </template>
 <script lang="ts" setup>

@@ -39,3 +39,4 @@ app.config.globalProperties.mittBus = mitt();
 app.config.globalProperties.$getImg = utils.getImg; 
 app.config.globalProperties.$formatSize = utils.formatSize; 
 app.config.globalProperties.$intro = intro;
+app.config.globalProperties.$sendMessage = utils.message;

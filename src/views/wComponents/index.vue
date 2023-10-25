@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-full overflow-hidden">
+  <div class="flex h-full overflow-hidden  bg-[#2A2B30]">
     <div class="main flex overflow-hidden ">
       <div class="item">
         <xButton class="ml-3 mt-3 px-5 mb-3">确认</xButton>
@@ -9,6 +9,9 @@
       </div>
       <div class="item">
         <xButton class="ml-3 mt-3 px-5 mb-3" bgColor="#87898e" type="default">确认</xButton>
+      </div>
+      <div class="item">
+        <xButton class="ml-3 mt-3 px-5 mb-3" bgColor="rgba(255,255,255,.1)" type="gray">取消</xButton>
       </div>
       <div class="item">
         <switchBtn />

@@ -1,6 +1,6 @@
 <template>
   <button class="custom-button"
-    :class="{ 'is-active': isActive, 'primary': type === 'primary', 'default': type === 'default' }"
+    :class="{ 'is-active': isActive, 'primary': type === 'primary', 'default': type === 'default', 'gray': type === 'gray' }"
     :style="{ '--button-bg-color': bgColor }" @click="handleClick" @mousedown="handleMouseDown" @mouseup="handleMouseUp">
     <slot></slot>
   </button>
@@ -48,7 +48,7 @@ const handleMouseUp = () => {
   padding: 4px 16px;
   font-size: 14px;
   line-height: 1.5;
-  border-radius: 4px;
+  border-radius: 2px;
   cursor: pointer;
   outline: none;
   z-index: 1;
@@ -68,6 +68,10 @@ const handleMouseUp = () => {
     pointer-events: none;
   }
 
+  // &:hover {
+  //   background-color: #f1954e;
+  // }
+
 }
 
 .primary {
@@ -75,9 +79,14 @@ const handleMouseUp = () => {
   background-color: var(--button-bg-color);
 }
 
+.gray {
+  color: #ffffffa6;
+  background-color: var(--button-bg-color);
+}
+
 .default {
-  border: 1px solid #e0e0e0;
-  color: #696b6f;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #A0AAB8;
 }
 
 .primary:active {

@@ -91,7 +91,15 @@ onBeforeUnmount(() => {
 
 /* 自定义语言，匹配不同类型关键词高亮颜色 */
 .ace_constant {
-  color: #FF00FF;
+  color: #05d405;
   font-weight: bold;
+}
+
+.ace_mylang {
+  color: aquamarine;
+}
+
+.ace_keyword {
+  color: blue !important;
 }
 </style>

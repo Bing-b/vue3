@@ -70,6 +70,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '代码编辑器',
             },
           },
+          {
+            path: '/tabs',
+            name: '标签页',
+            component: () => import('@/views/tabs/index.vue'),
+            meta: {
+              title: '标签页',
+            },
+          }
         ]
       },
 

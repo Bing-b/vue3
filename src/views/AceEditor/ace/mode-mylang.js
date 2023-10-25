@@ -20,22 +20,22 @@ ace.define('ace/mode/mylang', ['require', 'exports', 'module', 'ace/lib/oop', 'a
   (function () {
     // 添加代码提示
     this.completer = {
-      getCompletions(editor, session, pos, prefix, callback) {
+      getCompletions (editor, session, pos, prefix, callback) {
         const wordList = [
           'hello',
           'world',
           'AceEditor',
-          'hello world this is AceEditor',
+          'hello world this is AceEditor'
         ];
         callback(
           null,
           wordList.map((word) => ({
             caption: word,
             value: word,
-            meta: 'mylang', // 自定义语言标识
-          })),
+            meta: 'mylang' // 自定义语言标识
+          }))
         );
-      },
+      }
     };
   }.call(Mode.prototype));
 
@@ -61,35 +61,35 @@ ace.define(
         start: [
           {
             token: 'keyword',
-            regex: `\\b(?:${keywordList})\\b`,
+            regex: `\\b(?:${keywordList})\\b`
           },
           {
             token: 'string',
-            regex: '".*?"',
+            regex: '".*?"'
           },
           {
             token: 'constant',
-            regex: /\b(true|false|null)\b/,
+            regex: /\b(true|false|null)\b/
           },
           {
             token: 'comment',
-            regex: /\/\/.*$/,
+            regex: /\/\/.*$/
           },
           {
             token: 'comment',
             start: '/\\*',
-            end: '\\*/',
+            end: '\\*/'
           },
           {
             token: 'mylang',
-            regex: '\\b(?:hello|world|AceEditor)\\b',
-          },
-        ],
+            regex: '\\b(?:hello|world|AceEditor)\\b'
+          }
+        ]
       };
     };
 
     oop.inherits(MyLangHighlightRules, TextHighlightRules);
 
     exports.MyLangHighlightRules = MyLangHighlightRules;
-  },
+  }
 );

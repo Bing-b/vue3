@@ -98,6 +98,33 @@
         <xButton @click="handleShowLoading">{{ loading ? '关闭' : '显示' }}</xButton>
       </div>
     </el-card>
+    <Switch :component="component" :parent="parent" a="哈哈哈哈">
+      <el-button type="default" @click="handClick">切换卡片</el-button>
+    </Switch>
+
+    <el-card class="box-card">
+      <template #header>
+        <div class="card-header" v-loading="loading">
+          <span>导出excel</span>
+        </div>
+      </template>
+      <div>
+        <xButton @click="exportExcel">导出</xButton>
+      </div>
+    </el-card>
+
+    <el-card class="box-card">
+      <template #header>
+        <div class="card-header" v-loading="loading">
+          <span>element指令-ClickOutside 点击区域外关闭dom</span>
+        </div>
+      </template>
+      <div class="relative h-[300px]">
+        <xButton @click="flag = true">打開下拉框</xButton>
+        <div v-click-outside="onClickOutside" v-show="flag"
+          class="absolute top-[40px] left-0 bg-[#eded23] w-[200px] h-[200px] border"></div>
+      </div>
+    </el-card>
 
   </div>
 </template>
@@ -107,7 +134,10 @@ import useLoading from '@/hooks/useLoading';
 import { onMounted, ref } from 'vue';
 import imgUrl from '@/assets/images/logo/logo_square.png';
 import useUserStore from '@/store/modules/user';
-import { ElMessage } from 'element-plus';
+import { exportExcle } from '@/utils/excel';
+import { ClickOutside as vClickOutside } from 'element-plus';
+
+import Switch from '../switch/index.vue';
 
 const { x, y } = useMousePositon();
 
@@ -152,6 +182,129 @@ const scrollInit = () => {
 const handleShowLoading = () => {
   if (loading.value) hideLoading();
   else showLoading();
+};
+
+const component = ref<'Card1' | 'Card2'>('Card1');
+
+const parent = ref('腹肌');
+
+// 控制显示下拉框
+const flag = ref<boolean>(false);
+
+const handClick = () => {
+  component.value = component.value === 'Card2' ? 'Card1' : 'Card2';
+};
+
+const userExcelHeader = [
+  {
+    title: '用户序号',
+    key: 'user_id',
+    width: 80
+  },
+  {
+    title: '登录名称',
+    key: 'user_name'
+  },
+  {
+    title: '用户邮箱',
+    key: 'email',
+    width: 240
+  },
+  {
+    title: '手机号码',
+    key: 'phonenumber'
+  },
+  {
+    title: '用户性别',
+    key: 'sex'
+  },
+  {
+    title: '帐号状态',
+    key: 'status'
+  },
+  {
+    title: '最后登录IP',
+    key: 'login_ip'
+  },
+  {
+    title: '最后登录时间',
+    key: 'login_date'
+  },
+  {
+    title: '部门名称',
+    key: 'dept.dept_name'
+  },
+  {
+    title: '部门负责人',
+    key: 'dept.leader'
+  }
+];
+
+const content = [
+  {
+    user_id: 1,
+    user_name: 'admin',
+    email: '15345271705@163.com',
+    phonenumber: '15345271705',
+    sex: '男',
+    status: '正常',
+    login_ip: '',
+    login_date: '00:00:00',
+    'dept.dept_name': '深圳总公司',
+    'dept.leader': 'wen'
+  },
+  {
+    user_id: 2,
+    user_name: 'password',
+    email: null,
+    phonenumber: null,
+    sex: '未知',
+    status: '正常',
+    login_ip: null,
+    login_date: null,
+    'dept.dept_name': '研发部门',
+    'dept.leader': 'wen'
+  },
+
+  {
+    user_id: 2,
+    user_name: 'password',
+    email: null,
+    phonenumber: null,
+    sex: '未知',
+    status: '正常',
+    login_ip: null,
+    login_date: null,
+    'dept.dept_name': '研发部门',
+    'dept.leader': 'wen'
+  },
+  {
+    user_id: 3,
+    user_name: 'password',
+    email: null,
+    phonenumber: null,
+    sex: '未知',
+    status: '正常',
+    login_ip: null,
+    login_date: null,
+    'dept.dept_name': '研发部门',
+    'dept.leader': 'wen'
+  }
+];
+
+const excleOption = {
+  tableName: '',
+  headerColumns: userExcelHeader,
+  tableData: content
+};
+
+// 导出
+const exportExcel = () => {
+  exportExcle(excleOption);
+};
+
+const onClickOutside = () => {
+  flag.value = false;
 };
 
 onMounted(() => {

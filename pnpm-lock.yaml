@@ -26,6 +26,9 @@ dependencies:
   exceljs:
     specifier: ^4.3.0
     version: 4.3.0
+  fake-progress:
+    specifier: ^1.0.4
+    version: 1.0.4
   gdm-horizon:
     specifier: ^1.1.40
     version: 1.1.40
@@ -4911,6 +4914,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /fake-progress@1.0.4:
+    resolution: {integrity: sha512-RIkSoOt6Aq6ZgCHEsm/MTH9RTrjY3lVEF9q+n5Qx+LVyS4ziQpijIHf2SKVIzTKEXA40D2Zps1duXfGvUioB3A==}
+    dev: false
 
   /fast-csv@4.3.6:
     resolution: {integrity: sha512-2RNSpuwwsJGP0frGsOmTb9oUF+VkFSM4SyLTDgwf2ciHWTarN0lQTC+F2f/t5J9QjW+c65VFIAAu85GsvMIusw==}

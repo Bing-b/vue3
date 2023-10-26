@@ -121,11 +121,29 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/animation',
         name: 'animation',
-        component: () => import('@/views/wComponents/index.vue'),
+        redirect:'/btn',
         meta: {
           title: '交互',
           icon: 'menu-menu_animation',
         },
+        children: [
+          {
+            path: '/btn',
+            name: 'btn',
+            component: () => import('@/views/wComponents/index.vue'),
+            meta: {
+              title: '按钮组件',
+            },
+          },  
+          {
+            path: '/progress',
+            name: 'progress',
+            component: () => import('@/views/progress/index.vue'),
+            meta: {
+              title: '模拟进度',
+            },
+          },
+        ]
       },
       {
         path: '/other',

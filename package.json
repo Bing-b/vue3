@@ -15,6 +15,7 @@
     "echarts-gl": "^2.0.9",
     "element-plus": "^2.3.3",
     "exceljs": "^4.3.0",
+    "fake-progress": "^1.0.4",
     "gdm-horizon": "^1.1.40",
     "intro.js": "^7.0.1",
     "label-studio": "^1.0.1",

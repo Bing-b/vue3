@@ -6,30 +6,29 @@
 </template>
 
 <script lang='ts' setup>
-import { nextTick, ref } from 'vue';
+import { nextTick, ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import 'echarts-gl';
-import { onMounted } from 'vue';
 
 const optionData = ref([{
-  name: '林地面积统计',
+  name: 'VUE',
   value: 20000,
   itemStyle: {
-    color: '#0542a6'
+    color: '#03A9F4'
   }
 }, {
-  name: '草地面积统计',
+  name: 'TS',
   value: 4000,
   itemStyle: {
-    color: '#55bdc1'
+    color: '#303F9F'
   }
 }, {
-  name: '耕地地面积统计',
+  name: 'HTML',
   value: 10616,
   itemStyle: {
-    color: '#00ade7'
+    color: '#4527A0'
   }
-},
+}
 ]);
 
 const option = ref();
@@ -105,7 +104,7 @@ const getPie3D = (pieData, internalDiameterRatio) => {
       top: 10,
       itemGap: 10,
       textStyle: {
-        color: '#A1E2FF'
+        color: '#333'
       },
       show: true,
       icon: 'circle',
@@ -118,7 +117,7 @@ const getPie3D = (pieData, internalDiameterRatio) => {
     labelLine: {
       show: true,
       lineStyle: {
-        color: '#fff'
+        color: '#333'
       }
     },
     label: {
@@ -126,15 +125,15 @@ const getPie3D = (pieData, internalDiameterRatio) => {
       position: 'inside',
       rich: {
         b: {
-          color: '#fff',
+          color: '#333',
           fontSize: 12,
           lineHeight: 20
         },
         c: {
           fontSize: 16
         }
-      },
-      formatter: '{b|{b} \n}{c|{c}}{b|  亩}'
+      }
+      // formatter: '{b|{b} \n}{c|{c}}{b|  亩}'
 
     },
     tooltip: {
@@ -405,7 +404,7 @@ onMounted(() => {
   nextTick(() => {
     init();
   });
-})
+});
 
 </script>
 
@@ -413,7 +412,7 @@ onMounted(() => {
 .water-eval-container {
   width: 100%;
   height: 100%;
-  background-color: #0c1b54;
+  background-color: #fff;
 }
 
 .cityGreenLand-charts {

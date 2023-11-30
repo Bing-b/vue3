@@ -52,13 +52,16 @@
         </div>
       </div>
     </div>
-    <Iframe class="h-[calc(100%-350px)]" />
+    <div class="mt-2 w-[500px] h-[300px]">
+      <Echarts3D />
+    </div>
+
   </div>
 </template>
 <script lang="ts" setup>
 import { computed, watch, reactive, ComponentInternalInstance, getCurrentInstance, onMounted, ref } from 'vue';
-import Iframe from '@/views/iframe/index.vue';
 import { getWeather } from '@/assets/api/common';
+import Echarts3D from '../echart/index.vue';
 const { proxy } = getCurrentInstance() as ComponentInternalInstance;
 // const date = reactive<{ [key: string]: number }>({
 //   year: 2022,
@@ -98,13 +101,13 @@ const date = computed(() => {
 
 onMounted(() => {
   getCityWeather();
-  setTimeout(() => {
-    proxy!.$intro()
-      .setOption('nextLabel', ' 下一步 ')
-      .setOption('prevLabel', ' 上一步 ')
-      .setOption('doneLabel', ' 完成 ')
-      .start();
-  }, 500);
+  // setTimeout(() => {
+  //   proxy!.$intro()
+  //     .setOption('nextLabel', ' 下一步 ')
+  //     .setOption('prevLabel', ' 上一步 ')
+  //     .setOption('doneLabel', ' 完成 ')
+  //     .start();
+  // }, 500);
 });
 </script>
 <style lang="scss" scoped>

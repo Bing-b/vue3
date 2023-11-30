@@ -1,3 +1,5 @@
+import useClipboard from 'vue-clipboard3';
+import { ElMessage } from 'element-plus';
 
 /**
  * 获取assets/images目录下url图片
@@ -15,6 +17,11 @@
   return new URL(`../assets/images/${url}`, import.meta.url).href
 }
 
+/**
+ * 处理文件大小格式
+ * @param size 
+ * @returns 
+ */
 const formatSize = (size) => {
   if (size === 0) return '0 B';
   const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -23,7 +30,7 @@ const formatSize = (size) => {
   return `${formattedSize} ${units[idx]}`;
 };
 
-import { ElMessage } from 'element-plus';
+// 处理el信息提示
 
 const message = (type: string, message: string) => {
   ElMessage.closeAll();
@@ -33,8 +40,31 @@ const message = (type: string, message: string) => {
   });
 };
 
+// 一键复制
+const copyText = (text: string) => {
+  const { toClipboard } = useClipboard();
+  toClipboard(text)
+    .then(() => {
+      ElMessage.closeAll();
+      ElMessage({
+        message: '已复制到剪切板',
+        duration: 1000,
+        type: 'success',
+      });
+    })
+    .catch(() => {
+      ElMessage.closeAll();
+      ElMessage({
+        message: '复制失败',
+        duration: 1000,
+        type: 'info',
+      });
+    });
+};
+
 export default {
   getImg,
   formatSize,
-  message
+  message,
+  copyText
 }

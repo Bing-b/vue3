@@ -107,12 +107,22 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: 'dgm绘图',
               icon: 'other',
             },
-          },   {
+          }, 
+            {
             path: '/echarts',
             name: 'echarts',
             component: () => import('@/views/echart/index.vue'),
             meta: {
               title: 'echarts',
+              icon: 'other',
+            },
+          },
+          {
+            path: '/echartGraph',
+            name: 'echartGraph',
+            component: () => import('@/views/echartGraph/index.vue'),
+            meta: {
+              title: 'echartGraph',
               icon: 'other',
             },
           },

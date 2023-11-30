@@ -18,7 +18,12 @@ const alias: Record<string, string> = {
 export const viteConfig = defineConfig(() => ({
   base: "/",
   plugins: [
-    vue(),
+    vue({
+      script: {
+        // 开启 defineModel
+        defineModel: true
+      }
+    }),
     // svg注册
     createSvgIconsPlugin({
       iconDirs: [resolve(__dirname, './src/assets/icons')],

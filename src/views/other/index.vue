@@ -1,131 +1,158 @@
 <template>
-  <div class="container flex">
-    <!-- hook -->
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>鼠标位置hook</span>
-        </div>
-      </template>
-      <div>
-        <p>X:{{ x }}</p>
-        <p>Y: {{ y }}</p>
-      </div>
-    </el-card>
+  <div class="h-full w-full overflow-hidden">
 
-    <!-- pdf -->
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>pdf文档预览</span>
-          <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible">显示PDF</el-button>
+    <div class="container flex overflow-auto">
+      <!-- hook -->
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>鼠标位置hook</span>
+          </div>
+        </template>
+        <div>
+          <p>X:{{ x }}</p>
+          <p>Y: {{ y }}</p>
         </div>
-      </template>
-      <div>
-        <p>文件链接添加#scrollbars=0&toolbar=0&statusbar=0可去除预览工具栏</p>
-      </div>
-    </el-card>
+      </el-card>
 
-    <el-dialog v-model="dialogTableVisible" title="文档预览">
-      <div class="pdf-container">
-        <!-- <embed
+      <!-- pdf -->
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>pdf文档预览</span>
+            <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible">显示PDF</el-button>
+          </div>
+        </template>
+        <div>
+          <p>文件链接添加#scrollbars=0&toolbar=0&statusbar=0可去除预览工具栏</p>
+        </div>
+      </el-card>
+
+      <el-dialog v-model="dialogTableVisible" title="文档预览">
+        <div class="pdf-container">
+          <!-- <embed
           src="https://sci-hub.se/downloads/2021-05-16/49/belkhiria2021.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0"
           type="application/pdf" /> -->
-        <iframe style="width: 100%; min-height: 600px"
-          src="http://view.officeapps.live.com/op/view.aspx?src=newteach.pbworks.com%2Ff%2Fele%2Bnewsletter.docx"
-          width="100%" height="100%" frameborder="1" />
+          <iframe style="width: 100%; min-height: 600px"
+            src="http://view.officeapps.live.com/op/view.aspx?src=newteach.pbworks.com%2Ff%2Fele%2Bnewsletter.docx"
+            width="100%" height="100%" frameborder="1" />
 
-      </div>
-    </el-dialog>
-
-    <!-- 文本超出省略 -->
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>文本超出省略</span>
         </div>
-      </template>
-      <div>
-        <p>1、可动态判断文本是否超出父容器宽度来控制显示tooltip</p>
-        <p>2、支持传递 文本超出行数 参数控制显示...</p>
-        <br />
-        <textEllipsis lineClamp="2" placement="bottom">
-          恐龙体型巨大，各种形态各异，有短小的小型恐龙，也有高达20米以上的大型恐龙。恐龙的主要特征是：四肢直立，行走方式为双足行走；颈部和尾部通常较长；拥有强有力的下颌和锋利的牙齿，适应多样的食性；身体覆盖着角质质地的鳞片或者羽毛；有些恐龙还拥有壮观的骨刺，用于防御或吓唬敌人。
-        </textEllipsis>
-      </div>
-    </el-card>
-    <!-- <img id="ii" /> -->
+      </el-dialog>
 
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>大菠萝（pinia）</span>
-          <el-button type="primary" @click="addCount">计数++</el-button>
-          <el-button type="primary" @click="userStore.clear()">清除pinia</el-button>
+      <!-- 文本超出省略 -->
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>文本超出省略</span>
+          </div>
+        </template>
+        <div>
+          <p>1、可动态判断文本是否超出父容器宽度来控制显示tooltip</p>
+          <p>2、支持传递 文本超出行数 参数控制显示...</p>
+          <br />
+          <textEllipsis lineClamp="2" placement="bottom">
+            恐龙体型巨大，各种形态各异，有短小的小型恐龙，也有高达20米以上的大型恐龙。恐龙的主要特征是：四肢直立，行走方式为双足行走；颈部和尾部通常较长；拥有强有力的下颌和锋利的牙齿，适应多样的食性；身体覆盖着角质质地的鳞片或者羽毛；有些恐龙还拥有壮观的骨刺，用于防御或吓唬敌人。
+          </textEllipsis>
         </div>
-      </template>
-      <div>
-        <el-input v-model="userStore.name" placeholder="请输入名称" clearable></el-input>
-        <p class="mt-2">名称：{{ userStore.name }}</p>
-        <p>计数：{{ userStore.counter }}</p>
-      </div>
-    </el-card>
+      </el-card>
+      <!-- <img id="ii" /> -->
 
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header">
-          <span>鼠标横向滚动</span>
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>大菠萝（pinia）</span>
+            <el-button type="primary" @click="addCount">计数++</el-button>
+            <el-button type="primary" @click="userStore.clear()">清除pinia</el-button>
+          </div>
+        </template>
+        <div>
+          <el-input v-model="userStore.name" placeholder="请输入名称" clearable></el-input>
+          <p class="mt-2">名称：{{ userStore.name }}</p>
+          <p>计数：{{ userStore.counter }}</p>
         </div>
-      </template>
-      <div>
-        <div class="tab-list" id="nav">
-          <div class="flex items-center justify-center flex-none  tab-item w-[100px] h-[50px]" v-for="i in 10" :key="i">
-            <div class="w-[80px] h-full bg-slate-400">
-              {{ i }}
+      </el-card>
+
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>鼠标横向滚动</span>
+          </div>
+        </template>
+        <div>
+          <div class="tab-list" id="nav">
+            <div class="flex items-center justify-center flex-none  tab-item w-[100px] h-[50px]" v-for="i in 10" :key="i">
+              <div class="w-[80px] h-full bg-slate-400">
+                {{ i }}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </el-card>
+      </el-card>
 
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header" v-loading="loading">
-          <span>loading Hook</span>
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header" v-loading="loading">
+            <span>loading Hook</span>
+          </div>
+        </template>
+        <div>
+          <xButton @click="handleShowLoading">{{ loading ? '关闭' : '显示' }}</xButton>
         </div>
-      </template>
-      <div>
-        <xButton @click="handleShowLoading">{{ loading ? '关闭' : '显示' }}</xButton>
-      </div>
-    </el-card>
-    <Switch :component="component" :parent="parent" a="哈哈哈哈">
-      <el-button type="default" @click="handClick">切换卡片</el-button>
-    </Switch>
+      </el-card>
+      <Switch :component="component" :parent="parent" a="哈哈哈哈">
+        <el-button type="default" @click="handClick">切换卡片</el-button>
+      </Switch>
 
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header" v-loading="loading">
-          <span>导出excel</span>
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header" v-loading="loading">
+            <span>导出excel</span>
+          </div>
+        </template>
+        <div>
+          <xButton @click="exportExcel">导出</xButton>
         </div>
-      </template>
-      <div>
-        <xButton @click="exportExcel">导出</xButton>
-      </div>
-    </el-card>
+      </el-card>
 
-    <el-card class="box-card">
-      <template #header>
-        <div class="card-header" v-loading="loading">
-          <span>element指令-ClickOutside 点击区域外关闭dom</span>
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header" v-loading="loading">
+            <span>element指令-ClickOutside 点击区域外关闭dom</span>
+          </div>
+        </template>
+        <div class="relative h-[300px]">
+          <xButton @click="flag = true">打開下拉框</xButton>
+          <div v-click-outside="onClickOutside" v-show="flag"
+            class="absolute top-[40px] left-0 bg-[#eded23] w-[200px] h-[200px] border"></div>
         </div>
-      </template>
-      <div class="relative h-[300px]">
-        <xButton @click="flag = true">打開下拉框</xButton>
-        <div v-click-outside="onClickOutside" v-show="flag"
-          class="absolute top-[40px] left-0 bg-[#eded23] w-[200px] h-[200px] border"></div>
-      </div>
-    </el-card>
+      </el-card>
 
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>V3新特性-defineModel</span>
+          </div>
+        </template>
+        <div>
+          <Child v-model="msg" />
+          {{ msg }}
+        </div>
+      </el-card>
+
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>V3一键复制</span>
+          </div>
+        </template>
+        <div>
+          <el-input v-model="text" placeholder="请输入"></el-input>
+          <el-button @click="handleCopy">复制</el-button>
+        </div>
+      </el-card>
+
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -136,8 +163,9 @@ import imgUrl from '@/assets/images/logo/logo_square.png';
 import useUserStore from '@/store/modules/user';
 import { exportExcle } from '@/utils/excel';
 import { ClickOutside as vClickOutside } from 'element-plus';
-
+import utils from '@/utils/commonFuction';
 import Switch from '../switch/index.vue';
+import Child from './child.vue';
 
 const { x, y } = useMousePositon();
 
@@ -146,6 +174,10 @@ const { loading, showLoading, hideLoading } = useLoading();
 const dialogTableVisible = ref(false);
 
 const userStore = useUserStore();
+
+const msg = ref('ss');
+
+const text = ref<string>('');
 
 const addCount = () => {
   userStore.counter++;
@@ -307,6 +339,11 @@ const onClickOutside = () => {
   flag.value = false;
 };
 
+// 复制
+const handleCopy = () => {
+  utils.copyText(text.value);
+};
+
 onMounted(() => {
   const img = document.getElementById('ii') as HTMLImageElement | null;
   if (img) {
@@ -319,6 +356,9 @@ onMounted(() => {
 
 <style lang="scss">
 .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  align-content: start;
   gap: 20px;
   flex-wrap: wrap;
 }
@@ -338,7 +378,7 @@ onMounted(() => {
 }
 
 .box-card {
-  flex: 33.3%;
+  // flex: 20%;
 }
 
 .pdf-container {

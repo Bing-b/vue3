@@ -152,6 +152,22 @@
         </div>
       </el-card>
 
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>一行代码复制剪切板</span>
+          </div>
+        </template>
+        <div>
+          <el-input v-model="textVal" placeholder="请输入"></el-input>
+          <el-button @click="copyToClipboard">复制</el-button>
+        </div>
+      </el-card>
+
+      <Teleport to="body">
+        <!-- Renders it to a child element of the `body` -->
+        <span>xxxxx</span>
+      </Teleport>
     </div>
   </div>
 </template>
@@ -167,17 +183,22 @@ import utils from '@/utils/commonFuction';
 import Switch from '../switch/index.vue';
 import Child from './child.vue';
 
+// 复用获取鼠标位置
 const { x, y } = useMousePositon();
 
+// 复用加载动画
 const { loading, showLoading, hideLoading } = useLoading();
 
 const dialogTableVisible = ref(false);
 
+// 大菠萝
 const userStore = useUserStore();
 
 const msg = ref('ss');
 
 const text = ref<string>('');
+
+const textVal = ref<string>('');
 
 const addCount = () => {
   userStore.counter++;
@@ -223,6 +244,7 @@ const parent = ref('腹肌');
 // 控制显示下拉框
 const flag = ref<boolean>(false);
 
+// 卡片切换
 const handClick = () => {
   component.value = component.value === 'Card2' ? 'Card1' : 'Card2';
 };
@@ -343,6 +365,9 @@ const onClickOutside = () => {
 const handleCopy = () => {
   utils.copyText(text.value);
 };
+
+// 一键复制
+const copyToClipboard = () => navigator.clipboard.writeText(textVal.value);
 
 onMounted(() => {
   const img = document.getElementById('ii') as HTMLImageElement | null;

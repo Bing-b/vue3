@@ -127,7 +127,7 @@ const dragEnd = (event: DragEvent, ele: any) => {
     y
   };
   graph.addItem('node', newNode);
-  graph.fitCenter()
+  graph.fitCenter();
   count.value = count.value + 1;
 };
 
@@ -136,6 +136,7 @@ const dragOver = (event: DragEvent) => {
   event.preventDefault();
   event.dataTransfer!.dropEffect = 'move';
 };
+
 onMounted(() => {
   const maxData = randomData();
   console.log(maxData);

@@ -59,28 +59,33 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, watch, reactive, ComponentInternalInstance, getCurrentInstance, onMounted, ref } from 'vue';
+import { reactive, onMounted, onUnmounted } from 'vue';
 import { getWeather } from '@/assets/api/common';
 import Echarts3D from '../echart/index.vue';
-const { proxy } = getCurrentInstance() as ComponentInternalInstance;
-// const date = reactive<{ [key: string]: number }>({
-//   year: 2022,
-//   month: 1,
-//   remainingDays: 0,
-//   hour: 0,
-//   minute: 0,
-//   second: 0,
-//   process: 0
-// });
 
+// 定时器
+let timer: any = null;
+
+// 日期
+const date = reactive<{ [key: string]: number }>({
+  year: 2022,
+  month: 1,
+  remainingDays: 0,
+  hour: 0,
+  minute: 0,
+  second: 0,
+  process: 0
+});
+
+// 获取城市天气
 const getCityWeather = () => {
   getWeather({ city: '成都' }).then((data) => {
     console.log(data);
   });
 };
 
-const date = computed(() => {
-  const date = {} as any;
+// 刷新时间
+const updateDate = () => {
   const currentDate = new Date();
   date.year = currentDate.getFullYear();
   date.month = currentDate.getMonth() + 1;
@@ -95,12 +100,12 @@ const date = computed(() => {
   date.minute = currentDate.getMinutes();
   date.second = currentDate.getSeconds();
   date.process = Math.round((1 - date.remainingDays / 365) * 100);
-
-  return date;
-});
+};
 
 onMounted(() => {
-  getCityWeather();
+  timer = setInterval(() => updateDate(), 1000);
+
+  // getCityWeather();
   // setTimeout(() => {
   //   proxy!.$intro()
   //     .setOption('nextLabel', ' 下一步 ')
@@ -109,6 +114,13 @@ onMounted(() => {
   //     .start();
   // }, 500);
 });
+
+onUnmounted(() => {
+  if (timer) {
+    clearInterval(timer);
+  }
+});
+
 </script>
 <style lang="scss" scoped>
 .tec {

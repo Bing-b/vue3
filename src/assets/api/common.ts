@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function getWeather<T>(params:{city:string}) {
+export function getWeather<T>(data:{city:string}) {
   return request<T>({
-    url: 'http://wthrcdn.etouch.cn/weather_mini',
+    url: 'tq/version=v6&appid=21375891&appsecret=fTYv7v5E&city=南京',
     method: 'get',
-    params
+    data
   });
 }

@@ -9,12 +9,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-withDefaults(defineProps<{
-  bgColor?: string // 背景色
-  type?: string // 按钮类型， 默认'primary',可选 'default'
-}>(), {
-  bgColor: '#E77A29',
-  type: 'primary'
+// withDefaults(defineProps<{
+//   bgColor?: string // 背景色
+//   type?: string // 按钮类型， 默认'primary',可选 'default'
+// }>(), {
+//   bgColor: '#E77A29',
+//   type: 'primary'
+// });
+
+defineProps({
+  type: {
+    type: String,
+    default: 'default',
+    valitador: (val: string) => {
+      return ['default', 'primary'].includes(val);
+    }
+  },
+  bgColor: {
+    type: String,
+    default: '#E77A29'
+
+  }
 });
 
 // 活动时样式

@@ -15,6 +15,8 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import { ElTable, ElTableColumn } from 'element-plus'
 import intro from 'intro.js'
 import 'intro.js/introjs.css' 
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-draw/dist/leaflet.draw.css';
 
 // 获取el-table组件props
 const tableProps = ElTable.props;

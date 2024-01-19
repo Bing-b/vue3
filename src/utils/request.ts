@@ -14,7 +14,7 @@ const instance = axios.create({
 })
 
 // 配置请求参数传递格式，默认是JSON格式，根据服务器决定
-instance.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+instance.defaults.headers['Content-Type'] = 'application/json';
 //instance.defaults.transformRequest = data => qs.stringify(data)
 
 // 配置 axios 请求拦截器, 配置 token 登录认证

@@ -126,6 +126,25 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'other',
             },
           },
+          {
+            path: '/weather',
+            name: 'weather',
+            component: () => import('@/views/weather/index.vue'),
+            meta: {
+              title: '天气',
+              icon: 'other',
+            },
+          },
+          {
+            path: '/gis',
+            name: 'gis',
+            component: () => import('@/views/gis/index.vue'),
+            meta: {
+              title: '地图',
+              icon: 'other',
+            },
+
+          }
         ]
       },
       {

@@ -7,7 +7,9 @@
       <el-button @click="drawBezier" size="small">绘制标记</el-button>
       <el-button @click="polylineAnimation" size="small">河流效果</el-button>
       <el-button @click="trafficRoute" size="small">交通轨迹</el-button>
+      <el-button @click="highlightChina" size="small">中国边界</el-button>
     </div>
+
     <!-- 地图 -->
     <div id="gisMap" class="absolute top-0 bottom-0 left-0 right-0"></div>
   </div>
@@ -35,11 +37,15 @@ import './js/L.Path.DashFlow';
 import './js/leaflet.motion.min';
 import { hainanRiverCoordinates } from './js/route';
 // import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import * as cnGeoJson from './js/china.json';
+
+import { DesignTileLayer } from './js/useBlack';
+
 // 画布宽高变化监测
 let resizeObserver: ResizeObserver;
 
 // gisMap 实例
-const gis = {} as any;
+const gis = ref(null) as any;
 
 // 控件
 const controls = new L.FeatureGroup();
@@ -82,7 +88,7 @@ const displayList = ref<Array<any>>([]);
 
 const isDeleteMode = ref<boolean>(false);
 
-let markerPolyline = null as any;
+const isBlack = ref<boolean>(false);
 
 // 地理位置坐标
 const parisKievLL = [[20.022, 110.348], [19.684, 110.879], [19.566, 109.948], [19.362, 109.18], [18.648, 109.614]];
@@ -141,8 +147,7 @@ const GCJ02TOWGS84 = (lng: number, lat: number) => {
 
 // 初始化绘图控件
 const initControls = () => {
-  // gis.map.addLayer(controls);
-  console.log(controls);
+  // gis.value.addLayer(controls);
 
   // 搜索区域编辑工具栏
   const drawControl = new L.Control.Draw({
@@ -161,11 +166,11 @@ const initControls = () => {
       remove: false
     }
   });
-  controls.addTo(gis.map);
-  drawControl.addTo(gis.map);
-  // gis.map.addControl(drawControl);
+  controls.addTo(gis.value);
+  drawControl.addTo(gis.value);
+  // gis.value.addControl(drawControl);
   // eslint-disable-next-line no-underscore-dangle
-  editHandler._map = gis.map;
+  editHandler._map = gis.value;
 };
 
 // 绑定popoup事件
@@ -179,14 +184,14 @@ const bindPopupEvent = (layer: any) => {
 
     if (editBtn) {
       editBtn.addEventListener('click', () => {
-        gis.map.closePopup();
+        gis.value.closePopup();
         editFeatureGroup.addLayer(ev.target);
         editHandler.enable();
       });
     }
     if (saveBtn) {
       saveBtn.addEventListener('click', () => {
-        gis.map.closePopup();
+        gis.value.closePopup();
         editHandler.save();
         editHandler.disable();
         editFeatureGroup.removeLayer(ev.target);
@@ -194,7 +199,7 @@ const bindPopupEvent = (layer: any) => {
     }
     if (deleteBtn) {
       deleteBtn.addEventListener('click', () => {
-        gis.map.closePopup();
+        gis.value.closePopup();
         controls.removeLayer(ev.target);
       });
     }
@@ -203,7 +208,7 @@ const bindPopupEvent = (layer: any) => {
 
 // 绑定事件
 const bindEvent = () => {
-  gis.map.on('click', () => {
+  gis.value.on('click', () => {
     isDeleteMode.value = false;
     markers.eachLayer((marker: any) => {
       marker.options.isSelected = false;
@@ -223,7 +228,7 @@ const bindEvent = () => {
     displayList.value = [] as any;
   });
 
-  gis.map.on(L.Draw.Event.CREATED, (e: any) => {
+  gis.value.on(L.Draw.Event.CREATED, (e: any) => {
     e.layer.options.layerType = e.layerType;
     const type = e.layerType;
     const drawlayer = e.layer;
@@ -278,7 +283,7 @@ const bindEvent = () => {
     bindPopupEvent(drawlayer);
   });
 
-  gis.map.on(L.Draw.Event.EDITED, (e: any) => {
+  gis.value.on(L.Draw.Event.EDITED, (e: any) => {
     console.log(e.layers);
     // eslint-disable-next-line no-underscore-dangle
     const layer = Object.values(e.layers._layers)[0] as any;
@@ -320,7 +325,7 @@ const iniPrint = () => {
     exportOnly: true,
     defaultSizeTitles: { Current: '视窗', A4Landscape: 'A4 横向', A4Portrait: 'A4 纵向' },
     hideControlContainer: true // 打印时隐藏控件
-  }).addTo(gis.map);
+  }).addTo(gis.value);
 };
 
 // 初始化标记搜索功能
@@ -335,7 +340,7 @@ const initSearch = () => {
 
   const markersLayer = new L.LayerGroup(); // layer contain searched elements
 
-  gis.map.addLayer(markersLayer);
+  gis.value.addLayer(markersLayer);
 
   controlSearch = new L.Control.Search({
     position: 'topright',
@@ -346,7 +351,7 @@ const initSearch = () => {
     textPlaceholder: '请输入关键词'
   });
 
-  gis.map.addControl(controlSearch);
+  gis.value.addControl(controlSearch);
 
   // 添加标记到地图
   for (const i in hainanData) {
@@ -362,7 +367,7 @@ const initSearch = () => {
 const createMarker = () => {
   marker2 = L.Marker.movingMarker(parisKievLL, 15000, {
     autostart: false, loop: false, icon: carIcon, rotate: true
-  }).addTo(gis.map);
+  }).addTo(gis.value);
 
   // 地图根据点位移动，一直设置点位为中心点
   // const path = [] as any[]; // 声明绘制线的临时使用变量
@@ -377,10 +382,10 @@ const createMarker = () => {
 
   // 轨迹开始
   marker2.on('move', (res) => { // 监听点位移动事件 move
-    gis.map.panTo([res.latlng.lat, res.latlng.lng]); // 回调中会返回经纬度信息，点移动改变地图中心点
+    gis.value.panTo([res.latlng.lat, res.latlng.lng]); // 回调中会返回经纬度信息，点移动改变地图中心点
     // marker2Path.length > 1 && marker2Path.shift(); // 保持数组长度，避免过度push不断重新绘制之前的路径
     marker2Path.push([res.latlng.lat, res.latlng.lng]); // 将数据push到数组中
-    markerPolyline = L.polyline(marker2Path, { color: '#1E88E5', weight: 2 }).addTo(gis.map); // 绘制线到地图图层
+    markerPolyline = L.polyline(marker2Path, { color: '#1E88E5', weight: 2 }).addTo(gis.value); // 绘制线到地图图层
 
     setTimeout(() => {
       marker2.closePopup();
@@ -409,11 +414,11 @@ const startPlay = () => {
 // 轨迹演示手动重播
 const rebroadcast = () => {
   marker2.pause();
-  gis.map.removeLayer(marker2); // 移除旧的Marker
+  gis.value.removeLayer(marker2); // 移除旧的Marker
   if (marker2Path.length > 0) {
-    gis.map.eachLayer((layer) => {
+    gis.value.eachLayer((layer) => {
       if (layer instanceof L.Polyline) {
-        layer.removeFrom(gis.map);
+        layer.removeFrom(gis.value);
       }
     });
     marker2Path = [];
@@ -453,7 +458,7 @@ const drawBezier = () => {
 
   const markersLayer = new L.LayerGroup();
 
-  gis.map.addLayer(markersLayer);
+  gis.value.addLayer(markersLayer);
 
   // 添加标记到地图
   for (const i in points) {
@@ -481,12 +486,12 @@ const drawBezier = () => {
 
   // latlngs.forEach(item => {
   //   const bezierLine = getBezierPoint(item[0], item[1]);
-  //   L.polyline(bezierLine, { color: 'red' }).addTo(gis.map);
+  //   L.polyline(bezierLine, { color: 'red' }).addTo(gis.value);
   // });
 
-  L.polyline(latlngs, { color: '#FF5722', weight: 2, dashArray: [10, 5] }).addTo(gis.map);
-  // gis.map.panTo(L.latLng(19.2287, 110.5294)); // 移动画布中心
-  gis.map.flyTo(L.latLng(19.2287, 110.5294), 12, { duration: 2 }); // 平滑移动到该点
+  L.polyline(latlngs, { color: '#FF5722', weight: 2, dashArray: [10, 5] }).addTo(gis.value);
+  // gis.value.panTo(L.latLng(19.2287, 110.5294)); // 移动画布中心
+  gis.value.flyTo(L.latLng(19.2287, 110.5294), 12, { duration: 2 }); // 平滑移动到该点
 };
 
 // 轨迹自身动画
@@ -494,7 +499,7 @@ const polylineAnimation = () => {
   const latlngs = [];
 
   const markersLayer = new L.LayerGroup();
-  gis.map.addLayer(markersLayer);
+  gis.value.addLayer(markersLayer);
 
   const start = hainanRiverCoordinates.at(0);
   const end = hainanRiverCoordinates.at(-1);
@@ -505,7 +510,7 @@ const polylineAnimation = () => {
   markersLayer.addLayer(startMarker);
   markersLayer.addLayer(endMarker);
 
-  gis.map.flyTo(new L.latLng(start), 9, { duration: 2 });
+  gis.value.flyTo(new L.latLng(start), 9, { duration: 2 });
 
   hainanRiverCoordinates.forEach(i => {
     latlngs.push(new L.LatLng(i[0], i[1]));
@@ -514,9 +519,9 @@ const polylineAnimation = () => {
   L.polyline(latlngs, {
     dashArray: '15,15',
     dashSpeed: -30
-  }).addTo(gis.map);
+  }).addTo(gis.value);
 
-  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: boatIcon }).addTo(gis.map);
+  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: boatIcon }).addTo(gis.value);
 
   // 将 MovingMarker 添加到地图
   movingMarker.once('click', function () {
@@ -547,7 +552,7 @@ const trafficRoute = () => {
   });
 
   // const markersLayer = new L.LayerGroup();
-  // gis.map.addLayer(markersLayer);
+  // gis.value.addLayer(markersLayer);
   // const startMarker = new L.Marker(new L.latLng([20.9236, 110.0964]), { icon: pIcon });
   // const endMarker = new L.Marker(new L.latLng([20.3252, 110.1751]), { icon: pIcon });
 
@@ -555,9 +560,9 @@ const trafficRoute = () => {
   // markersLayer.addLayer(endMarker);
 
   // L.polyline(trackRoute, {
-  // }).addTo(gis.map);
+  // }).addTo(gis.value);
 
-  gis.map.flyTo(new L.latLng([20.3252, 110.1751]), 9.5, { duration: 2 });
+  gis.value.flyTo(new L.latLng([20.3252, 110.1751]), 9.5, { duration: 2 });
 
   const seqGroup = L.motion.seq([
     L.motion.polyline(trackRoute, {
@@ -599,7 +604,7 @@ const trafficRoute = () => {
       //   color: 'khaki'
       // }, null).motionDuration(7000)
     ])
-  ]).addTo(gis.map);
+  ]).addTo(gis.value);
 
   seqGroup.on('click', function () {
     seqGroup.motionStart();
@@ -611,6 +616,21 @@ const trafficRoute = () => {
   setTimeout(function () {
     seqGroup.motionStart();
   }, 1000);
+};
+
+// 区域边界
+const highlightChina = () => {
+  gis.value.flyTo(new L.latLng([35, 105]), 5, { duration: 4 });
+
+  const style = {
+    color: '#424242', // 边框颜色
+    weight: 2, // 边框粗细
+    opacity: 0.5, // 透明度
+    fill: true, // 开启填充区域
+    fillColor: '#212121', // 区域填充颜色
+    fillOpacity: 0.4 // 区域填充颜色的透明
+  };
+  L.geoJSON(cnGeoJson, { style }).addTo(gis.value);
 };
 
 // 初始化地图
@@ -659,22 +679,23 @@ const initMap = () => {
   const gaoDeMap = L.layerGroup([gaoDem]);
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
+  const color = { r: 3, g: 3, b: 3 };
+  const customLayer = new DesignTileLayer('/map/styles/test-style/{z}/{x}/{y}.png', { color, leafletMap: 9 });
+
   const baseLayers = {
     默认: defaultMap,
     高德: gaoDeMap,
     高德卫星: gaoDeSatelliteMap,
     天地图: routeMap,
-    天地图卫星: imageMap
+    天地图卫星: imageMap,
+    黑夜: customLayer
   };
 
   const overlayLayers = {};
 
-  let coordinate = [] as number[];
+  const coordinate = GCJ02TOWGS84(110, 19); // 中心点位置
 
-  // coordinate = GCJ02TOWGS84(108.926725, 34.327015); // 西安市
-
-  coordinate = GCJ02TOWGS84(110, 19);
-  gis.map = L.map('gisMap', {
+  gis.value = L.map('gisMap', {
     center: L.latLng(coordinate[0], coordinate[1]), // Leaflet必须纬度(lat)在前经度(lng)在后！
     zoom: 9,
     minZoom: 5,
@@ -694,9 +715,14 @@ const initMap = () => {
     zoomOutTitle: '缩小'
   });
 
-  L.control.layers(baseLayers, overlayLayers).addTo(gis.map);
+  // 修改地图主题色
+  // const color = { r: 3, g: 3, b: 3 };
+  // const customLayer = new DesignTileLayer('/map/styles/test-style/{z}/{x}/{y}.png', { color, leafletMap: gis.value });
+  // customLayer.addTo(gis.value);
 
-  gis.map.addControl(zoomControl);
+  L.control.layers(baseLayers, overlayLayers).addTo(gis.value);
+
+  gis.value.addControl(zoomControl);
 
   // 加载地图控件
   initControls();
@@ -704,7 +730,7 @@ const initMap = () => {
 
   // // 范围控制
   // // const hainanBounds = [[18.17, 108.62], [20.08, 111.05]];
-  // // gis.map.fitBounds(hainanBounds);
+  // // gis.value.fitBounds(hainanBounds);
   iniPrint();
   initSearch();
   createMarker();
@@ -712,12 +738,20 @@ const initMap = () => {
   // const measureControl = new L.Control.Measure({
   //   position: 'topright'
   // });
-  // measureControl.addTo(gis.map);
+  // measureControl.addTo(gis.value);
+  // 监听地图的缩放级别变化
+  gis.value.on('zoomend', function () {
+    const zoomLevel = gis.value.getZoom();
+    console.log(zoomLevel);
+    // 更新 customLayer 中的缩放等级
+    customLayer.options.leafletMap = zoomLevel;
+    customLayer.redraw();
+  });
 };
 
 // 手动触发地图容器更新
 const handleElementResize = () => {
-  gis.map.invalidateSize();
+  gis.value.invalidateSize();
 };
 
 // 监听浏览器窗口变化，更新画布尺寸

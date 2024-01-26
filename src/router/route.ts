@@ -221,7 +221,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           
         ]
       },
-   
+      {
+        path: '/test',
+        name: 'test', 
+        component: () => import('@/views/testApi/index.vue'),
+        meta: {
+          title: '测试',
+          icon: 'menu-menu_animation',
+        },
+      }
     ]
   },
 ];

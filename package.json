@@ -37,7 +37,7 @@
     "pinia-plugin-persist": "^1.0.0",
     "poplar-annotation": "^2.0.3",
     "postcss-preset-env": "^8.3.2",
-    "vue": "^3.3.4",
+    "vue": "3.4.15",
     "vue-clipboard3": "^2.0.0",
     "vue-router": "4",
     "vue-upload-component": "^3.1.8"

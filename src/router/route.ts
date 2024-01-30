@@ -144,7 +144,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'other',
             },
 
-          }
+          },
         ]
       },
       {

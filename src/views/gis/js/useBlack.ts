@@ -1,10 +1,7 @@
 
 import * as L from 'leaflet';
 
-
-
 export const DesignTileLayer:any = L.TileLayer.extend({
-
 
   leafletMap: null,
 
@@ -36,7 +33,7 @@ export const DesignTileLayer:any = L.TileLayer.extend({
       .replace('{x}', coords.x)
       .replace('{y}', coords.y)
       .replace('{z}', this.leafletMap );
-    console.log(this.leafletMap)
+    //console.log(this.leafletMap)
     // 创建一个图像对象来加载瓦片
     const img = new Image();
 

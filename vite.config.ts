@@ -46,11 +46,11 @@ export const viteConfig = defineConfig(() => ({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/tq/, ''),
       },
-      '/map': {
-        target: 'http://10.13.4.225:18081', 
-        rewrite: path => path.replace(/^\/map/, ''),
-        changeOrigin: true
-      }
+      // '/map': {
+      //   target: 'http://10.13.4.225:18081', 
+      //   rewrite: path => path.replace(/^\/map/, ''),
+      //   changeOrigin: true
+      // }
     },
   },
   terserOptions: {

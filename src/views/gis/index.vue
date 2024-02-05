@@ -1,20 +1,32 @@
 <template>
   <div class="relative w-full h-full">
-    <div class="absolute top-2 left-[150px] z-[888] flex text-md gap-2 p-1 items-center bg-white rounded">
-      <p>轨迹演示</p>
+    <div class="absolute top-2 left-[150px] z-[888] flex text-md gap-1 p-1 items-center bg-white rounded">
       <el-button @click="startPlay" size="small">开始/暂停</el-button>
       <el-button @click="rebroadcast" size="small">重播</el-button>
       <el-button @click="drawBezier" size="small">绘制标记</el-button>
+      <el-button @click="markTarget" size="small">标记目标</el-button>
+      <el-button @click="restrictedArea" size="small">限制视图</el-button>
       <el-button @click="polylineAnimation" size="small">河流效果</el-button>
       <el-button @click="trafficRoute" size="small">交通轨迹</el-button>
-      <el-button @click="highlightChina" size="small">突出区域</el-button>
-      <el-button @click="restrictedArea" size="small">限制区域</el-button>
+      <el-button @click="highlightGeoJson" size="small">定制中国</el-button>
+      <el-button @click="highlightChina" size="small">突出四川</el-button>
       <el-button @click="toggleMarker" size="small">标记分类显示</el-button>
       <el-button @click="createArrowPath" size="small">迁徙效果</el-button>
+      <el-button @click="initRouteMachine" size="small">路径分析</el-button>
     </div>
 
     <!-- 地图 -->
     <div id="gisMap" class="absolute top-0 bottom-0 left-0 right-0"></div>
+
+    <el-dialog v-model="infoDialogVisible" title="文档预览" width="60%">
+      <div class="pdf-container">
+        <embed src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0" type="application/pdf" />
+      </div>
+    </el-dialog>
+
+    <div class="absolute bottom-1 left-1 z-[888] ">
+      <el-button :icon="Warning" @click="infoDialogVisible = !infoDialogVisible" circle />
+    </div>
   </div>
 </template>
 
@@ -23,6 +35,7 @@ import {
   onMounted, ref,
   reactive
 } from 'vue';
+import { Warning } from '@element-plus/icons-vue';
 import * as L from 'leaflet';
 import utils from '@/utils/commonFuction';
 import gcoord from 'gcoord';
@@ -40,8 +53,14 @@ import './js/L.Path.DashFlow';
 import './js/leaflet.motion.min';
 import './js/leaflet-tilelayer-colorizr';
 import './js/leaflet.migrationLayer';
+import './js/L.Control.ResetView';
+import './js/leaflet-routing-machine';
+import './js/Control.Geocoder';
+import './js/BoundaryCanvas';
+import './js/Control.MiniMap';
+import './js/L.Icon.Pulse';
 import { hainanRiverCoordinates } from './js/route';
-// import * as cnGeoJson from './js/china.json';
+import * as cnGeoJson from './js/china.json';
 import * as siChuanJson from './js/sichuan.json';
 
 // 画布宽高变化监测
@@ -50,8 +69,8 @@ let resizeObserver: ResizeObserver;
 // gisMap 实例
 let baseMap = {} as any;
 
-// 控件
-const controls = new L.FeatureGroup();
+// 覆盖图编辑控件
+const editControls = new L.FeatureGroup();
 
 // 标记
 const markers = new L.FeatureGroup();
@@ -85,12 +104,12 @@ let marker2 = null as any;
 
 let marker2Path = [] as any[];
 
+const infoDialogVisible = ref(false);
+
 const areaParams = reactive({
   location: '',
   geoType: ''
 });
-
-const isDeleteMode = ref<boolean>(false);
 
 // 地理位置坐标
 const parisKievLL = [[20.022, 110.348], [19.684, 110.879], [19.566, 109.948], [19.362, 109.18], [18.648, 109.614]];
@@ -160,7 +179,7 @@ const peopleIcon = L.icon({
   iconAnchor: [16, 16]
 });
 
-// 坐标转换
+// 坐标转换 国测局转GPS
 const GCJ02TOWGS84 = (lng: number, lat: number) => {
   const coordinate = [] as number[];
   const WGS84 = gcoord.transform([lng, lat], gcoord.GCJ02, gcoord.WGS84);
@@ -170,26 +189,26 @@ const GCJ02TOWGS84 = (lng: number, lat: number) => {
 
 // 初始化绘图控件
 const initControls = () => {
-  // baseMap.addLayer(controls);
+  // baseMap.addLayer(editControls);
 
   // 搜索区域编辑工具栏
   const drawControl = new L.Control.Draw({
     draw: {
       polyline: true,
       polygon: false, // 多边形
-      // rectangle: { showArea: false }, // 添加该配置才能解决报错问题
-      rectangle: false,
-      circle: false,
+      rectangle: { showArea: false }, // 添加该配置才能解决报错问题
+      // rectangle: true,
+      circle: true,
       marker: true,
       circlemarker: false
     },
     edit: {
-      featureGroup: controls,
+      featureGroup: editControls,
       edit: false,
       remove: false
     }
   });
-  controls.addTo(baseMap);
+  editControls.addTo(baseMap);
   drawControl.addTo(baseMap);
   // baseMap.addControl(drawControl);
   // eslint-disable-next-line no-underscore-dangle
@@ -223,7 +242,7 @@ const bindPopupEvent = (layer: any) => {
     if (deleteBtn) {
       deleteBtn.addEventListener('click', () => {
         baseMap.closePopup();
-        controls.removeLayer(ev.target);
+        editControls.removeLayer(ev.target);
       });
     }
   });
@@ -233,7 +252,6 @@ const bindPopupEvent = (layer: any) => {
 const bindEvent = () => {
   baseMap.on('click', (e) => {
     console.log(e);
-    isDeleteMode.value = false;
     markers.eachLayer((marker: any) => {
       marker.options.isSelected = false;
       const { node } = marker.options;
@@ -301,7 +319,7 @@ const bindEvent = () => {
             </div>`,
       { closeButton: false, className: 'gis-popup' }
     ).openPopup();
-    controls.addLayer(drawlayer);
+    editControls.addLayer(drawlayer);
     bindPopupEvent(drawlayer);
   });
 
@@ -364,7 +382,7 @@ const initSearch = () => {
   baseMap.addLayer(markersLayer);
 
   controlSearch = new L.Control.Search({
-    position: 'topright',
+    position: 'topleft',
     layer: markersLayer,
     initial: false,
     zoom: 12,
@@ -381,6 +399,7 @@ const initSearch = () => {
     const marker = new L.Marker(L.latLng(loc), { title });
     marker.bindPopup(`名称: ${title}`);
     markersLayer.addLayer(marker);
+    if (title === '五指山市') marker.bindTooltip('五指山市').openTooltip();
   }
 };
 
@@ -593,7 +612,7 @@ const trafficRoute = () => {
     }, {
       easing: L.Motion.Ease.easeInOutQuad
     }, {
-      removeOnEnd: true,
+      removeOnEnd: false,
       icon: car1
     }).motionDuration(4000),
 
@@ -602,7 +621,7 @@ const trafficRoute = () => {
     }, {
       easing: L.Motion.Ease.easeInOutQuart
     }, {
-      removeOnEnd: true,
+      removeOnEnd: false,
       // showMarker: true,
       icon: boat1
     }).motionDuration(6000),
@@ -653,7 +672,7 @@ const highlightChina = () => {
         : 'Hover over a state');
   };
 
-  const setStyleLayer = (layer, styleSelected) => {
+  const setStyleLayer = (layer: any, styleSelected: any) => {
     layer.setStyle(styleSelected);
   };
 
@@ -665,9 +684,9 @@ const highlightChina = () => {
     info.update(layer.feature.properties);
   };
 
-  const featuresSelected = [];
+  const featuresSelected = [] as any[];
 
-  const checkExistsLayers = (feature) => {
+  const checkExistsLayers = (feature: any) => {
     let result = false;
     for (let i = 0; i < featuresSelected.length; i++) {
       if (featuresSelected[i].adcode === feature.properties.adcode) {
@@ -678,7 +697,7 @@ const highlightChina = () => {
     return result;
   };
 
-  const resetHighlight = (e) => {
+  const resetHighlight = (e: any) => {
     const layer = e.target;
     const feature = e.target.feature;
     if (checkExistsLayers(feature)) {
@@ -698,7 +717,7 @@ const highlightChina = () => {
     }
   };
 
-  const onEachFeature = (feature, layer) => {
+  const onEachFeature = (feature: any, layer: any) => {
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight
@@ -718,6 +737,79 @@ const highlightChina = () => {
 
   L.geoJSON(siChuanJson, { style, onEachFeature }).addTo(baseMap);
   info.addTo(baseMap);
+};
+
+// 定制区域颜色
+const highlightGeoJson = () => {
+  const geoStyle = L.geoJSON(cnGeoJson, {
+    style: (feature: any) => {
+      //  console.log(feature);
+      const style = {
+        color: '#333232', // 边框颜色
+        weight: 1, // 边框粗细
+        opacity: 0.6, // 透明度
+        fill: false, // 开启填充区域
+        fillColor: '#FFEB3B', // 区域填充颜色
+        fillOpacity: 0.8 // 区域填充颜色的透明
+      };
+
+      switch (feature.properties.name) {
+        case '四川省':
+          style.fillColor = '#FDD835';
+          style.fill = true;
+          break;
+        case '重庆市':
+          style.fillColor = '#E64A19';
+          style.fill = true;
+          break;
+        case '陕西省':
+          style.fillColor = '#2E7D32';
+          style.fill = true;
+          break;
+        case '湖北省':
+          style.fillColor = '#1565C0';
+          style.fill = true;
+          break;
+        case '甘肃省':
+          style.fillColor = '#4527A0';
+          style.fill = true;
+          break;
+        default:
+          break;
+      }
+
+      return style;
+    },
+    onEachFeature: function (feature: any, layer) {
+      console.log(feature.properties);
+      const center = layer.getBounds().getCenter();
+      L.marker(center, {
+        icon: L.divIcon({
+          className: 'geo-label',
+          html: feature.properties.name
+        })
+      }).addTo(baseMap);
+    }
+
+  });
+  geoStyle.on('click', (e: L.LeafletMouseEvent) => {
+    const layer = e.sourceTarget; // 获取被点击的地理要素图层
+    // layer.setStyle({
+    //   fillColor: '#0d5eff'
+    // });
+    const properties = layer.feature.properties; // 获取该要素的属性信息
+    // console.log(properties);
+    // 构建弹出窗口内容
+    const popupContent = `
+          <h3>${properties.name}</h3>
+          <p>adcode: ${properties.adcode}</p>
+          <p>包含区域: ${properties.childrenNum}</p>
+      `;
+
+    layer.bindPopup(popupContent).openPopup();
+  });
+
+  geoStyle.addTo(baseMap);
 };
 
 // 设置地图的最大边界，限制用户拖拽地图的范围
@@ -762,30 +854,113 @@ const toggleMarker = () => {
   layerControl.addOverlay(peopleMarkers, '人');
 };
 
-// 箭头轨迹
+// 箭头迁徙轨迹
 const createArrowPath = () => {
-  const data = [
+  baseMap.flyTo(L.latLng([31, 121]), 7.5, { duration: 2 });
 
-    { from: [18.648, 109.614], to: [20.022, 110.348], labels: [null, 'Los Angeles'], color: '#00ccff' }
-    // { from: [18.648, 109.614], to: [19.362, 109.18], labels: [null, 'Boston'], color: '#e9ff20' },
-    // { from: [18.648, 109.614], to: [19.684, 110.879], labels: [null, 'Ottawa'], color: '#99ff1b' }
+  // 绘制上海地标
+  const myIcon = L.divIcon({
+    html: `<div class="myIcon">
+        <img src='${utils.getImg('sh.png')}'>
+      </div>`
+  });
+
+  L.marker(L.latLng([31.228593584576306, 121.47212494824217]), { icon: myIcon }).addTo(baseMap);
+
+  const data = [
+    { from: [121.47212494824217, 31.228593584576306], to: [118.79146088574217, 32.05167302545262], labels: ['上海', '南京'], color: '#ff3a31' },
+    { from: [121.47212494824217, 31.228593584576306], to: [117.24238862011717, 31.82792015449264], labels: [null, '合肥'], color: '#2196F3' },
+    { from: [121.47212494824217, 31.228593584576306], to: [115.84712494824217, 28.668234615414136], labels: [null, '南昌'], color: '#2196F3' },
+    { from: [121.47212494824217, 31.228593584576306], to: [120.21968354199217, 30.275016452654977], labels: [null, '杭州'], color: '#FFEE58' }
   ];
 
   const intData = data.map(item => { return { ...item, value: parseInt(Math.random() * 20) }; });
-  console.log(intData);
 
-  const migrationLayers = new L.migrationLayer({
+  const migrationLayer = new L.MigrationLayer({
     map: baseMap,
     data: intData,
     pulseRadius: 30,
-    pulseBorderWidth: 3,
+    pulseBorderWidth: 2,
     arcWidth: 1,
     arcLabel: true,
-    arcLabelFont: '10px sans-serif',
-    maxWidth: 10
+    arcLabelFont: '14px sans-serif',
+    maxWidth: 2
   }
   );
-  migrationLayers.addTo(baseMap);
+  migrationLayer.addTo(baseMap);
+};
+
+// 重置视图
+const initResetView = () => {
+  const coordinate = GCJ02TOWGS84(110, 19);
+  L.control.resetView({
+    position: 'topleft',
+    title: '重置视图',
+    latlng: L.latLng(coordinate),
+    zoom: 9
+  }).addTo(baseMap);
+};
+
+// 路径分析
+const initRouteMachine = () => {
+  const control = L.Routing.control(
+    {
+      waypoints: [L.latLng(31.2049, 121.5934), L.latLng(31.2304, 121.4737)]
+      // routeWhileDragging: false
+      // createMarker: function () { return null; } // 可隐藏默认标记
+    }
+
+    // L.extend({}, {
+    //   waypoints: [L.latLng(20.022, 110.348), L.latLng(19.566, 109.948)],
+    //   geocoder: L.Control.Geocoder.nominatim(),
+    //   routeWhileDragging: false,
+    //   reverseWaypoints: true,
+    //   showAlternatives: true,
+    //   altLineOptions: {
+    //     styles: [
+    //       { color: 'black', opacity: 0.15, weight: 9 },
+    //       { color: 'white', opacity: 0.8, weight: 6 },
+    //       { color: 'blue', opacity: 0.5, weight: 2 }
+    //     ]
+    //   }
+    // })
+  ).addTo(baseMap);
+
+  L.Routing.errorControl(control).addTo(baseMap);
+
+  const createButton = (label, container) => {
+    const btn = L.DomUtil.create('button', 'btn', container);
+    btn.setAttribute('type', 'button');
+    btn.innerHTML = label;
+    return btn;
+  };
+
+  baseMap.on('click', function (e) {
+    const container = L.DomUtil.create('div', 'btnBox');
+    const startBtn = createButton('设置为起点', container);
+    const destBtn = createButton('设置为终点', container);
+
+    L.popup()
+      .setContent(container)
+      .setLatLng(e.latlng)
+      .openOn(baseMap);
+
+    L.DomEvent.on(startBtn, 'click', function () {
+      control.spliceWaypoints(0, 1, e.latlng);
+      baseMap.closePopup();
+    });
+    L.DomEvent.on(destBtn, 'click', function () {
+      control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+      baseMap.closePopup();
+    });
+  });
+};
+
+// 标记目标
+const markTarget = () => {
+  baseMap.flyTo(L.latLng([39.9042, 116.4074]), 7.5, { duration: 2 });
+  const pulsingIcon = L.icon.pulse({ iconSize: [20, 20], color: 'red' });
+  L.marker([39.9042, 116.4074], { icon: pulsingIcon }).addTo(baseMap);
 };
 
 // 初始化地图
@@ -794,6 +969,10 @@ const initMap = () => {
   const normalm = L.tileLayer.chinaProvider('TianDiTu.Normal.Map');
   const normala = L.tileLayer.chinaProvider('TianDiTu.Normal.Annotion');
 
+  // 天地图地形
+  const tdTerrainMap = L.tileLayer.chinaProvider('TianDiTu.Terrain.Map');
+  const tdTerrainAnno = L.tileLayer.chinaProvider('TianDiTu.Terrain.Annotion');
+
   // 高德普通地图瓦片图层
   const gaoDem = L.tileLayer.chinaProvider('GaoDe.Normal.Map');
 
@@ -801,33 +980,42 @@ const initMap = () => {
   const gaoDems = L.tileLayer.chinaProvider('GaoDe.Satellite.Map');
   const gaoDesa = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion');
 
+  // OpenStreetMap（OSM）
+  const osm = L.tileLayer.chinaProvider('OSM.Normal.Map');
+
   // 原始leaflet图层
   const defaultMap = L.tileLayer(`${window.gis.PROXY_URL}`);
   const routeMap = L.layerGroup([normalm, normala]);
+  const tdTerrain = L.layerGroup([tdTerrainMap, tdTerrainAnno]);
   const gaoDeMap = L.layerGroup([gaoDem]);
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
   // 暗色主题
   const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-    colorize: function (pixel) {
+    colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
       // 计算灰度
       let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
       grayVal = 255 - grayVal;
 
       // 将灰度替换掉原始的颜色
-      const r = grayVal + 3;
-      const g = grayVal + 3;
-      const b = grayVal + 3;
+      const r = grayVal + 2;
+      const g = grayVal + 2;
+      const b = grayVal + 2;
       return { r, g, b, a: pixel.a };
     }
   });
 
   // 灰色主题
   const grayLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-    colorize: function (pixel) {
+    colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
       const gray = (pixel.r + pixel.g + pixel.b) / 3;
       return { r: gray, g: gray, b: gray, a: pixel.a };
     }
+  });
+
+  // 区域控制
+  const cn = L.TileLayer.boundaryCanvas(`${window.gis.PROXY_URL}`, {
+    boundary: cnGeoJson
   });
 
   // 基础图层
@@ -836,8 +1024,11 @@ const initMap = () => {
     高德: gaoDeMap,
     高德卫星: gaoDeSatelliteMap,
     天地图: routeMap,
+    地形图: tdTerrain,
+    OSM: osm,
     幻影黑: blackLayer,
-    远山黛: grayLayer
+    远山黛: grayLayer,
+    中国版图: cn
   };
 
   // 控制自己添加的覆盖物的显示隐藏
@@ -861,6 +1052,7 @@ const initMap = () => {
     fullscreenControlOptions: {
       position: 'topleft'
     }
+    // maxBounds:[] 区域限制
   });
 
   // 自定义缩放控件
@@ -874,6 +1066,10 @@ const initMap = () => {
   // 扩展control 增加地图切换
   layerControl = L.control.layers(baseLayers, overlayLayers).addTo(baseMap);
 
+  // 小地图
+  const minMap = new L.TileLayer(`${window.gis.PROXY_URL}`, { minZoom: 0, maxZoom: 20 });
+  const m = new L.Control.MiniMap(minMap, { toggleDisplay: true }).addTo(baseMap);
+
   // 加载地图控件
   initControls();
   bindEvent();
@@ -881,7 +1077,12 @@ const initMap = () => {
   initSearch();
   createMarker();
   drawTrafficPoints();
+  initResetView();
 
+  // 缩放比例尺
+  L.control.scale({
+    position: 'bottomright'
+  }).addTo(baseMap);
   // 监听地图的缩放级别变化
   // baseMap.on('zoomend', function () {
   //   const zoomLevel = baseMap.getZoom();
@@ -915,8 +1116,11 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@import url('./css/leaflet-search.css');
+@import url('./css/leaflet-search');
 @import url('./css/Control.FullScreen');
+@import url('./css/leaflet-routing-machine');
+@import url('./css/Control.MiniMap');
+@import url('./css/L.Icon.Pulse');
 
 .leaflet-touch .leaflet-control-layers-toggle {
   width: 30px;
@@ -945,5 +1149,73 @@ onMounted(() => {
     background-color: rgba(255, 255, 255, .8);
     border-radius: 4px;
   }
+}
+
+.leaflet-control-resetview {
+  a {
+    cursor: pointer;
+
+    .leaflet-control-resetview-icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin: 7px;
+      background-color: black;
+      -webkit-mask-image: url('../../assets/icons/redo-solid.svg');
+      mask-image: url('../../assets/icons/redo-solid.svg');
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+    }
+  }
+}
+
+// .leaflet-div-icon {
+//   border: none !important;
+//   background-color: transparent !important;
+// }
+
+.myIcon {
+  width: 100px;
+  position: absolute;
+  top: -42px;
+  left: -35px;
+
+  img {
+    width: 100% !important;
+  }
+}
+
+.btnBox {
+  display: flex;
+
+  .btn {
+    padding: 5px 14px;
+    background-color: rgb(143, 144, 144);
+    color: #fff;
+    line-height: 1;
+    border-radius: 4px;
+    margin: 0 4px;
+  }
+}
+
+.pdf-container {
+  width: 100%;
+  height: 600px;
+
+  embed {
+
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.geo-label {
+  color: #000;
+  border: #000;
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 </style>

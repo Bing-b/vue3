@@ -104,7 +104,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'gdm',
             component: () => import('@/views/gdm/index.vue'),
             meta: {
-              title: 'dgm绘图',
+              title: 'gdm绘图',
               icon: 'other',
             },
           }, 
@@ -177,7 +177,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/other',
         name: 'other',
-        redirect:'/lottieWeb',
+        redirect:'/ot',
         meta: {
           title: '其他',
           icon: 'menu-menu_other',

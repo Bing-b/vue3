@@ -30,12 +30,10 @@
 
       <el-dialog v-model="dialogTableVisible" title="文档预览">
         <div class="pdf-container">
-          <!-- <embed
-          src="https://sci-hub.se/downloads/2021-05-16/49/belkhiria2021.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0"
-          type="application/pdf" /> -->
-          <iframe style="width: 100%; min-height: 600px"
+          <embed src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0" type="application/pdf" />
+          <!-- <iframe style="width: 100%; min-height: 600px"
             src="http://view.officeapps.live.com/op/view.aspx?src=newteach.pbworks.com%2Ff%2Fele%2Bnewsletter.docx"
-            width="100%" height="100%" frameborder="1" />
+            width="100%" height="100%" frameborder="1" /> -->
 
         </div>
       </el-dialog>

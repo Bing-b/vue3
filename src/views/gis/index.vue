@@ -1,13 +1,15 @@
 <template>
   <div class="relative w-full h-full">
     <div class="absolute top-2 left-[150px] z-[888] flex text-md gap-1 p-1 items-center bg-white rounded">
-      <el-button @click="startPlay" size="small">开始/暂停</el-button>
-      <el-button @click="rebroadcast" size="small">重播</el-button>
       <el-button @click="drawBezier" size="small">绘制标记</el-button>
       <el-button @click="markTarget" size="small">标记目标</el-button>
       <el-button @click="restrictedArea" size="small">限制视图</el-button>
+      <el-button @click="startPlay" size="small">开始/暂停</el-button>
+      <el-button @click="rebroadcast" size="small">重播</el-button>
       <el-button @click="polylineAnimation" size="small">河流效果</el-button>
+      <el-button @click="initAntLine" size="small">蚂蚁路径</el-button>
       <el-button @click="trafficRoute" size="small">交通轨迹</el-button>
+      <el-button @click="initChinaLine" size="small">边界线</el-button>
       <el-button @click="highlightGeoJson" size="small">定制中国</el-button>
       <el-button @click="highlightChina" size="small">突出四川</el-button>
       <el-button @click="toggleMarker" size="small">标记分类显示</el-button>
@@ -59,9 +61,11 @@ import './js/Control.Geocoder';
 import './js/BoundaryCanvas';
 import './js/Control.MiniMap';
 import './js/L.Icon.Pulse';
+import './js/leaflet-ant-path';
 import { hainanRiverCoordinates } from './js/route';
 import * as cnGeoJson from './js/china.json';
 import * as siChuanJson from './js/sichuan.json';
+import * as chinaLine from './js/chinaLine.json';
 
 // 画布宽高变化监测
 let resizeObserver: ResizeObserver;
@@ -812,6 +816,18 @@ const highlightGeoJson = () => {
   geoStyle.addTo(baseMap);
 };
 
+// 区域合并边界
+const initChinaLine = () => {
+  const style = {
+    color: '#E53935', // 边框颜色
+    weight: 2, // 边框粗细
+    opacity: 0.6, // 透明度
+    fill: false // 开启填充区域
+  };
+
+  L.geoJSON(chinaLine, { style }).addTo(baseMap);
+};
+
 // 设置地图的最大边界，限制用户拖拽地图的范围
 const restrictedArea = () => {
   const hainanBounds = [[18.17, 108.62], [20.08, 111.05]];
@@ -963,6 +979,52 @@ const markTarget = () => {
   L.marker([39.9042, 116.4074], { icon: pulsingIcon }).addTo(baseMap);
 };
 
+// 蚂蚁轨迹效果
+const initAntLine = () => {
+  const latlngs = [] as any[];
+
+  const paths = [
+    [20.0345, 110.3487],
+    [19.9348, 110.4762],
+    [19.7378, 110.4729],
+    [19.3586, 110.4691],
+    [19.0394, 110.2941]
+  ];
+
+  const makerStart = L.marker(paths[0], { icon: carIcon });
+  const makerEnd = L.marker(paths[paths.length - 1], { icon: pIcon });
+
+  const lineLayer = L.polyline.antPath(paths, {
+    paused: false, // 暂停  初始化状态
+    reverse: false, // 方向反转
+    delay: 1000, // 延迟，数值越大效果越缓慢
+    dashArray: [10, 20], // 间隔样式
+    weight: 3, // 线宽
+    opacity: 0.7, // 透明度
+    color: '#0000ff',
+    pulseColor: '#fff'// 块颜色
+  });
+  const markerGroup = L.layerGroup([]);
+  const lineGroupLayer = L.layerGroup([]);
+  markerGroup.addLayer(makerStart);
+  markerGroup.addLayer(makerEnd);
+  lineGroupLayer.addLayer(lineLayer);
+
+  baseMap.addLayer(markerGroup);
+  baseMap.addLayer(lineGroupLayer);
+
+  paths.forEach(i => {
+    latlngs.push(new L.LatLng(i[0], i[1]));
+  });
+
+  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: car1 }).addTo(baseMap);
+
+  // 将 MovingMarker 添加到地图
+  movingMarker.once('click', function () {
+    movingMarker.start();
+  });
+};
+
 // 初始化地图
 const initMap = () => {
   // 天地图普通地图瓦片图层
@@ -1038,7 +1100,7 @@ const initMap = () => {
   };
 
   // 中心点位置
-  const coordinate = GCJ02TOWGS84(110, 19);
+  const coordinate = GCJ02TOWGS84(110, 19.2);
 
   baseMap = L.map('gisMap', {
     center: L.latLng(coordinate[0], coordinate[1]), // Leaflet必须纬度(lat)在前经度(lng)在后！

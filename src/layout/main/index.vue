@@ -2,7 +2,7 @@
   <el-main class="!overflow-hidden bg-[#f0f2f5]  !px-2 !py-2">
     <router-view #default="{ Component }">
       <transition name="slide" mode="out-in">
-        <component :is="Component" :key="$route.path" />
+        <component :is="Component" :key="route.path" />
       </transition>
     </router-view>
   </el-main>
@@ -30,9 +30,19 @@ watch(
   transition: all .3s;
 }
 
-.slide-enter-from,
+/* .slide-enter-from,
 .slide-leave-to {
   opacity: 0;
   transform: translate(30px);
+} */
+
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

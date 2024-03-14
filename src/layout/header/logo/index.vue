@@ -1,8 +1,9 @@
 <template>
   <div class="logo-box ">
-    <div class="logo bg-[#1c53d9]" :class="{ 'w': isExpansion }">
-      <svgIcon name="logo2" size="30" />
-      <h2 class="font-bold ml-1 text-[#ecf0fb]" v-if="!isExpansion">Jurassic</h2>
+    <div class="logo" :class="{ 'w': isExpansion }">
+      <img class="w-[50px]" :src="$getImg('logo/logo.gif')" />
+      <!-- <svgIcon name="logo2" size="30" /> -->
+      <h2 class="font-bold ml-1 text-[#2f833f]" v-if="!isExpansion">Fun.Box</h2>
     </div>
     <svgIcon name="menu" size="20" @click.stop="switchMenu" color="#e6e6e9" />
   </div>

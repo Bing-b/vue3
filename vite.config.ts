@@ -1,60 +1,57 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
+import { ConfigEnv, UserConfigExport, loadEnv } from "vite";
+import { __APP_INFO__, alias, extensions, root, warpperEnv } from "./build/utils";
+import { getPluginsList } from "./build/plugins";
 import { resolve } from "path"; 
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'; // svg
-// element-plus 按需自动导入
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
+export default ({ mode }:ConfigEnv): UserConfigExport => {
+  // 环境变量
+  const { VITE_PORT, VITE_PUBLIC_PATH} = warpperEnv(loadEnv(mode, root));
 
-const extensions: Array<string> = [".js", ".ts", ".jsx", ".tsx", ".json"];
-const pathResolve = (dir: string): string => resolve(__dirname, dir);
-const alias: Record<string, string> = {
-  "@": pathResolve("./src"),
-};
-
-
-export const viteConfig = defineConfig(() => ({
-  base: "/",
-  plugins: [
-    vue(),
-    // svg注册
-    createSvgIconsPlugin({
-      iconDirs: [resolve(__dirname, './src/assets/icons')],
-      symbolId: 'icon-[dir]-[name]',
-    }),
-    // el-plus 按需导入
-    AutoImport({
-      resolvers: [ElementPlusResolver()],
-    }),
-    Components({
-      resolvers: [ElementPlusResolver()],
-    }),
-  ],
-  resolve: { alias, extensions },
-  server: {
-    host: '0.0.0.0',
-    proxy: {
-      '/tq': {
-        target: 'https://www.tianqiapi.com/api',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/tq/, ''),
-      },
-      // '/map': {
-      //   target: 'http://10.13.4.225:18081', 
-      //   rewrite: path => path.replace(/^\/map/, ''),
-      //   changeOrigin: true
-      // }
+  return {
+    base: VITE_PUBLIC_PATH,
+    root,
+    resolve: {
+      alias, // 设置系统路径别名
+      extensions
     },
-  },
-  terserOptions: {
-    compress: {
-      drop_console: true, // 构建时去除console/debugger
-      drop_debugger: true
+    // 服务端渲染
+    server: {
+      port: VITE_PORT,
+      host: "0.0.0.0",
+      proxy: {
+        '/tq': {
+          target: 'https://www.tianqiapi.com/api',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/tq/, ''),
+        },
+      },
+       // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布
+       warmup: {
+        clientFiles: ["./index.html", "./src/{views,components}/*"]
+      }
+    },
+    plugins: getPluginsList(),
+    build: {
+      // https://cn.vitejs.dev/guide/build.html#browser-compatibility
+      target: "es2015",
+      sourcemap: false,
+      // 消除打包大小超过500kb警告
+      chunkSizeWarningLimit: 4000,
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'),
+        },
+        // 静态资源分类打包
+        output: {
+          chunkFileNames: "static/js/[name]-[hash].js",
+          entryFileNames: "static/js/[name]-[hash].js",
+          assetFileNames: "static/[ext]/[name]-[hash].[ext]"
+        }
+      }
+    },
+    define: {
+      __INTLIFY_PROD_DEVTOOLS__: false,
+      __APP_INFO__: JSON.stringify(__APP_INFO__)
     }
   }
-  
-})) 
-
-export default viteConfig;
+}

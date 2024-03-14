@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --open",
+    "serve": "pnpm dev",
     "build": "vite build"
   },
   "dependencies": {
@@ -37,9 +38,10 @@
     "pinia-plugin-persist": "^1.0.0",
     "poplar-annotation": "^2.0.3",
     "postcss-preset-env": "^8.3.2",
+    "sortablejs": "^1.15.1",
     "vue": "3.4.15",
     "vue-clipboard3": "^2.0.0",
-    "vue-router": "4",
+    "vue-router": "^4.2.5",
     "vue-upload-component": "^3.1.8"
   },
   "devDependencies": {
@@ -65,7 +67,7 @@
     "typescript": "^5.0.2",
     "unplugin-auto-import": "^0.15.3",
     "unplugin-vue-components": "^0.24.1",
-    "vite": "^4.3.0",
+    "vite": "4.3.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vue-eslint-parser": "^9.1.1",
     "vue-loader-v16": "16.0.0-beta.5.4",

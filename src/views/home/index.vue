@@ -60,7 +60,7 @@
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
-import { getWeather } from '@/assets/api/common';
+import { getWeather } from '@/api/common';
 import Echarts3D from '../echart/index.vue';
 
 // 定时器

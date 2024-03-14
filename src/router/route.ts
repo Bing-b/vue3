@@ -54,6 +54,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             },
           },
           {
+            path: '/el-upload',
+            name: 'el-upload',
+            component: () => import('@/views/el-upload/index.vue'),
+            meta: {
+              title: 'el-upload',
+              icon: 'other',
+            },
+          },
+          {
             path: '/div',
             name: '拖拽div',
             component: () => import('@/views/dragDiv/index.vue'),

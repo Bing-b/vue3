@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex items-center justify-center">
     <LottieWeb :options="options" :style="{
-      height: '100vh',
+      height: '40vh',
       opacity: showLottieWeb ? 1 : 0,
       'margin-top': '-60px'
     }" @DOMLoaded="DOMLoaded" />
@@ -14,7 +14,7 @@ import { ref } from 'vue';
 
 const showLottieWeb = ref(false);
 const options = ref({
-  path: new URL('./google.json', import.meta.url).href
+  path: new URL('./people.json', import.meta.url).href
 });
 
 const DOMLoaded = () => {

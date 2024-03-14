@@ -1,7 +1,7 @@
 <template>
   <div class="h-full">
     <div class="head flex items-center px-5 py-4 bg-white shadow-md">
-      <div class="w-[100px] h-[100px] rounded-full overflow-hidden border border-[#dedede]" data-intro="这是第一步"
+      <div class="w-[60px] h-[60px] rounded-full overflow-hidden border border-[#dedede]" data-intro="这是第一步"
         data-step="1">
         <img class="w-full object-cover" src="@/assets/images/logo_square.png" alt="">
       </div>
@@ -52,17 +52,17 @@
         </div>
       </div>
     </div>
-    <div class="mt-2 w-[500px] h-[300px]">
+    <!-- <div class="mt-2 w-[500px] h-[300px]">
       <Echarts3D />
-    </div>
+    </div> -->
+    <LottieWeb />
 
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
 import { getWeather } from '@/api/common';
-import Echarts3D from '../echart/index.vue';
-
+import LottieWeb from '../lottieWeb/index.vue';
 // 定时器
 let timer: any = null;
 

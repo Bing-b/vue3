@@ -17,7 +17,7 @@
         <switchBtn />
       </div>
       <div class="item">
-
+        <Loading />
       </div>
     </div>
   </div>
@@ -25,6 +25,7 @@
 
 <script lang='ts' setup>
 
+import Loading from '../loading/index.vue';
 </script>
 
 <style lang="scss" scoped>

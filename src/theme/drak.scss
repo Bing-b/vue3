@@ -1,0 +1,12 @@
+@use "element-plus/theme-chalk/src/dark/css-vars.scss" as *;
+
+html.dark {
+  $border-style: #414243;
+  $color-white: #fff;
+
+  --el-bg-color: #020409;
+
+  .el-main {
+    background: var(--el-bg-color);
+  }
+}

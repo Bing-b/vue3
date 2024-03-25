@@ -1,6 +1,17 @@
 <template>
-  <div class="h-full">
-    <div class="head flex items-center px-5 py-4 bg-white shadow-md">
+  <div class="h-full dark:text-white">
+    <div
+      class="head flex items-center px-5 py-4 bg-white shadow-md rounded-sm dark:bg-bg_color dark:border dark:border-[#414243]"
+      v-motion :initial="{
+        opacity: 0,
+        y: 100
+      }" :enter="{
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: 80
+        }
+      }">
       <div class="w-[60px] h-[60px] rounded-full overflow-hidden border border-[#dedede]" data-intro="这是第一步"
         data-step="1">
         <img class="w-full object-cover" src="@/assets/images/logo_square.png" alt="">
@@ -12,15 +23,26 @@
     </div>
 
     <div class="flex mt-2">
-      <div class="w-3/4 bg-white">
-        <h2 class="px-4 py-2">项目技术</h2>
+      <div class="w-3/4 bg-white  dark:bg-bg_color dark:border dark:border-[#414243]" v-motion :initial="{
+        opacity: 0,
+        y: 100
+      }" :enter="{
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: 160
+        }
+      }">
+        <h2 class="px-4 py-2  border-b dark:border-[#414243]">项目技术</h2>
         <div class="flex flex-wrap tec" data-intro="这是第三步" data-step="3">
+
           <div>
             <svgIcon name="Vue" size="40"></svgIcon>
             <p>Vue<span>这是一个很牛的技术</span></p>
           </div>
+
           <div>
-            <svgIcon name="element-plus" size="40"></svgIcon>
+            <svgIcon name="element-plus" size="40" />
             <p>Element-plus<span>这是一个很牛的技术</span></p>
           </div>
           <div>
@@ -41,7 +63,17 @@
           </div>
         </div>
       </div>
-      <div class="flex-1 bg-white ml-3  flex items-center justify-between p-5 time" data-intro="这是第四步" data-step="4">
+      <div class="flex-1 bg-white ml-3  flex items-center justify-between p-5 time" data-intro="这是第四步" data-step="4"
+        v-motion :initial="{
+        opacity: 0,
+        y: 100
+      }" :enter="{
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: 240
+        }
+      }">
         <div>
           <p class="text-[20px] font-medium">{{ date.year }}余额</p>
           <h4 class="text-[40px]">{{ date.remainingDays }}<span>天</span></h4>
@@ -63,6 +95,8 @@
 import { reactive, onMounted, onUnmounted } from 'vue';
 import { getWeather } from '@/api/common';
 import LottieWeb from '../lottieWeb/index.vue';
+
+import Motion from '@/utils/motion';
 // 定时器
 let timer: any = null;
 
@@ -129,8 +163,8 @@ onUnmounted(() => {
     align-items: center;
     width: 33.33%;
     padding: 20px;
-    box-shadow: 1px 0 #f0f0f0, 0 1px #f0f0f0, 1px 1px #f0f0f0, 1px 0 #f0f0f0 inset, 0 1px #f0f0f0 inset;
-    transition: all .3s;
+    //box-shadow: 1px 0 #f0f0f0, 0 1px #f0f0f0, 1px 1px #f0f0f0, 1px 0 #f0f0f0 inset, 0 1px #f0f0f0 inset;
+    // transition: all .3s;
 
     &:hover {
       box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;

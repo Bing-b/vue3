@@ -6,8 +6,6 @@ declare module '*.vue' {
   export default component;
 }
 
-// 导出csv
-declare module 'papaparse';
 
 declare module 'leaflet'
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="box px-2 py-2 flex h-full bg-[#e3edf1]">
+  <div class="box flex h-full">
     <div id="targetBox" class="relative min-w-[240px] max-w-[400px] h-full px-2 py-2 border border-[#dedede] bg-white"
       v-move>
       <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
@@ -40,7 +40,8 @@
                     @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
                     新增文件夹
                   </el-dropdown-item>
-                  <el-dropdown-item v-if="data.children" @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
+                  <el-dropdown-item v-if="data.children"
+                    @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
                     新增文件
                   </el-dropdown-item>
                   <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
@@ -55,7 +56,8 @@
           </span>
         </template>
       </el-tree>
-      <div class="drag  w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize"></div>
+      <div class="drag  w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize">
+      </div>
     </div>
     <div class=" flex-1  bg-white ">
 

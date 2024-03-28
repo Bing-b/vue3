@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full w-full overflow-hidden">
+  <div class="h-full w-full overflow-auto">
 
-    <div class="container flex overflow-auto">
+    <div class="container flex ">
       <!-- hook -->
       <el-card class="box-card">
         <template #header>
@@ -30,7 +30,8 @@
 
       <el-dialog v-model="dialogTableVisible" title="文档预览">
         <div class="pdf-container">
-          <embed src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0" type="application/pdf" />
+          <embed src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0"
+            type="application/pdf" />
           <!-- <iframe style="width: 100%; min-height: 600px"
             src="http://view.officeapps.live.com/op/view.aspx?src=newteach.pbworks.com%2Ff%2Fele%2Bnewsletter.docx"
             width="100%" height="100%" frameborder="1" /> -->
@@ -79,7 +80,8 @@
         </template>
         <div>
           <div class="tab-list" id="nav">
-            <div class="flex items-center justify-center flex-none  tab-item w-[100px] h-[50px]" v-for="i in 10" :key="i">
+            <div class="flex items-center justify-center flex-none  tab-item w-[100px] h-[50px]" v-for="i in 10"
+              :key="i">
               <div class="w-[80px] h-full bg-slate-400">
                 {{ i }}
               </div>
@@ -401,7 +403,8 @@ onMounted(() => {
 }
 
 .box-card {
-  // flex: 20%;
+  flex: 20%;
+  height: 300px;
 }
 
 .pdf-container {

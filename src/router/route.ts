@@ -79,14 +79,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '代码编辑器',
             },
           },
-          {
-            path: '/tabs',
-            name: '标签页',
-            component: () => import('@/views/tabs/index.vue'),
-            meta: {
-              title: '标签页',
-            },
-          }
         ]
       },
 
@@ -108,15 +100,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'other',
             },
           },
-          {
-            path: '/gdm',
-            name: 'gdm',
-            component: () => import('@/views/gdm/index.vue'),
-            meta: {
-              title: 'gdm绘图',
-              icon: 'other',
-            },
-          }, 
             {
             path: '/echarts',
             name: 'echarts',

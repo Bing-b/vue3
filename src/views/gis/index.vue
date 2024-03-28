@@ -43,29 +43,56 @@ import utils from '@/utils/commonFuction';
 import gcoord from 'gcoord';
 import 'leaflet-draw';
 import 'leaflet-polylinedecorator';
+import 'leaflet-boundary-canvas'; // 控制显示边界
+import 'leaflet-control-mini-map'; // 小地图
+import 'leaflet-pulse-icon'; // 标记目标
+import 'leaflet-easyprint';
+import { antPath } from 'leaflet-ant-path'; // 蚂蚁路径
+import 'leaflet.fullscreen'; // 全屏
 import './ts/leaflet.draw-cn';
 import './ts/L.Edit.Circle';
-import './ts/leaflet-heat';
-import 'leaflet-easyprint';
-import './js/movingMarker';
+import './js/movingMarker'; // 可移动标记 pnpm 包有问题
 import './js/leaflet-search.src';
-import './js/fullScreen';
 import './js/leaflet.ChineseTmsProviders';
-import './js/L.Path.DashFlow';
-import './js/leaflet.motion.min';
+import './js/L.Path.DashFlow'; // 河流效果轨迹
+import './js/leaflet.motion.min'; // 轨迹交通路线
 import './js/leaflet-tilelayer-colorizr';
 import './js/leaflet.migrationLayer';
 import './js/L.Control.ResetView';
 import './js/leaflet-routing-machine';
 import './js/Control.Geocoder';
-import './js/BoundaryCanvas';
-import './js/Control.MiniMap';
-import './js/L.Icon.Pulse';
-import './js/leaflet-ant-path';
 import { hainanRiverCoordinates } from './js/route';
 import * as cnGeoJson from './js/china.json';
 import * as siChuanJson from './js/sichuan.json';
 import * as chinaLine from './js/chinaLine.json';
+import { setIcon } from './ts/utils';
+
+// 小汽车图标
+const iconCar = setIcon('../../../assets/icons/mycar.svg');
+
+// 坐标图标
+const iconGeo = setIcon('../../../assets/icons/marker.svg');
+
+// 点图标
+const iconPoint = setIcon('../../../assets/icons/point.svg');
+
+// 小船图标
+const iconBoat = setIcon('../../../assets/icons/boat.svg');
+
+// 卡车图标
+const iconTruck = setIcon('../../../assets/icons/car1.svg');
+
+// 大船图标
+const iconBigBoat = setIcon('../../../assets/icons/boat1.svg');
+
+// 飞机图标
+const iconPlane = setIcon('../../../assets/icons/plane1.svg');
+
+// 城市图标
+const iconCity = setIcon('../../../assets/icons/city.svg');
+
+// 人图标
+const iconPeople = setIcon('../../../assets/icons/people.svg');
 
 // 画布宽高变化监测
 let resizeObserver: ResizeObserver;
@@ -119,69 +146,6 @@ const areaParams = reactive({
 const parisKievLL = [[20.022, 110.348], [19.684, 110.879], [19.566, 109.948], [19.362, 109.18], [18.648, 109.614]];
 
 let layerControl = {} as any;
-
-// 小汽车图标
-const carIcon = L.icon({
-  iconUrl: new URL('../../assets/icons/mycar.svg', import.meta.url).href,
-  iconSize: [32, 32],
-  iconAnchor: [16, 16]
-});
-
-// 坐标图标
-const geoIcon = L.icon({
-  iconUrl: new URL('../../assets/icons/marker.svg', import.meta.url).href,
-  iconSize: [24, 24],
-  iconAnchor: [16, 16]
-});
-
-// 坐标
-const pIcon = L.icon({
-  iconUrl: new URL('../../assets/icons/point.svg', import.meta.url).href,
-  iconSize: [24, 24],
-  iconAnchor: [16, 16]
-});
-
-// 船
-const boatIcon = L.icon({
-  iconUrl: new URL('../../assets/icons/boat.svg', import.meta.url).href,
-  iconSize: [24, 24],
-  iconAnchor: [16, 16]
-});
-
-// 车
-const car1 = L.icon({
-  iconUrl: new URL('../../assets/icons/car1.svg', import.meta.url).href,
-  iconSize: [24, 24],
-  iconAnchor: [16, 16]
-});
-
-// 大船
-const boat1 = L.icon({
-  iconUrl: new URL('../../assets/icons/boat1.svg', import.meta.url).href,
-  iconSize: [30, 30],
-  iconAnchor: [16, 16]
-});
-
-// 飞机
-const plane1 = L.icon({
-  iconUrl: new URL('../../assets/icons/plane1.svg', import.meta.url).href,
-  iconSize: [30, 30],
-  iconAnchor: [16, 16]
-});
-
-// 城市
-const cityIcon = L.icon({
-  iconUrl: new URL('../../assets/icons/city.svg', import.meta.url).href,
-  iconSize: [30, 30],
-  iconAnchor: [16, 16]
-});
-
-// 人
-const peopleIcon = L.icon({
-  iconUrl: new URL('../../assets/icons/people.svg', import.meta.url).href,
-  iconSize: [30, 30],
-  iconAnchor: [16, 16]
-});
 
 // 坐标转换 国测局转GPS
 const GCJ02TOWGS84 = (lng: number, lat: number) => {
@@ -410,7 +374,7 @@ const initSearch = () => {
 // 生成标记
 const createMarker = () => {
   marker2 = L.Marker.movingMarker(parisKievLL, 10000, {
-    autostart: false, loop: false, icon: carIcon, rotate: true
+    autostart: false, loop: false, icon: iconCar, rotate: true
   }).addTo(baseMap);
 
   // 地图根据点位移动，一直设置点位为中心点
@@ -509,7 +473,7 @@ const drawBezier = () => {
   for (const i in points) {
     const { title } = points[i];
     const { loc } = points[i];
-    const marker = new L.Marker(new L.latLng(loc), { title, icon: geoIcon });
+    const marker = new L.Marker(new L.latLng(loc), { title, icon: iconGeo });
     marker.bindPopup(`名称: ${title}`);
     markersLayer.addLayer(marker);
   }
@@ -549,8 +513,8 @@ const polylineAnimation = () => {
   const start = hainanRiverCoordinates.at(0);
   const end = hainanRiverCoordinates.at(-1);
 
-  const startMarker = new L.Marker(L.latLng(start), { icon: pIcon });
-  const endMarker = new L.Marker(L.latLng(end), { icon: pIcon });
+  const startMarker = new L.Marker(L.latLng(start), { icon: iconPoint });
+  const endMarker = new L.Marker(L.latLng(end), { icon: iconPoint });
 
   markersLayer.addLayer(startMarker);
   markersLayer.addLayer(endMarker);
@@ -566,7 +530,7 @@ const polylineAnimation = () => {
     dashSpeed: -30
   }).addTo(baseMap);
 
-  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: boatIcon }).addTo(baseMap);
+  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: iconBoat }).addTo(baseMap);
 
   // 将 MovingMarker 添加到地图
   movingMarker.once('click', function () {
@@ -578,9 +542,9 @@ const polylineAnimation = () => {
 const drawTrafficPoints = () => {
   const markersLayer = new L.LayerGroup();
   baseMap.addLayer(markersLayer);
-  const p1 = new L.Marker(L.latLng([20.9236, 110.0964]), { icon: pIcon });
-  const p2 = new L.Marker(L.latLng([20.3252, 110.1751]), { icon: pIcon });
-  const p3 = new L.Marker(L.latLng([19.9124, 109.6978]), { icon: pIcon });
+  const p1 = new L.Marker(L.latLng([20.9236, 110.0964]), { icon: iconPoint });
+  const p2 = new L.Marker(L.latLng([20.3252, 110.1751]), { icon: iconPoint });
+  const p3 = new L.Marker(L.latLng([19.9124, 109.6978]), { icon: iconPoint });
 
   markersLayer.addLayer(p1);
   markersLayer.addLayer(p2);
@@ -617,7 +581,7 @@ const trafficRoute = () => {
       easing: L.Motion.Ease.easeInOutQuad
     }, {
       removeOnEnd: false,
-      icon: car1
+      icon: iconTruck
     }).motionDuration(4000),
 
     L.motion.polyline(shipRoute, {
@@ -627,14 +591,14 @@ const trafficRoute = () => {
     }, {
       removeOnEnd: false,
       // showMarker: true,
-      icon: boat1
+      icon: iconBigBoat
     }).motionDuration(6000),
 
     L.motion.seq([L.motion.polyline(planeRoute, {
       color: '#1296db'
     }, null, {
       removeOnEnd: false,
-      icon: plane1
+      icon: iconPlane
     }).motionDuration(5000)
     ])
   ]).addTo(baseMap);
@@ -855,12 +819,12 @@ const toggleMarker = () => {
   ];
 
   citys.forEach(item => {
-    const marker = new L.Marker(L.latLng(item), { icon: cityIcon });
+    const marker = new L.Marker(L.latLng(item), { icon: iconCity });
     cityMarkers.addLayer(marker);
   });
 
   peoples.forEach(item => {
-    const marker = new L.Marker(L.latLng(item), { icon: peopleIcon });
+    const marker = new L.Marker(L.latLng(item), { icon: iconPeople });
     peopleMarkers.addLayer(marker);
   });
   baseMap.addLayer(cityMarkers);
@@ -991,10 +955,10 @@ const initAntLine = () => {
     [19.0394, 110.2941]
   ];
 
-  const makerStart = L.marker(paths[0], { icon: carIcon });
-  const makerEnd = L.marker(paths[paths.length - 1], { icon: pIcon });
+  const makerStart = L.marker(paths[0], { icon: iconCar });
+  const makerEnd = L.marker(paths[paths.length - 1], { icon: iconPoint });
 
-  const lineLayer = L.polyline.antPath(paths, {
+  const lineLayer = antPath(paths, {
     paused: false, // 暂停  初始化状态
     reverse: false, // 方向反转
     delay: 1000, // 延迟，数值越大效果越缓慢
@@ -1017,7 +981,7 @@ const initAntLine = () => {
     latlngs.push(new L.LatLng(i[0], i[1]));
   });
 
-  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: car1 }).addTo(baseMap);
+  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: iconTruck }).addTo(baseMap);
 
   // 将 MovingMarker 添加到地图
   movingMarker.once('click', function () {
@@ -1179,10 +1143,10 @@ onMounted(() => {
 
 <style lang="scss">
 @import url('./css/leaflet-search');
-@import url('./css/Control.FullScreen');
+@import url('leaflet.fullscreen/Control.FullScreen.css');
 @import url('./css/leaflet-routing-machine');
 @import url('./css/Control.MiniMap');
-@import url('./css/L.Icon.Pulse');
+@import url('leaflet-pulse-icon/src/L.Icon.Pulse.css');
 
 .leaflet-touch .leaflet-control-layers-toggle {
   width: 30px;

@@ -17,8 +17,14 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
+import useGlobalConfig from '@/store/modules/global';
 
+const globalConfigStore = useGlobalConfig();
+
+// 是否暗夜模式
 const isDark = ref(false);
+
+// 切换主题
 const toggleDark = () => {
   isDark.value = !isDark.value;
   if (isDark.value === true) {
@@ -26,6 +32,7 @@ const toggleDark = () => {
   } else {
     document.querySelector('html')!.classList.remove('dark'); // 白天删除类名
   }
+  globalConfigStore.appDark = isDark.value;
 };
 </script>
 <style lang="scss" scoped>

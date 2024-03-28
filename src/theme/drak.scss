@@ -4,7 +4,7 @@ html.dark {
   $border-style: #414243;
   $color-white: #fff;
 
-  --el-bg-color: #020409;
+  // --el-bg-color: #020409 !important;
 
   .el-main {
     background: var(--el-bg-color);

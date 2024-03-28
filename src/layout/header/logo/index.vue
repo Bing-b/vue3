@@ -3,7 +3,7 @@
     <div class="logo" :class="{ 'w': isExpansion }">
       <img class="w-[50px]" :src="$getImg('logo/logo.gif')" />
       <!-- <svgIcon name="logo2" size="30" /> -->
-      <h2 class="font-bold ml-1 text-[#2f833f]" v-if="!isExpansion">Fun.Box</h2>
+      <h2 class="font-bold text-[#5898ff]" v-if="!isExpansion">OnePiece</h2>
     </div>
     <svgIcon name="menu" size="20" @click.stop="switchMenu" color="#e6e6e9" />
   </div>
@@ -39,7 +39,6 @@ const switchMenu = () => {
     width: 160px;
 
     h2 {
-      margin-left: 10px;
       transition: width .3s;
     }
 

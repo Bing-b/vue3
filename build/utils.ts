@@ -28,7 +28,7 @@ const extensions: Array<string> = [".js", ".ts", ".jsx", ".tsx", ".json"];
 /** 处理环境变量 */
 const warpperEnv = (envConf: Recordable): ViteEnv => {
   const ret: ViteEnv = {
-    VITE_PORT: 1234,
+    VITE_PORT: 8848,
     VITE_PUBLIC_PATH: '/',
     VITE_CDN: false,
   }

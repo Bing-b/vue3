@@ -1,14 +1,13 @@
 <template>
   <div class="box flex h-full">
-    <div id="targetBox" class="relative min-w-[240px] max-w-[400px] h-full px-2 py-2 border border-[#dedede] bg-white"
-      v-move>
+    <div id="targetBox" class="relative min-w-[240px] max-w-[400px] h-full px-2 py-2 " v-move>
       <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
         <p class="text-white">文件目录</p>
       </div>
       <el-input v-model="keywords" placeholder="请输入" suffix-icon="search" @change="search"></el-input>
 
-      <el-tree ref="xTree" v-model="expandedKeys" :data="treeData" :props="defaultProps" :expand-on-click-node="false"
-        node-key="id" draggable @node-click="handleNodeClick">
+      <el-tree ref="xTree" class="h-[calc(100%-50px)]" v-model="expandedKeys" :data="treeData" :props="defaultProps"
+        :expand-on-click-node="false" node-key="id" draggable @node-click="handleNodeClick">
         <template #default="{ node, data }">
           <span class="mr-1">
             <svgIcon name="word" v-if="!data.children" />
@@ -59,7 +58,7 @@
       <div class="drag  w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize">
       </div>
     </div>
-    <div class=" flex-1  bg-white ">
+    <div class=" flex-1   ">
 
     </div>
   </div>

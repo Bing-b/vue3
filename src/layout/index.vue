@@ -32,11 +32,12 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .layout-content {
-  height: 100%;
   flex-direction: column;
+  height: 100%;
 
   .layout-main {
     display: flex;
+    height: calc(100% - 40px);
 
     main {
       flex: 1;

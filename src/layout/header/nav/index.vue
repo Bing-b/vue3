@@ -16,7 +16,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import useGlobalConfig from '@/store/modules/global';
 
 const globalConfigStore = useGlobalConfig();
@@ -34,6 +34,13 @@ const toggleDark = () => {
   }
   globalConfigStore.appDark = isDark.value;
 };
+
+onMounted(() => {
+  // 初始化获取主题信息
+  const cfg = window.localStorage.getItem('config') || '{}';
+  isDark.value = JSON.parse(cfg)?.appDark || false;
+});
+
 </script>
 <style lang="scss" scoped>
 .header {
@@ -94,5 +101,10 @@ const toggleDark = () => {
     }
   }
 
+}
+
+.dark .switch {
+  background: #141414;
+  border-color: #414243
 }
 </style>

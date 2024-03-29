@@ -14,6 +14,18 @@ dependencies:
   '@element-plus/icons-vue':
     specifier: ^2.1.0
     version: 2.1.0(vue@3.4.15)
+  '@vue-flow/background':
+    specifier: ^1.3.0
+    version: 1.3.0(@vue-flow/core@1.33.5)(vue@3.4.15)
+  '@vue-flow/controls':
+    specifier: ^1.1.1
+    version: 1.1.1(@vue-flow/core@1.33.5)(vue@3.4.15)
+  '@vue-flow/core':
+    specifier: ^1.33.5
+    version: 1.33.5(vue@3.4.15)
+  '@vue-flow/minimap':
+    specifier: ^1.4.0
+    version: 1.4.0(@vue-flow/core@1.33.5)(vue@3.4.15)
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -2835,7 +2847,6 @@ packages:
 
   /@types/web-bluetooth@0.0.20:
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
-    dev: true
 
   /@types/webpack@5.28.5:
     resolution: {integrity: sha512-wR87cgvxj3p6D0Crt1r5avwqffqPXUkNlnQ1mjU93G7gCuFjufZR4I6j8cz5g1F1tTYpfOOFvly+cmIQwL9wvw==}
@@ -3073,6 +3084,52 @@ packages:
       '@volar/vue-language-core': 1.2.0
     dev: true
 
+  /@vue-flow/background@1.3.0(@vue-flow/core@1.33.5)(vue@3.4.15):
+    resolution: {integrity: sha512-fu/8s9wzSOQIitnSTI10XT3bzTtagh4h8EF2SWwtlDklOZjAaKy75lqv4htHa3wigy/r4LGCOGwLw3Pk88/AxA==}
+    peerDependencies:
+      '@vue-flow/core': ^1.23.0
+      vue: ^3.3.0
+    dependencies:
+      '@vue-flow/core': 1.33.5(vue@3.4.15)
+      vue: 3.4.15(typescript@5.0.2)
+    dev: false
+
+  /@vue-flow/controls@1.1.1(@vue-flow/core@1.33.5)(vue@3.4.15):
+    resolution: {integrity: sha512-TCoRD5aYZQsM/N7QlPJcIILg1Gxm0O/zoUikxaeadcom1OlKFHutY72agsySJEWM6fTlyb7w8DYCbB4T8YbFoQ==}
+    peerDependencies:
+      '@vue-flow/core': ^1.23.0
+      vue: ^3.3.0
+    dependencies:
+      '@vue-flow/core': 1.33.5(vue@3.4.15)
+      vue: 3.4.15(typescript@5.0.2)
+    dev: false
+
+  /@vue-flow/core@1.33.5(vue@3.4.15):
+    resolution: {integrity: sha512-Obo+KHmcww/NYGARMqVH1dhd42QeFzV+TNwytrjVgYCoMVCNjs/blCh437TYTsNy4vgX1NKpNwTbQrS+keurgA==}
+    peerDependencies:
+      vue: ^3.3.0
+    dependencies:
+      '@vueuse/core': 10.9.0(vue@3.4.15)
+      d3-drag: 3.0.0
+      d3-selection: 3.0.0
+      d3-zoom: 3.0.0
+      vue: 3.4.15(typescript@5.0.2)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+    dev: false
+
+  /@vue-flow/minimap@1.4.0(@vue-flow/core@1.33.5)(vue@3.4.15):
+    resolution: {integrity: sha512-GetmN8uOQxIx4ja85VDnIwpZO5SnGIOfYSqUw8MRMbc8CdACun2M2e3FRaMZRaWapclU2ssXms4xHMWrA3YWpw==}
+    peerDependencies:
+      '@vue-flow/core': ^1.23.0
+      vue: ^3.3.0
+    dependencies:
+      '@vue-flow/core': 1.33.5(vue@3.4.15)
+      d3-selection: 3.0.0
+      d3-zoom: 3.0.0
+      vue: 3.4.15(typescript@5.0.2)
+    dev: false
+
   /@vue/compiler-core@3.4.15:
     resolution: {integrity: sha512-XcJQVOaxTKCnth1vCxEChteGuwG6wqnUHxAm1DO3gCz0+uXKaJNx8/digSz4dLALCy8n2lKq24jSUs8segoqIw==}
     dependencies:
@@ -3151,7 +3208,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
 
   /@vueuse/core@9.13.0(vue@3.4.15):
     resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
@@ -3159,7 +3215,7 @@ packages:
       '@types/web-bluetooth': 0.0.16
       '@vueuse/metadata': 9.13.0
       '@vueuse/shared': 9.13.0(vue@3.4.15)
-      vue-demi: 0.14.6(vue@3.4.15)
+      vue-demi: 0.14.7(vue@3.4.15)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -3167,7 +3223,6 @@ packages:
 
   /@vueuse/metadata@10.9.0:
     resolution: {integrity: sha512-iddNbg3yZM0X7qFY2sAotomgdHK7YJ6sKUvQqbvwnf7TmaVPxS4EJydcNsVejNdS8iWCtDk+fYXr7E32nyTnGA==}
-    dev: true
 
   /@vueuse/metadata@9.13.0:
     resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
@@ -3200,12 +3255,11 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
 
   /@vueuse/shared@9.13.0(vue@3.4.15):
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
     dependencies:
-      vue-demi: 0.14.6(vue@3.4.15)
+      vue-demi: 0.14.7(vue@3.4.15)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -4466,6 +4520,14 @@ packages:
       d3-selection: 1.4.2
     dev: false
 
+  /d3-drag@3.0.0:
+    resolution: {integrity: sha512-pWbUJLdETVA8lQNJecMxoXfH6x+mO2UQo8rSmZ+QqxcbyA3hfeprFgIT//HW2nlHChWeIIMwS2Fq+gEARkhTkg==}
+    engines: {node: '>=12'}
+    dependencies:
+      d3-dispatch: 2.0.0
+      d3-selection: 3.0.0
+    dev: false
+
   /d3-dsv@1.2.0:
     resolution: {integrity: sha512-9yVlqvZcSOMhCYzniHE7EVUws7Fa1zgw+/EAV2BxJoG3ME19V6BQFBwI855XQDsxyOuG7NibqRMTtiF/Qup46g==}
     hasBin: true
@@ -4571,6 +4633,11 @@ packages:
     resolution: {integrity: sha512-SJ0BqYihzOjDnnlfyeHT0e30k0K1+5sR3d5fNueCNeuhZTnGw4M4o8mqJchSwgKMXCNFo+e2VTChiSJ0vYtXkg==}
     dev: false
 
+  /d3-selection@3.0.0:
+    resolution: {integrity: sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ==}
+    engines: {node: '>=12'}
+    dev: false
+
   /d3-shape@1.3.7:
     resolution: {integrity: sha512-EUkvKjqPFUAZyOlhY5gzCxCeI0Aep04LwIRpsZ/mLFelJiUfnK56jo5JMDSE7yyP2kLSb6LtF+S5chMk7uqPqw==}
     dependencies:
@@ -4606,6 +4673,20 @@ packages:
       d3-timer: 1.0.10
     dev: false
 
+  /d3-transition@3.0.1(d3-selection@3.0.0):
+    resolution: {integrity: sha512-ApKvfjsSR6tg06xrL434C0WydLr7JewBB3V+/39RMHsaXTOG0zmt/OAXeng5M5LBm0ojmxJrpomQVZ1aPvBL4w==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      d3-selection: 2 - 3
+    dependencies:
+      d3-color: 3.1.0
+      d3-dispatch: 2.0.0
+      d3-ease: 1.0.7
+      d3-interpolate: 3.0.1
+      d3-selection: 3.0.0
+      d3-timer: 2.0.0
+    dev: false
+
   /d3-voronoi@1.1.4:
     resolution: {integrity: sha512-dArJ32hchFsrQ8uMiTBLq256MpnZjeuBtdHpaDlYuQyjU0CVzCJl/BVW+SkszaAeH95D/8gxqAhgx0ouAWAfRg==}
     dev: false
@@ -4618,6 +4699,17 @@ packages:
       d3-interpolate: 1.4.0
       d3-selection: 1.4.2
       d3-transition: 1.3.2
+    dev: false
+
+  /d3-zoom@3.0.0:
+    resolution: {integrity: sha512-b8AmV3kfQaqWAuacbPuNbL6vahnOJflOhexLzMMNLga62+/nh0JzvJ0aO/5a5MVgUFGS7Hu1P9P03o3fJkDCyw==}
+    engines: {node: '>=12'}
+    dependencies:
+      d3-dispatch: 2.0.0
+      d3-drag: 3.0.0
+      d3-interpolate: 3.0.1
+      d3-selection: 3.0.0
+      d3-transition: 3.0.1(d3-selection@3.0.0)
     dev: false
 
   /d3@5.16.0:
@@ -10030,7 +10122,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.4.15(typescript@5.0.2)
-    dev: true
 
   /vue-eslint-parser@9.1.1(eslint@8.39.0):
     resolution: {integrity: sha512-C2aI/r85Q6tYcz4dpgvrs4wH/MqVrRAVIdpYedrxnATDHHkb+TroeRcDpKWGZCx/OcECMWfz7tVwQ8e+Opy6rA==}

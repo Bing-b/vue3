@@ -3,10 +3,17 @@
 html.dark {
   $border-style: #414243;
   $color-white: #fff;
+  --content-bgc: #141414;
+  --box-bgc: #141414;
+  --box-shadow: 0 1px 20px -6px rgba(255, 255, 255, 0.406);
+  --boxHoverShadow: 0.5vw 0.5vw 1.1vw rgba(0, 0, 0, 0.3);
+  --settingColor: #fff;
+  --fontNormal: #fff;
+  background-color: #141414;
 
-  // --el-bg-color: #020409 !important;
+  --el-bg-color: #141414;
 
   .el-main {
-    background: var(--el-bg-color);
+    background: #020409;
   }
 }

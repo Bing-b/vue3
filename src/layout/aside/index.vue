@@ -153,7 +153,7 @@ onUnmounted(() => {
 
       .el-sub-menu__title {
         color: #5f85e4 !important;
-        border-left: 4px solid #1c53d9 !important;
+        //border-left: 4px solid #1c53d9 !important;
         background-color: #edf1fc;
       }
 
@@ -162,7 +162,7 @@ onUnmounted(() => {
     .el-menu-item.is-active.choseMenu {
 
       color: #5f85e4 !important;
-      border-left: 4px solid #1c53d9 !important;
+      //  border-left: 4px solid #1c53d9 !important;
       background-color: #edf1fc;
     }
 

@@ -6,6 +6,11 @@
     
   }
 
+  interface Window {
+    gis: {
+      PROXY_URL: string;
+    };
+  }
 
   /** 全局自定义环境变量类型声明 */
   interface ViteEnv {

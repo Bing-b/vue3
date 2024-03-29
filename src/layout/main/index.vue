@@ -1,5 +1,5 @@
 <template>
-  <el-main class="!overflow-hidden bg-[#f0f2f5]  !px-2 !py-2">
+  <el-main class="!overflow-hidden h-full bg-[#f0f2f5]  !px-2 !py-2">
     <router-view #default="{ Component }">
       <transition name="slide" mode="out-in">
         <component :is="Component" :key="route.path" />

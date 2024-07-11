@@ -1,7 +1,8 @@
 <template>
   <button class="custom-button"
     :class="{ 'is-active': isActive, 'primary': type === 'primary', 'default': type === 'default', 'gray': type === 'gray' }"
-    :style="{ '--button-bg-color': bgColor }" @click="handleClick" @mousedown="handleMouseDown" @mouseup="handleMouseUp">
+    :style="{ '--button-bg-color': bgColor }" @click="handleClick" @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp">
     <slot></slot>
   </button>
 </template>

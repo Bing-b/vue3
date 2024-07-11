@@ -8,8 +8,8 @@ import { ref, onMounted, watch } from 'vue';
 const props = defineProps({
   search: {
     type: String,
-    default: '成都市'
-  }
+    default: '成都市',
+  },
 });
 
 const isFalse = ref(false);
@@ -38,8 +38,8 @@ const initMap = () => {
       'AMap.CitySearch',
       'AMap.InfoWindow',
       'AMap.Marker',
-      'AMap.Pixel'
-    ] // 需要使用的的插件列表，如比例尺'AMap.Scale'等
+      'AMap.Pixel',
+    ], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
   })
     .then((AMap) => {
       map.value = new AMap.Map('container', {
@@ -47,7 +47,7 @@ const initMap = () => {
         resizeEnable: true,
         viewMode: '3D', // 是否为3D地图模式
         zoom: 10, // 初始化地图级别
-        center: locationArr.value // 初始化地图中心点位置
+        center: locationArr.value, // 初始化地图中心点位置
       });
 
       getGeolocation(AMap);
@@ -65,7 +65,7 @@ const getGeolocation = (AMap: any) => {
     timeout: 10000, // 超过10秒后停止定位，默认：5s
     position: 'RB', // 定位按钮的停靠位置
     offset: [10, 20], // 定位按钮与设置的停靠位置的偏移量，默认：[10, 20]
-    zoomToAccuracy: true // 定位成功后是否自动调整地图视野到定位点
+    zoomToAccuracy: true, // 定位成功后是否自动调整地图视野到定位点
   });
   map.value.addControl(geolocation);
   geolocation.getCurrentPosition(function (status: string, result: any) {
@@ -88,10 +88,7 @@ const getCitySearch = (AMap: any, map: any) => {
     }
   ) {
     if (status === 'complete' && result.info === 'OK') {
-      console.log(
-        '🚀 ~ file: map-container.vue:88 ~ getCitySearch ~ result:',
-        result
-      );
+      console.log('🚀 ~ file: map-container.vue:88 ~ getCitySearch ~ result:', result);
       // 查询成功，result即为当前所在城市信息
       getWeather(AMap, map, result.city);
     }
@@ -128,7 +125,7 @@ const getWeather = (AMap: any, map: any, city: string) => {
         str.push('<p>发布时间：' + data.reportTime + '</p>');
         const marker = new AMap.Marker({
           map,
-          position: map.getCenter()
+          position: map.getCenter(),
         });
         const infoWin = new AMap.InfoWindow({
           content:
@@ -136,7 +133,7 @@ const getWeather = (AMap: any, map: any, city: string) => {
             str.join('') +
             '</div><div class="sharp"></div>',
           isCustom: true,
-          offset: new AMap.Pixel(0, -37)
+          offset: new AMap.Pixel(0, -37),
         });
         infoWin.open(map, marker.getPosition());
         marker.on('mouseover', function () {
@@ -147,26 +144,20 @@ const getWeather = (AMap: any, map: any, city: string) => {
   );
 
   // 未来4天天气预报
-  weather.getForecast(
-    city,
-    function (err: any, data: { forecasts: string | any[] }) {
-      console.log(
-        '🚀 ~ file: map-container.vue:186 ~ getWeather ~ data:',
-        data
-      );
+  weather.getForecast(city, function (err: any, data: { forecasts: string | any[] }) {
+    console.log('🚀 ~ file: map-container.vue:186 ~ getWeather ~ data:', data);
 
-      if (err) {
-        return;
-      }
-      const strs = [];
-      for (var i = 0, dayWeather; i < data.forecasts.length; i++) {
-        dayWeather = data.forecasts[i];
-        strs.push(
-          `<p>${dayWeather.date}&nbsp&nbsp${dayWeather.dayWeather}&nbsp&nbsp${dayWeather.nightTemp}~${dayWeather.dayTemp}℃</p><br />`
-        );
-      }
+    if (err) {
+      return;
     }
-  );
+    const strs = [];
+    for (var i = 0, dayWeather; i < data.forecasts.length; i++) {
+      dayWeather = data.forecasts[i];
+      strs.push(
+        `<p>${dayWeather.date}&nbsp&nbsp${dayWeather.dayWeather}&nbsp&nbsp${dayWeather.nightTemp}~${dayWeather.dayTemp}℃</p><br />`
+      );
+    }
+  });
 };
 
 function onComplete(data: any) {

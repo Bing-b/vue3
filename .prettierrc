@@ -8,8 +8,8 @@
   "bracketSpacing": true,
   "bracketSameLine": true,
   "arrowParens": "always",
-  "requirePragma": true,
-  "insertPragma": true,
+  // "requirePragma": true,
+  // "insertPragma": true,
   "endOfLine": "lf",
   "singleAttributePerLine": false,
   "htmlWhitespaceSensitivity": "strict"

@@ -168,6 +168,8 @@
         <!-- Renders it to a child element of the `body` -->
         <span>xxxxx</span>
       </Teleport>
+
+      <Obsec />
     </div>
   </div>
 </template>
@@ -182,10 +184,11 @@ import { ClickOutside as vClickOutside } from 'element-plus';
 import utils from '@/utils/commonFuction';
 import Switch from '../switch/index.vue';
 import Child from './child.vue';
+import Obsec from '../features/index.vue';
 
 // 复用获取鼠标位置
 const { x, y } = useMousePositon();
-
+ 
 // 复用加载动画
 const { loading, showLoading, hideLoading } = useLoading();
 

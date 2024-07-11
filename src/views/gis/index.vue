@@ -1017,6 +1017,20 @@ const initMap = () => {
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
   // 暗色主题
+  // const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
+  //   colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
+  //     // 计算灰度
+  //     let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
+  //     grayVal = 255 - grayVal;
+
+  //     // 将灰度替换掉原始的颜色
+  //     const r = grayVal + 2;
+  //     const g = grayVal + 2;
+  //     const b = grayVal + 2;
+  //     return { r, g, b, a: pixel.a };
+  //   }
+  // });
+
   const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
     colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
       // 计算灰度
@@ -1024,9 +1038,9 @@ const initMap = () => {
       grayVal = 255 - grayVal;
 
       // 将灰度替换掉原始的颜色
-      const r = grayVal + 2;
-      const g = grayVal + 2;
-      const b = grayVal + 2;
+      const r = 0; // 红色分量设置为 0
+      const g = 0; // 绿色分量设置为 0
+      const b = Math.max(50, grayVal - 30); // 将灰度值映射到 20 至 255 之间作为蓝色分量
       return { r, g, b, a: pixel.a };
     }
   });

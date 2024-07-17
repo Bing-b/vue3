@@ -1,11 +1,11 @@
 <template>
   <div class="logo-box ">
     <div class="logo" :class="{ 'w': isExpansion }">
-      <img class="w-[50px]" :src="$getImg('logo/logo.gif')" />
+      <img class="w-[30px]" :src="$getImg('logo/logo1.gif')" />
       <!-- <svgIcon name="logo2" size="30" /> -->
-      <h2 class="font-bold text-[#5898ff]" v-if="!isExpansion">OnePiece</h2>
+      <h2 class="font-bold text-[#191919]" v-if="!isExpansion"> AgeraRs</h2>
     </div>
-    <svgIcon name="menu" size="20" @click.stop="switchMenu" color="#e6e6e9" />
+    <svgIcon name="menu" size="20"  class="cursor-pointer" :class="{'rotate-180':isExpansion} " @click.stop="switchMenu" color="#e6e6e9" />
   </div>
 </template>
 <script lang="ts" setup>

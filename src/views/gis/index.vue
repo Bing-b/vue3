@@ -1,6 +1,7 @@
 <template>
   <div class="relative w-full h-full">
-    <div class="absolute top-2 left-[150px] z-[888] flex text-md gap-1 p-1 items-center bg-white rounded">
+    <div
+      class="absolute top-2 left-[150px] z-[888] flex text-md gap-1 p-1 items-center bg-white rounded">
       <el-button @click="drawBezier" size="small">绘制标记</el-button>
       <el-button @click="markTarget" size="small">标记目标</el-button>
       <el-button @click="restrictedArea" size="small">限制视图</el-button>
@@ -22,21 +23,20 @@
 
     <el-dialog v-model="infoDialogVisible" title="文档预览" width="60%">
       <div class="pdf-container">
-        <embed src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0" type="application/pdf" />
+        <embed
+          src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0"
+          type="application/pdf" />
       </div>
     </el-dialog>
 
-    <div class="absolute bottom-1 left-1 z-[888] ">
+    <div class="absolute bottom-1 left-1 z-[888]">
       <el-button :icon="Warning" @click="infoDialogVisible = !infoDialogVisible" circle />
     </div>
   </div>
 </template>
 
-<script lang='ts' setup>
-import {
-  onMounted, ref,
-  reactive
-} from 'vue';
+<script lang="ts" setup>
+import { onMounted, ref, reactive } from 'vue';
 import { Warning } from '@element-plus/icons-vue';
 import * as L from 'leaflet';
 import utils from '@/utils/commonFuction';
@@ -122,7 +122,7 @@ const editFeatureGroup = L.featureGroup();
 
 // 自定义编辑图层工具栏
 const editToolbar = new L.EditToolbar({
-  featureGroup: editFeatureGroup
+  featureGroup: editFeatureGroup,
 });
 
 const editHandler = editToolbar.getModeHandlers()[0].handler;
@@ -139,11 +139,17 @@ const infoDialogVisible = ref(false);
 
 const areaParams = reactive({
   location: '',
-  geoType: ''
+  geoType: '',
 });
 
 // 地理位置坐标
-const parisKievLL = [[20.022, 110.348], [19.684, 110.879], [19.566, 109.948], [19.362, 109.18], [18.648, 109.614]];
+const parisKievLL = [
+  [20.022, 110.348],
+  [19.684, 110.879],
+  [19.566, 109.948],
+  [19.362, 109.18],
+  [18.648, 109.614],
+];
 
 let layerControl = {} as any;
 
@@ -168,13 +174,13 @@ const initControls = () => {
       // rectangle: true,
       circle: true,
       marker: true,
-      circlemarker: false
+      circlemarker: false,
     },
     edit: {
       featureGroup: editControls,
       edit: false,
-      remove: false
-    }
+      remove: false,
+    },
   });
   editControls.addTo(baseMap);
   drawControl.addTo(baseMap);
@@ -223,13 +229,15 @@ const bindEvent = () => {
     markers.eachLayer((marker: any) => {
       marker.options.isSelected = false;
       const { node } = marker.options;
-      const iconHtml = `<p class="label h-5 translate-x-[-25%]">${(node.text && node.text.content) || node.label}</p>
+      const iconHtml = `<p class="label h-5 translate-x-[-25%]">${
+        (node.text && node.text.content) || node.label
+      }</p>
           <img src="${utils.getImg('marker.png')}" class="icon !w-[33px] h-[34px]"/>`;
       const markerIcon = L.divIcon({
         html: iconHtml,
         className: 'gis-icon',
         iconSize: [80, 70],
-        iconAnchor: [24, 55]
+        iconAnchor: [24, 55],
       });
       marker.options.isSelected = false;
       marker.setIcon(markerIcon);
@@ -278,15 +286,17 @@ const bindEvent = () => {
       areaParams.location = `${str}${latlng.lng},${latlng.lat}`;
     }
 
-    drawlayer.bindPopup(
-      `<div class="btns">
+    drawlayer
+      .bindPopup(
+        `<div class="btns">
               
               <div class="gis-edit">编辑</div>
               <div class="gis-save">保存</div>
               <div class="gis-delete">删除</div>
             </div>`,
-      { closeButton: false, className: 'gis-popup' }
-    ).openPopup();
+        { closeButton: false, className: 'gis-popup' }
+      )
+      .openPopup();
     editControls.addLayer(drawlayer);
     bindPopupEvent(drawlayer);
   });
@@ -308,7 +318,9 @@ const bindEvent = () => {
       // eslint-disable-next-line prefer-destructuring
       latlng = layer.getLatLngs()[0][3];
       areaParams.geoType = 'Rectangle';
-      areaParams.location = `${layer.getLatLngs()[0][1].lng},${layer.getLatLngs()[0][1].lat}#${latlng.lng},${latlng.lat}`;
+      areaParams.location = `${layer.getLatLngs()[0][1].lng},${layer.getLatLngs()[0][1].lat}#${
+        latlng.lng
+      },${latlng.lat}`;
     } else if (type === 'marker') {
       console.log('s');
     } else {
@@ -332,7 +344,7 @@ const iniPrint = () => {
     filename: 'myMap',
     exportOnly: true,
     defaultSizeTitles: { Current: '视窗', A4Landscape: 'A4 横向', A4Portrait: 'A4 纵向' },
-    hideControlContainer: true // 打印时隐藏控件
+    hideControlContainer: true, // 打印时隐藏控件
   }).addTo(baseMap);
 };
 
@@ -343,7 +355,7 @@ const initSearch = () => {
     { loc: [19.566, 109.948], title: '三亚市' },
     { loc: [18.648, 109.614], title: '儋州市' },
     { loc: [19.362, 109.18], title: '五指山市' },
-    { loc: [19.684, 110.879], title: '文昌市' }
+    { loc: [19.684, 110.879], title: '文昌市' },
   ];
 
   const markersLayer = new L.LayerGroup();
@@ -355,7 +367,7 @@ const initSearch = () => {
     initial: false,
     zoom: 12,
     // marker: false,
-    textPlaceholder: '请输入关键词'
+    textPlaceholder: '请输入关键词',
   });
 
   baseMap.addControl(controlSearch);
@@ -374,7 +386,10 @@ const initSearch = () => {
 // 生成标记
 const createMarker = () => {
   marker2 = L.Marker.movingMarker(parisKievLL, 10000, {
-    autostart: false, loop: false, icon: iconCar, rotate: true
+    autostart: false,
+    loop: false,
+    icon: iconCar,
+    rotate: true,
   }).addTo(baseMap);
 
   // 地图根据点位移动，一直设置点位为中心点
@@ -389,7 +404,8 @@ const createMarker = () => {
   });
 
   // 轨迹开始
-  marker2.on('move', (res: any) => { // 监听点位移动事件 move
+  marker2.on('move', (res: any) => {
+    // 监听点位移动事件 move
     baseMap.panTo([res.latlng.lat, res.latlng.lng]); // 回调中会返回经纬度信息，点移动改变地图中心点
     // marker2Path.length > 1 && marker2Path.shift(); // 保持数组长度，避免过度push不断重新绘制之前的路径
     marker2Path.push([res.latlng.lat, res.latlng.lng]);
@@ -462,7 +478,7 @@ const drawBezier = () => {
     { loc: [19.2287, 110.5294], title: '琼海观塘温泉度假区' },
     { loc: [19.2572, 110.5742], title: '博鳌亚洲论坛国际会展中心' },
     { loc: [19.2383, 110.4601], title: '琼海万泉河大桥' },
-    { loc: [19.1618, 110.5785], title: '琼海市博鳌镇' }
+    { loc: [19.1618, 110.5785], title: '琼海市博鳌镇' },
   ];
 
   const markersLayer = new L.LayerGroup();
@@ -479,18 +495,10 @@ const drawBezier = () => {
   }
 
   const latlngs = [
-    [
-      L.latLng(19.2596, 110.4656),
-      L.latLng(19.2287, 110.5294)],
-    [
-      L.latLng(19.2287, 110.5294),
-      L.latLng(19.2572, 110.5742)],
-    [
-      L.latLng(19.2287, 110.5294),
-      L.latLng(19.2383, 110.4601)],
-    [
-      L.latLng(19.2287, 110.5294),
-      L.latLng(19.1618, 110.5785)]
+    [L.latLng(19.2596, 110.4656), L.latLng(19.2287, 110.5294)],
+    [L.latLng(19.2287, 110.5294), L.latLng(19.2572, 110.5742)],
+    [L.latLng(19.2287, 110.5294), L.latLng(19.2383, 110.4601)],
+    [L.latLng(19.2287, 110.5294), L.latLng(19.1618, 110.5785)],
   ];
 
   // latlngs.forEach(item => {
@@ -521,16 +529,19 @@ const polylineAnimation = () => {
 
   baseMap.flyTo(L.latLng(start), 9, { duration: 2 });
 
-  hainanRiverCoordinates.forEach(i => {
+  hainanRiverCoordinates.forEach((i) => {
     latlngs.push(new L.LatLng(i[0], i[1]));
   });
 
   L.polyline(latlngs, {
     dashArray: '15,15',
-    dashSpeed: -30
+    dashSpeed: -30,
   }).addTo(baseMap);
 
-  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: iconBoat }).addTo(baseMap);
+  const movingMarker = L.Marker.movingMarker(latlngs, 20000, {
+    autostart: true,
+    icon: iconBoat,
+  }).addTo(baseMap);
 
   // 将 MovingMarker 添加到地图
   movingMarker.once('click', function () {
@@ -555,53 +566,86 @@ const drawTrafficPoints = () => {
 const trafficRoute = () => {
   baseMap.flyTo(L.latLng([20.3252, 110.1751]), 9.5, { duration: 2 });
 
-  const path1 = [[20.9236, 110.0964], [20.3252, 110.1751]];
-  const path2 = [[20.3252, 110.1751], [19.9124, 109.6978]];
-  const path3 = [[19.9124, 109.6978], [20.9236, 110.0964]];
+  const path1 = [
+    [20.9236, 110.0964],
+    [20.3252, 110.1751],
+  ];
+  const path2 = [
+    [20.3252, 110.1751],
+    [19.9124, 109.6978],
+  ];
+  const path3 = [
+    [19.9124, 109.6978],
+    [20.9236, 110.0964],
+  ];
   const trackRoute = [] as any[];
   const shipRoute = [] as any[];
   const planeRoute = [] as any[];
 
-  path1.forEach(i => {
+  path1.forEach((i) => {
     trackRoute.push(new L.LatLng(i[0], i[1]));
   });
 
-  path2.forEach(i => {
+  path2.forEach((i) => {
     shipRoute.push(new L.LatLng(i[0], i[1]));
   });
 
-  path3.forEach(i => {
+  path3.forEach((i) => {
     planeRoute.push(new L.LatLng(i[0], i[1]));
   });
 
-  const seqGroup = L.motion.seq([
-    L.motion.polyline(trackRoute, {
-      color: 'orangered'
-    }, {
-      easing: L.Motion.Ease.easeInOutQuad
-    }, {
-      removeOnEnd: false,
-      icon: iconTruck
-    }).motionDuration(4000),
+  const seqGroup = L.motion
+    .seq([
+      L.motion
+        .polyline(
+          trackRoute,
+          {
+            color: 'orangered',
+          },
+          {
+            easing: L.Motion.Ease.easeInOutQuad,
+          },
+          {
+            removeOnEnd: false,
+            icon: iconTruck,
+          }
+        )
+        .motionDuration(4000),
 
-    L.motion.polyline(shipRoute, {
-      color: '#d81e06'
-    }, {
-      easing: L.Motion.Ease.easeInOutQuart
-    }, {
-      removeOnEnd: false,
-      // showMarker: true,
-      icon: iconBigBoat
-    }).motionDuration(6000),
+      L.motion
+        .polyline(
+          shipRoute,
+          {
+            color: '#d81e06',
+          },
+          {
+            easing: L.Motion.Ease.easeInOutQuart,
+          },
+          {
+            removeOnEnd: false,
+            // showMarker: true,
+            icon: iconBigBoat,
+          }
+        )
+        .motionDuration(6000),
 
-    L.motion.seq([L.motion.polyline(planeRoute, {
-      color: '#1296db'
-    }, null, {
-      removeOnEnd: false,
-      icon: iconPlane
-    }).motionDuration(5000)
+      L.motion.seq([
+        L.motion
+          .polyline(
+            planeRoute,
+            {
+              color: '#1296db',
+            },
+            null,
+            {
+              removeOnEnd: false,
+              icon: iconPlane,
+            }
+          )
+          .motionDuration(5000),
+      ]),
     ])
-  ]).addTo(baseMap);
+    .addTo(baseMap);
 
   seqGroup.on('click', function () {
     seqGroup.motionStart();
@@ -619,7 +663,7 @@ const trafficRoute = () => {
 const highlightChina = () => {
   // 区域信息弹窗
   const info = L.control({
-    position: 'bottomleft'
+    position: 'bottomleft',
   });
 
   info.onAdd = function () {
@@ -647,7 +691,7 @@ const highlightChina = () => {
   const highlightFeature = (e) => {
     const layer = e.target;
     layer.setStyle({
-      fillColor: '#0d5eff'
+      fillColor: '#0d5eff',
     });
     info.update(layer.feature.properties);
   };
@@ -671,7 +715,7 @@ const highlightChina = () => {
     if (checkExistsLayers(feature)) {
       setStyleLayer(layer, {
         color: '#0D8BE7',
-        fillColor: '#0d5eff'
+        fillColor: '#0d5eff',
       });
     } else {
       setStyleLayer(layer, {
@@ -680,7 +724,7 @@ const highlightChina = () => {
         opacity: 0.6, // 透明度
         fill: true, // 开启填充区域
         fillColor: '#f5f4f1', // 区域填充颜色
-        fillOpacity: 0.8 // 区域填充颜色的透明
+        fillOpacity: 0.8, // 区域填充颜色的透明
       });
     }
   };
@@ -688,7 +732,7 @@ const highlightChina = () => {
   const onEachFeature = (feature: any, layer: any) => {
     layer.on({
       mouseover: highlightFeature,
-      mouseout: resetHighlight
+      mouseout: resetHighlight,
     });
   };
 
@@ -700,7 +744,7 @@ const highlightChina = () => {
     opacity: 0.6, // 透明度
     fill: true, // 开启填充区域
     fillColor: '#f5f4f1', // 区域填充颜色
-    fillOpacity: 0.8 // 区域填充颜色的透明
+    fillOpacity: 0.8, // 区域填充颜色的透明
   };
 
   L.geoJSON(siChuanJson, { style, onEachFeature }).addTo(baseMap);
@@ -718,7 +762,7 @@ const highlightGeoJson = () => {
         opacity: 0.6, // 透明度
         fill: false, // 开启填充区域
         fillColor: '#FFEB3B', // 区域填充颜色
-        fillOpacity: 0.8 // 区域填充颜色的透明
+        fillOpacity: 0.8, // 区域填充颜色的透明
       };
 
       switch (feature.properties.name) {
@@ -754,11 +798,10 @@ const highlightGeoJson = () => {
       L.marker(center, {
         icon: L.divIcon({
           className: 'geo-label',
-          html: feature.properties.name
-        })
+          html: feature.properties.name,
+        }),
       }).addTo(baseMap);
-    }
-
+    },
   });
   geoStyle.on('click', (e: L.LeafletMouseEvent) => {
     const layer = e.sourceTarget; // 获取被点击的地理要素图层
@@ -786,7 +829,7 @@ const initChinaLine = () => {
     color: '#E53935', // 边框颜色
     weight: 2, // 边框粗细
     opacity: 0.6, // 透明度
-    fill: false // 开启填充区域
+    fill: false, // 开启填充区域
   };
 
   L.geoJSON(chinaLine, { style }).addTo(baseMap);
@@ -794,7 +837,10 @@ const initChinaLine = () => {
 
 // 设置地图的最大边界，限制用户拖拽地图的范围
 const restrictedArea = () => {
-  const hainanBounds = [[18.17, 108.62], [20.08, 111.05]];
+  const hainanBounds = [
+    [18.17, 108.62],
+    [20.08, 111.05],
+  ];
   baseMap.setMaxBounds(hainanBounds);
   baseMap.setMinZoom(9);
   baseMap.maxBoundsViscosity(0);
@@ -808,22 +854,22 @@ const toggleMarker = () => {
     [18.9352, 109.7521],
     [19.0124, 109.8963],
     [18.9757, 109.6785],
-    [18.8143, 109.7054]
+    [18.8143, 109.7054],
   ];
   const peoples = [
     [18.8312, 109.8436],
     [18.9227, 109.7885],
     [18.9875, 109.9198],
     [18.9481, 109.7002],
-    [18.7814, 109.7203]
+    [18.7814, 109.7203],
   ];
 
-  citys.forEach(item => {
+  citys.forEach((item) => {
     const marker = new L.Marker(L.latLng(item), { icon: iconCity });
     cityMarkers.addLayer(marker);
   });
 
-  peoples.forEach(item => {
+  peoples.forEach((item) => {
     const marker = new L.Marker(L.latLng(item), { icon: iconPeople });
     peopleMarkers.addLayer(marker);
   });
@@ -842,19 +888,41 @@ const createArrowPath = () => {
   const myIcon = L.divIcon({
     html: `<div class="myIcon">
         <img src='${utils.getImg('sh.png')}'>
-      </div>`
+      </div>`,
   });
 
   L.marker(L.latLng([31.228593584576306, 121.47212494824217]), { icon: myIcon }).addTo(baseMap);
 
   const data = [
-    { from: [121.47212494824217, 31.228593584576306], to: [118.79146088574217, 32.05167302545262], labels: ['上海', '南京'], color: '#ff3a31' },
-    { from: [121.47212494824217, 31.228593584576306], to: [117.24238862011717, 31.82792015449264], labels: [null, '合肥'], color: '#2196F3' },
-    { from: [121.47212494824217, 31.228593584576306], to: [115.84712494824217, 28.668234615414136], labels: [null, '南昌'], color: '#2196F3' },
-    { from: [121.47212494824217, 31.228593584576306], to: [120.21968354199217, 30.275016452654977], labels: [null, '杭州'], color: '#FFEE58' }
+    {
+      from: [121.47212494824217, 31.228593584576306],
+      to: [118.79146088574217, 32.05167302545262],
+      labels: ['上海', '南京'],
+      color: '#ff3a31',
+    },
+    {
+      from: [121.47212494824217, 31.228593584576306],
+      to: [117.24238862011717, 31.82792015449264],
+      labels: [null, '合肥'],
+      color: '#2196F3',
+    },
+    {
+      from: [121.47212494824217, 31.228593584576306],
+      to: [115.84712494824217, 28.668234615414136],
+      labels: [null, '南昌'],
+      color: '#2196F3',
+    },
+    {
+      from: [121.47212494824217, 31.228593584576306],
+      to: [120.21968354199217, 30.275016452654977],
+      labels: [null, '杭州'],
+      color: '#FFEE58',
+    },
   ];
 
-  const intData = data.map(item => { return { ...item, value: parseInt(Math.random() * 20) }; });
+  const intData = data.map((item) => {
+    return { ...item, value: parseInt(Math.random() * 20) };
+  });
 
   const migrationLayer = new L.MigrationLayer({
     map: baseMap,
@@ -864,28 +932,29 @@ const createArrowPath = () => {
     arcWidth: 1,
     arcLabel: true,
     arcLabelFont: '14px sans-serif',
-    maxWidth: 2
-  }
-  );
+    maxWidth: 2,
+  });
   migrationLayer.addTo(baseMap);
 };
 
 // 重置视图
 const initResetView = () => {
   const coordinate = GCJ02TOWGS84(110, 19);
-  L.control.resetView({
-    position: 'topleft',
-    title: '重置视图',
-    latlng: L.latLng(coordinate),
-    zoom: 9
-  }).addTo(baseMap);
+  L.control
+    .resetView({
+      position: 'topleft',
+      title: '重置视图',
+      latlng: L.latLng(coordinate),
+      zoom: 9,
+    })
+    .addTo(baseMap);
 };
 
 // 路径分析
 const initRouteMachine = () => {
   const control = L.Routing.control(
     {
-      waypoints: [L.latLng(31.2049, 121.5934), L.latLng(31.2304, 121.4737)]
+      waypoints: [L.latLng(31.2049, 121.5934), L.latLng(31.2304, 121.4737)],
       // routeWhileDragging: false
       // createMarker: function () { return null; } // 可隐藏默认标记
     }
@@ -920,10 +989,7 @@ const initRouteMachine = () => {
     const startBtn = createButton('设置为起点', container);
     const destBtn = createButton('设置为终点', container);
 
-    L.popup()
-      .setContent(container)
-      .setLatLng(e.latlng)
-      .openOn(baseMap);
+    L.popup().setContent(container).setLatLng(e.latlng).openOn(baseMap);
 
     L.DomEvent.on(startBtn, 'click', function () {
       control.spliceWaypoints(0, 1, e.latlng);
@@ -952,7 +1018,7 @@ const initAntLine = () => {
     [19.9348, 110.4762],
     [19.7378, 110.4729],
     [19.3586, 110.4691],
-    [19.0394, 110.2941]
+    [19.0394, 110.2941],
   ];
 
   const makerStart = L.marker(paths[0], { icon: iconCar });
@@ -966,7 +1032,7 @@ const initAntLine = () => {
     weight: 3, // 线宽
     opacity: 0.7, // 透明度
     color: '#0000ff',
-    pulseColor: '#fff'// 块颜色
+    pulseColor: '#fff', // 块颜色
   });
   const markerGroup = L.layerGroup([]);
   const lineGroupLayer = L.layerGroup([]);
@@ -977,11 +1043,14 @@ const initAntLine = () => {
   baseMap.addLayer(markerGroup);
   baseMap.addLayer(lineGroupLayer);
 
-  paths.forEach(i => {
+  paths.forEach((i) => {
     latlngs.push(new L.LatLng(i[0], i[1]));
   });
 
-  const movingMarker = L.Marker.movingMarker(latlngs, 20000, { autostart: true, icon: iconTruck }).addTo(baseMap);
+  const movingMarker = L.Marker.movingMarker(latlngs, 20000, {
+    autostart: true,
+    icon: iconTruck,
+  }).addTo(baseMap);
 
   // 将 MovingMarker 添加到地图
   movingMarker.once('click', function () {
@@ -1017,45 +1086,31 @@ const initMap = () => {
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
   // 暗色主题
-  // const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-  //   colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
-  //     // 计算灰度
-  //     let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
-  //     grayVal = 255 - grayVal;
-
-  //     // 将灰度替换掉原始的颜色
-  //     const r = grayVal + 2;
-  //     const g = grayVal + 2;
-  //     const b = grayVal + 2;
-  //     return { r, g, b, a: pixel.a };
-  //   }
-  // });
-
   const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-    colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
+    colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
       // 计算灰度
       let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
       grayVal = 255 - grayVal;
 
       // 将灰度替换掉原始的颜色
-      const r = 0; // 红色分量设置为 0
-      const g = 0; // 绿色分量设置为 0
-      const b = Math.max(50, grayVal - 30); // 将灰度值映射到 20 至 255 之间作为蓝色分量
+      const r = grayVal + 2;
+      const g = grayVal + 2;
+      const b = grayVal + 2;
       return { r, g, b, a: pixel.a };
-    }
+    },
   });
 
   // 灰色主题
   const grayLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-    colorize: function (pixel: { r: number, g: number, b: number, a: number }) {
+    colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
       const gray = (pixel.r + pixel.g + pixel.b) / 3;
       return { r: gray, g: gray, b: gray, a: pixel.a };
-    }
+    },
   });
 
   // 区域控制
   const cn = L.TileLayer.boundaryCanvas(`${window.gis.PROXY_URL}`, {
-    boundary: cnGeoJson
+    boundary: cnGeoJson,
   });
 
   // 基础图层
@@ -1068,7 +1123,7 @@ const initMap = () => {
     OSM: osm,
     幻影黑: blackLayer,
     远山黛: grayLayer,
-    中国版图: cn
+    中国版图: cn,
   };
 
   // 控制自己添加的覆盖物的显示隐藏
@@ -1090,8 +1145,8 @@ const initMap = () => {
     zoomControl: false, // 缩放控件
     fullscreenControl: true, // 全屏控件
     fullscreenControlOptions: {
-      position: 'topleft'
-    }
+      position: 'topleft',
+    },
     // maxBounds:[] 区域限制
   });
 
@@ -1099,7 +1154,7 @@ const initMap = () => {
   const zoomControl = L.control.zoom({
     position: 'topleft',
     zoomInTitle: '放大',
-    zoomOutTitle: '缩小'
+    zoomOutTitle: '缩小',
   });
   baseMap.addControl(zoomControl);
 
@@ -1120,9 +1175,11 @@ const initMap = () => {
   initResetView();
 
   // 缩放比例尺
-  L.control.scale({
-    position: 'bottomright'
-  }).addTo(baseMap);
+  L.control
+    .scale({
+      position: 'bottomright',
+    })
+    .addTo(baseMap);
   // 监听地图的缩放级别变化
   // baseMap.on('zoomend', function () {
   //   const zoomLevel = baseMap.getZoom();
@@ -1152,7 +1209,6 @@ onMounted(() => {
 
   resizeObserver.observe(target);
 });
-
 </script>
 
 <style lang="scss">
@@ -1186,7 +1242,7 @@ onMounted(() => {
 .leaflet-bottom {
   .info {
     padding: 14px;
-    background-color: rgba(255, 255, 255, .8);
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 4px;
   }
 }
@@ -1245,7 +1301,6 @@ onMounted(() => {
   height: 600px;
 
   embed {
-
     width: 100%;
     height: 100%;
   }

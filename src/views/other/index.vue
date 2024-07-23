@@ -1,7 +1,6 @@
 <template>
   <div class="h-full w-full overflow-auto">
-
-    <div class="container flex ">
+    <div class="container flex">
       <!-- hook -->
       <el-card class="box-card">
         <template #header>
@@ -20,7 +19,9 @@
         <template #header>
           <div class="card-header">
             <span>pdf文档预览</span>
-            <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible">显示PDF</el-button>
+            <el-button type="primary" @click="dialogTableVisible = !dialogTableVisible"
+              >显示PDF</el-button
+            >
           </div>
         </template>
         <div>
@@ -30,12 +31,12 @@
 
       <el-dialog v-model="dialogTableVisible" title="文档预览">
         <div class="pdf-container">
-          <embed src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0"
+          <embed
+            src="/leaflet技术调研.pdf#navpanes=0&view=FitH#scrollbars=0&toolbar=0&statusbar=0"
             type="application/pdf" />
           <!-- <iframe style="width: 100%; min-height: 600px"
             src="http://view.officeapps.live.com/op/view.aspx?src=newteach.pbworks.com%2Ff%2Fele%2Bnewsletter.docx"
             width="100%" height="100%" frameborder="1" /> -->
-
         </div>
       </el-dialog>
 
@@ -80,7 +81,9 @@
         </template>
         <div>
           <div class="tab-list" id="nav">
-            <div class="flex items-center justify-center flex-none  tab-item w-[100px] h-[50px]" v-for="i in 10"
+            <div
+              class="flex items-center justify-center flex-none tab-item w-[100px] h-[50px]"
+              v-for="i in 10"
               :key="i">
               <div class="w-[80px] h-full bg-slate-400">
                 {{ i }}
@@ -123,7 +126,9 @@
         </template>
         <div class="relative h-[300px]">
           <xButton @click="flag = true">打開下拉框</xButton>
-          <div v-click-outside="onClickOutside" v-show="flag"
+          <div
+            v-click-outside="onClickOutside"
+            v-show="flag"
             class="absolute top-[40px] left-0 bg-[#eded23] w-[200px] h-[200px] border"></div>
         </div>
       </el-card>
@@ -186,9 +191,11 @@ import Switch from '../switch/index.vue';
 import Child from './child.vue';
 import Obsec from '../features/index.vue';
 
+import { debounce } from 'lodash-es';
+
 // 复用获取鼠标位置
 const { x, y } = useMousePositon();
- 
+
 // 复用加载动画
 const { loading, showLoading, hideLoading } = useLoading();
 
@@ -256,45 +263,45 @@ const userExcelHeader = [
   {
     title: '用户序号',
     key: 'user_id',
-    width: 80
+    width: 80,
   },
   {
     title: '登录名称',
-    key: 'user_name'
+    key: 'user_name',
   },
   {
     title: '用户邮箱',
     key: 'email',
-    width: 240
+    width: 240,
   },
   {
     title: '手机号码',
-    key: 'phonenumber'
+    key: 'phonenumber',
   },
   {
     title: '用户性别',
-    key: 'sex'
+    key: 'sex',
   },
   {
     title: '帐号状态',
-    key: 'status'
+    key: 'status',
   },
   {
     title: '最后登录IP',
-    key: 'login_ip'
+    key: 'login_ip',
   },
   {
     title: '最后登录时间',
-    key: 'login_date'
+    key: 'login_date',
   },
   {
     title: '部门名称',
-    key: 'dept.dept_name'
+    key: 'dept.dept_name',
   },
   {
     title: '部门负责人',
-    key: 'dept.leader'
-  }
+    key: 'dept.leader',
+  },
 ];
 
 const content = [
@@ -308,7 +315,7 @@ const content = [
     login_ip: '',
     login_date: '00:00:00',
     'dept.dept_name': '深圳总公司',
-    'dept.leader': 'wen'
+    'dept.leader': 'wen',
   },
   {
     user_id: 2,
@@ -320,7 +327,7 @@ const content = [
     login_ip: null,
     login_date: null,
     'dept.dept_name': '研发部门',
-    'dept.leader': 'wen'
+    'dept.leader': 'wen',
   },
 
   {
@@ -333,7 +340,7 @@ const content = [
     login_ip: null,
     login_date: null,
     'dept.dept_name': '研发部门',
-    'dept.leader': 'wen'
+    'dept.leader': 'wen',
   },
   {
     user_id: 3,
@@ -345,20 +352,20 @@ const content = [
     login_ip: null,
     login_date: null,
     'dept.dept_name': '研发部门',
-    'dept.leader': 'wen'
-  }
+    'dept.leader': 'wen',
+  },
 ];
 
 const excleOption = {
   tableName: '',
   headerColumns: userExcelHeader,
-  tableData: content
+  tableData: content,
 };
 
 // 导出
-const exportExcel = () => {
+const exportExcel = debounce(() => {
   exportExcle(excleOption);
-};
+});
 
 const onClickOutside = () => {
   flag.value = false;
@@ -379,7 +386,6 @@ onMounted(() => {
   }
   scrollInit();
 });
-
 </script>
 
 <style lang="scss">
@@ -415,7 +421,6 @@ onMounted(() => {
   height: 600px;
 
   embed {
-
     width: 100%;
     height: 100%;
   }
@@ -426,7 +431,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   overflow-x: auto;
-  transition: all .36s ease; // 滑动动画
+  transition: all 0.36s ease; // 滑动动画
 }
 
 .tab-list::-webkit-scrollbar {

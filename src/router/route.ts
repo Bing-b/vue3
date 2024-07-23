@@ -1,14 +1,14 @@
-import { RouteRecordRaw } from "vue-router";
+import { RouteRecordRaw } from 'vue-router';
 
 /**
  * 功能页面路由
  */
 export const mainRoutes: Array<RouteRecordRaw> = [
-  { path: "/", redirect: "/home" },
+  { path: '/', redirect: '/home' },
   {
-    path: "/home",
-    name: "home",
-    component: () => import("@/layout/index.vue"),
+    path: '/home',
+    name: 'home',
+    component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/home',
@@ -17,17 +17,17 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         meta: {
           title: '首页',
           icon: 'menu-menu_home',
-        }
+        },
       },
       {
         path: '/components',
         name: 'components',
-        redirect:'/tree',
+        redirect: '/tree',
         meta: {
           title: '组件',
           icon: 'menu-menu_style',
         },
-        children:[
+        children: [
           {
             path: '/tree',
             name: 'tree',
@@ -79,13 +79,21 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '代码编辑器',
             },
           },
-        ]
+          {
+            path: '/pdfview',
+            name: 'PDF预览',
+            component: () => import('@/views/pdf-view/index.vue'),
+            meta: {
+              title: 'PDF预览',
+            },
+          },
+        ],
       },
 
       {
         path: '/garph',
         name: 'garph',
-        redirect:'/G6',
+        redirect: '/G6',
         meta: {
           title: '可视化',
           icon: 'menu-menu_graph',
@@ -94,10 +102,10 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           {
             path: '/vueFlow',
             name: 'vueFlow',
-            component:() => import('@/views/vue-flow/index.vue'),
+            component: () => import('@/views/vue-flow/index.vue'),
             meta: {
-              title: 'vue-flow'
-            }
+              title: 'vue-flow',
+            },
           },
           {
             path: '/G6',
@@ -108,7 +116,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'other',
             },
           },
-            {
+          {
             path: '/echarts',
             name: 'echarts',
             component: () => import('@/views/echart/index.vue'),
@@ -143,14 +151,13 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '地图',
               icon: 'other',
             },
-
           },
-        ]
+        ],
       },
       {
         path: '/animation',
         name: 'animation',
-        redirect:'/btn',
+        redirect: '/btn',
         meta: {
           title: '交互',
           icon: 'menu-menu_animation',
@@ -163,7 +170,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             meta: {
               title: '按钮组件',
             },
-          },  
+          },
           {
             path: '/progress',
             name: 'progress',
@@ -172,17 +179,17 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '模拟进度',
             },
           },
-        ]
+        ],
       },
       {
         path: '/other',
         name: 'other',
-        redirect:'/ot',
+        redirect: '/ot',
         meta: {
           title: '其他',
           icon: 'menu-menu_other',
         },
-        children:[
+        children: [
           {
             path: '/ot',
             name: 'ot',
@@ -218,19 +225,18 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'inside',
             },
           },
-          
-        ]
+        ],
       },
       {
         path: '/test',
-        name: 'test', 
+        name: 'test',
         component: () => import('@/views/testApi/index.vue'),
         meta: {
           title: '测试',
           icon: 'menu-menu_animation',
         },
-      }
-    ]
+      },
+    ],
   },
 ];
 
@@ -239,7 +245,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
  * @description 用于固定的静态页面
  * @returns 返回路由菜单数据
  */
-export const staticRoutes:Array<RouteRecordRaw> = [
+export const staticRoutes: Array<RouteRecordRaw> = [
   // {
   //   path: '/login',
   //   name: 'login',
@@ -253,8 +259,8 @@ export const staticRoutes:Array<RouteRecordRaw> = [
     name: 'notFound',
     component: () => import('@/views/error/404.vue'),
     meta: {
-      title: 'message.staticRoutes.notFound'
-    }
+      title: 'message.staticRoutes.notFound',
+    },
   },
   /**
    * 定义404界面
@@ -263,5 +269,5 @@ export const staticRoutes:Array<RouteRecordRaw> = [
   {
     path: '/:pathMatch(.*)',
     redirect: '/404',
-  }
-]
+  },
+];

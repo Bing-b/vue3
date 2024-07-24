@@ -191,8 +191,6 @@ import Switch from '../switch/index.vue';
 import Child from './child.vue';
 import Obsec from '../features/index.vue';
 
-import { debounce } from 'lodash-es';
-
 // 复用获取鼠标位置
 const { x, y } = useMousePositon();
 
@@ -363,9 +361,9 @@ const excleOption = {
 };
 
 // 导出
-const exportExcel = debounce(() => {
+const exportExcel = () => {
   exportExcle(excleOption);
-});
+};
 
 const onClickOutside = () => {
   flag.value = false;

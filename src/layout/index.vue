@@ -15,7 +15,7 @@ import { mainRoutes } from '@/router/route';
 import { onMounted, reactive } from 'vue';
 
 const state = reactive({
-  menuList: []
+  menuList: [],
 });
 
 // 过滤模板路由
@@ -28,7 +28,6 @@ const filterRoutes = () => {
 onMounted(() => {
   filterRoutes();
 });
-
 </script>
 <style lang="scss" scoped>
 .layout-content {
@@ -37,7 +36,7 @@ onMounted(() => {
 
   .layout-main {
     display: flex;
-    height: calc(100% - 40px);
+    height: calc(100% - 50px);
 
     main {
       flex: 1;

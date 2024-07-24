@@ -1,5 +1,7 @@
 <template>
-  <div class="h-full dark:text-white overflow-auto">
+  <div class="h-full dark:text-white bg-[#f0f2f5] overflow-auto">
+    <!-- 统计模块 -->
+    <h2 class="title">概览</h2>
     <div class="flex gap-8 h-[430px] p-5 bg-white rounded">
       <div
         class="sec1"
@@ -18,10 +20,12 @@
         <h2>访问总量</h2>
         <img src="@/assets/icons/calendar.svg" alt="" />
 
-        <h3>888.88w</h3>
+        <h3><CountTo :startVal="1" :endVal="888" />w</h3>
       </div>
       <div class="sec2">
         <div
+          v-for="(item, index) in GrowCardList"
+          :key="item.label"
           v-motion
           :initial="{
             opacity: 0,
@@ -31,63 +35,12 @@
             opacity: 1,
             y: 0,
             transition: {
-              delay: 180,
+              delay: 80 * (index + 1),
             },
           }">
-          <div><SvgIcon name="gitlab" size="24" /></div>
-          <p>1234</p>
-          <span>gitLab 访问</span>
-        </div>
-        <div
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100,
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 200,
-            },
-          }">
-          <div><SvgIcon name="github" size="24" /></div>
-          <p>6666</p>
-          <span>gitHub 访问</span>
-        </div>
-        <div
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100,
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 220,
-            },
-          }">
-          <div><SvgIcon name="now" size="24" /></div>
-          <p>1111</p>
-          <span>今日访问</span>
-        </div>
-        <div
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100,
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 240,
-            },
-          }">
-          <div><SvgIcon name="yesterday" size="24" /></div>
-          <p>7896</p>
-          <span>昨日访问</span>
+          <div><SvgIcon :name="item.icon" size="24" /></div>
+          <p class="my-2"><CountTo :startVal="1" :endVal="item.num" /></p>
+          <span>{{ item.label }}</span>
         </div>
       </div>
       <div
@@ -123,7 +76,7 @@
             delay: 160,
           },
         }">
-        <h2 class="px-4 py-2 border-b dark:border-[#414243]">项目技术</h2>
+        <h2 class="title">项目技术</h2>
         <div class="flex flex-wrap tec" data-intro="这是第三步" data-step="3">
           <div>
             <svgIcon name="Vue" size="40"></svgIcon>
@@ -193,6 +146,8 @@ import { getWeather } from '@/api/common';
 import LottieWeb from '../lottieWeb/index.vue';
 import Echart from './homeCharts.vue';
 import Motion from '@/utils/motion';
+import { GrowCardList } from './index';
+
 // 定时器
 let timer: any = null;
 
@@ -338,6 +293,7 @@ onUnmounted(() => {
   h2 {
     font-size: 18px;
     color: #333;
+    font-weight: bold;
   }
   img {
     margin: 30px 0 40px;
@@ -365,7 +321,7 @@ onUnmounted(() => {
     padding: 25px;
     border-radius: 30px;
     &:first-child {
-      background: url(/assets/png/1-bg-CzLsO-qF.png);
+      background: url(../../assets/images/1-bg-CzLsO-qF.png);
       background-color: #e8faea;
       background-size: 100% 100%;
       svg {
@@ -373,7 +329,7 @@ onUnmounted(() => {
       }
     }
     &:nth-child(2) {
-      background: url(/assets/png/2-bg-nT9fBbQS.png);
+      background: url(../../assets/images/2-bg-nT9fBbQS.png);
       background-color: #e7e1fb;
       background-size: 100% 100%;
       svg {
@@ -381,7 +337,7 @@ onUnmounted(() => {
       }
     }
     &:nth-child(3) {
-      background: url(/assets/png/3-bg-CCqvwnXm.png);
+      background: url(../../assets/images/3-bg-CCqvwnXm.png);
       background-color: #fdf3e9;
       background-size: 100% 100%;
       svg {
@@ -389,7 +345,7 @@ onUnmounted(() => {
       }
     }
     &:last-child {
-      background: url(/assets/png/4-bg-CVnN36ZN.png);
+      background: url(../../assets/images/4-bg-CVnN36ZN.png);
       background-color: #f0f5fb;
       background-size: 100% 100%;
       svg {
@@ -408,10 +364,12 @@ onUnmounted(() => {
 
     p {
       margin-bottom: 4px;
-      font-family: DIN;
-      font-size: 28px;
+      font-size: 18px;
       font-weight: 700;
       color: #1a1a37;
+      span {
+        font: inherit;
+      }
     }
     span {
       overflow: hidden;

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <client-only>
-      <v-chart class="chart" :option="option" />
-    </client-only>
+    <v-chart class="chart" :option="option" />
   </div>
 </template>
 
@@ -12,8 +10,8 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { LabelLayout } from 'echarts/features';
 import { PieChart } from 'echarts/charts';
 import { TitleComponent, TooltipComponent, LegendComponent } from 'echarts/components';
-import VChart, { THEME_KEY } from 'vue-echarts';
-import { ref, defineComponent } from 'vue';
+import VChart from 'vue-echarts';
+import { ref } from 'vue';
 
 use([CanvasRenderer, PieChart, TitleComponent, TooltipComponent, LegendComponent, LabelLayout]);
 
@@ -30,32 +28,31 @@ const option = ref({
     {
       name: 'Access From',
       type: 'pie',
-      radius: ['40%','70%'],
-      // avoidLabelOverlap: false,
+      radius: ['40%', '70%'],
       label: {
         normal: {
           show: true,
-        formatter: "{c}%",
-        textStyle: {
+          formatter: '{c}%',
+          textStyle: {
             fontSize: 13,
-        },
-        position: 'outside'
+          },
+          position: 'outside',
         },
         emphasis: {
-            show: true
-        }
+          show: true,
+        },
       },
-      
+
       labelLine: {
         normal: {
-            show: true,
-            length: 20,
-            length2: 35
+          show: true,
+          length: 20,
+          length2: 35,
         },
         emphasis: {
-            show: true
-        }
-    },
+          show: true,
+        },
+      },
       emphasis: {
         label: {
           show: true,
@@ -65,10 +62,10 @@ const option = ref({
         itemStyle: {
           shadowBlur: 10,
           shadowOffsetX: 0,
-          shadowColor: 'rgba(0, 0, 0, 0.5)'
-        }
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
+        },
       },
-     
+
       data: [
         { value: 60, name: 'GitHub' },
         { value: 40, name: 'GitLab' },

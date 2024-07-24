@@ -1,9 +1,14 @@
 <template>
-  <div class="w-[200px]">
+  <div class="w-[260px] bg-white dark:bg-bg_color h-full p-2">
     <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
       <p class="text-white">懒文件目录</p>
     </div>
-    <el-tree :load="loadNode" lazy :props="defaultProps" :expand-on-click-node="false" node-key="id"
+    <el-tree
+      :load="loadNode"
+      lazy
+      :props="defaultProps"
+      :expand-on-click-node="false"
+      node-key="id"
       @node-click="handleNodeClick">
       <template #default="{ node, data }">
         <span class="mr-1">
@@ -14,11 +19,24 @@
         <span class="custom-tree-node w-full items-center flex justify-between">
           <!-- label 文本与输入框动态切换 -->
           <span v-if="!data.showInput">{{ node.label }}</span>
-          <el-popover trigger="focus" v-else :visible="showPopover" placement="bottom" title="提示" :width="180"
+          <el-popover
+            trigger="focus"
+            v-else
+            :visible="showPopover"
+            placement="bottom"
+            title="提示"
+            :width="180"
             content="必须提供文件或文件名。">
             <template #reference>
-              <el-input size="small" v-model="data.label" @focus="focus(data, $event)" @input="val => input(val)"
-                @change="handleChange(node, data)" @blur="blur(node, data)" @keydown.enter="blur(node, data)" v-focus>
+              <el-input
+                size="small"
+                v-model="data.label"
+                @focus="focus(data, $event)"
+                @input="(val) => input(val)"
+                @change="handleChange(node, data)"
+                @blur="blur(node, data)"
+                @keydown.enter="blur(node, data)"
+                v-focus>
               </el-input>
             </template>
           </el-popover>
@@ -32,10 +50,14 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-if="data.children" @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
+                <el-dropdown-item
+                  v-if="data.children"
+                  @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
                   新增文件夹
                 </el-dropdown-item>
-                <el-dropdown-item v-if="data.children" @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
+                <el-dropdown-item
+                  v-if="data.children"
+                  @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
                   新增文件
                 </el-dropdown-item>
                 <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
@@ -57,8 +79,8 @@
 import { nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
-import { Tree } from './interface/index';
-import { OPERATION } from './enum';
+import { Tree } from '../interface/index';
+import { OPERATION } from '../enum';
 
 // 新增节点初始id
 let id = 5;
@@ -81,13 +103,13 @@ const vFocus = {
         clearTimeout(timer);
       });
     }, 500);
-  }
+  },
 };
 
 const defaultProps = {
   children: 'children',
   label: 'label',
-  isLeaf: 'leaf'
+  isLeaf: 'leaf',
 };
 
 const handleNodeClick = (data: Tree, node) => {
@@ -103,9 +125,9 @@ const treeData = ref<Tree[]>([
       {
         id: 1,
         label: '栏目1-1',
-        showInput: false
-      }
-    ]
+        showInput: false,
+      },
+    ],
   },
   {
     id: 2,
@@ -115,15 +137,15 @@ const treeData = ref<Tree[]>([
       {
         id: 3,
         label: '栏目2-1',
-        showInput: false
+        showInput: false,
       },
       {
         id: 4,
         label: '栏目2-2',
-        showInput: false
-      }
-    ]
-  }
+        showInput: false,
+      },
+    ],
+  },
 ]);
 
 // 节点输入框获取到焦点
@@ -136,7 +158,11 @@ const focus = (data: Tree, $event: FocusEvent) => {
 const blur = (node: Node, data: Tree) => {
   console.log('失去焦点');
   data.showInput = false;
-  if ((operationType.value === OPERATION.CREATE_FILE || operationType.value === OPERATION.CREATE_FOLDER) && !data.label) {
+  if (
+    (operationType.value === OPERATION.CREATE_FILE ||
+      operationType.value === OPERATION.CREATE_FOLDER) &&
+    !data.label
+  ) {
     const parent = node.parent;
     const children: Tree[] = parent.data.children || parent.data;
     const index = children.findIndex((d) => d.id === data.id);
@@ -195,9 +221,11 @@ const addTreeNode = (type: OPERATION, node: Node, data: Tree) => {
   const newNode: Tree = {
     id: id++,
     label: '',
-    showInput: true
+    showInput: true,
   };
-  if (type === OPERATION.CREATE_FOLDER) { newNode.children = []; }
+  if (type === OPERATION.CREATE_FOLDER) {
+    newNode.children = [];
+  }
   if (!data.children) {
     data.children = [];
   }
@@ -207,19 +235,15 @@ const addTreeNode = (type: OPERATION, node: Node, data: Tree) => {
 
 // 目录删除文件夹/文件
 const deleteTreeNode = (node: Node, data: Tree) => {
-  ElMessageBox.confirm(
-    '确定要删除该文件夹/文件?',
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning'
-    }
-  )
+  ElMessageBox.confirm('确定要删除该文件夹/文件?', '警告', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
     .then(() => {
       ElMessage({
         type: 'success',
-        message: '删除成功'
+        message: '删除成功',
       });
       console.log(node);
       const parent = node.parent;
@@ -230,7 +254,7 @@ const deleteTreeNode = (node: Node, data: Tree) => {
     .catch(() => {
       ElMessage({
         type: 'info',
-        message: '已取消'
+        message: '已取消',
       });
     });
 };
@@ -249,7 +273,7 @@ const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
         children.push({
           id: node.id * 100 + i,
           label: `子节点 ${i + 1}`,
-          leaf: node.level === 2
+          leaf: node.level === 2,
         });
       }
       resolve(children);
@@ -261,7 +285,6 @@ const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
     }, 500);
   }
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -298,13 +321,13 @@ const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
 
 :deep(.el-tree .el-tree-node__expand-icon:before) {
   // 未展开的节点
-  background: url("@/assets/icons/right_arrow.svg");
+  background: url('@/assets/icons/right_arrow.svg');
   content: '';
   display: block;
   width: 16px;
   height: 16px;
   background-size: contain;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 // :deep .el-tree .el-tree-node__expand-icon.expanded:before {

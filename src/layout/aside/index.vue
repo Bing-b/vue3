@@ -1,10 +1,18 @@
 <template>
   <div class="menu-box shadow-md">
-    <el-menu router :default-active="defaultActive" class="el-menu-vertical-demo" :collapse="isCollapse"
+    <el-menu
+      router
+      :default-active="defaultActive"
+      class="el-menu-vertical-demo"
+      :collapse="isCollapse"
       :unique-opened="true">
       <template v-for="menu in menuLists" :key="menu.path">
-        <el-sub-menu :index="menu.path" :key="menu.path" v-if="menu.children && menu.children.length > 0"
-          :class="{ 'choseMenu': menu.choose }" @click="openFirst(menu)">
+        <el-sub-menu
+          :index="menu.path"
+          :key="menu.path"
+          v-if="menu.children && menu.children.length > 0"
+          :class="{ choseMenu: menu.choose }"
+          @click="openFirst(menu)">
           <template #title>
             <svgIcon :name="menu.meta.icon" size="20" />
             <span class="ml-1">{{ menu.meta.title }}</span>
@@ -12,7 +20,10 @@
 
           <!-- 子菜单 -->
           <template v-for="val in menu.children">
-            <el-sub-menu :index="val.path" :key="val.path" v-if="val.children && val.children.length > 0">
+            <el-sub-menu
+              :index="val.path"
+              :key="val.path"
+              v-if="val.children && val.children.length > 0">
               <template #title>
                 <span>{{ val.meta.title }}</span>
               </template>
@@ -24,7 +35,11 @@
             </el-menu-item>
           </template>
         </el-sub-menu>
-        <el-menu-item :index="menu.path" :key="menu.name" :class="{ 'choseMenu': menu.choose }" v-else
+        <el-menu-item
+          :index="menu.path"
+          :key="menu.name"
+          :class="{ choseMenu: menu.choose }"
+          v-else
           @click="clickSingle">
           <svgIcon :name="menu.meta.icon" size="20" />
           <template #title>
@@ -39,11 +54,14 @@
 import { computed, getCurrentInstance, nextTick, onBeforeMount, onUnmounted, ref } from 'vue';
 import { onBeforeRouteUpdate, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 
-const props = withDefaults(defineProps<{
-  menuList: any[],
-}>(), {
-  menuList: () => []
-});
+const props = withDefaults(
+  defineProps<{
+    menuList: any[];
+  }>(),
+  {
+    menuList: () => [],
+  }
+);
 
 // 菜单默认展开
 const isCollapse = ref(false);
@@ -98,7 +116,9 @@ const openFirst = (menu) => {
   // 控制样式
   menu.choose = true;
   // 判断当前高亮路径是否是当前点击的菜单中，不在此菜单中时打开自菜单中第一个菜单
-  const hasCurrentMenuArr: string[] = menu.children.filter((child) => child.path === defaultActive.value);
+  const hasCurrentMenuArr: string[] = menu.children.filter(
+    (child) => child.path === defaultActive.value
+  );
   if (hasCurrentMenuArr.length === 0) {
     defaultActive.value = menu.children[0].path;
     router.push(defaultActive.value);
@@ -134,7 +154,6 @@ onBeforeRouteUpdate((to) => {
 onUnmounted(() => {
   proxy.mittBus.off('onChangeAsideBar');
 });
-
 </script>
 <style lang="scss" scoped>
 .menu-box {
@@ -150,17 +169,14 @@ onUnmounted(() => {
     border-right: 0;
 
     .choseMenu {
-
       .el-sub-menu__title {
         color: #5f85e4 !important;
         //border-left: 4px solid #1c53d9 !important;
         background-color: #edf1fc;
       }
-
     }
 
     .el-menu-item.is-active.choseMenu {
-
       color: #5f85e4 !important;
       //  border-left: 4px solid #1c53d9 !important;
       background-color: #edf1fc;
@@ -171,7 +187,6 @@ onUnmounted(() => {
     }
 
     .el-menu-item {
-
       height: 50px;
       line-height: 50px;
     }

@@ -66,6 +66,8 @@ import * as cnGeoJson from './js/china.json';
 import * as siChuanJson from './js/sichuan.json';
 import * as chinaLine from './js/chinaLine.json';
 import { setIcon } from './ts/utils';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-draw/dist/leaflet.draw.css';
 
 // 小汽车图标
 const iconCar = setIcon('../../../assets/icons/mycar.svg');

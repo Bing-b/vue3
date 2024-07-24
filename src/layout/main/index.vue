@@ -1,10 +1,12 @@
 <template>
-  <el-main class="!overflow-hidden h-full bg-[#f0f2f5]  !px-2 !py-2">
-    <router-view #default="{ Component }">
-      <transition name="slide" mode="out-in">
-        <component :is="Component" :key="route.path" />
-      </transition>
-    </router-view>
+  <el-main class="h-full bg-[#f0f2f5] !px-3 !py-3">
+    <div class="bg-white dark:bg-bg_color h-full">
+      <router-view #default="{ Component }">
+        <transition name="slide" mode="out-in">
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
+    </div>
   </el-main>
 </template>
 <script lang="ts" setup>
@@ -13,7 +15,7 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const state = reactive({
-  currentRouteMeta: {}
+  currentRouteMeta: {},
 });
 
 watch(
@@ -22,12 +24,11 @@ watch(
     state.currentRouteMeta = route.meta;
   }
 );
-
 </script>
 <style>
 .slide-enter-active,
 .slide-leave-active {
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 /* .slide-enter-from,

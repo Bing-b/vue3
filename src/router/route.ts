@@ -13,7 +13,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/home',
         name: 'home',
-        component: () => import('@/views/home/index.vue'),
+        component: () => import('@/views/dashboard/index.vue'),
         meta: {
           title: '首页',
           icon: 'menu-menu_home',
@@ -24,7 +24,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         name: 'components',
         redirect: '/tree',
         meta: {
-          title: '组件',
+          title: '功能组件',
           icon: 'menu-menu_style',
         },
         children: [
@@ -33,15 +33,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'tree',
             component: () => import('@/views/tree/index.vue'),
             meta: {
-              title: '植树',
-            },
-          },
-          {
-            path: '/lazyTree',
-            name: 'lazyTree',
-            component: () => import('@/views/lazyTree/index.vue'),
-            meta: {
-              title: '懒树',
+              title: '仿vscode目录',
             },
           },
           {
@@ -49,16 +41,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'upload',
             component: () => import('@/views/upload/index.vue'),
             meta: {
-              title: 'upload',
-              icon: 'other',
-            },
-          },
-          {
-            path: '/el-upload',
-            name: 'el-upload',
-            component: () => import('@/views/el-upload/index.vue'),
-            meta: {
-              title: 'el-upload',
+              title: '文件上传',
               icon: 'other',
             },
           },

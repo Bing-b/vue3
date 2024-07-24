@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    CountTo: typeof import('./src/components/CountTo/index.vue')['default']
     DragBox: typeof import('./src/components/dragBox/index.vue')['default']
     DragItem: typeof import('./src/components/dragItem/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -24,6 +25,7 @@ declare module '@vue/runtime-core' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImageViewer: typeof import('element-plus/es')['ElImageViewer']
     ElInput: typeof import('element-plus/es')['ElInput']
+    ElLink: typeof import('element-plus/es')['ElLink']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']

@@ -7,24 +7,25 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
-import { svgSpritemap } from 'vite-plugin-svg-spritemap';
 
 /** 获取插件列表 */
 export const getPluginsList = (): Array<PluginOption> => {
   return [
     vue(),
-    // svg注册
+    // svg 配置，用于全局使用svg 组件
     createSvgIconsPlugin({
       iconDirs: [resolve(__dirname, '../src/assets/icons')],
       symbolId: 'icon-[dir]-[name]',
     }),
-    // el-plus 按需导入
+    // 自动导入el-plus api
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
+    // 组件按需导入，elp-plus 及 src/components/*.vue
     Components({
       resolvers: [ElementPlusResolver()],
     }),
+    // 打包分析
     visualizer({
       open: true,
       filename: 'visualizer.html',
@@ -35,10 +36,7 @@ export const getPluginsList = (): Array<PluginOption> => {
       deleteOriginFile: false, // 删除源文件
       threshold: 5120, // 压缩前最小文件大小
       algorithm: 'brotliCompress', // 压缩算法
-      //ext: '.gz', // 文件类型
-    }),
-    svgSpritemap({
-      pattern: 'src/assets/icons/**/*.svg', // 输入的 SVG 图标路径
+      ext: '.br', // 文件类型
     }),
   ];
 };

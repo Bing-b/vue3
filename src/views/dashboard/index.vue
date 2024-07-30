@@ -79,29 +79,7 @@
         <h2 class="title">项目技术</h2>
         <div class="flex flex-wrap tec" data-intro="这是第三步" data-step="3">
           <div>
-            <svgIcon name="Vue" size="40"></svgIcon>
-            <p>Vue<span>这是一个很牛的技术</span></p>
-          </div>
-
-          <div>
-            <svgIcon name="element-plus" size="40" />
-            <p>Element-plus<span>这是一个很牛的技术</span></p>
-          </div>
-          <div>
-            <svgIcon name="vitejs" size="40"></svgIcon>
-            <p>Vite<span>这是一个很牛的技术</span></p>
-          </div>
-          <div>
-            <svgIcon name="typescript" size="40"></svgIcon>
-            <p>TS<span>这是一个很牛的技术</span></p>
-          </div>
-          <div>
-            <svgIcon name="html" size="40"></svgIcon>
-            <p>HTML<span>这是一个很牛的技术</span></p>
-          </div>
-          <div>
-            <svgIcon name="css" size="40"></svgIcon>
-            <p>CSS<span>这是一个很牛的技术</span></p>
+            <LottieWeb />
           </div>
         </div>
       </div>
@@ -137,12 +115,10 @@
     <!-- <div class="mt-2 w-[500px] h-[300px]">
       <Echarts3D />
     </div> -->
-    <LottieWeb />
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
-import { getWeather } from '@/api/common';
 import LottieWeb from '../lottieWeb/index.vue';
 import Echart from './homeCharts.vue';
 import Motion from '@/utils/motion';
@@ -161,13 +137,6 @@ const date = reactive<{ [key: string]: number }>({
   second: 0,
   process: 0,
 });
-
-// 获取城市天气
-const getCityWeather = () => {
-  getWeather({ city: '成都' }).then((data) => {
-    console.log(data);
-  });
-};
 
 // 刷新时间
 const updateDate = () => {
@@ -190,14 +159,14 @@ const updateDate = () => {
 onMounted(() => {
   timer = setInterval(() => updateDate(), 1000);
 
-  // getCityWeather();
-  // setTimeout(() => {
-  //   proxy!.$intro()
-  //     .setOption('nextLabel', ' 下一步 ')
-  //     .setOption('prevLabel', ' 上一步 ')
-  //     .setOption('doneLabel', ' 完成 ')
-  //     .start();
-  // }, 500);
+  setTimeout(() => {
+    proxy!
+      .$intro()
+      .setOption('nextLabel', ' 下一步 ')
+      .setOption('prevLabel', ' 上一步 ')
+      .setOption('doneLabel', ' 完成 ')
+      .start();
+  }, 500);
 });
 
 onUnmounted(() => {

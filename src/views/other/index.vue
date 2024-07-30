@@ -388,8 +388,9 @@ onMounted(() => {
 
 <style lang="scss">
 .container {
+  padding: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(720px, 1fr));
   align-content: start;
   gap: 20px;
   flex-wrap: wrap;

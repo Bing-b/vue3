@@ -46,15 +46,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             },
           },
           {
-            path: '/div',
-            name: '拖拽div',
-            component: () => import('@/views/dragDiv/index.vue'),
-            meta: {
-              title: '拖拽div',
-              icon: 'other',
-            },
-          },
-          {
             path: '/ace',
             name: '代码编辑器',
             component: () => import('@/views/AceEditor/index.vue'),
@@ -68,6 +59,22 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/pdf-view/index.vue'),
             meta: {
               title: 'PDF预览',
+            },
+          },
+          {
+            path: '/annotation',
+            name: '标注',
+            component: () => import('@/views/TextAnnotation/index.vue'),
+            meta: {
+              title: '标注',
+            },
+          },
+          {
+            path: '/progress',
+            name: 'progress',
+            component: () => import('@/views/progress/index.vue'),
+            meta: {
+              title: '模拟进度',
             },
           },
         ],
@@ -109,24 +116,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             },
           },
           {
-            path: '/echartGraph',
-            name: 'echartGraph',
-            component: () => import('@/views/echartGraph/index.vue'),
-            meta: {
-              title: 'echartGraph',
-              icon: 'other',
-            },
-          },
-          {
-            path: '/weather',
-            name: 'weather',
-            component: () => import('@/views/weather/index.vue'),
-            meta: {
-              title: '天气',
-              icon: 'other',
-            },
-          },
-          {
             path: '/gis',
             name: 'gis',
             component: () => import('@/views/gis/index.vue'),
@@ -145,24 +134,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           title: '交互',
           icon: 'menu-menu_animation',
         },
-        children: [
-          {
-            path: '/btn',
-            name: 'btn',
-            component: () => import('@/views/wComponents/index.vue'),
-            meta: {
-              title: '按钮组件',
-            },
-          },
-          {
-            path: '/progress',
-            name: 'progress',
-            component: () => import('@/views/progress/index.vue'),
-            meta: {
-              title: '模拟进度',
-            },
-          },
-        ],
+        children: [],
       },
       {
         path: '/other',

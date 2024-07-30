@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'jy', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color: #242424;
@@ -25,7 +25,6 @@
   --settingColor: #000;
 }
 
-
 body {
   margin: 0;
   min-width: 320px;
@@ -37,7 +36,6 @@ body,
 html {
   overflow: hidden;
 }
-
 
 /*全局滚动条样式*/
 ::-webkit-scrollbar {
@@ -54,4 +52,26 @@ html {
   max-width: 100vw;
   margin: 0 auto;
   height: 100vh;
+}
+
+@font-face {
+  font-family: 'SmileySans';
+  src: url('../assets/font/SmileySans-Oblique.otf');
+}
+
+@font-face {
+  font-family: 'jy';
+  src: url('../assets/font/江城圆体\ 400W.ttf');
+}
+
+@font-face {
+  font-family: 'jy';
+  src: url('../assets/font/江城圆体\ 600W.ttf');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'xht';
+  src: url('../assets/font/字制区喜脉喜欢体.ttf');
 }

@@ -1,16 +1,19 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss';
 
 export default {
-  darkMode: "selector",
-  
+  darkMode: 'selector',
+
   content: ['./src/**/*.{vue,html}'],
   theme: {
+    fontFamily: {
+      xht: ['xht'],
+    },
     extend: {
       colors: {
-        bg_color: "var(--el-bg-color)",
-        primary: "var(--el-color-primary)",
-        text_color_primary: "var(--el-text-color-primary)",
-        text_color_regular: "var(--el-text-color-regular)"
+        bg_color: 'var(--el-bg-color)',
+        primary: 'var(--el-color-primary)',
+        text_color_primary: 'var(--el-text-color-primary)',
+        text_color_regular: 'var(--el-text-color-regular)',
       },
       fontSize: {
         sm: '.75rem',
@@ -18,6 +21,6 @@ export default {
         base: '1rem',
         lg: '1.125rem',
       },
-    }
-  }
+    },
+  },
 } satisfies Config;

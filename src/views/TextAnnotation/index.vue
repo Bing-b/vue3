@@ -1,36 +1,45 @@
 <template>
-  <div class="flex overflow-hidden h-full p-5">
-    <!-- 抽取文本输入框 -->
-    <div class="editor w-1/2">
-      <h4 class="my-1">文本输入</h4>
-      <el-input
-        v-model="textContent"
-        type="textarea"
-        resize="none"
-        :rows="10"
-        placeholder=""></el-input>
-      <el-button class="mt-[10px]" type="primary" @click="extraction">抽取</el-button>
+  <div class="h-full">
+    <h2 class="title w-full">文本标注</h2>
+    <div class="p-5">
+      <el-link href="https://github.com/synyi/poplar/blob/master/doc/zh.md" target="_blank"
+        >Poplar-annotator</el-link
+      >
+      <div class="flex">
+        <!-- 抽取文本输入框 -->
+        <div class="editor w-1/2">
+          <h4 class="my-1">文本输入</h4>
+          <el-input
+            v-model="textContent"
+            type="textarea"
+            resize="none"
+            :rows="10"
+            placeholder=""></el-input>
+          <el-button class="mt-[10px]" type="primary" @click="extraction">抽取</el-button>
+        </div>
+
+        <!-- 文本标注容器 -->
+        <div class="w-1/2 ml-5">
+          <h4 class="my-1">文本标注</h4>
+          <div class="mb-3 px-2 py-3 border border-[#dedede] rounded">
+            <el-badge
+              v-for="item in labelStore"
+              :key="item.id"
+              :value="item.num"
+              class="item mr-4"
+              type="warning">
+              <el-tag :hit="true" :color="item.color">{{ item.text }}</el-tag>
+            </el-badge>
+          </div>
+          <div id="example" class="border border-[#dedede] rounded h-[300px] overflow-hidden"></div>
+          <div class="flex items-center mt-4">
+            <el-button v-show="annotator" type="primary" @click="exprotJson">导出JSON</el-button>
+            <el-button v-show="annotator" type="primary" @click="exportSVG">导出SVG</el-button></div
+          >
+        </div>
+      </div>
     </div>
 
-    <!-- 文本标注容器 -->
-    <div class="w-1/2 ml-5">
-      <h4 class="my-1">文本标注</h4>
-      <div class="mb-3 px-2 py-3 border border-[#dedede] rounded">
-        <el-badge
-          v-for="item in labelStore"
-          :key="item.id"
-          :value="item.num"
-          class="item mr-4"
-          type="warning">
-          <el-tag :hit="true" :color="item.color">{{ item.text }}</el-tag>
-        </el-badge>
-      </div>
-      <div id="example" class="border border-[#dedede] rounded h-[300px] overflow-hidden"></div>
-      <div class="flex items-center mt-4">
-        <el-button v-show="annotator" type="primary" @click="exprotJson">导出JSON</el-button>
-        <el-button v-show="annotator" type="primary" @click="exportSVG">导出SVG</el-button></div
-      >
-    </div>
     <!-- label分类选择弹窗 -->
     <label-category-dialog
       v-model:visible="showLabelCategoriesDialog"

@@ -1,7 +1,9 @@
 <template>
   <div class="h-full dark:text-white bg-[#f0f2f5] overflow-auto">
     <!-- 统计模块 -->
-    <h2 class="title">概览</h2>
+    <h2 class="title flex justify-between items-center" data-intro="这是第一步😃" data-step="1"
+      >概览 <el-button @click="initIntor">引导</el-button></h2
+    >
     <div class="flex gap-8 h-[430px] p-5 bg-white rounded">
       <div
         class="sec1"
@@ -57,13 +59,13 @@
             delay: 260,
           },
         }">
-        <Echart />
+        <Echart data-intro="这是第二步🤣" data-step="2" />
       </div>
     </div>
 
-    <div class="flex mt-2">
+    <div class="flex mt-2 h-[300px]">
       <div
-        class="w-3/4 bg-white dark:bg-bg_color dark:border dark:border-[#414243] rounded"
+        class="w-[70%] bg-white dark:bg-bg_color dark:border dark:border-[#414243] rounded"
         v-motion
         :initial="{
           opacity: 0,
@@ -77,15 +79,18 @@
           },
         }">
         <h2 class="title">项目技术</h2>
-        <div class="flex flex-wrap tec" data-intro="这是第三步" data-step="3">
+        <div class="flex flex-wrap tec" data-intro="这是第三步🖐️" data-step="3">
           <div>
             <LottieWeb />
+          </div>
+          <div>
+            <Google />
           </div>
         </div>
       </div>
       <div
         class="flex-1 bg-white ml-3 flex items-center justify-between p-5 time"
-        data-intro="这是第四步"
+        data-intro="这是第四步🦝"
         data-step="4"
         v-motion
         :initial="{
@@ -101,28 +106,31 @@
         }">
         <div>
           <p class="text-[20px] font-medium">{{ date.year }}余额</p>
-          <h4 class="text-[40px]">{{ date.remainingDays }}<span>天</span></h4>
+          <h4 class="text-[40px] font-bold">{{ date.remainingDays }}<span>天</span></h4>
           <p
             >{{ date.hour }}<span>h</span>{{ date.minute }} <span>m</span>{{ date.second
             }}<span>s</span></p
           >
         </div>
         <div>
-          <el-progress type="circle" :percentage="date.process" color="#fff" :width="100" />
+          <el-progress
+            type="circle"
+            :percentage="date.process"
+            color="#fff"
+            :width="140"
+            :stroke-width="20" />
         </div>
       </div>
     </div>
-    <!-- <div class="mt-2 w-[500px] h-[300px]">
-      <Echarts3D />
-    </div> -->
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
 import LottieWeb from '../lottieWeb/index.vue';
+import Google from '../lottieWeb/google.vue';
 import Echart from './homeCharts.vue';
-import Motion from '@/utils/motion';
 import { GrowCardList } from './index';
+import intro from 'intro.js';
 
 // 定时器
 let timer: any = null;
@@ -156,17 +164,17 @@ const updateDate = () => {
   date.process = Math.round((1 - date.remainingDays / 365) * 100);
 };
 
+// 启动引导页
+const initIntor = () => {
+  intro()
+    .setOption('nextLabel', ' 下一步 ')
+    .setOption('prevLabel', ' 上一步 ')
+    .setOption('doneLabel', ' 完成 ')
+    .start();
+};
+
 onMounted(() => {
   timer = setInterval(() => updateDate(), 1000);
-
-  setTimeout(() => {
-    proxy!
-      .$intro()
-      .setOption('nextLabel', ' 下一步 ')
-      .setOption('prevLabel', ' 上一步 ')
-      .setOption('doneLabel', ' 完成 ')
-      .start();
-  }, 500);
 });
 
 onUnmounted(() => {
@@ -184,10 +192,6 @@ onUnmounted(() => {
     padding: 20px;
     //box-shadow: 1px 0 #f0f0f0, 0 1px #f0f0f0, 1px 1px #f0f0f0, 1px 0 #f0f0f0 inset, 0 1px #f0f0f0 inset;
     // transition: all .3s;
-
-    &:hover {
-      box-shadow: 0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017;
-    }
 
     p {
       margin-left: 24px;

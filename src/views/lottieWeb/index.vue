@@ -1,10 +1,13 @@
 <template>
   <div class="w-full h-full flex items-center justify-center">
-    <LottieWeb :options="options" :style="{
-      height: '40vh',
-      opacity: showLottieWeb ? 1 : 0,
-      'margin-top': '-60px'
-    }" @DOMLoaded="DOMLoaded" />
+    <LottieWeb
+      :options="options"
+      :style="{
+        height: '300px',
+        opacity: showLottieWeb ? 1 : 0,
+        'margin-top': '-60px',
+      }"
+      @DOMLoaded="DOMLoaded" />
   </div>
 </template>
 
@@ -14,13 +17,11 @@ import { ref } from 'vue';
 
 const showLottieWeb = ref(false);
 const options = ref({
-  path: new URL('./people.json', import.meta.url).href
+  path: new URL('./people.json', import.meta.url).href,
 });
 
 const DOMLoaded = () => {
-  const $rectList = document.querySelectorAll(
-    '.lottie-web rect[fill="#ffffff"]'
-  );
+  const $rectList = document.querySelectorAll('.lottie-web rect[fill="#ffffff"]');
   $rectList.forEach((element) => {
     element.setAttribute('fill', 'transparent');
   });

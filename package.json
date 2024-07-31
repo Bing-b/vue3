@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite --open",
     "serve": "pnpm dev",
-    "build": "vite build"
+    "build": "vite build",
+    "preinstall": "npx only-allow pnpm"
   },
   "config": {
     "commitizen": {

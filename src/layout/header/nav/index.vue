@@ -1,7 +1,9 @@
 <template>
-  <div class="pr-10">
+  <div class="pr-10 flex gap-5 items-center">
+    <!-- 全屏切换 -->
+    <FullScreen />
     <!-- 暗黑切换 -->
-    <button class="switch" @click="toggleDark" :class="{ 'active': isDark }">
+    <button class="switch" @click="toggleDark" :class="{ active: isDark }">
       <div class="switch_action">
         <div class="switch_icon">
           <el-icon v-if="!isDark" size="14">
@@ -18,6 +20,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import useGlobalConfig from '@/store/modules/global';
+import FullScreen from '../fullScreen.vue';
 
 const globalConfigStore = useGlobalConfig();
 
@@ -40,7 +43,6 @@ onMounted(() => {
   const cfg = window.localStorage.getItem('config') || '{}';
   isDark.value = JSON.parse(cfg)?.appDark || false;
 });
-
 </script>
 <style lang="scss" scoped>
 .header {
@@ -71,7 +73,7 @@ onMounted(() => {
     background-color: #fff;
     transform: translate(0);
     color: #303133;
-    transition: border-color .3s, background-color .3s, transform .3s;
+    transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
 
     .switch_icon {
       position: relative;
@@ -85,11 +87,10 @@ onMounted(() => {
       }
     }
   }
-
 }
 
 .active {
-  border-color: #4C4D4F;
+  border-color: #4c4d4f;
   background-color: #2c2c2c;
 
   .switch_action {
@@ -100,11 +101,10 @@ onMounted(() => {
       color: #fff;
     }
   }
-
 }
 
 .dark .switch {
   background: #141414;
-  border-color: #414243
+  border-color: #414243;
 }
 </style>

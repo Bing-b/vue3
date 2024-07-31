@@ -131,10 +131,27 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         name: 'animation',
         redirect: '/btn',
         meta: {
-          title: '交互',
+          title: '指令',
           icon: 'menu-menu_animation',
         },
-        children: [],
+        children: [
+          {
+            path: '/drag',
+            name: '拖拽指令',
+            component: () => import('@/views/directives/dragDrect/index.vue'),
+            meta: {
+              title: '拖拽指令',
+            },
+          },
+          {
+            path: '/copy',
+            name: '复制指令',
+            component: () => import('@/views/directives/copy/index.vue'),
+            meta: {
+              title: '复制指令',
+            },
+          },
+        ],
       },
       {
         path: '/other',

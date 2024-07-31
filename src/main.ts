@@ -16,18 +16,14 @@ import intro from 'intro.js';
 import 'intro.js/introjs.css';
 import '@/theme/index.scss';
 
-// 获取el-table组件props
-const tableProps = ElTable.props;
-const tableColumnProps = ElTableColumn.props;
-
-tableProps.border = { type: Boolean, default: true };
-tableColumnProps.align = { type: Boolean, default: 'center' };
-tableColumnProps.showOverflowTooptip = { type: Boolean, default: true };
+// custom directives
+import directives from '@/directives/index';
 
 const app = createApp(App);
 app
   .use(MotionPlugin)
   .use(createPinia().use(piniaPersist))
+  .use(directives)
   .use(router)
   .use(ElementPlus)
   .mount('#app');

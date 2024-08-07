@@ -10,7 +10,6 @@ import mitt from 'mitt'; // 事件总线
 import 'virtual:svg-icons-register'; // svg
 import utils from '@/utils/commonFuction';
 import 'element-plus/theme-chalk/dark/css-vars.css';
-import { ElTable, ElTableColumn } from 'element-plus';
 import { MotionPlugin } from '@vueuse/motion';
 import intro from 'intro.js';
 import 'intro.js/introjs.css';

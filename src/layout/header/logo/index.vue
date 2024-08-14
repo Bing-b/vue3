@@ -1,9 +1,11 @@
 <template>
   <div class="logo-box">
     <div class="logo" :class="{ w: isExpansion }">
-      <img class="w-[30px]" :src="$getImg('logo/logo1.gif')" />
+      <img class="w-[30px]" :src="$getImg('logo/logo_square.png')" />
       <!-- <svgIcon name="logo2" size="30" /> -->
-      <h2 class="text-[24px] font-bold text-[#191919] font-xht" v-if="!isExpansion"> AgeraRs</h2>
+      <h2 class="text-[24px] font-bold text-[#191919] dark:text-white font-xht" v-if="!isExpansion">
+        AgeraRs</h2
+      >
     </div>
     <svgIcon
       name="menu"

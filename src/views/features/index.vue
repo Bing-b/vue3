@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { onMounted, ref } from 'vue';
 
@@ -22,14 +22,13 @@ const loadMoreData = () => {
 
 onMounted(() => {
   const { unObserverElement } = useIntersectionObserver(scrollEnd.value, {}, (entriies) => {
-    entriies.forEach(entry => {
+    entriies.forEach((entry) => {
       if (entry.isIntersecting) {
         loadMoreData();
       }
     });
   });
 });
-
 </script>
 
 <style lang="scss" scoped>

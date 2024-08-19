@@ -14,7 +14,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       alias, // 设置系统路径别名
       extensions,
     },
-    // 服务端渲染
     server: {
       port: VITE_PORT,
       host: '0.0.0.0',

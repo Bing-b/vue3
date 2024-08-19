@@ -1,26 +1,22 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: [
     'prettier',
     'eslint:recommended',
     'plugin:vue/vue3-essential',
-    'standard-with-typescript'
+    'standard-with-typescript',
   ],
-  overrides: [
-  ],
+  overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@typescript-eslint/parser',
-    sourceType: 'module'
+    sourceType: 'module',
     // project: './tsconfig.json'
   },
-  plugins: [
-    'vue',
-    'prettier'
-  ],
+  plugins: ['vue', 'prettier'],
   rules: {
     'no-console': 'off', // 关闭console对象方法校验
     'import/no-unresolved': 'off', // 关闭
@@ -41,6 +37,6 @@ module.exports = {
     'guard-for-in': 'off', // 关闭for循环需要验证原型上是否存在该属性
     'prefer-destructuring': 'off', // 关闭强制使用对象解构
     '@typescript-eslint/explicit-function-return-type': 'off',
-    semi: ['error', 'always']
-  }
+    semi: ['error', 'always'],
+  },
 };

@@ -9,6 +9,7 @@ import { ElMessage } from 'element-plus';
 interface ElType extends HTMLElement {
   copyData: string | number;
 }
+
 const copy: Directive = {
   mounted(el: ElType, binding: DirectiveBinding) {
     el.copyData = binding.value;

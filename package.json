@@ -23,6 +23,8 @@
     "@vue-flow/minimap": "^1.4.0",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.4.0",
+    "canvas-confetti": "^1.9.3",
+    "dayjs": "^1.11.13",
     "echarts": "^5.4.3",
     "echarts-gl": "^2.0.9",
     "element-plus": "^2.3.3",

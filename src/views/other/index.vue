@@ -175,6 +175,14 @@
       </Teleport>
 
       <Obsec />
+
+      <div class="bg-slate-400 h-[200px]" v-if="visible" v-click-outside="() => (visible = false)">
+        <p>vueuse指令 点击区域外</p>
+        <el-select v-model="model" placeholder="">
+          <el-option label="a" value="a"> </el-option>
+          <el-option label="b" value="b"> </el-option>
+        </el-select>
+      </div>
     </div>
   </div>
 </template>
@@ -185,11 +193,13 @@ import { onMounted, ref } from 'vue';
 import imgUrl from '@/assets/images/logo/logo_square.png';
 import useUserStore from '@/store/modules/user';
 import { exportExcle } from '@/utils/excel';
-import { ClickOutside as vClickOutside } from 'element-plus';
+// import { ClickOutside as vClickOutside } from 'element-plus';
 import utils from '@/utils/commonFuction';
 import Switch from '../switch/index.vue';
 import Child from './child.vue';
 import Obsec from '../features/index.vue';
+
+import { onClickOutside } from '@vueuse/core';
 
 // 复用获取鼠标位置
 const { x, y } = useMousePositon();
@@ -211,6 +221,10 @@ const textVal = ref<string>('');
 const addCount = () => {
   userStore.counter++;
 };
+
+const model = ref('a');
+
+const visible = ref(true);
 
 const handler = (event: any) => {
   // 获取要绑定事件的元素

@@ -199,6 +199,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           },
         ],
       },
+      {
+        path: '/info',
+        name: '关于项目',
+        component: () => import('@/views/projectInfo/index.vue'),
+        meta: {
+          title: '关于项目',
+          icon: 'menu-menu_pinfo',
+        },
+      },
     ],
   },
 ];

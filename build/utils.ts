@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import { name, version, dependencies, devDependencies } from '../package.json';
+import dayjs from 'dayjs';
 
 /** 启动`node`进程时所在工作目录的绝对路径 */
 const root: string = process.cwd();
@@ -7,6 +8,7 @@ const root: string = process.cwd();
 /** 平台的名称、版本、运行所需的`node`和`pnpm`版本、依赖、最后构建时间的类型提示 */
 const __APP_INFO__ = {
   pkg: { name, version, dependencies, devDependencies },
+  lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),
 };
 
 /** 设置别名 */

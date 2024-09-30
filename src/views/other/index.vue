@@ -176,7 +176,7 @@
 
       <Obsec />
 
-      <div class="bg-slate-400 h-[200px]" v-if="visible" v-click-outside="() => (visible = false)">
+      <div ref="target" class="bg-slate-400 h-[200px]" v-if="visible">
         <p>vueuse指令 点击区域外</p>
         <el-select v-model="model" placeholder="">
           <el-option label="a" value="a"> </el-option>
@@ -207,6 +207,7 @@ const { x, y } = useMousePositon();
 // 复用加载动画
 const { loading, showLoading, hideLoading } = useLoading();
 
+// 显示
 const dialogTableVisible = ref(false);
 
 // 大菠萝
@@ -226,6 +227,11 @@ const model = ref('a');
 
 const visible = ref(true);
 
+const target = ref();
+
+onClickOutside(target, (e) => {
+  visible.value = false;
+});
 const handler = (event: any) => {
   // 获取要绑定事件的元素
   const nav = document.getElementById('nav');
@@ -379,9 +385,9 @@ const exportExcel = () => {
   exportExcle(excleOption);
 };
 
-const onClickOutside = () => {
-  flag.value = false;
-};
+// const onClickOutside = () => {
+//   flag.value = false;
+// };
 
 // 复制
 const handleCopy = () => {

@@ -43,7 +43,7 @@
     <!-- label分类选择弹窗 -->
     <label-category-dialog
       v-model:visible="showLabelCategoriesDialog"
-      :LabelCategorys="LabelCategorys"
+      :LabelCategorys
       @updateLable="addLabel" />
 
     <!-- connection分类选择弹窗 -->
@@ -70,8 +70,6 @@ enum CategorySelectModes {
 }
 
 // 标注实例对象
-// let annotator = reactive<Annotator | null>(null) as Annotator | null;
-// const annotator: Annotator | null = reactive<Annotator | null>(null);
 const annotator = ref<Annotator | null>(null);
 
 // 标注文本内容

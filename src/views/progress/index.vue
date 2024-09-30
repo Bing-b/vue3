@@ -6,7 +6,9 @@
       <el-progress type="circle" :percentage="percentage" />
     </div>
     <div>
-      <el-button type="primary" @click="start()">开始</el-button>
+      <el-button type="primary" @click="start()"
+        ><el-icon><Plus /></el-icon>开始</el-button
+      >
       <el-button type="danger" @click="end()">结束</el-button>
     </div>
   </div>

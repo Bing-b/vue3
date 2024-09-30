@@ -14,13 +14,13 @@ import Card2 from './card2/index.vue';
 export default defineComponent({
   components: {
     Card1,
-    Card2
+    Card2,
   },
   props: {
     component: {
       type: String,
-      default: () => 'Card1'
-    }
-  }
+      default: () => 'Card1',
+    },
+  },
 });
 </script>

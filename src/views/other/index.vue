@@ -183,6 +183,17 @@
           <el-option label="b" value="b"> </el-option>
         </el-select>
       </div>
+
+      <el-card class="box-card">
+        <template #header>
+          <div class="card-header">
+            <span>p-limit 模拟并发请求发送</span>
+          </div>
+        </template>
+        <div>
+          <el-button @click="sendRequest">发送</el-button>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
@@ -200,6 +211,8 @@ import Child from './child.vue';
 import Obsec from '../features/index.vue';
 
 import { onClickOutside } from '@vueuse/core';
+
+import pLimit from 'p-limit';
 
 // 复用获取鼠标位置
 const { x, y } = useMousePositon();
@@ -396,6 +409,30 @@ const handleCopy = () => {
 
 // 一键复制
 const copyToClipboard = () => navigator.clipboard.writeText(textVal.value);
+
+// 模拟并发请求发送
+const fetchFn = (index) => {
+  return new Promise((resolve) => {
+    console.log(index);
+    setTimeout(() => {
+      resolve(index);
+    }, 2000);
+  });
+};
+
+const sendRequest = async () => {
+  const limit = pLimit(2); // 设置最大并发为1
+
+  const input = [
+    limit(() => fetchFn('foo')),
+    limit(() => fetchFn('bar')),
+    limit(() => fetchFn('s')),
+  ];
+  // 只有一个promise会被同时运行
+  const result = await Promise.all(input);
+
+  console.log(result);
+};
 
 onMounted(() => {
   const img = document.getElementById('ii') as HTMLImageElement | null;

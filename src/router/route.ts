@@ -151,6 +151,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '复制指令',
             },
           },
+          {
+            path: '/copytable',
+            name: '拖拽表格指令',
+            component: () => import('@/views/directives/sort-table/index.vue'),
+            meta: {
+              title: '拖拽表格指令',
+            },
+          },
         ],
       },
       {

@@ -11,7 +11,8 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
-import AceEditor from './ace/index.vue';
+import AceEditor from './editor/index.vue';
 
 const value = ref('');
 </script>
+./editor/index.vue

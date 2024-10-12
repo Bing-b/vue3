@@ -1,1 +1,1 @@
-export declare type Recordable<T = any> = Record<string, T>;
+type Recordable<T = any> = Record<string, T>;

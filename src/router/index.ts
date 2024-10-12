@@ -15,14 +15,17 @@ NProgress.configure({ showSpinner: true });
 
 // 路由前置守卫
 router.beforeEach((to, from, next) => {
-  if (to.meta.title) NProgress.start();
-  if (to.path === 'home' || to.path === '/') {
+  //if (to.meta.title)
+  NProgress.start();
+  if (to.path === '/' && from.path !== '/home') {
     next({ path: '/home' });
-    NProgress.done();
   } else {
     next();
-    NProgress.done();
   }
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 export default router;

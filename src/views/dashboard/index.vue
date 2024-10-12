@@ -126,8 +126,8 @@
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
-import LottieWeb from '../lottieWeb/index.vue';
-import Google from '../lottieWeb/google.vue';
+import LottieWeb from '../lottie-web/index.vue';
+import Google from '../lottie-web/google.vue';
 import Echart from './homeCharts.vue';
 import { GrowCardList } from './index';
 import intro from 'intro.js';

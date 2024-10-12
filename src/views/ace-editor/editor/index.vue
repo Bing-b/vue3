@@ -9,19 +9,14 @@ import 'ace-builds/src-noconflict/mode-javascript'; // 语言模式
 import 'ace-builds/src-noconflict/theme-monokai'; // 主题
 import 'ace-builds/src-noconflict/ext-language_tools'; // 语法提示
 import 'ace-builds/src-noconflict/snippets/javascript'; // 语法段提示模块
-
-// 自定义语言
 import './mode-mylang'; // 此模块需对应目录创建
 // import '../assets/ace/mylang.js';
 
-const props = withDefaults(defineProps<{
-  value: string,
-}>(), {
-});
-
-const emits = defineEmits(['update:value']);
+// 编辑器内容
+const $value = defineModel('value', { default: '' });
 
 let editor: any = null;
+
 const aceEditor = ref<string | Element>('');
 
 // 编辑器默认配置项
@@ -43,28 +38,23 @@ const options = {
   readOnly: false, // 控制编辑器是否只读
   enableSnippets: true, // 启用代码段
   enableLiveAutocompletion: true, // 启用实时自动完成
-  enableBasicAutocompletion: true // 启用基本自动完成
+  enableBasicAutocompletion: true, // 启用基本自动完成
 };
 
 // 初始化编辑器
 const initEditor = () => {
   if (editor) editor.destroy();
-
   // 初始化
   editor = ace.edit(aceEditor.value, options);
-
   // 切换自动换行
   editor.getSession().setUseWrapMode(true);
 
   // 支持双向绑定
-  editor.setValue(props.value ? props.value : '');
-  editor.on('change', () => {
-    emits('update:value', editor.getValue());
-  });
+  editor.setValue($value.value ? $value.value : '');
 };
 
 watch(
-  () => props.value,
+  () => $value.value,
   (newProps) => {
     // 解决光标移动问题
     const position = editor.getCursorPosition();
@@ -81,7 +71,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   editor.destroy();
 });
-
 </script>
 <style>
 .aceEditor {

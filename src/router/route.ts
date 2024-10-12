@@ -48,7 +48,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           {
             path: '/ace',
             name: '代码编辑器',
-            component: () => import('@/views/AceEditor/index.vue'),
+            component: () => import('@/views/ace-editor/index.vue'),
             meta: {
               title: '代码编辑器',
             },
@@ -64,7 +64,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           {
             path: '/annotation',
             name: '标注',
-            component: () => import('@/views/TextAnnotation/index.vue'),
+            component: () => import('@/views/text-annotation/index.vue'),
             meta: {
               title: '标注',
             },
@@ -181,7 +181,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           {
             path: '/lottieWeb',
             name: 'lottieWeb',
-            component: () => import('@/views/lottieWeb/index.vue'),
+            component: () => import('@/views/lottie-web/index.vue'),
             meta: {
               title: 'Lottie 动画',
               icon: 'animate',
@@ -210,7 +210,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/info',
         name: '关于项目',
-        component: () => import('@/views/projectInfo/index.vue'),
+        component: () => import('@/views/project-info/index.vue'),
         meta: {
           title: '关于项目',
           icon: 'menu-menu_pinfo',

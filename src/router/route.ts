@@ -69,14 +69,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '标注',
             },
           },
-          {
-            path: '/progress',
-            name: 'progress',
-            component: () => import('@/views/progress/index.vue'),
-            meta: {
-              title: '模拟进度',
-            },
-          },
         ],
       },
 
@@ -188,15 +180,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             },
           },
           {
-            path: '/skeleton',
-            name: '骨架',
-            component: () => import('@/views/skeleton/index.vue'),
-            meta: {
-              title: '骨架',
-              icon: 'bood',
-            },
-          },
-          {
             path: '/iframe',
             name: '内嵌',
             component: () => import('@/views/iframe/index.vue'),
@@ -206,6 +189,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             },
           },
         ],
+      },
+      {
+        path: '/css',
+        name: 'CSS',
+        component: () => import('@/views/svg-animation/index.vue'),
+        meta: {
+          title: 'SVG',
+          icon: 'SVG',
+        },
       },
       {
         path: '/info',

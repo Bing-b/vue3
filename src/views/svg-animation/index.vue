@@ -1,0 +1,60 @@
+<template>
+  <div class="p-5">
+    <div class="g-svg">
+      <svg height="100%" width="100%">
+        xmlns="http://www.w3.org/2000/svg">
+        <polyline
+          points="240 10 140 10 140 90 0 90 240 -90"
+          stroke="#ddd"
+          fill="transparent"
+          stroke-width="2" />
+        <polyline
+          class="g-dashed-line"
+          points="240 10 140 10 140 90 0 90 240 -90"
+          fill="transparent"
+          stroke-width="2" />
+      </svg>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup></script>
+
+<style lang="scss" scoped>
+@keyframes move {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -320;
+  }
+}
+
+.g-svg {
+  width: 240px;
+  height: 100px;
+  .g-dashed-line {
+    stroke: #fc0;
+    stroke-dashoffset: 0;
+    stroke-dasharray: 40 320;
+    animation: move 2.4s linear;
+    filter: drop-shadow(1);
+  }
+}
+
+.rect {
+  width: 200px;
+  height: 100px;
+
+  stroke: #673ab7;
+  stroke-width: 2;
+  fill: transparent;
+}
+.rect1 {
+  stroke-dasharray: 10 20;
+  stroke-dashoffset: 40px;
+}
+.rect2 {
+  stroke-dasharray: 20 20;
+}
+</style>

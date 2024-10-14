@@ -11,12 +11,11 @@ import 'virtual:svg-icons-register'; // svg
 import utils from '@/utils/commonFuction';
 import 'element-plus/theme-chalk/dark/css-vars.css';
 import { MotionPlugin } from '@vueuse/motion';
-import intro from 'intro.js';
+import intro from 'intro.js'; // 引导页
 import 'intro.js/introjs.css';
 import '@/theme/index.scss';
-
-// custom directives
-import directives from '@/directives/index';
+import 'element-plus/dist/index.css';
+import directives from '@/directives/index'; // 自定义指令
 
 const app = createApp(App);
 app

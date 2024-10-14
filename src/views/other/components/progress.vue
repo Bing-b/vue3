@@ -1,6 +1,6 @@
 <template>
   <div class="p-5">
-    <h2 class="title">模拟进度条</h2>
+    <p>模拟进度条</p>
     <div class="flex gap-10">
       <el-progress :percentage="percentage" :striped="true" :striped-flow="true" class="w-1/2" />
       <el-progress type="circle" :percentage="percentage" />

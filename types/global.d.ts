@@ -19,3 +19,4 @@ declare global {
 /** 全局自定义环境变量类型声明 */
 
 declare module 'nprogress';
+declare module 'three';

@@ -15,4 +15,3 @@ import AceEditor from './editor/index.vue';
 
 const value = ref('');
 </script>
-./editor/index.vue

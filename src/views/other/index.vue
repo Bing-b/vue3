@@ -3,7 +3,7 @@
     <h2 class="title">砸碎功能测试记录</h2>
     <div class="p-5 flex h-[calc(100%-40px)] overflow-auto">
       <!-- 左侧目录 -->
-      <div class="w-[300px] h-full bg-[#f1f1f1] rounded p-4">
+      <div class="w-[300px] h-full bg-[#f1f1f1] rounded p-4 dark:bg-bg_color">
         <h3 class="mb-5 text-[20px] text-blod">目录</h3>
         <div
           @click="handleChangeComponent(item)"
@@ -70,6 +70,7 @@ const handleChangeComponent = (component: any) => {
 };
 
 watchEffect(() => {
+  // 初始化默认选中第一个
   activeComponent.value = leftSideMenu[0];
 });
 </script>

@@ -200,6 +200,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: '/threejs',
+        name: 'threejs',
+        component: () => import('@/views/threejs/index.vue'),
+        meta: {
+          title: 'threejs',
+          icon: 'menu-menu_threejs',
+        },
+      },
+      {
         path: '/info',
         name: '关于项目',
         component: () => import('@/views/project-info/index.vue'),

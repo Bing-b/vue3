@@ -6,11 +6,14 @@
       <el-table-column prop="name" label="姓名"> </el-table-column>
       <el-table-column prop="age" label="年龄"> </el-table-column>
     </el-table>
+
+    {{ data }}
   </div>
 </template>
 
 <script lang="ts" setup>
-const data = [
+import { ref } from 'vue';
+const data = ref([
   {
     name: '张三',
     age: 21,
@@ -27,7 +30,7 @@ const data = [
     name: '孙俪',
     age: 23,
   },
-];
+]);
 </script>
 
 <style scoped></style>

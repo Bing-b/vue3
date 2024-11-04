@@ -209,6 +209,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: '/funny',
+        name: 'funny',
+        component: () => import('@/views/funny/index.vue'),
+        meta: {
+          title: 'funny',
+          icon: 'menu-funny',
+        },
+      },
+      {
         path: '/info',
         name: '关于项目',
         component: () => import('@/views/project-info/index.vue'),

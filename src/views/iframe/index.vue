@@ -1,6 +1,10 @@
 <template>
   <div class="embedded-webpage">
-    <iframe ref="myiframe" id="iframeBox" src="https://lusion.co/" sandbox="allow-same-origin allow-scripts"
+    <iframe
+      ref="myiframe"
+      id="iframeBox"
+      src="https://chroniclehq.com/"
+      sandbox="allow-same-origin allow-scripts"
       seamless></iframe>
   </div>
 </template>
@@ -31,7 +35,6 @@ const onLoad = () => {
     iframeHead.appendChild(linkTag);
   }
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -46,6 +49,5 @@ const onLoad = () => {
     height: 100%;
     width: 100%;
   }
-
 }
 </style>

@@ -7,18 +7,16 @@
 <script lang="ts" setup>
 import { camelize, onMounted } from 'vue';
 
-window.requestAnimationFrame = function () {
+window.requestAnimFrame = (function () {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
-    window.oRequsetAnimationFrame ||
-    window.msRequestAnimationFrame ||
     function (callback) {
-      window.setTimeout(callback);
+      window.setTimeout(callback, 1000 / 60);
     }
   );
-};
+})();
 
 // 初始化函数，用于获取canvas元素并返回相关信息
 const init = (eleid) => {
@@ -265,12 +263,12 @@ const create = () => {
     c.fill();
 
     // 绘制所有触手的中心点
-    for (i = 0; i < numt; i++) {
+    for (let i = 0; i < numt; i++) {
       tent[i].move(last_target, target);
       tent[i].show2(target);
     }
     // 绘制所有触手
-    for (i = 0; i < numt; i++) {
+    for (let i = 0; i < numt; i++) {
       tent[i].show(target);
     }
     // 更新上一个触手的目标点坐标
@@ -280,7 +278,8 @@ const create = () => {
   // 循环执行绘制动画的函数
   function loop() {
     // 使用requestAnimFrame函数循环执行
-    window.requestAnimFrame(loop);
+
+    window.requestAnimationFrame(loop); // 使用标准的 requestAnimationFrame
 
     // 清空canvas
     c.clearRect(0, 0, w, h);

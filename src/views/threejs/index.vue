@@ -18,7 +18,7 @@ const scene = new THREE.Scene();
 const geometry = new THREE.BoxGeometry(100, 60, 20);
 
 // 材料
-const material = new THREE.MeshBasicMaterial({
+const material = new THREE.MeshLambertMaterial({
   color: 0xff0000, // 添加红色的零
   transparent: true, //开启透明
   opacity: 0.5, //设置透明度
@@ -42,7 +42,8 @@ camera.lookAt(mesh.position);
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(width, height);
 
-const asesHelper = new THREE.AxesHelper(150);
+const asesHelper = new THREE.AxesHelper(150); // 坐标系
+
 scene.add(asesHelper);
 
 onMounted(() => {
@@ -50,12 +51,12 @@ onMounted(() => {
 
   const pointLight = new THREE.PointLight(0xffffff, 1.0);
 
-  pointLight.intensity = 1.0; //光照强度
+  pointLight.intensity = 4.0; //光照强度
 
   pointLight.decay = 0.0; //设置光源不随距离衰减
 
   //点光源位置
-  pointLight.position.set(200, 200, 300); //点光源放在x轴上
+  pointLight.position.set(100, 60, 50); //点光源放在x轴上
 
   scene.add(pointLight); //点光源添加到场景中
 
@@ -65,6 +66,10 @@ onMounted(() => {
   controls.addEventListener('change', function () {
     renderer.render(scene, camera); //执行渲染操作
   }); //监听鼠标、键盘事件
+
+  const pointLightHelper = new THREE.PointLightHelper(pointLight, 10);
+
+  scene.add(pointLightHelper);
 
   // 执行渲染
   renderer.render(scene, camera);

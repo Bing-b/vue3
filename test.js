@@ -1,3 +1,6 @@
+const { ar } = require('element-plus/es/locale');
+const { EmitFlags } = require('typescript');
+
 {
   const arr = [
     { classId: '1', name: '张三', age: 16 },
@@ -29,4 +32,23 @@
 {
   const a = [1, 2, 3].filter((i) => i > 2);
   console.log(a);
+}
+
+{
+  const arr = [
+    {
+      a: '2',
+      b: 'c',
+    },
+    {
+      a: '1',
+      b: 'cd',
+    },
+    {
+      a: '2',
+      b: 'd',
+    },
+  ];
+
+  const arrByA = arr.reduce((acc, cur) => {});
 }

@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, reactive } from 'vue';
 import { Warning } from '@element-plus/icons-vue';
-import * as L from 'leaflet';
+import L from 'leaflet';
 import utils from '@/utils/commonFuction';
 import gcoord from 'gcoord';
 import 'leaflet-draw';
@@ -100,7 +100,7 @@ const iconPeople = setIcon('../../../assets/icons/people.svg');
 let resizeObserver: ResizeObserver;
 
 // gisMap 实例
-let baseMap = {} as any;
+let baseMap = {} as L.Map;
 
 // 覆盖图编辑控件
 const editControls = new L.FeatureGroup();

@@ -226,7 +226,7 @@ const bindPopupEvent = (layer: any) => {
 
 // 绑定事件
 const bindEvent = () => {
-  baseMap.on('click', (e) => {
+  baseMap.on('click', (e: MouseEvent) => {
     console.log(e);
     markers.eachLayer((marker: any) => {
       marker.options.isSelected = false;
@@ -244,6 +244,11 @@ const bindEvent = () => {
       marker.options.isSelected = false;
       marker.setIcon(markerIcon);
     });
+  });
+
+  baseMap.on('contextmenu', (e: MouseEvent) => {
+    // const latlng = baseMap.locate();
+    // console.log(latlng);
   });
 
   baseMap.on(L.Draw.Event.CREATED, (e: any) => {

@@ -1,7 +1,7 @@
 module.exports = {
   // type 类型（定义之后，可通过上下键选择）
   types: [
-    { value: 'feat', name: 'feat:     新增功能' },
+    { value: 'feat', name: 'feat:    新增功能' },
     { value: 'fix', name: 'fix:      修复 bug' },
     { value: 'docs', name: 'docs:     文档变更' },
     { value: 'style', name: 'style:    代码格式（不影响功能，例如空格、分号等格式修正）' },
@@ -12,8 +12,6 @@ module.exports = {
       value: 'build',
       name: 'build:    构建流程、外部依赖变更（如升级 npm 包、修改 webpack 配置等）',
     },
-    { value: 'ci', name: 'ci:       修改 CI 配置、脚本' },
-    { value: 'chore', name: 'chore:    对构建过程或辅助工具和库的更改（不影响源文件、测试用例）' },
     { value: 'revert', name: 'revert:   回滚 commit' },
   ],
 
@@ -25,7 +23,6 @@ module.exports = {
     ['element-ui', '对 element-ui 的调整'],
     ['styles', '样式相关'],
     ['deps', '项目依赖'],
-    ['auth', '对 auth 修改'],
     ['other', '其他修改'],
     // 如果选择 custom，后面会让你再输入一个自定义的 scope。也可以不设置此项，把后面的 allowCustomScopes 设置为 true
     ['custom', '以上都不是？我要自定义'],

@@ -9,7 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    CountTo: typeof import('./src/components/CountTo/index.vue')['default']
+    CountTo: typeof import('./src/components/countTo/index.vue')['default']
     DragBox: typeof import('./src/components/dragBox/index.vue')['default']
     DragItem: typeof import('./src/components/dragItem/index.vue')['default']
     ElBadge: typeof import('element-plus/es')['ElBadge']

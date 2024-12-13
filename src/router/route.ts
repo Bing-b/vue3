@@ -232,7 +232,16 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         component: () => import('@/views/funny/index.vue'),
         meta: {
           title: 'funny',
-          icon: 'menu-funny',
+          icon: 'menu-menu_funny',
+        },
+      },
+      {
+        path: '/gsap',
+        name: 'gsap',
+        component: () => import('@/views/gsap/index.vue'),
+        meta: {
+          title: 'gsap',
+          icon: 'menu-menu_gsap',
         },
       },
       {

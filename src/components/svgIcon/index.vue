@@ -17,8 +17,8 @@
 const { name, size, color, className } = defineProps<{
   name: string;
   size: string | number;
-  color: string;
-  className: string;
+  color?: string;
+  className?: string;
 }>();
 </script>
 

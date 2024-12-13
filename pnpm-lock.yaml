@@ -59,6 +59,9 @@ dependencies:
   gcoord:
     specifier: ^0.3.2
     version: 0.3.2
+  gsap:
+    specifier: ^3.12.5
+    version: 3.12.5
   intro.js:
     specifier: ^7.0.1
     version: 7.2.0
@@ -6648,6 +6651,10 @@ packages:
     resolution: {integrity: sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A==}
     dependencies:
       lodash: 4.17.21
+    dev: false
+
+  /gsap@3.12.5:
+    resolution: {integrity: sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==}
     dev: false
 
   /has-ansi@0.1.0:

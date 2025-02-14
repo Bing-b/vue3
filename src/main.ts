@@ -35,3 +35,4 @@ app.config.globalProperties.$getImg = utils.getImg;
 app.config.globalProperties.$formatSize = utils.formatSize;
 app.config.globalProperties.$intro = intro;
 app.config.globalProperties.$sendMessage = utils.message;
+app.config.idPrefix = 'app'; // 配置全局

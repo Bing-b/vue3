@@ -10,14 +10,14 @@
           v-for="item in leftSideMenu"
           :key="item.name"
           class="px-3 mb-1 py-[2px] rounded cursor-pointer hover:bg-[#e2e2e2]"
-          :class="{ 'bg-[#e2e2e2]': activeComponent.name == item.name }"
+          :class="{ 'bg-[#e2e2e2]': activeComponent == item.component }"
           >{{ item.name }}</div
         >
       </div>
       <!-- 右侧模块切换 -->
       <div class="p-5 flex-1">
         <KeepAlive>
-          <component :is="activeComponent.component" v-bind="$attrs" />
+          <component :is="componentsMap[activeComponent]" v-bind="$attrs" />
         </KeepAlive>
       </div>
     </div>
@@ -25,53 +25,82 @@
 </template>
 
 <script lang="ts" setup>
-import { watchEffect, ref } from 'vue';
-import ElTooltipPlus from './components/el-tooltip-plus.vue';
-import ClickOutSide from './components/click-outside.vue';
-import UseResizeObserve from './components/use-resize-observer.vue';
-import PLimit from './components/p-limit.vue';
-import RowScroll from './components/row-scroll.vue';
-import Progress from './components/progress.vue';
+import { watchEffect, ref, watch, nextTick, onMounted, useId } from 'vue';
+// import ElTooltipPlus from './components/el-tooltip-plus.vue';
+// import ClickOutSide from './components/click-outside.vue';
+// import UseResizeObserve from './components/use-resize-observer.vue';
+// import PLimit from './components/p-limit.vue';
+// import RowScroll from './components/row-scroll.vue';
+// import Progress from './components/progress.vue';
+import { defineAsyncComponent } from 'vue';
+import { shallowRef } from 'vue';
+
+const ElTooltipPlus = defineAsyncComponent(() => import('./components/el-tooltip-plus.vue'));
+const ClickOutSide = defineAsyncComponent(() => import('./components/click-outside.vue'));
+const UseResizeObserve = defineAsyncComponent(() => import('./components/use-resize-observer.vue'));
+const PLimit = defineAsyncComponent(() => import('./components/p-limit.vue'));
+const RowScroll = defineAsyncComponent(() => import('./components/row-scroll.vue'));
+const Progress = defineAsyncComponent(() => import('./components/progress.vue'));
+const InfinteVirtualList = defineAsyncComponent(
+  () => import('./components/infinite-virtual-list.vue')
+);
+
+const componentsMap: Record<string, any> = {
+  componentA: ElTooltipPlus,
+  componentB: ClickOutSide,
+  componentC: UseResizeObserve,
+  componentD: PLimit,
+  componentE: RowScroll,
+  componentF: Progress,
+  componentG: InfinteVirtualList,
+};
 
 // 左侧菜单
 const leftSideMenu: Array<{ name: string; component: any }> = [
   {
     name: 'el-tooltop-Plus',
-    component: ElTooltipPlus,
+    component: 'componentA',
   },
   {
     name: 'clickOutSide',
-    component: ClickOutSide,
+    component: 'componentB',
   },
   {
     name: 'useResizeObserver',
-    component: UseResizeObserve,
+    component: 'componentC',
   },
   {
     name: 'p-limit 处理并发请求',
-    component: PLimit,
+    component: 'componentD',
   },
   {
     name: '横向滚动',
-    component: RowScroll,
+    component: 'componentE',
   },
   {
     name: '模拟进度条',
-    component: Progress,
+    component: 'componentF',
+  },
+  {
+    name: '虚拟列表',
+    component: 'componentG',
   },
 ];
 
 // 当前活动的组件
-const activeComponent = ref();
+const activeComponent = shallowRef('componentA');
 
 // 切换组件
-const handleChangeComponent = (component: any) => {
-  activeComponent.value = component;
+const handleChangeComponent = (item: any) => {
+  activeComponent.value = item.component;
 };
 
 watchEffect(() => {
   // 初始化默认选中第一个
-  activeComponent.value = leftSideMenu[0];
+  //activeComponent.value = leftSideMenu[0];
+
+  const id = useId();
+  console.log(id);
 });
 </script>
 

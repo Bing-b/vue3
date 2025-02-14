@@ -11,6 +11,9 @@ dependencies:
   '@antv/g6':
     specifier: ^4.8.17
     version: 4.8.24
+  '@barba/core':
+    specifier: ^2.10.3
+    version: 2.10.3
   '@element-plus/icons-vue':
     specifier: ^2.1.0
     version: 2.3.1(vue@3.5.10)
@@ -161,6 +164,9 @@ dependencies:
   vue-upload-component:
     specifier: ^3.1.8
     version: 3.1.15
+  vue-virtual-scroller:
+    specifier: 2.0.0-beta.8
+    version: 2.0.0-beta.8(vue@3.5.10)
 
 devDependencies:
   '@eslint/create-config':
@@ -1714,6 +1720,13 @@ packages:
       '@babel/helper-string-parser': 7.24.8
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
+
+  /@barba/core@2.10.3:
+    resolution: {integrity: sha512-ovVeT1wUcdMg8Lu6Iel6yEBW2+s6iA7qfRLCVKTSIfJU9csiawU0UOmVJdcoy3WNOsF2Ur9UfoTUC9aDcm4c0w==}
+    dependencies:
+      is-promise: 4.0.0
+      path-to-regexp: 6.3.0
+    dev: false
 
   /@commitlint/config-validator@19.0.3:
     resolution: {integrity: sha512-2D3r4PKjoo59zBc2auodrSCaUnCSALCx54yveOFwwP/i2kfEAQrygwOleFWswLqK0UL/F9r07MFi5ev2ohyM4Q==}
@@ -7141,6 +7154,10 @@ packages:
       isobject: 3.0.1
     dev: true
 
+  /is-promise@4.0.0:
+    resolution: {integrity: sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==}
+    dev: false
+
   /is-regex@1.1.4:
     resolution: {integrity: sha512-kvRdxDsxZjhzUX07ZnLydzS1TU/TJlTUHHY4YLL87e37oUA49DfkLqgy+VjFocowy29cKvcSiu+kIv728jTTVg==}
     engines: {node: '>= 0.4'}
@@ -7938,6 +7955,10 @@ packages:
       yallist: 4.0.0
     optional: true
 
+  /mitt@2.1.0:
+    resolution: {integrity: sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==}
+    dev: false
+
   /mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
     dev: false
@@ -8460,6 +8481,10 @@ packages:
     dependencies:
       lru-cache: 10.4.3
       minipass: 7.1.2
+    dev: false
+
+  /path-to-regexp@6.3.0:
+    resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
     dev: false
 
   /path-type@4.0.0:
@@ -10927,6 +10952,14 @@ packages:
       - webpack-cli
     dev: true
 
+  /vue-observe-visibility@2.0.0-alpha.1(vue@3.5.10):
+    resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.5.10(typescript@5.5.4)
+    dev: false
+
   /vue-pdf-embed@2.1.0(vue@3.5.10):
     resolution: {integrity: sha512-yEtitm2q1jY2pmgnbwDILhm8cEby01WhfZJCMKvhKwdorwc92FDefIDZ5yf0ixu4t+WHMfc1+Zz4OGsoW/PRag==}
     peerDependencies:
@@ -10937,6 +10970,14 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /vue-resize@2.0.0-alpha.1(vue@3.5.10):
+    resolution: {integrity: sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.5.10(typescript@5.5.4)
     dev: false
 
   /vue-router@4.4.0(vue@3.5.10):
@@ -10969,6 +11010,17 @@ packages:
 
   /vue-upload-component@3.1.15:
     resolution: {integrity: sha512-3jHUS2ZqxlV/ez+gxfWJ9CJUPknXErCyJdPlwbiRJPHvpIoj0bo+1SlZ4QJBdt6vHTTUx8He1pUoGw0uxsCvKQ==}
+    dev: false
+
+  /vue-virtual-scroller@2.0.0-beta.8(vue@3.5.10):
+    resolution: {integrity: sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      mitt: 2.1.0
+      vue: 3.5.10(typescript@5.5.4)
+      vue-observe-visibility: 2.0.0-alpha.1(vue@3.5.10)
+      vue-resize: 2.0.0-alpha.1(vue@3.5.10)
     dev: false
 
   /vue@3.5.10(typescript@5.5.4):

@@ -16,6 +16,7 @@ import 'intro.js/introjs.css';
 import '@/theme/index.scss';
 import 'element-plus/dist/index.css';
 import directives from '@/directives/index'; // 自定义指令
+import '@/theme/style.css';
 
 const app = createApp(App);
 app

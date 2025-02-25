@@ -45,7 +45,11 @@ const InfinteVirtualList = defineAsyncComponent(
   () => import('./components/infinite-virtual-list.vue')
 );
 
-const componentsMap: Record<string, any> = {
+const SortTable = defineAsyncComponent(() => import('./components/sortTable.vue'));
+
+import sortTable from './components/sortTable.vue';
+
+const componentsMap: Recordable = {
   componentA: ElTooltipPlus,
   componentB: ClickOutSide,
   componentC: UseResizeObserve,
@@ -53,6 +57,7 @@ const componentsMap: Record<string, any> = {
   componentE: RowScroll,
   componentF: Progress,
   componentG: InfinteVirtualList,
+  componentH: sortTable,
 };
 
 // 左侧菜单
@@ -84,6 +89,10 @@ const leftSideMenu: Array<{ name: string; component: any }> = [
   {
     name: '虚拟列表',
     component: 'componentG',
+  },
+  {
+    name: '可拖拽表格',
+    component: 'componentH',
   },
 ];
 

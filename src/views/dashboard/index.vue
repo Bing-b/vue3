@@ -1,10 +1,10 @@
 <template>
-  <div class="h-full dark:text-white bg-[#f0f2f5] dark:bg-bg_color overflow-auto">
+  <div class="h-full dark:text-white bg-[#f0f2f5] dark:bg-black overflow-auto">
     <!-- 统计模块 -->
     <h2 class="title flex justify-between items-center" data-intro="这是第一步😃" data-step="1"
       >概览 <el-button @click="initIntor">引导</el-button></h2
     >
-    <div class="flex gap-8 h-[430px] p-5 bg-white dark:bg-bg_color rounded">
+    <div class="flex gap-8 h-[430px] p-5 bg-white dark:bg-black rounded">
       <div
         class="sec1"
         v-motion

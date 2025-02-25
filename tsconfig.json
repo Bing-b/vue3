@@ -39,6 +39,7 @@
     "types/**/*.d.ts",
     "types/**/*.ts",
     "build/**/*.ts",
-    "build/**/*.d.ts"
+    "build/**/*.d.ts",
+    "iii.ts"
   ]
 }

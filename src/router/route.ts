@@ -7,12 +7,12 @@ export const mainRoutes: Array<RouteRecordRaw> = [
   { path: '/', redirect: '/home' },
   {
     path: '/home',
-    name: 'home',
+    name: 'index',
     component: () => import('@/layout/index.vue'),
     children: [
       {
         path: '/home',
-        name: 'home',
+        name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         meta: {
           title: '首页',

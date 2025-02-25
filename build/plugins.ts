@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
+import tailwindcss from '@tailwindcss/vite';
 
 /** 获取插件列表 */
 export const getPluginsList = (): Array<PluginOption> => {
@@ -17,7 +18,6 @@ export const getPluginsList = (): Array<PluginOption> => {
       iconDirs: [resolve(__dirname, '../src/assets/icons')],
       symbolId: 'icon-[dir]-[name]',
     }),
-    // 自动导入el-plus api
     AutoImport({
       resolvers: [ElementPlusResolver()],
     }),
@@ -38,5 +38,6 @@ export const getPluginsList = (): Array<PluginOption> => {
       algorithm: 'brotliCompress', // 压缩算法
       ext: '.br', // 文件类型
     }),
+    tailwindcss(),
   ];
 };

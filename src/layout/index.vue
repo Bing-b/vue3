@@ -21,7 +21,7 @@ const state = reactive({
 // 过滤模板路由
 const filterRoutes = () => {
   let templateRoutes = [] as any;
-  templateRoutes = mainRoutes.filter((item) => item.name === 'home');
+  templateRoutes = mainRoutes.filter((item) => item.name === 'index');
   state.menuList = templateRoutes[0].children;
 };
 

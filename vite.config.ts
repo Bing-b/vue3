@@ -29,10 +29,21 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         clientFiles: ['./index.html', './src/{views,components}/*'],
       },
     },
+    optimizeDeps: {
+      exclude: ['@tailwindcss/vite'],
+    },
     plugins: getPluginsList(),
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler', // or 'modern'
+        },
+      },
+    },
     build: {
       // https://cn.vitejs.dev/guide/build.html#browser-compatibility
       // target: "es2015",
+      minify: 'esbuild',
       sourcemap: false,
       // 消除打包大小超过500kb警告
       chunkSizeWarningLimit: 4000,

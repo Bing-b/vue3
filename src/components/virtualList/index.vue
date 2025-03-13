@@ -1,72 +1,77 @@
+<!-- 虚拟列表-适用 item 动态高度场景
+https://github.com/Akryum/vue-virtual-scroller/tree/master/packages/vue-virtual-scroller
+-->
 <template>
-  <div class="virtual-list-wrapper h-full">
-    <RecycleScroller
-      class="scroller"
-      :items="$data"
-      :item-size="computedItemSize"
-      :buffer="buffer"
-      key-field="id">
-      <template #default="{ item }">
-        <slot :row="item" />
-      </template>
-    </RecycleScroller>
-  </div>
+  <DynamicScroller
+    ref="scrollerRef"
+    :items="$data"
+    :min-item-size="minItemSize"
+    @scroll-end="emit('onScrollEnd')"
+    :style="{ maxHeight: `${maxHeight}px`, overflowY: 'auto' }"
+    class="h-full"
+    key-field="id">
+    <template v-slot="{ item, index, active }">
+      <DynamicScrollerItem :item="item" :active="active" :data-index="index">
+        <slot :item :index />
+      </DynamicScrollerItem>
+    </template>
+  </DynamicScroller>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref, watch } from 'vue';
-import { RecycleScroller } from 'vue-virtual-scroller';
+import { computed, defineProps, ref, watch, nextTick } from 'vue';
+import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
-const props = defineProps<{ data: any[]; itemSize?: number; buffer?: number; maxSize?: number }>();
-const containerHeight = ref(0);
+/**
+ * @param data - 列表数据，数组对象 [{}]。
+ * @param size - 可视区域最大显示的元素数量，默认为 10。
+ * @param autoRrefresh - 自动刷新
+ */
+const {
+  data = [],
+  size = 10,
+  autoRrefresh = true,
+} = defineProps<{ data: Recordable[]; size?: number; autoRrefresh?: boolean }>();
 
+/**
+ * onScrollStart: 滚动开始触发
+ * onScrollEnd：滚动到底部触发
+ */
+const emit = defineEmits(['onScrollEnd']);
+
+// 每个元素的最小高度(元素间距使用padding)
+const minItemSize = 60;
+
+const scrollerRef = ref<InstanceType<typeof DynamicScroller> | null>(null);
+
+const maxHeight = computed(() => {
+  return size * minItemSize;
+});
+
+// 处理列表数据结构
 const $data = computed(() => {
-  if (Array.isArray(props.data) && typeof props.data[0] === 'object' && props.data[0] !== null) {
-    return props.data.map((i) => ({ ...i, id: i.id ?? crypto.randomUUID() }));
+  if (!Array.isArray(data) || data.length === 0) return [];
+
+  if (typeof data[0] === 'object' && data[0] !== null) {
+    // 检查第一项是否有 `id` 属性
+    if ('id' in data[0]) {
+      return data;
+    }
+    return data.map((i, idx) => ({ ...i, id: idx }));
   }
+
+  console.error('虚拟列表数据格式错误');
   return [];
 });
 
-const computedItemSize = computed(() => {
-  if (props.maxSize && containerHeight.value) {
-    return Math.floor(containerHeight.value / props.maxSize);
-  }
-  return props.itemSize || 50;
-});
-
-const buffer = ref(props.buffer || 300);
-
 watch(
-  () => props.data,
+  () => data,
   () => {
-    // 监听数据变化时，刷新列表
+    nextTick(() => {
+      if (scrollerRef.value && autoRrefresh) scrollerRef.value.forceUpdate(); // 强制刷新
+    });
   },
-  { deep: true }
+  { deep: 1 }
 );
-
-const updateContainerHeight = () => {
-  const el = document.querySelector('.virtual-list-wrapper');
-  if (el) {
-    containerHeight.value = el.clientHeight;
-  }
-};
-
-watch(
-  () => props.maxSize,
-  () => {
-    updateContainerHeight();
-  }
-);
-
-// 监听窗口大小变化
-window.addEventListener('resize', updateContainerHeight);
-updateContainerHeight();
 </script>
-
-<style>
-.scroller {
-  overflow-y: auto;
-  height: 100%;
-}
-</style>

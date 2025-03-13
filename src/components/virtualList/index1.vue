@@ -1,53 +1,68 @@
-<!-- 虚拟列表-动态高度 -->
+<!-- 虚拟列表-适用固定高度item,支持分页 -->
 <template>
   <div class="h-full">
-    <DynamicScroller
-      ref="scrollerRef"
-      :items="$data"
-      :min-item-size="minItemSize"
-      :style="{ maxHeight: `${maxHeight}px`, overflowY: 'auto' }"
-      class="h-full"
-      key-field="id">
-      <template v-slot="{ item, index, active }">
-        <DynamicScrollerItem :item="item" :active="active" :data-index="index">
-          <slot :item :index />
-        </DynamicScrollerItem>
+    <RecycleScroller
+      @scroll-end="loadData"
+      class="h-[calc(100%-22px)] overflow-y-scroll"
+      :items="activeData"
+      :item-size="itemSize"
+      :buffer="100"
+      :key-field="key">
+      <template #default="{ item }">
+        <slot :item />
       </template>
-    </DynamicScroller>
+    </RecycleScroller>
+    <el-button v-show="loading" loading class="!border-none !h-4">Loading</el-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref, watch, nextTick } from 'vue';
-import { DynamicScroller, DynamicScrollerItem } from 'vue-virtual-scroller';
+import { ref, watch } from 'vue';
+import { computed, defineProps } from 'vue';
+import { RecycleScroller } from 'vue-virtual-scroller';
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
-// data：列表对象数组  size：控制可视区域最大显示元素数量
-const { data = [], size = 10 } = defineProps<{ data: any[]; size?: number }>();
+/**
+ * @param data - 列表数据，数组对象 [{}]。
+ * @param itemSize - item 高度
+ * @param key - item 唯一标识
+ * @param pageSize - 分页条数
+ */
+const {
+  data = [],
+  itemSize = 36,
+  key = 'id',
+  pageSize = 100,
+} = defineProps<{ data: Recordable[]; itemSize: number; key: string; pageSize?: number }>();
 
-// 每个元素的最小高度 ，元素间距使用pb-[x] 才有效
-const minItemSize = 60;
+// 当前显示数据
+const activeData = ref<Recordable[]>([]);
 
-const scrollerRef = ref<InstanceType<typeof DynamicScroller> | null>(null);
+const loading = ref(false);
 
-const maxHeight = computed(() => {
-  return size * minItemSize;
+const TempData = computed(() => {
+  return key ? data : data.map((i, idx) => ({ ...i, id: idx }));
 });
 
-// 处理列表项增加id属性
-const $data = computed(() => {
-  if (Array.isArray(data) && typeof data[0] === 'object' && data[0] !== null) {
-    return data.map((i, idx) => ({ ...i, id: i.id ?? idx }));
-  }
-  return [];
-});
+// 滚动到底部加载数据
+const loadData = () => {
+  if (loading.value || activeData.value.length === TempData.value.length) return;
+  loading.value = true;
+  setTimeout(() => {
+    const newItems = TempData.value.slice(
+      activeData.value.length,
+      activeData.value.length + pageSize
+    );
+    activeData.value = [...activeData.value, ...newItems];
+    loading.value = false;
+  }, 1500);
+};
 
 watch(
   () => data,
-  async () => {
-    await nextTick();
-    if (scrollerRef.value) scrollerRef.value.forceUpdate();
+  () => {
+    activeData.value = TempData.value.slice(0, pageSize);
   },
-  { deep: true }
+  { deep: 1 }
 );
 </script>

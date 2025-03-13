@@ -2,7 +2,7 @@
   <div>
     <el-button @click="checkData1">数据1</el-button>
     <el-button @click="checkData2">数据2</el-button>
-    <el-table :data="data" ref="tableRef" row-key="id">
+    <el-table :data="data" ref="dragWrapperRef" row-key="name">
       <el-table-column label="姓名" prop="name" />
       <el-table-column label="数量" prop="value" />
     </el-table>
@@ -11,49 +11,60 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useSortTable } from '@/hooks/useSortTable';
+import { useDragTable } from '@/hooks/useSortTable';
+import { watch } from 'vue';
 
-const data = ref<{ name: string; value: string }[]>([]);
+// 初始化可拖拽表格
+const { dragWrapperRef, dragDataKey, dragData } = useDragTable();
 
-const { tableRef } = useSortTable(data);
+const data = ref([]);
+
+const data1 = ref([
+  {
+    name: '张三',
+    value: '1',
+  },
+  {
+    name: '李四',
+    value: '2',
+  },
+  {
+    name: '小帅',
+    value: '3',
+  },
+]);
+
+const data2 = ref([
+  {
+    name: '哪吒',
+    value: '3',
+  },
+  {
+    name: '敖丙',
+    value: '4',
+  },
+  {
+    name: '申公豹',
+    value: '6',
+  },
+]);
 
 const checkData1 = () => {
-  data.value.splice(
-    0,
-    data.value.length,
-    ...[
-      {
-        name: '张三',
-        value: '1',
-      },
-      {
-        name: '李四',
-        value: '2',
-      },
-      {
-        name: '小帅',
-        value: '3',
-      },
-    ]
-  );
+  dragDataKey.value = '1';
+  dragData.value = data1.value;
 };
 
 const checkData2 = () => {
-  data.value = [
-    {
-      name: '哪吒',
-      value: '3',
-    },
-    {
-      name: '敖丙',
-      value: '4',
-    },
-    {
-      name: '申公豹',
-      value: '6',
-    },
-  ];
+  dragDataKey.value = '2';
+  dragData.value = data2.value;
 };
+
+watch(
+  () => data.value,
+  () => {
+    console.log(data1.value, data2.value);
+  }
+);
 </script>
 
 <style lang="scss" scoped>

@@ -4,26 +4,47 @@
 
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import useGlobalConfig from '@/store/modules/global';
 import * as ace from 'ace-builds';
 import 'ace-builds/src-noconflict/mode-javascript'; // 语言模式
 import 'ace-builds/src-noconflict/theme-monokai'; // 主题
 import 'ace-builds/src-noconflict/ext-language_tools'; // 语法提示
 import 'ace-builds/src-noconflict/snippets/javascript'; // 语法段提示模块
-import './mode-mylang'; // 此模块需对应目录创建
-// import '../assets/ace/mylang.js';
+import './mode-mylang';
+import { computed } from 'vue';
+
+const globalConfigStore = useGlobalConfig();
 
 // 编辑器内容
 const $value = defineModel('value', { default: '' });
 
+const editorTheme = computed(() =>
+  globalConfigStore.appDark
+    ? {
+        gutter: '#303135',
+        activeLine: '#fafafa',
+        background: '#212226',
+        keyWord: '#e77a29',
+        word: '#fff',
+      }
+    : {
+        gutter: '#eff2f8',
+        activeLine: '#333',
+        background: '#F7F8FB',
+        keyWord: '#1b5fdf',
+        word: '#333',
+      },
+);
+
 let editor: any = null;
 
-const aceEditor = ref<string | Element>('');
+const aceEditor = ref<HTMLElement | string>('');
 
 // 编辑器默认配置项
 const options = {
-  theme: 'ace/theme/monokai',
-  // mode: 'ace/mode/javascript',
-  mode: 'ace/mode/mylang',
+  theme: 'ace/theme/theme-monokai',
+  mode: 'ace/mode/javascript',
+  //mode: 'ace/mode/mylang',
   tabSize: 1,
   maxLines: 25,
   minLines: 25,
@@ -61,7 +82,7 @@ watch(
     editor.getSession().setValue(newProps);
     editor.clearSelection();
     editor.moveCursorToPosition(position);
-  }
+  },
 );
 
 onMounted(() => {
@@ -76,12 +97,32 @@ onBeforeUnmount(() => {
 .aceEditor {
   width: 100%;
   height: 100%;
+  background-color: v-bind('editorTheme.background') !important;
+  * {
+    font-family: 'SmileySans' !important;
+  }
+}
+
+:deep(.ace-tm .ace_gutter) {
+  background: v-bind('editorTheme.gutter') !important;
+}
+:deep(.ace-tm .ace_gutter-active-line) {
+  background: v-bind('editorTheme.gutter') !important;
+  color: v-bind('editorTheme.activeLine');
+}
+
+:deep(.ace_text-layer) {
+  width: 100% !important;
 }
 
 /* 自定义语言，匹配不同类型关键词高亮颜色 */
-.ace_constant {
-  color: #05d405;
-  font-weight: bold;
+:deep(.ace-tm .ace_keyword) {
+  color: v-bind('editorTheme.keyWord') !important;
+  font-weight: bold !important;
+}
+
+:deep(.ace-tm .ace_line) {
+  color: v-bind('editorTheme.word') !important;
 }
 
 .ace_mylang {
@@ -90,5 +131,9 @@ onBeforeUnmount(() => {
 
 .ace_keyword {
   color: blue !important;
+}
+
+:deep(.ace_text-layer) {
+  width: 100% !important;
 }
 </style>

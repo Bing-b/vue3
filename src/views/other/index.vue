@@ -9,7 +9,7 @@
           @click="handleChangeComponent(item)"
           v-for="item in leftSideMenu"
           :key="item.name"
-          class="px-3 mb-1 py-[2px] rounded cursor-pointer hover:bg-[#e2e2e2]"
+          class="px-3 mb-1 py-[2px] rounded cursor-pointer hover:bg-[#e2e2e2] "
           :class="{ 'bg-[#e2e2e2]': activeComponent == item.component }"
           >{{ item.name }}</div
         >

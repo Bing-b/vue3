@@ -12,5 +12,6 @@
   // "insertPragma": true,
   "endOfLine": "lf",
   "singleAttributePerLine": false,
-  "htmlWhitespaceSensitivity": "strict"
+  "htmlWhitespaceSensitivity": "strict",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

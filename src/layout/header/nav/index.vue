@@ -1,9 +1,9 @@
 <template>
-  <div class="pr-10 flex gap-5 items-center">
+  <div class="flex items-center gap-5 pr-10">
     <!-- 全屏切换 -->
     <FullScreen />
     <!-- 暗黑切换 -->
-    <button class="switch" @click="toggleDark" :class="{ active: isDark }">
+    <button class="switch" @click="toggleDark($event)" :class="{ active: isDark }">
       <div class="switch_action">
         <div class="switch_icon">
           <el-icon v-if="!isDark" size="14">
@@ -28,13 +28,38 @@ const globalConfigStore = useGlobalConfig();
 const isDark = ref(false);
 
 // 切换主题
-const toggleDark = () => {
+const toggleDark = (e: MouseEvent) => {
   isDark.value = !isDark.value;
-  if (isDark.value === true) {
-    document.querySelector('html')!.classList.add('dark'); // 黑夜模式时添加类名
-  } else {
-    document.querySelector('html')!.classList.remove('dark'); // 白天删除类名
-  }
+
+  const transition = document.startViewTransition(() => {
+    const html = document.querySelector('html')!;
+    isDark.value ? html.classList.add('dark') : html.classList.remove('dark');
+  });
+
+  transition.ready.then(() => {
+    const { clientX, clientY } = e;
+    // 计算半径，以鼠标点击的位置为圆心，到四个角的距离中最大的那个作为半径
+    const radius = Math.hypot(
+      Math.max(clientX, innerWidth - clientX),
+      Math.max(clientY, innerHeight - clientY),
+    );
+
+    // 根据暗黑模式状态选择动画方向
+    const clipPath = [
+      `circle(0% at ${clientX}px ${clientY}px)`,
+      `circle(${radius}px at ${clientX}px ${clientY}px)`,
+    ];
+
+    document.documentElement.animate(
+      { clipPath: isDark.value ? clipPath.reverse() : clipPath },
+      {
+        duration: 500,
+        //切换到暗色主题，裁剪 view-transition-old(root) 的内容
+        pseudoElement: isDark.value ? '::view-transition-old(root)' : '::view-transition-new(root)',
+      },
+    );
+  });
+
   globalConfigStore.appDark = isDark.value;
 };
 
@@ -62,6 +87,7 @@ onMounted(() => {
   box-sizing: border-box;
   background: #f2f2f2;
   cursor: pointer;
+  z-index: 111;
 
   .switch_action {
     width: 16px;
@@ -73,8 +99,11 @@ onMounted(() => {
     background-color: #fff;
     transform: translate(0);
     color: #303133;
-    transition: border-color 0.3s, background-color 0.3s, transform 0.3s;
-
+    transition:
+      border-color 0.5s,
+      background-color 0.5s,
+      transform 0.5s;
+    transition-timing-function: ease;
     .switch_icon {
       position: relative;
       width: 16px;
@@ -90,12 +119,12 @@ onMounted(() => {
 }
 
 .active {
-  border-color: #4c4d4f;
-  background-color: #2c2c2c;
+  border-color: #4c4d4f !important;
+  background-color: #2c2c2c !important;
 
   .switch_action {
-    transform: translate(20px);
-    background-color: #141414;
+    transform: translate(20px) !important;
+    background-color: #141414 !important;
 
     .el-icon {
       color: #fff;
@@ -106,5 +135,15 @@ onMounted(() => {
 .dark .switch {
   background: #141414;
   border-color: #414243;
+}
+</style>
+<style lang="scss">
+::view-transition-new(root),
+::view-transition-old(root) {
+  /* 关闭默认动画 */
+  animation: none;
+}
+.dark::view-transition-old(root) {
+  z-index: 100;
 }
 </style>

@@ -1,7 +1,6 @@
 {
   "name": "agerars",
   "private": true,
-  "type": "module",
   "version": "1.1.0",
   "scripts": {
     "dev": "vite --open",

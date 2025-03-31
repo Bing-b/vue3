@@ -54,13 +54,17 @@
 import { computed, getCurrentInstance, nextTick, onBeforeMount, onUnmounted, ref } from 'vue';
 import { onBeforeRouteUpdate, RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 
+import useGlobalConfig from '@/store/modules/global';
+
+const globalConfigStore = useGlobalConfig();
+
 const props = withDefaults(
   defineProps<{
     menuList: any[];
   }>(),
   {
     menuList: () => [],
-  }
+  },
 );
 
 // 菜单默认展开
@@ -73,6 +77,16 @@ const { proxy } = getCurrentInstance() as any;
 
 // 菜单列表
 const menuLists = computed(() => props.menuList);
+
+const theme = computed(() =>
+  globalConfigStore.appDark
+    ? {
+        background: '#333333',
+      }
+    : {
+        background: '#5f85e4',
+      },
+);
 
 const route = useRoute();
 const router = useRouter();
@@ -117,7 +131,7 @@ const openFirst = (menu) => {
   menu.choose = true;
   // 判断当前高亮路径是否是当前点击的菜单中，不在此菜单中时打开自菜单中第一个菜单
   const hasCurrentMenuArr: string[] = menu.children.filter(
-    (child) => child.path === defaultActive.value
+    (child) => child.path === defaultActive.value,
   );
   if (hasCurrentMenuArr.length === 0) {
     defaultActive.value = menu.children[0].path;
@@ -171,15 +185,13 @@ onUnmounted(() => {
     .choseMenu {
       .el-sub-menu__title {
         color: #5f85e4 !important;
-        //border-left: 4px solid #1c53d9 !important;
-        background-color: #edf1fc;
+        background-color: v-bind('theme.background');
       }
     }
 
     .el-menu-item.is-active.choseMenu {
       color: #5f85e4 !important;
-      //  border-left: 4px solid #1c53d9 !important;
-      background-color: #edf1fc;
+      background-color: v-bind('theme.background');
     }
 
     .el-menu-item.is-active {

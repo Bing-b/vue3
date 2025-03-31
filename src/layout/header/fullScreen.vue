@@ -1,8 +1,7 @@
 <template>
-  <el-tooltip effect="dark" content="全屏" placement="bottom" :show-after="0.5">
-    <span @click="toggle" class="h-4">
-      <el-icon v-if="!isFullscreen"><FullScreen /></el-icon>
-      <el-icon v-else><Aim /></el-icon>
+  <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom" :show-after="0.5">
+    <span @click="toggle" class="flex h-4 cursor-pointer items-center justify-center">
+      <svgIcon :name="isFullscreen ? 'out-full-screen' : 'full-screen'" size="18" />
     </span>
   </el-tooltip>
 </template>

@@ -25,7 +25,7 @@ module.exports = {
     ['deps', '项目依赖'],
     ['other', '其他修改'],
     // 如果选择 custom，后面会让你再输入一个自定义的 scope。也可以不设置此项，把后面的 allowCustomScopes 设置为 true
-    ['custom', '以上都不是？我要自定义'],
+    //  ['custom', '以上都不是？我要自定义'],
   ].map(([value, description]) => {
     return {
       value,
@@ -38,7 +38,7 @@ module.exports = {
     type: '确保本次提交遵循 commit 规范！\n选择你要提交的类型：',
     scope: '\n选择一个 scope（可选）：',
     // 选择 scope: custom 时会出下面的提示
-    customScope: '请输入自定义的 scope：',
+    //  customScope: '请输入自定义的 scope：',
     subject: '填写简短的变更描述：\n',
     body: '填写更加详细的变更描述（可选）。使用 "|" 换行：\n',
     breaking: '列举非兼容性重大的变更（可选）：\n',

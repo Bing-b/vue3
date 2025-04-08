@@ -372,4 +372,8 @@ onUnmounted(() => {
   border: 1px solid #dcdfe6;
   border-radius: 25px;
 }
+
+.dark .time {
+  background-color: #36363a;
+}
 </style>

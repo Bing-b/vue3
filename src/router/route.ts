@@ -226,15 +226,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           },
         ],
       },
-      {
-        path: '/funny',
-        name: 'funny',
-        component: () => import('@/views/funny/index.vue'),
-        meta: {
-          title: 'funny',
-          icon: 'menu-menu_funny',
-        },
-      },
+      // {
+      //   path: '/funny',
+      //   name: 'funny',
+      //   component: () => import('@/views/funny/index.vue'),
+      //   meta: {
+      //     title: 'funny',
+      //     icon: 'menu-menu_funny',
+      //   },
+      // },
       {
         path: '/gsap',
         name: 'gsap',

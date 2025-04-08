@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex items-center justify-center">
+  <div class="flex h-full w-full items-center justify-center">
     <LottieWeb
       :options="options"
       :style="{

@@ -2,7 +2,7 @@
   <div class="logo-box">
     <div class="logo" :class="{ w: isExpansion }">
       <img class="w-[30px]" :src="$getImg('logo/logo_square.png')" />
-      <h2 class="text-[24px] font-bold text-[#191919] dark:text-white font-xht " v-if="!isExpansion">
+      <h2 class="font-xht text-[24px] font-bold text-[#191919] dark:text-white" v-if="!isExpansion">
         AgeraRs</h2
       >
     </div>

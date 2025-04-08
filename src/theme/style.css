@@ -2,5 +2,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --font-xht: 'xht';
-  --bg-black: '#141414';
+  --color-dark-border: var(--color-border);
+  --color-dark-bg: var(--color-background);
+}
+@layer base {
+  .dark {
+    --color-border: #36363a;
+    --color-background: #141414;
+  }
 }

@@ -1,11 +1,11 @@
 <template>
-  <div class="h-full dark:text-white bg-[#f0f2f5] dark:bg-black overflow-auto">
+  <div class="h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
     <!-- 统计模块 -->
-    <h2 class="title flex justify-between items-center" data-intro="这是第一步😃" data-step="1"
+    <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
       >概览 <el-button @click="initIntor">引导</el-button></h2
     >
-    <div class="flex gap-8 h-[430px] p-5 bg-white dark:bg-black rounded">
-      <div
+    <div class="flex h-[430px] gap-8 rounded bg-white p-5 dark:bg-black">
+      <!-- <div
         class="sec1"
         v-motion
         :initial="{
@@ -19,11 +19,7 @@
             delay: 160,
           },
         }">
-        <h2>访问总量</h2>
-        <img src="@/assets/icons/calendar.svg" alt="" />
-
-        <h3><CountTo :startVal="1" :endVal="888" />w</h3>
-      </div>
+      </div> -->
       <div class="sec2">
         <div
           v-for="(item, index) in GrowCardList"
@@ -45,8 +41,8 @@
           <span>{{ item.label }}</span>
         </div>
       </div>
-      <div
-        class="sec3 dark:border-[#666]"
+      <!-- <div
+        class="sec3 dark:!border-dark-border"
         v-motion
         :initial="{
           opacity: 0,
@@ -60,36 +56,10 @@
           },
         }">
         <Echart data-intro="这是第二步🤣" data-step="2" />
-      </div>
-    </div>
+      </div> -->
 
-    <div class="flex mt-2 h-[300px]">
       <div
-        class="w-[70%] bg-white dark:bg-bg_color dark:border dark:border-[#414243] rounded"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 160,
-          },
-        }">
-        <h2 class="title">项目技术</h2>
-        <div class="flex flex-wrap tec" data-intro="这是第三步🖐️" data-step="3">
-          <div>
-            <LottieWeb />
-          </div>
-          <div>
-            <Google />
-          </div>
-        </div>
-      </div>
-      <div
-        class="flex-1 bg-white ml-3 flex items-center justify-between p-5 time"
+        class="time ml-3 flex flex-1 items-center justify-between bg-white p-5"
         data-intro="这是第四步🦝"
         data-step="4"
         v-motion
@@ -105,7 +75,7 @@
           },
         }">
         <div>
-          <p class="text-[20px] font-medium">{{ date.year }}余额</p>
+          <p class="font-SmileySans text-[24px] font-medium">{{ date.year }}余额</p>
           <h4 class="text-[40px] font-bold">{{ date.remainingDays }}<span>天</span></h4>
           <p
             >{{ date.hour }}<span>h</span>{{ date.minute }} <span>m</span>{{ date.second
@@ -117,11 +87,38 @@
             type="circle"
             :percentage="date.process"
             color="#fff"
-            :width="140"
+            :width="200"
             :stroke-width="20" />
         </div>
       </div>
     </div>
+
+    <!-- <div class="mt-2 flex h-[300px]">
+      <div
+        class="dark:bg-bg_color dark:border-b-dark-border w-[70%] rounded bg-white dark:border-b"
+        v-motion
+        :initial="{
+          opacity: 0,
+          y: 100,
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 160,
+          },
+        }">
+        <h2 class="title mb-5">项目技术</h2>
+        <div class="tec flex flex-wrap" data-intro="这是第三步🖐️" data-step="3">
+          <div>
+            <LottieWeb />
+          </div>
+          <div>
+            <Google />
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -210,10 +207,12 @@ onUnmounted(() => {
 
 .time {
   position: relative;
-  background: url(@/assets/images/bg.jpg) no-repeat center;
+  background: url(@/assets/images/girl.png) no-repeat center;
+  background: url(@/assets/images/line.png) no-repeat center;
   background-size: cover;
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
+  padding: 20px 100px;
 
   &::before {
     position: absolute;
@@ -235,6 +234,7 @@ onUnmounted(() => {
   h4 {
     color: #fff;
     font-weight: bold;
+    font-family: 'SmileySans';
 
     span {
       margin: 0 6px;
@@ -255,13 +255,13 @@ onUnmounted(() => {
 .sec1 {
   box-sizing: border-box;
   height: 100%;
-  width: 22.5%;
+  width: 30.5%;
   padding: 40px 0 30px 30px;
   overflow: hidden;
   color: #fff;
-  background: url('@/assets/images/tj.png');
-  background-position: 50%;
-  background-size: cover;
+  background: url(../../assets/images/line.png);
+  background-color: #4b4b56;
+  background-size: 120%;
   border-radius: 20px;
   h2 {
     font-size: 18px;
@@ -353,8 +353,22 @@ onUnmounted(() => {
     }
   }
 }
+
+.dark .sec2 {
+  > div {
+    background-color: #141414;
+    border: 1px solid #36363a;
+    div {
+      background-color: #36363a;
+    }
+    span {
+      color: #fafafa !important;
+    }
+  }
+}
+
 .sec3 {
-  width: 40%;
+  width: 25%;
   border: 1px solid #dcdfe6;
   border-radius: 25px;
 }

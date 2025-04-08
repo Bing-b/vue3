@@ -84,7 +84,7 @@ const theme = computed(() =>
         background: '#333333',
       }
     : {
-        background: '#5f85e4',
+        background: '#edf1fc',
       },
 );
 

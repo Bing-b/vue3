@@ -69,6 +69,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '标注',
             },
           },
+          {
+            path: '/canEditeable',
+            name: '插入编辑器',
+            component: () => import('@/views/editableDiv/index.vue'),
+            meta: {
+              title: '插入编辑器',
+            },
+          },
         ],
       },
 

@@ -19,9 +19,9 @@
         </div>
 
         <!-- 文本标注容器 -->
-        <div class="w-1/2 ml-5">
+        <div class="ml-5 w-1/2">
           <h4 class="my-1">文本标注</h4>
-          <div class="mb-3 px-2 py-3 border border-[#dedede] rounded">
+          <div class="dark:border-dark-border mb-3 rounded border border-[#dedede] px-2 py-3">
             <el-badge
               v-for="item in labelStore"
               :key="item.id"
@@ -31,8 +31,10 @@
               <el-tag :hit="true" :color="item.color">{{ item.text }}</el-tag>
             </el-badge>
           </div>
-          <div id="example" class="border border-[#dedede] rounded h-[300px] overflow-hidden"></div>
-          <div class="flex items-center mt-4">
+          <div
+            id="example"
+            class="dark:border-dark-border h-[300px] overflow-hidden rounded border border-[#dedede]"></div>
+          <div class="mt-4 flex items-center">
             <el-button v-show="annotator" type="primary" @click="exprotJson">导出JSON</el-button>
             <el-button v-show="annotator" type="primary" @click="exportSVG">导出SVG</el-button></div
           >
@@ -233,7 +235,7 @@ const addLabel = (categoryId: number) => {
 const addConnection = (connectionId: number) => {
   if (CategorySelectMode.value === CategorySelectModes.CREATE) {
     annotator.value!.applyAction(
-      Action.Connection.Create(connectionId, state.sourceId, state.targetId)
+      Action.Connection.Create(connectionId, state.sourceId, state.targetId),
     );
   } else {
     annotator.value!.applyAction(Action.Connection.Update(state.selectedId, connectionId));
@@ -330,7 +332,7 @@ const labelStore: ComputedRef<
   // 代码简化
   const labelCount = result.reduce(
     (acc: any, item) => (acc.set(item.categoryId, (acc.get(item.categoryId) || 0) + 1), acc),
-    new Map()
+    new Map(),
   );
   labelCategories.forEach((item) => {
     const key = item.id;

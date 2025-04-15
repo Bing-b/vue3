@@ -4,6 +4,7 @@
     contenteditable="true"
     id="editor-box"
     placeholder="请插入"
+    class="dark:!border-dark-border"
     @beforeInput="onInput"
     @paste.prevent
     @compositionstart="onCompositionStart"

@@ -4,8 +4,8 @@
       <p>PDF预览</p>
     </template>
     <div v-loading="loading" class="h-[calc(100vh-61px)]" element-loading-text="加载中...">
-      <div class="flex justify-between items-center h-9">
-        <div v-if="showAllPages" class="font-medium ml-1.25 text-xl">
+      <div class="flex h-9 items-center justify-between">
+        <div v-if="showAllPages" class="ml-1.25 text-xl font-medium">
           共{{ pageParams.total }}页
         </div>
         <div v-else>
@@ -18,7 +18,7 @@
             {{ pageParams.currentPage }} / {{ pageParams.total }}
           </el-pagination>
         </div>
-        <div class="w-[170px] flex-bc">
+        <div class="flex-bc w-[170px]">
           <el-checkbox v-model="showAllPages" @change="showAllPagesChange">
             显示所有页面
           </el-checkbox>
@@ -27,7 +27,7 @@
       <el-scrollbar>
         <vue-pdf-embed
           ref="pdfRef"
-          class="h-full container overflow-auto w-full"
+          class="container h-full w-full overflow-auto"
           :page="pageParams.currentPage"
           :source="source"
           @rendered="handleDocumentRender" />

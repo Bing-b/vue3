@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
   height: 100%;
   background-color: v-bind('editorTheme.background') !important;
   * {
-    font-family: 'SmileySans' !important;
+    font-family: 'MapleMono' !important;
   }
 }
 

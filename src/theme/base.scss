@@ -4,9 +4,9 @@
   font-weight: 400;
   color: #242424;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: #36363a;
   /* background-color: #242424;*/
-  background-color: #ffffff;
+  // background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,7 +29,6 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  color: #242424;
 }
 
 body,
@@ -65,19 +64,21 @@ html {
 }
 
 @font-face {
-  font-family: 'jy';
-  src: url('../assets/font/江城圆体\ 600W.ttf');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'xht';
   src: url('../assets/font/字制区喜脉喜欢体.ttf');
 }
 
+@font-face {
+  font-family: 'MapleMono';
+  src: url('../assets/font/MapleMono-NF-CN-Medium.ttf');
+}
 
 @font-face {
-  font-family: 'SmileySans';
-  src: url('../assets/font/MapleMono-NF-CN-Medium.ttf');
+  font-family: 'chenYuluoyan';
+  src: url('../assets/font/ChenYuluoyan-2.0-Thin.ttf');
+}
+
+@font-face {
+  font-family: 'HanSansSC';
+  src: url('../assets/font/SourceHanSansSC-Regular.otf');
 }

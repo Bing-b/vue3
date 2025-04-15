@@ -1,6 +1,6 @@
 <template>
-  <div class="w-[260px] bg-white dark:bg-bg_color h-full p-2">
-    <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
+  <div class="dark:bg-dark-sec-bg h-full w-[260px] bg-white p-2">
+    <div class="mb-2 rounded bg-slate-600 px-4 py-2">
       <p class="text-white">懒文件目录</p>
     </div>
     <el-tree
@@ -16,7 +16,7 @@
           <svgIcon name="folderOpen" v-else-if="node.expanded" />
           <svgIcon name="folderClose" v-else />
         </span>
-        <span class="custom-tree-node w-full items-center flex justify-between">
+        <span class="custom-tree-node flex w-full items-center justify-between">
           <!-- label 文本与输入框动态切换 -->
           <span v-if="!data.showInput">{{ node.label }}</span>
           <el-popover

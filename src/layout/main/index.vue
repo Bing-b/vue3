@@ -1,6 +1,6 @@
 <template>
-  <el-main class="h-full bg-[#f0f2f5] !px-3 !py-3 dark:bg-black">
-    <div class="dark:bg-bg_color h-full bg-white">
+  <el-main class="h-full bg-[#f0f2f5] !px-3 !py-3">
+    <div class="dark:bg-dark-bg dark:border-dark-border h-full rounded-sm bg-white dark:border">
       <router-view #default="{ Component }">
         <transition name="slide" mode="out-in">
           <component :is="Component" :key="route.path" />

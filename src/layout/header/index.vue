@@ -6,6 +6,6 @@
   </el-header>
 </template>
 <script lang="ts" setup>
-import Logo from './logo/index.vue';
-import NavBox from './nav/index.vue';
+import Logo from './logo.vue';
+import NavBox from './nav.vue';
 </script>

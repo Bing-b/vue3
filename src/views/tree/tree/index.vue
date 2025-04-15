@@ -1,6 +1,9 @@
 <template>
-  <div class="box dark:dark-sec-bg flex h-full">
-    <div id="targetBox" class="relative h-full max-w-[400px] min-w-[260px] px-2 py-2" v-move>
+  <div class="box flex h-full">
+    <div
+      id="targetBox"
+      class="dark:bg-dark-sec-bg relative h-full max-w-[400px] min-w-[260px] px-2 py-2"
+      v-move>
       <div class="mb-2 rounded bg-slate-600 px-4 py-2">
         <p class="text-white">文件目录</p>
       </div>

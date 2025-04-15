@@ -4,6 +4,7 @@
   --font-xht: 'xht';
   --color-dark-border: var(--color-border);
   --color-dark-bg: var(--color-background);
+  --color-dark-sec-bg: var(--color-border);
 }
 @layer base {
   .dark {

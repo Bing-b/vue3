@@ -1,6 +1,5 @@
 <template>
   <div class="h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
-    <!-- 统计模块 -->
     <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
       >概览 <el-button @click="initIntor">引导</el-button></h2
     >
@@ -374,6 +373,7 @@ onUnmounted(() => {
 }
 
 .dark .time {
-  background-color: #36363a;
+  background-color: #141414;
+  border: 1px solid #36363a;
 }
 </style>

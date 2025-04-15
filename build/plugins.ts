@@ -7,7 +7,6 @@ import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
-import tailwindcss from '@tailwindcss/vite';
 import VitePluginVueDevtools from 'vite-plugin-vue-devtools';
 
 /** 获取插件列表 */
@@ -39,7 +38,6 @@ export const getPluginsList = (): Array<PluginOption> => {
       algorithm: 'brotliCompress', // 压缩算法
       ext: '.br', // 文件类型
     }),
-    tailwindcss(),
     process.env.NODE_ENV === 'development' && VitePluginVueDevtools(),
   ];
 };

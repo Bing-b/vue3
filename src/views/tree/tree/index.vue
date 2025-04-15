@@ -1,10 +1,7 @@
 <template>
-  <div class="box flex h-full">
-    <div
-      id="targetBox"
-      class="relative min-w-[260px] max-w-[400px] h-full px-2 py-2 dark:bg-bg_color"
-      v-move>
-      <div class="px-4 py-2 mb-2 bg-slate-600 rounded">
+  <div class="box dark:dark-sec-bg flex h-full">
+    <div id="targetBox" class="relative h-full max-w-[400px] min-w-[260px] px-2 py-2" v-move>
+      <div class="mb-2 rounded bg-slate-600 px-4 py-2">
         <p class="text-white">文件目录</p>
       </div>
       <el-input
@@ -29,7 +26,7 @@
             <svgIcon name="folderOpen" v-else-if="node.expanded" />
             <svgIcon name="folderClose" v-else />
           </span>
-          <span class="custom-tree-node w-full items-center flex justify-between">
+          <span class="custom-tree-node flex w-full items-center justify-between">
             <!-- label 文本与输入框动态切换 -->
             <span v-if="!data.showInput">{{ node.label }}</span>
             <el-popover
@@ -86,7 +83,7 @@
         </template>
       </el-tree>
       <div
-        class="drag w-1 h-7 bg-slate-400 absolute right-[-2px] top-[50%] translate-y-[-50%] cursor-col-resize">
+        class="drag absolute top-[50%] right-[-2px] h-7 w-1 translate-y-[-50%] cursor-col-resize bg-slate-400">
       </div>
     </div>
     <div class="flex-1"> </div>
@@ -369,7 +366,7 @@ watch(
   () => expandedKeys.value,
   () => {
     console.log(expandedKeys.value);
-  }
+  },
 );
 </script>
 

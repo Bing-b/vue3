@@ -16,7 +16,6 @@ import { onUnmounted, ref } from 'vue';
 
 const emit = defineEmits(['updateMatchList']);
 
-// 匹配项列表
 const $matchList = defineModel<{ matchLabel: string }[]>('matchList', { default: [] });
 
 const inputBoxRef = ref<HTMLElement | null>(null);

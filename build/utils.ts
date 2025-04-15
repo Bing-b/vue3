@@ -18,7 +18,7 @@ const alias: Record<string, string> = {
 };
 
 /** 导入文件时想要省略的扩展名列表 */
-const extensions: Array<string> = ['.js', '.ts', '.jsx', '.tsx', '.json','.d.ts'];
+const extensions: Array<string> = ['.js', '.ts', '.jsx', '.tsx', '.json', '.d.ts'];
 
 /** 处理环境变量 */
 const warpperEnv = (envConf: Recordable): ViteEnv => {

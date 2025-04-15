@@ -90,14 +90,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
         children: [
           {
-            path: '/vueFlow',
-            name: 'vueFlow',
-            component: () => import('@/views/vue-flow/index.vue'),
-            meta: {
-              title: 'vue-flow',
-            },
-          },
-          {
             path: '/G6',
             name: 'G6',
             component: () => import('@/views/graph/index.vue'),

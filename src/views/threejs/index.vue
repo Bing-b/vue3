@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 h-full overflow-y-scroll">
+  <div class="h-full overflow-y-scroll p-5">
     <div ref="webglRef" id="webgl" style="margin-top: 10px; margin-left: 10px"></div>
 
     <el-button @click="render">旋转动画</el-button>
@@ -177,7 +177,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  resizeObserver.unobserve(webglRef.value);
+  if (resizeObserver) resizeObserver.unobserve(webglRef.value);
 });
 </script>
 

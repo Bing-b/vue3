@@ -1,6 +1,6 @@
 <template>
-  <el-main class="h-full bg-[#f0f2f5] !px-3 !py-3">
-    <div class="bg-white dark:bg-bg_color h-full">
+  <el-main class="h-full bg-[#f0f2f5] !px-3 !py-3 dark:bg-black">
+    <div class="dark:bg-bg_color h-full bg-white">
       <router-view #default="{ Component }">
         <transition name="slide" mode="out-in">
           <component :is="Component" :key="route.path" />
@@ -22,7 +22,7 @@ watch(
   () => route.path,
   () => {
     state.currentRouteMeta = route.meta;
-  }
+  },
 );
 </script>
 <style>

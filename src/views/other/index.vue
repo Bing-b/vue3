@@ -1,21 +1,21 @@
 <template>
   <div class="h-full">
     <h2 class="title">砸碎功能测试记录</h2>
-    <div class="p-5 flex h-[calc(100%-40px)] overflow-auto">
+    <div class="flex h-[calc(100%-40px)] overflow-auto p-5">
       <!-- 左侧目录 -->
-      <div class="w-[300px] h-full bg-[#f1f1f1] rounded p-4 dark:bg-bg_color">
-        <h3 class="mb-5 text-[20px] text-blod">目录</h3>
+      <div class="dark:bg-dark-sec-bg dark:bg-bg_color h-full w-[300px] rounded bg-[#f1f1f1] p-4">
+        <h3 class="text-blod mb-5 text-[20px]">目录</h3>
         <div
           @click="handleChangeComponent(item)"
           v-for="item in leftSideMenu"
           :key="item.name"
-          class="px-3 mb-1 py-[2px] rounded cursor-pointer hover:bg-[#e2e2e2] "
+          class="mb-1 cursor-pointer rounded px-3 py-[2px] hover:bg-[#e2e2e2]"
           :class="{ 'bg-[#e2e2e2]': activeComponent == item.component }"
           >{{ item.name }}</div
         >
       </div>
       <!-- 右侧模块切换 -->
-      <div class="p-5 flex-1">
+      <div class="flex-1 p-5">
         <KeepAlive>
           <component :is="componentsMap[activeComponent]" v-bind="$attrs" />
         </KeepAlive>
@@ -51,11 +51,10 @@ const PLimit = defineAsyncComponent(() => import('./components/p-limit.vue'));
 const RowScroll = defineAsyncComponent(() => import('./components/row-scroll.vue'));
 const Progress = defineAsyncComponent(() => import('./components/progress.vue'));
 const InfinteVirtualList = defineAsyncComponent(
-  () => import('./components/infinite-virtual-list.vue')
+  () => import('./components/infinite-virtual-list.vue'),
 );
 
 const SortTable = defineAsyncComponent(() => import('./components/sortTable.vue'));
-
 
 import sortTable from './components/sortTable.vue';
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="relative w-full h-full">
+  <div class="relative h-full w-full">
     <div
-      class="absolute top-2 left-[150px] z-[888] flex text-md gap-1 p-1 items-center bg-white rounded">
+      class="text-md absolute top-2 left-[150px] z-[888] flex items-center gap-1 rounded bg-white p-1">
       <el-button @click="drawBezier" size="small">绘制标记</el-button>
       <el-button @click="markTarget" size="small">标记目标</el-button>
       <el-button @click="restrictedArea" size="small">限制视图</el-button>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- 地图 -->
-    <div id="gisMap" class="absolute top-0 bottom-0 left-0 right-0"></div>
+    <div id="gisMap" class="absolute top-0 right-0 bottom-0 left-0"></div>
 
     <el-dialog v-model="infoDialogVisible" title="文档预览" width="60%">
       <div class="pdf-container">
@@ -136,6 +136,8 @@ let controlSearch = null as any;
 let marker2 = null as any;
 
 let marker2Path = [] as any[];
+
+const pathMarkers = new L.FeatureGroup();
 
 const infoDialogVisible = ref(false);
 
@@ -301,7 +303,7 @@ const bindEvent = () => {
               <div class="gis-save">保存</div>
               <div class="gis-delete">删除</div>
             </div>`,
-        { closeButton: false, className: 'gis-popup' }
+        { closeButton: false, className: 'gis-popup' },
       )
       .openPopup();
     editControls.addLayer(drawlayer);
@@ -380,15 +382,29 @@ const initSearch = () => {
   baseMap.addControl(controlSearch);
 
   // 添加标记到地图
-  for (const i in hainanData) {
-    const { title } = hainanData[i];
-    const { loc } = hainanData[i];
-    const marker = new L.Marker(L.latLng(loc), { title });
-    marker.bindPopup(`名称: ${title}`);
-    markersLayer.addLayer(marker);
-    if (title === '五指山市') marker.bindTooltip('五指山市').openTooltip();
-  }
+  // for (const i in hainanData) {
+  //   const { title } = hainanData[i];
+  //   const { loc } = hainanData[i];
+  //   const marker = new L.Marker(L.latLng(loc), { title });
+  //   marker.bindPopup(`名称: ${title}`);
+  //   markersLayer.addLayer(marker);
+  //   if (title === '五指山市') marker.bindTooltip('五指山市').openTooltip();
+  // }
 };
+
+const isArrived = (pos1: number[], pos2: number[], tolerance = 0.01) => {
+  const [lat1, lng1] = pos1;
+  const [lat2, lng2] = pos2;
+  return Math.abs(lat1 - lat2) < tolerance && Math.abs(lng1 - lng2) < tolerance;
+};
+
+const hainanData = [
+  { loc: [20.022, 110.348], title: '海口市' },
+  { loc: [19.684, 110.879], title: '文昌市' },
+  { loc: [19.566, 109.948], title: '三亚市' },
+  { loc: [19.362, 109.18], title: '五指山市' },
+  { loc: [18.648, 109.614], title: '儋州市' },
+];
 
 // 生成标记
 const createMarker = () => {
@@ -410,6 +426,11 @@ const createMarker = () => {
     }
   });
 
+  const targetPoints = [...hainanData.map((i) => i.loc)]; // 复制一份，表示每到一个点就打一个标记
+  let currentTargetIndex = 0; // 当前目标索引
+  const markersLayer = new L.LayerGroup();
+  baseMap.addLayer(markersLayer);
+
   // 轨迹开始
   marker2.on('move', (res: any) => {
     // 监听点位移动事件 move
@@ -421,6 +442,17 @@ const createMarker = () => {
     //   marker2.bindPopup('<b>运输中...</b>').openPopup();
     //   clearTimeout(timer);
     // }, 1000);
+    const currentPos = [res.latlng.lat, res.latlng.lng];
+    const targetPos = targetPoints[currentTargetIndex];
+
+    if (targetPos && isArrived(currentPos, targetPos)) {
+      const { title } = hainanData[currentTargetIndex];
+      const { loc } = hainanData[currentTargetIndex];
+      const marker = new L.Marker(L.latLng(loc), { title });
+      marker.bindPopup(`名称: ${title}`);
+      markersLayer.addLayer(marker);
+      currentTargetIndex++;
+    }
   });
 
   // 轨迹结束
@@ -615,7 +647,7 @@ const trafficRoute = () => {
           {
             removeOnEnd: false,
             icon: iconTruck,
-          }
+          },
         )
         .motionDuration(4000),
 
@@ -632,7 +664,7 @@ const trafficRoute = () => {
             removeOnEnd: false,
             // showMarker: true,
             icon: iconBigBoat,
-          }
+          },
         )
         .motionDuration(6000),
 
@@ -647,7 +679,7 @@ const trafficRoute = () => {
             {
               removeOnEnd: false,
               icon: iconPlane,
-            }
+            },
           )
           .motionDuration(5000),
       ]),
@@ -964,7 +996,7 @@ const initRouteMachine = () => {
       waypoints: [L.latLng(31.2049, 121.5934), L.latLng(31.2304, 121.4737)],
       // routeWhileDragging: false
       // createMarker: function () { return null; } // 可隐藏默认标记
-    }
+    },
 
     // L.extend({}, {
     //   waypoints: [L.latLng(20.022, 110.348), L.latLng(19.566, 109.948)],

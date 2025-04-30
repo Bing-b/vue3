@@ -9,6 +9,13 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import VitePluginVueDevtools from 'vite-plugin-vue-devtools';
 
+// 图标按需加载
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import { FileSystemIconLoader } from 'unplugin-icons/loaders';
+import path from 'node:path';
+const localIconPath = path.join(process.cwd(), 'src/assets/icons');
+
 /** 获取插件列表 */
 export const getPluginsList = (): Array<PluginOption> => {
   return [
@@ -23,7 +30,25 @@ export const getPluginsList = (): Array<PluginOption> => {
     }),
     // 组件按需导入，elp-plus 及 src/components/*.vue
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver(),
+        IconsResolver({
+          prefix: 'icon',
+          customCollections: ['local-icon'], // 如若 Icons 配置本地图标，这里也需要配置
+        }),
+      ],
+    }),
+    Icons({
+      autoInstall: true, // 自动安装项目中用到的图标集合
+      customCollections: {
+        'local-icon': FileSystemIconLoader(localIconPath, (svg) =>
+          svg.replace(/^<svg\s/, '<svg width="1em" height="1em" class="dida-icon"'),
+        ),
+      },
+      // scale: 1.2, // 图标大小为 1.2em; 默认值是 1
+      // defaultStyle:"", // 默认值 空字符串; 设置默认css样式的
+      // defaultClass:"",// 默认值 空字符串; 设置默认 class 的
+      // compiler:"vue3",// 设置图标的编译方式，有 vue3/vue2/jsx/null,默认值是null
     }),
     // 打包分析
     visualizer({

@@ -20,3 +20,4 @@ interface ViteEnv {
 declare module 'nprogress';
 declare module 'three';
 declare module 'sortablejs';
+declare module 'lunar-javascript';

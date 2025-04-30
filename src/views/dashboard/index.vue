@@ -3,7 +3,45 @@
     <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
       >概览 <el-button @click="initIntor">引导</el-button></h2
     >
-    <div class="flex h-[430px] gap-8 rounded bg-white p-5 dark:bg-black">
+    <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
+      <div
+        class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5"
+        data-intro="这是第四步🦝"
+        data-step="4"
+        v-motion
+        :initial="{
+          opacity: 0,
+          y: 100,
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 240,
+          },
+        }">
+        <div class="font-hsans">
+          <p class="text-xs font-medium">{{ date.year }} 年余额</p>
+          <h4 class="text-[40px] font-bold"
+            >{{ date.remainingDays }}<span class="ml-1 text-xs font-normal">天</span></h4
+          >
+          <p class="text-[#444]"
+            >{{ date.hour }}<span class="mr-1 text-xs">h</span>{{ date.minute
+            }}<span class="mr-1 text-xs">m</span>{{ date.second }}<span class="text-xs">s</span></p
+          >
+        </div>
+        <el-progress
+          type="circle"
+          :percentage="date.process"
+          color="#368eff"
+          :width="90"
+          :stroke-width="14"
+          class="custom-circle" />
+      </div>
+
+      <!-- 日历 -->
+      <calendar />
+      <!-- <icon-logos:adobe-after-effects /> -->
       <!-- <div
         class="sec1"
         v-motion
@@ -56,40 +94,6 @@
         }">
         <Echart data-intro="这是第二步🤣" data-step="2" />
       </div> -->
-
-      <div
-        class="time ml-3 flex flex-1 items-center justify-between bg-white p-5"
-        data-intro="这是第四步🦝"
-        data-step="4"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 240,
-          },
-        }">
-        <div>
-          <p class="font-SmileySans text-[24px] font-medium">{{ date.year }}余额</p>
-          <h4 class="text-[40px] font-bold">{{ date.remainingDays }}<span>天</span></h4>
-          <p
-            >{{ date.hour }}<span>h</span>{{ date.minute }} <span>m</span>{{ date.second
-            }}<span>s</span></p
-          >
-        </div>
-        <div>
-          <el-progress
-            type="circle"
-            :percentage="date.process"
-            color="#fff"
-            :width="200"
-            :stroke-width="20" />
-        </div>
-      </div>
     </div>
 
     <!-- <div class="mt-2 flex h-[300px]">
@@ -127,7 +131,8 @@ import Google from '../lottie-web/google.vue';
 import Echart from './homeCharts.vue';
 import { GrowCardList } from './index';
 import intro from 'intro.js';
-
+import Calendar from './calendar.vue';
+// import { Icon } from '@iconify/vue';
 // 定时器
 let timer: any = null;
 
@@ -180,6 +185,16 @@ onUnmounted(() => {
 });
 </script>
 <style lang="scss" scoped>
+:deep(.el-progress__text) {
+  color: #555 !important;
+  font-size: 15px !important;
+  font-family: 'MapleMono' !important;
+}
+
+:deep(.el-progress-circle__track) {
+  stroke: #e7f0fd !important;
+}
+
 .tec {
   > div {
     display: flex;
@@ -200,45 +215,6 @@ onUnmounted(() => {
         font-size: 14px;
         color: #666;
       }
-    }
-  }
-}
-
-.time {
-  position: relative;
-  background: url(@/assets/images/girl.png) no-repeat center;
-  background: url(@/assets/images/line.png) no-repeat center;
-  background-size: cover;
-  border-radius: 10px;
-  overflow: hidden;
-  padding: 20px 100px;
-
-  &::before {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    border-radius: inherit;
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-
-  > div {
-    position: relative;
-    z-index: 1;
-  }
-
-  p,
-  h4 {
-    color: #fff;
-    font-weight: bold;
-    font-family: 'SmileySans';
-
-    span {
-      margin: 0 6px;
-      font-size: 14px;
-      color: #d4d2d2;
     }
   }
 }
@@ -370,10 +346,5 @@ onUnmounted(() => {
   width: 25%;
   border: 1px solid #dcdfe6;
   border-radius: 25px;
-}
-
-.dark .time {
-  background-color: #141414;
-  border: 1px solid #36363a;
 }
 </style>

@@ -2,7 +2,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
   --font-xht: 'xht';
-  --font-xht: 'jy';
+  --font-jy: 'jy';
   --font-hsans: 'HanSansSC';
   --color-dark-border: var(--color-border);
   --color-dark-bg: var(--color-background);

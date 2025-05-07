@@ -1,9 +1,9 @@
 <template>
   <div class="logo-box">
     <div class="logo" :class="{ w: isExpansion }">
-      <img class="w-[30px]" :src="$getImg('logo/logo_square.png')" />
+      <img class="w-[30px]" :src="$getImg('logo/logo.png')" />
       <h2 class="font-xht text-[24px] font-bold text-[#191919] dark:text-white" v-if="!isExpansion">
-        AgeraRs</h2
+        花猫乐园</h2
       >
     </div>
     <svgIcon

@@ -1065,13 +1065,13 @@ const initAntLine = () => {
   const makerEnd = L.marker(paths[paths.length - 1], { icon: iconPoint });
 
   const lineLayer = antPath(paths, {
-    paused: false, // 暂停  初始化状态
+    paused: true, // 暂停  初始化状态
     reverse: false, // 方向反转
-    delay: 1000, // 延迟，数值越大效果越缓慢
+    delay: 10000, // 延迟，数值越大效果越缓慢
     dashArray: [10, 20], // 间隔样式
     weight: 3, // 线宽
     opacity: 0.7, // 透明度
-    color: '#0000ff',
+    color: '#459c50',
     pulseColor: '#fff', // 块颜色
   });
   const markerGroup = L.layerGroup([]);

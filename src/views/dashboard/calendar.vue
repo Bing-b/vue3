@@ -28,6 +28,7 @@
       <div class="flex flex-wrap">
         <div class="item text-[#8e8e94]" v-for="(d, idx) in firstDateDay" :key="idx"> </div>
         <div
+          @click="onClick"
           :class="{ today: now.getDate() === d }"
           class="item text-[#8e8e94]"
           v-for="(d, idx) in days"
@@ -37,12 +38,12 @@
       </div>
     </div>
 
-    <calendar-dialog />
+    <calendar-dialog v-model:visible="visible" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Lunar } from 'lunar-javascript';
 import CalendarDialog from './calendarDialog.vue';
 
@@ -59,6 +60,8 @@ const lunar = Lunar.fromDate(now);
 // 今天周几
 const weekDay = weekdayMap[now.getDay()];
 
+const visible = ref(false);
+
 // 每月第一天对应的号数
 const firstDateDay = computed(() => new Date(now.getFullYear(), now.getMonth(), 1).getDate()); // now.getMonth() 返回月份是从 0 开始
 
@@ -72,6 +75,10 @@ const jieQi = lunar.getJieQi(); // 节气（如清明、立春）
 const lunarMonth = lunar.getMonthInChinese();
 const lunarDay = lunar.getDayInChinese();
 const happyDay = computed(() => festivals.concat(jieQi).join(' '));
+
+const onClick = () => {
+  visible.value = true;
+};
 </script>
 
 <style lang="scss" scoped>

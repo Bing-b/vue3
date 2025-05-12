@@ -1,6 +1,7 @@
 <template>
-  <div class="font-hsans chart relative flex w-[480px] flex-col items-center rounded-[24px] px-3">
-    <p class="absolute top-3 left-3 text-sm font-medium">代码统计:</p>
+  <div
+    class="font-hsans chart relative flex h-[200px] w-[480px] flex-col items-center rounded-[24px] px-3">
+    <p class="absolute top-4 left-5 text-sm font-medium">代码统计:</p>
     <div ref="chartdiv" class="half-donut-chart font-hsans"></div>
   </div>
 </template>

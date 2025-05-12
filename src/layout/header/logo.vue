@@ -8,19 +8,38 @@
         花猫乐园</h2
       >
     </div>
-    <svgIcon
-      name="menu"
-      size="20"
-      class="cursor-pointer"
-      :class="{ 'rotate-180': isExpansion }"
+
+    <icon-tdesign:menu-unfold
       @click.stop="switchMenu"
-      color="#e6e6e9" />
+      color="#333"
+      width="24"
+      class="mr-6 cursor-pointer"
+      :class="{ 'rotate-180': isExpansion }" />
+
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item
+        v-for="(item, index) in breadcrumbList"
+        :key="index"
+        :to="item.path !== route.path ? { path: item.path } : undefined">
+        {{ item.meta.title }}
+      </el-breadcrumb-item>
+    </el-breadcrumb>
   </div>
 </template>
 <script lang="ts" setup>
 import { getCurrentInstance, ref } from 'vue';
 
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+
 const { proxy } = getCurrentInstance() as any;
+
+const route = useRoute();
+
+const breadcrumbList = computed(() => {
+  // 只显示有 meta.title 的路由
+  return route.matched.filter((r) => r.meta && r.meta.title);
+});
 
 // 菜单收展状态
 const isExpansion = ref(false);
@@ -57,5 +76,10 @@ const switchMenu = () => {
     width: 64px;
     overflow: hidden;
   }
+}
+
+:deep(.el-breadcrumb__inner.is-link, .el-breadcrumb__separator) {
+  font-weight: 400 !important;
+  color: #8e8e94;
 }
 </style>

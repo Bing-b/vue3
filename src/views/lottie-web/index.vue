@@ -3,8 +3,8 @@
     <LottieWeb
       :options="options"
       :style="{
-        height: '140px',
-        width: '100px',
+        height: '180px',
+        width: '200px',
         opacity: showLottieWeb ? 1 : 0,
         zIndex: 10,
         marginTop: '20px',

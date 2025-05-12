@@ -19,7 +19,17 @@
         <weather />
       </Motion>
 
-      <LangStats />
+      <Motion :delay="400">
+        <!-- 代码统计 -->
+        <am-charts />
+      </Motion>
+
+      <Motion :delay="400">
+        <div class="lottie rounded-[25px]">
+          <!-- 动画 -->
+          <LottieWeb />
+        </div>
+      </Motion>
     </div>
   </div>
 </template>
@@ -29,8 +39,9 @@ import intro from 'intro.js';
 import Calendar from './components/calendar.vue';
 import CountDown from './components/countdown.vue';
 import Weather from './components/weather.vue';
+import AmCharts from './components/amcharts.vue';
+import LottieWeb from '@/views/lottie-web/index.vue';
 import Motion from '@/utils/motion';
-import LangStats from './components/amCharts.vue';
 
 // 启动引导页
 const initIntor = () => {
@@ -50,6 +61,10 @@ const initIntor = () => {
 
 :deep(.el-progress-circle__track) {
   stroke: #e7f0fd !important;
+}
+
+.lottie {
+  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
 
 .tec {

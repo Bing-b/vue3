@@ -157,12 +157,18 @@ devDependencies:
   '@eslint/create-config':
     specifier: ^0.4.3
     version: 0.4.6
+  '@iconify-json/line-md':
+    specifier: ^1.2.8
+    version: 1.2.8
   '@iconify-json/logos':
     specifier: ^1.2.4
     version: 1.2.4
   '@iconify-json/material-symbols':
     specifier: ^1.2.20
     version: 1.2.20
+  '@iconify-json/tdesign':
+    specifier: ^1.2.8
+    version: 1.2.8
   '@tailwindcss/postcss':
     specifier: ^4.1.4
     version: 4.1.4
@@ -2264,6 +2270,12 @@ packages:
     deprecated: Use @eslint/object-schema instead
     dev: true
 
+  /@iconify-json/line-md@1.2.8:
+    resolution: {integrity: sha512-jWFsu6OZ1xAd4U0MLc/dgawC8nCbSn+a+WjTv+luiihpb6rrGLMw+Vy3wQ01hGf77v+fwt8sTvwm6K9zN3r4vQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/logos@1.2.4:
     resolution: {integrity: sha512-XC4If5D/hbaZvUkTV8iaZuGlQCyG6CNOlaAaJaGa13V5QMYwYjgtKk3vPP8wz3wtTVNVEVk3LRx1fOJz+YnSMw==}
     dependencies:
@@ -2272,6 +2284,12 @@ packages:
 
   /@iconify-json/material-symbols@1.2.20:
     resolution: {integrity: sha512-+KqOT+3fD+LC2FbWiV8gd4+JLMiVUtmqrjzpKN1ji7rfMQTwvYJ94RT0WQlmL+vfDNJ5MTRe3rBzzJyvIH/aSg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify-json/tdesign@1.2.8:
+    resolution: {integrity: sha512-Q/Ty43etGvXFkEVLYOW2cRaQFbjZoXcOvmOktJRludaN9SX5NeA86VvpriHAfsnsKnRGh0udLy8UscA5JumZKg==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true

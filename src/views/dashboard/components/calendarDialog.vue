@@ -7,7 +7,7 @@
         <!-- 关闭 -->
         <div
           @click="visible = false"
-          class="flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-[#ff7330] hover:bg-[#ff6565]">
+          class="flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-[#ff7330] duration-300 hover:scale-[1.1] hover:bg-[#ff6565]">
           <icon-material-symbols:close-rounded color="#fff" width="12"
         /></div>
         <p class="ml-5 text-sm text-[#8e8e94]"

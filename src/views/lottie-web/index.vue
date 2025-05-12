@@ -1,11 +1,13 @@
 <template>
-  <div class="w-full h-full flex items-center justify-center">
+  <div class="flex h-full w-full items-center justify-center">
     <LottieWeb
       :options="options"
       :style="{
-        height: '300px',
+        height: '140px',
+        width: '100px',
         opacity: showLottieWeb ? 1 : 0,
-        'margin-top': '-60px',
+        zIndex: 10,
+        marginTop: '20px',
       }"
       @DOMLoaded="DOMLoaded" />
   </div>

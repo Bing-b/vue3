@@ -1126,7 +1126,7 @@ const initMap = () => {
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
   // 暗色主题
-  const blackLayers = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
+  const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
     colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
       // 计算灰度
       let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
@@ -1139,67 +1139,6 @@ const initMap = () => {
       return { r, g, b, a: pixel.a };
     },
   });
-
-  // const blackLayer = L.vectorGrid.protobuf(`${window.gis.xx}`, {
-  //   vectorTileLayerStyles: {
-  //     // 定义样式
-  //     'my-layer': {
-  //       fillColor: '#ff7800',
-  //       weight: 2,
-  //       opacity: 1,
-  //       fillOpacity: 0.5,
-  //     },
-  //   },
-  //   maxZoom: 14,
-  // });
-
-  var vectorTileOptions = {
-    layerURL: `${window.gis.xx}`,
-    rendererFactory: L.canvas.tile,
-    interactive: true, // 让瓦片图层可以交互
-    vectorTileLayerStyles: {
-      traffic: function (properties, zoom) {
-        var level = properties.state;
-        if (level == '1') {
-          return {
-            color: '#16CE95',
-          };
-        } else if (level == '2') {
-          return {
-            color: '#F79D06',
-          };
-        } else if (level == '3') {
-          return {
-            color: '#D80304',
-          };
-        } else if (level == '4') {
-          return {
-            color: '#8F0021',
-          };
-        } else {
-          return {
-            // weight: 2,
-            color: '#16CE95',
-            // opacity: 1,
-            // fillColor: 'green',
-            // fill: true,
-            // radius: 6,
-            // fillOpacity: 0.7
-          };
-        }
-      },
-    },
-    // fetchOptions: {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`, // 使用 Bearer 认证
-    //   },
-    // },
-    // getFeatureId: function (f) { return f.properties.osm_id; }
-  };
-
-  //const blackLayers = new L.vectorGrid.protobuf(`${window.gis.xx}`, vectorTileOptions);
-
-  const blackLayer = L.tileLayer(`${window.gis.xx}`);
 
   // 灰色主题
   const grayLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {

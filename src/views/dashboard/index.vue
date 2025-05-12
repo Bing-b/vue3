@@ -1,169 +1,36 @@
 <template>
-  <div class="relative h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
+  <div id="home" class="relative h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
     <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
       >概览 <el-button @click="initIntor">引导</el-button></h2
     >
     <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
-      <div
-        class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5"
-        data-intro="这是第四步🦝"
-        data-step="4"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 240,
-          },
-        }">
-        <div class="font-hsans">
-          <p class="text-xs font-medium">{{ date.year }} 年余额</p>
-          <h4 class="text-[40px] font-bold"
-            >{{ date.remainingDays }}<span class="ml-1 text-xs font-normal">天</span></h4
-          >
-          <p class="text-[#444]"
-            >{{ date.hour }}<span class="mr-1 text-xs">h</span>{{ date.minute
-            }}<span class="mr-1 text-xs">m</span>{{ date.second }}<span class="text-xs">s</span></p
-          >
-        </div>
-        <el-progress
-          type="circle"
-          :percentage="date.process"
-          color="#368eff"
-          :width="90"
-          :stroke-width="14"
-          class="custom-circle" />
-      </div>
+      <Motion>
+        <!-- 倒计时 -->
+        <CountDown />
+      </Motion>
 
-      <!-- 日历 -->
-      <calendar />
-      <!-- <icon-logos:adobe-after-effects /> -->
-      <!-- <div
-        class="sec1"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 160,
-          },
-        }">
-      </div> -->
-      <div class="sec2">
-        <div
-          v-for="(item, index) in GrowCardList"
-          :key="item.label"
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100,
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 80 * (index + 1),
-            },
-          }">
-          <div><SvgIcon :name="item.icon" size="24" /></div>
-          <p class="my-2"><CountTo :startVal="1" :endVal="item.num" /></p>
-          <span>{{ item.label }}</span>
-        </div>
-      </div>
-      <!-- <div
-        class="sec3 dark:!border-dark-border"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 260,
-          },
-        }">
-        <Echart data-intro="这是第二步🤣" data-step="2" />
-      </div> -->
+      <Motion :delay="200">
+        <!-- 日历 -->
+        <calendar />
+      </Motion>
+
+      <Motion :delay="300">
+        <!-- 天气 -->
+        <weather />
+      </Motion>
+
+      <LangStats />
     </div>
-
-    <!-- <div class="mt-2 flex h-[300px]">
-      <div
-        class="dark:bg-bg_color dark:border-b-dark-border w-[70%] rounded bg-white dark:border-b"
-        v-motion
-        :initial="{
-          opacity: 0,
-          y: 100,
-        }"
-        :enter="{
-          opacity: 1,
-          y: 0,
-          transition: {
-            delay: 160,
-          },
-        }">
-        <h2 class="title mb-5">项目技术</h2>
-        <div class="tec flex flex-wrap" data-intro="这是第三步🖐️" data-step="3">
-          <div>
-            <LottieWeb />
-          </div>
-          <div>
-            <Google />
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
-import LottieWeb from '../lottie-web/index.vue';
-import Google from '../lottie-web/google.vue';
-import Echart from './homeCharts.vue';
-import { GrowCardList } from './index';
 import intro from 'intro.js';
-import Calendar from './calendar.vue';
-// import { Icon } from '@iconify/vue';
-// 定时器
-let timer: any = null;
-
-// 日期
-const date = reactive<{ [key: string]: number }>({
-  year: 2022,
-  month: 1,
-  remainingDays: 0,
-  hour: 0,
-  minute: 0,
-  second: 0,
-  process: 0,
-});
-
-// 刷新时间
-const updateDate = () => {
-  const currentDate = new Date();
-  date.year = currentDate.getFullYear();
-  date.month = currentDate.getMonth() + 1;
-  const currentTime = currentDate.getTime();
-
-  // 计算剩余天数
-  const endOfYear = new Date(date.year + 1, 0, 1, 0, 0, 0, 0).getTime();
-  date.remainingDays = Math.ceil((endOfYear - currentTime) / (1000 * 60 * 60 * 24));
-
-  // 获取当前的小时、分钟、秒钟
-  date.hour = currentDate.getHours();
-  date.minute = currentDate.getMinutes();
-  date.second = currentDate.getSeconds();
-  date.process = Math.round((1 - date.remainingDays / 365) * 100);
-};
+import Calendar from './components/calendar.vue';
+import CountDown from './components/countdown.vue';
+import Weather from './components/weather.vue';
+import Motion from '@/utils/motion';
+import LangStats from './components/amCharts.vue';
 
 // 启动引导页
 const initIntor = () => {
@@ -173,16 +40,6 @@ const initIntor = () => {
     .setOption('doneLabel', ' 完成 ')
     .start();
 };
-
-onMounted(() => {
-  timer = setInterval(() => updateDate(), 1000);
-});
-
-onUnmounted(() => {
-  if (timer) {
-    clearInterval(timer);
-  }
-});
 </script>
 <style lang="scss" scoped>
 :deep(.el-progress__text) {

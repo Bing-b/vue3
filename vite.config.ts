@@ -18,10 +18,10 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       port: VITE_PORT,
       host: '0.0.0.0',
       proxy: {
-        '/tq': {
-          target: 'https://www.tianqiapi.com/api',
+        '/api': {
+          target: 'https://restapi.amap.com',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/tq/, ''),
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
       // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布

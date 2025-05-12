@@ -38,7 +38,9 @@
       </div>
     </div>
 
-    <calendar-dialog v-model:visible="visible" />
+    <teleport defer to="#home">
+      <calendar-dialog v-model:visible="visible" />
+    </teleport>
   </div>
 </template>
 

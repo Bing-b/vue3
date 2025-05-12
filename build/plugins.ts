@@ -16,6 +16,18 @@ import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import path from 'node:path';
 const localIconPath = path.join(process.cwd(), 'src/assets/icons');
 
+import { generateLangStats } from '../src/utils/file-stats';
+
+function fileStatsPlugin() {
+  return {
+    name: 'vite-plugin-file-stats-json',
+    apply: 'serve',
+    configureServer() {
+      generateLangStats(); // 写入 JSON
+    },
+  };
+}
+
 /** 获取插件列表 */
 export const getPluginsList = (): Array<PluginOption> => {
   return [
@@ -50,6 +62,7 @@ export const getPluginsList = (): Array<PluginOption> => {
       // defaultClass:"",// 默认值 空字符串; 设置默认 class 的
       // compiler:"vue3",// 设置图标的编译方式，有 vue3/vue2/jsx/null,默认值是null
     }),
+    fileStatsPlugin(),
     // 打包分析
     visualizer({
       open: true,

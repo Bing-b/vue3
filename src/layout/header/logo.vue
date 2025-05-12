@@ -2,7 +2,9 @@
   <div class="logo-box">
     <div class="logo" :class="{ w: isExpansion }">
       <img class="w-[30px]" :src="$getImg('logo/logo.png')" />
-      <h2 class="font-xht text-[24px] font-bold text-[#191919] dark:text-white" v-if="!isExpansion">
+      <h2
+        class="font-xht text-[24px] font-bold text-nowrap text-[#191919] dark:text-white"
+        v-if="!isExpansion">
         花猫乐园</h2
       >
     </div>

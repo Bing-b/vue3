@@ -1,5 +1,6 @@
 <template>
   <div class="flex items-center gap-5 pr-10">
+    <LottieWeb />
     <!-- 全屏切换 -->
     <FullScreen />
     <!-- 暗黑切换 -->
@@ -21,6 +22,8 @@
 import { ref, onMounted } from 'vue';
 import useGlobalConfig from '@/store/modules/global';
 import FullScreen from './fullScreen.vue';
+
+import LottieWeb from '@/views/lottie-web/index.vue';
 
 const globalConfigStore = useGlobalConfig();
 
@@ -79,6 +82,7 @@ onMounted(() => {
 
 .switch {
   position: relative;
+  flex: none;
   width: 40px;
   height: 20px;
   border: 1px solid #dcdfe6;

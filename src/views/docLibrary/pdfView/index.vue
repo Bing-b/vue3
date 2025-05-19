@@ -1,7 +1,7 @@
 <template>
-  <el-card shadow="never" class="h-full">
+  <el-card shadow="never" class="h-full w-full">
     <template #header>
-      <p>PDF预览</p>
+      <p>{{ docLabel }}</p>
     </template>
     <div v-loading="loading" class="h-[calc(100vh-61px)]" element-loading-text="加载中...">
       <div class="flex h-9 items-center justify-between">
@@ -38,6 +38,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { computed } from 'vue';
 import { ref } from 'vue';
 import VuePdfEmbed from 'vue-pdf-embed';
 // // essential styles
@@ -46,6 +47,8 @@ import VuePdfEmbed from 'vue-pdf-embed';
 // // optional styles
 // import 'vue-pdf-embed/dist/style/annotationLayer.css';
 // import 'vue-pdf-embed/dist/style/textLayer.css';
+
+const { docLabel } = defineProps<{ docLabel: string }>();
 
 const loading = ref<boolean>(true);
 
@@ -60,7 +63,9 @@ const pageParams = reactive({
 // 显示全部(不分页)
 const showAllPages = ref(false);
 
-const source = './public/leaflet技术调研.pdf';
+// const source = './public/leaflet技术调研.pdf';
+
+const source = computed(() => `./public/${docLabel}`);
 
 const handleDocumentRender = () => {
   loading.value = false;

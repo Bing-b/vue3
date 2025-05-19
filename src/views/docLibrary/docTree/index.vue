@@ -97,8 +97,8 @@
 import { nextTick, ref, watch } from 'vue';
 import { ElMessage, ElMessageBox, ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
-import { Tree } from '../interface/index';
-import { OPERATION } from '../enum';
+import { Tree } from './type';
+import { OPERATION } from './enum';
 
 // 自定义指定拖拽监听改变宽度
 const vMove = {
@@ -118,6 +118,9 @@ const vMove = {
     };
   },
 };
+
+// 文档路径
+const docLabel = defineModel('docLabel', { default: '' });
 
 const xTree = ref<InstanceType<typeof ElTree>>();
 
@@ -154,6 +157,8 @@ const defaultProps = {
 
 const handleNodeClick = (data: Tree) => {
   // console.log(data);
+  if (data.children?.length) return;
+  docLabel.value = data.label;
 };
 
 const treeData = ref<Tree[]>([
@@ -164,15 +169,8 @@ const treeData = ref<Tree[]>([
     children: [
       {
         id: 1,
-        label: '栏目1-1',
+        label: 'leaflet技术调研.pdf',
         showInput: false,
-        children: [
-          {
-            id: 5,
-            label: '栏目1-2',
-            showInput: false,
-          },
-        ],
       },
     ],
   },

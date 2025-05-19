@@ -79,8 +79,8 @@
 import { nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
-import { Tree } from '../interface/index';
-import { OPERATION } from '../enum';
+import { Tree } from './type';
+import { OPERATION } from './enum';
 
 // 新增节点初始id
 let id = 5;

@@ -6,7 +6,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5percent from '@amcharts/amcharts5/percent';
@@ -14,9 +14,9 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 
 const chartdiv = ref(null);
 
-let root = null;
+let root: any = null;
 
-let series = null;
+let series: any = null;
 
 const extendedData = ref([]);
 

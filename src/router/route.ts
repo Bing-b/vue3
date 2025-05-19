@@ -29,11 +29,11 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
         children: [
           {
-            path: '/tree',
-            name: 'tree',
-            component: () => import('@/views/tree/index.vue'),
+            path: '/docLibrary',
+            name: 'docLibrary',
+            component: () => import('@/views/docLibrary/index.vue'),
             meta: {
-              title: '仿vscode目录',
+              title: '文档库',
             },
           },
           {
@@ -53,14 +53,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: '代码编辑器',
             },
           },
-          {
-            path: '/pdfview',
-            name: 'PDF预览',
-            component: () => import('@/views/pdf-view/index.vue'),
-            meta: {
-              title: 'PDF预览',
-            },
-          },
+
           {
             path: '/annotation',
             name: '标注',
@@ -95,15 +88,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/graph/index.vue'),
             meta: {
               title: 'G6',
-              icon: 'other',
-            },
-          },
-          {
-            path: '/echarts',
-            name: 'echarts',
-            component: () => import('@/views/echart/index.vue'),
-            meta: {
-              title: 'echarts',
               icon: 'other',
             },
           },

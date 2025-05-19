@@ -3,9 +3,9 @@
     <LottieWeb
       :options="options"
       :style="{
-        height: '300px',
+        height: '200px',
         opacity: showLottieWeb ? 1 : 0,
-        'margin-top': '-60px',
+        'margin-top': '0px',
       }"
       @DOMLoaded="DOMLoaded" />
   </div>
@@ -17,7 +17,7 @@ import { ref } from 'vue';
 
 const showLottieWeb = ref(false);
 const options = ref({
-  path: new URL('./car.json', import.meta.url).href,
+  path: new URL('./google.json', import.meta.url).href,
 });
 
 const DOMLoaded = () => {

@@ -164,7 +164,7 @@ const handleNodeClick = (data: Tree) => {
 const treeData = ref<Tree[]>([
   {
     id: 0,
-    label: '栏目1',
+    label: '技术调研',
     showInput: false,
     children: [
       {
@@ -172,38 +172,43 @@ const treeData = ref<Tree[]>([
         label: 'leaflet技术调研.pdf',
         showInput: false,
       },
+      {
+        id: 12,
+        label: 'AceEditor调研文档.pdf',
+        showInput: false,
+      },
     ],
   },
   {
     id: 2,
-    label: '栏目2',
+    label: '前端',
     showInput: false,
     children: [
       {
         id: 3,
-        label: '栏目2-1',
+        label: 'vue',
         showInput: false,
       },
       {
         id: 4,
-        label: '栏目2-2',
+        label: 'vite',
         showInput: false,
       },
     ],
   },
   {
     id: 6,
-    label: '栏目3',
+    label: '后端',
     showInput: false,
     children: [
       {
         id: 7,
-        label: '栏目3-1',
+        label: 'docker',
         showInput: false,
       },
       {
         id: 8,
-        label: '栏目3-2',
+        label: 'python',
         showInput: false,
       },
     ],

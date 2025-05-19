@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import { computed } from 'vue';
 import { ref } from 'vue';
 import VuePdfEmbed from 'vue-pdf-embed';
@@ -63,9 +63,7 @@ const pageParams = reactive({
 // 显示全部(不分页)
 const showAllPages = ref(false);
 
-// const source = './public/leaflet技术调研.pdf';
-
-const source = computed(() => `./public/${docLabel}`);
+const source = ref('');
 
 const handleDocumentRender = () => {
   loading.value = false;
@@ -75,6 +73,10 @@ const handleDocumentRender = () => {
 const showAllPagesChange = () => {
   pageParams.currentPage = showAllPages.value ? 0 : 1;
 };
-</script>
 
-<style scoped></style>
+watchEffect(() => {
+  source.value = `./public/${docLabel}`;
+  loading.value = true;
+  pageParams.currentPage = 1;
+});
+</script>

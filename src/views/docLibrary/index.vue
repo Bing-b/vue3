@@ -6,7 +6,7 @@
 
       <div class="h-full flex-1 items-center justify-center">
         <pdf-view :docLabel v-if="docLabel" />
-        <el-empty v-else description="请选择文件预览" />
+        <Google v-else />
       </div>
     </div>
   </div>
@@ -16,6 +16,7 @@
 import { ref } from 'vue';
 import DocTree from './docTree/index.vue';
 import PdfView from './pdfView/index.vue';
+import Google from '../lottie-web/google.vue';
 import { computed } from 'vue';
 
 const docLabel = ref('');

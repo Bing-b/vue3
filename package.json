@@ -2,6 +2,7 @@
   "name": "agerars",
   "private": true,
   "version": "1.1.0",
+  "sideEffects": false,
   "scripts": {
     "dev": "vite --open",
     "serve": "pnpm dev",

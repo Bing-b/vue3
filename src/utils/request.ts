@@ -27,7 +27,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // 配置 axios 响应拦截器
@@ -75,7 +75,7 @@ instance.interceptors.response.use(
       }
       return Promise.reject(error);
     }
-  }
+  },
 );
 
 export default instance;

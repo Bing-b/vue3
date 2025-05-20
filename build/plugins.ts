@@ -65,12 +65,12 @@ export const getPluginsList = (): Array<PluginOption> => {
     fileStatsPlugin(),
     // 打包分析
     visualizer({
-      open: true,
+      open: false,
       filename: 'visualizer.html',
     }),
     viteCompression({
       verbose: true, // 默认即可
-      disable: false, // 开启压缩(不禁用)，默认即可
+      disable: true, // 开启压缩(不禁用)，默认即可
       deleteOriginFile: false, // 删除源文件
       threshold: 5120, // 压缩前最小文件大小
       algorithm: 'brotliCompress', // 压缩算法

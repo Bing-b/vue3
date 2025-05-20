@@ -45,6 +45,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       // target: "es2015",
       minify: 'esbuild',
       sourcemap: false,
+      reportCompressedSize: true, // 显示压缩后大小
       // 消除打包大小超过500kb警告
       chunkSizeWarningLimit: 4000,
       rollupOptions: {
@@ -55,7 +56,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
-          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+          assetFileNames: 'static/assets/[name]-[hash].[ext]',
         },
       },
     },

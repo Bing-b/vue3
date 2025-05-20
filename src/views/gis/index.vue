@@ -1119,26 +1119,29 @@ const initMap = () => {
   const osm = L.tileLayer.chinaProvider('OSM.Normal.Map');
 
   // 原始leaflet图层
-  const defaultMap = L.tileLayer(`${window.gis.PROXY_URL}`);
+  const defaultMap = L.tileLayer(`http://10.13.4.225:18081/styles/test-style/{z}/{x}/{y}.png`);
   const routeMap = L.layerGroup([normalm, normala]);
   const tdTerrain = L.layerGroup([tdTerrainMap, tdTerrainAnno]);
   const gaoDeMap = L.layerGroup([gaoDem]);
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
   // 暗色主题
-  const blackLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-    colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
-      // 计算灰度
-      let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
-      grayVal = 255 - grayVal;
+  const blackLayer = L.tileLayer.colorizr(
+    `http://10.13.4.225:18081/styles/test-style/{z}/{x}/{y}.png`,
+    {
+      colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
+        // 计算灰度
+        let grayVal = (pixel.r + pixel.g + pixel.b) / 3;
+        grayVal = 255 - grayVal;
 
-      // 将灰度替换掉原始的颜色
-      const r = grayVal + 2;
-      const g = grayVal + 2;
-      const b = grayVal + 2;
-      return { r, g, b, a: pixel.a };
+        // 将灰度替换掉原始的颜色
+        const r = grayVal + 2;
+        const g = grayVal + 2;
+        const b = grayVal + 2;
+        return { r, g, b, a: pixel.a };
+      },
     },
-  });
+  );
 
   // 灰色主题
   const grayLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {

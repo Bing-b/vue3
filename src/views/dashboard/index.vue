@@ -4,7 +4,7 @@
       >概览 <el-button @click="initIntor">引导</el-button></h2
     >
     <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
-      <Motion>
+      <Motion data-intro="这是第二步🦝" data-step="2">
         <!-- 倒计时 -->
         <CountDown />
       </Motion>
@@ -19,7 +19,7 @@
         <weather />
       </Motion>
 
-      <Motion :delay="400">
+      <Motion :delay="400" data-intro="结束了你嘞" data-step="3">
         <!-- 代码统计 -->
         <am-charts />
       </Motion>

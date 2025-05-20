@@ -1,9 +1,7 @@
 <template>
   <!-- 时间倒计时 -->
   <div
-    class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5"
-    data-intro="这是第四步🦝"
-    data-step="4">
+    class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5">
     <div class="font-hsans">
       <p class="text-xs font-medium">{{ date.year }} 年余额</p>
       <h4 class="text-[40px] font-bold"

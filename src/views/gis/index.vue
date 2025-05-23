@@ -30,14 +30,14 @@
     </el-dialog>
 
     <div class="absolute bottom-1 left-1 z-[888]">
-      <el-button :icon="Warning" @click="infoDialogVisible = !infoDialogVisible" circle />
+      <el-button @click="infoDialogVisible = !infoDialogVisible" circle />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, reactive } from 'vue';
-import { Warning } from '@element-plus/icons-vue';
+// import { Warning } from '@element-plus/icons-vue';
 import L from 'leaflet';
 import utils from '@/utils/commonFuction';
 import gcoord from 'gcoord';

@@ -56,8 +56,6 @@ const InfinteVirtualList = defineAsyncComponent(
 
 const SortTable = defineAsyncComponent(() => import('./components/sortTable.vue'));
 
-import sortTable from './components/sortTable.vue';
-
 const componentsMap: Recordable = {
   componentA: ElTooltipPlus,
   componentB: ClickOutSide,
@@ -66,7 +64,7 @@ const componentsMap: Recordable = {
   componentE: RowScroll,
   componentF: Progress,
   componentG: InfinteVirtualList,
-  componentH: sortTable,
+  componentH: SortTable,
 };
 
 // 左侧菜单
@@ -118,7 +116,6 @@ watchEffect(() => {
   //activeComponent.value = leftSideMenu[0];
 
   const id = useId();
-  console.log(id);
 });
 </script>
 

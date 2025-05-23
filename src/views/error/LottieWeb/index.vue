@@ -5,13 +5,13 @@
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import type { AnimationItem } from 'lottie-web';
-import lottie from 'lottie-web';
+import lottie from 'lottie-web/build/player/lottie_light';
 
 const props = defineProps({
   options: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emit = defineEmits(['DOMLoaded']);
@@ -26,7 +26,7 @@ onMounted(() => {
     autoplay: props.options.autoplay !== false,
     animationData: props.options.animationData,
     path: props.options.path,
-    rendererSettings: props.options.rendererSettings
+    rendererSettings: props.options.rendererSettings,
   });
   anim.value.addEventListener('DOMLoaded', () => {
     emit('DOMLoaded', anim);

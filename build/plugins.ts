@@ -65,16 +65,19 @@ export const getPluginsList = (): Array<PluginOption> => {
     fileStatsPlugin(),
     // 打包分析
     visualizer({
-      open: false,
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+      template: 'treemap',
       filename: 'visualizer.html',
     }),
     viteCompression({
       verbose: true, // 默认即可
       disable: true, // 开启压缩(不禁用)，默认即可
       deleteOriginFile: false, // 删除源文件
-      threshold: 5120, // 压缩前最小文件大小
+      threshold: 1024 * 20, // 压缩前最小文件大小
       algorithm: 'brotliCompress', // 压缩算法
-      ext: '.br', // 文件类型
+      ext: '.gz', // 文件类型
     }),
     process.env.NODE_ENV === 'development' && VitePluginVueDevtools(),
   ];

@@ -30,7 +30,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       },
     },
     optimizeDeps: {
-      exclude: ['@tailwindcss/vite'],
+      // exclude: ['@tailwindcss/vite'],
     },
     plugins: getPluginsList(),
     css: {
@@ -42,23 +42,37 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     build: {
       // https://cn.vitejs.dev/guide/build.html#browser-compatibility
-      // target: "es2015",
-      minify: 'esbuild',
-      sourcemap: false,
+      target: 'es2015',
+      minify: 'terser',
       reportCompressedSize: true, // 显示压缩后大小
       // 消除打包大小超过500kb警告
-      chunkSizeWarningLimit: 4000,
+      chunkSizeWarningLimit: 20 * 1024,
+      terserOptions: {
+        compress: {
+          drop_console: true, // 移除所有的 console.* 调用
+          drop_debugger: true, // 移除所有的 debugger 语句
+        },
+      },
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
+      cssCodeSplit: true,
       rollupOptions: {
         input: {
           main: resolve(__dirname, 'index.html'),
         },
-        // 静态资源分类打包
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/assets/[name]-[hash].[ext]',
+          // 分包 chunk 提升首屏加载 及 缓存利用率
+          manualChunks: {
+            core: ['vue', 'vue-router', 'axios'],
+            ui: ['element-plus'],
+          },
         },
       },
+      sourcemap: false,
     },
     define: {
       __INTLIFY_PROD_DEVTOOLS__: false,

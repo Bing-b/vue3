@@ -55,7 +55,8 @@ html {
 
 @font-face {
   font-family: 'xht';
-  src: url('../assets/font/xihuanti.woff2');
+  src: url('../assets/font/xihuanti.woff2') format('woff2');
+  font-display: swap;
 }
 
 @font-face {
@@ -64,5 +65,6 @@ html {
 }
 @font-face {
   font-family: 'HanSansSC';
-  src: url('../assets/font/NotoSansSC-Regular.woff2');
+  src: url('../assets/font/NotoSansSC-Regular.woff2') format('woff2');
+  font-display: swap;
 }

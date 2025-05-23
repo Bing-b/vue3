@@ -31,11 +31,15 @@
         </div>
       </Motion>
     </div>
+
+    <!-- 板块二 -->
+    <div></div>
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, onUnmounted } from 'vue';
 import intro from 'intro.js';
+import 'intro.js/introjs.css';
 import Calendar from './components/calendar.vue';
 import CountDown from './components/countdown.vue';
 import Weather from './components/weather.vue';

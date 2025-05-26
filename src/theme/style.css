@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
-  --font-xht: 'xht';
   --font-hsans: 'HanSansSC';
+  --font-Maoken: 'Maoken';
   --color-dark-border: var(--color-border);
   --color-dark-bg: var(--color-background);
   --color-dark-sec-bg: var(--color-border);

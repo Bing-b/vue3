@@ -6,11 +6,13 @@
         <h3 class="text-[28px] font-bold text-[#ff4d4f]">{{ now.getDate() }}</h3>
         <p class="my-1 text-xs text-[#ff4d4f]">{{ weekDay }}</p>
         <p class="text-xs text-[#8e8e94]"
-          >{{ now.getFullYear() }}年{{ now.getMonth() + 1 }}月 {{ lunarMonth }}月{{ lunarDay }}</p
+          >{{ now.getFullYear() }}年{{ now.getMonth() + 1 }}月 {{ lunarData.month }}月{{
+            lunarData.day
+          }}</p
         >
       </div>
       <div>
-        <h4 class="text-[20px] font-bold">{{ happyDay ? happyDay : '0' }}</h4>
+        <h4 class="text-[20px] font-bold">{{ lunarData.happyDay ?? '0' }}</h4>
         <p class="text-#3a3a3c my-1 text-xs">今日事件</p>
       </div>
     </div>
@@ -45,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { Lunar } from 'lunar-javascript';
 import CalendarDialog from './calendarDialog.vue';
 
@@ -64,6 +66,12 @@ const weekDay = weekdayMap[now.getDay()];
 
 const visible = ref(false);
 
+const lunarData = reactive({
+  month: '',
+  day: '',
+  happyDay: '',
+});
+
 // 每月第一天对应的号数
 const firstDateDay = computed(() => new Date(now.getFullYear(), now.getMonth(), 1).getDate()); // now.getMonth() 返回月份是从 0 开始
 
@@ -74,13 +82,20 @@ const days = computed(() => new Date(now.getFullYear(), now.getMonth() + 1, 0).g
 const festivals = lunar.getFestivals(); // 农历节日
 const jieQi = lunar.getJieQi(); // 节气（如清明、立春）
 
-const lunarMonth = lunar.getMonthInChinese();
-const lunarDay = lunar.getDayInChinese();
-const happyDay = computed(() => festivals.concat(jieQi).join(' '));
+// const lunarMonth = lunar.getMonthInChinese();
+// const lunarDay = lunar.getDayInChinese();
+// const happyDay = computed(() => festivals.concat(jieQi).join(' '));
 
 const onClick = () => {
   visible.value = true;
 };
+
+onMounted(() => {
+  const lunar = Lunar.fromDate(now);
+  lunarData.month = lunar.getMonthInChinese();
+  lunarData.day = lunar.getDayInChinese();
+  lunarData.happyDay = lunar.getFestivals().concat(lunar.getJieQi()).join(' ');
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black h-full p-5 overflow-y-scroll text-white">
+  <div class="h-full overflow-y-scroll bg-black p-5 text-white">
     <div class="flex">
       <el-button @click="annimation1" type="primary">基础动画</el-button>
     </div>
@@ -39,18 +39,18 @@
     </div>
 
     <div class="section">
-      <img class="flair" src="../../assets/images/flair-25.png" alt="" />
+      <img class="flair" src="../../assets/images/logo/logo.png" alt="" />
     </div>
 
     <p>插件</p>
 
     <div class="scroll-box h-[300px] w-[500px] overflow-y-scroll border border-[#dedede]">
-      <div class="h-[600px] flex justify-center items-center">
+      <div class="flex h-[600px] items-center justify-center">
         <div class="box orange b7"></div>
       </div>
     </div>
 
-    <div class="flex mt-5">
+    <div class="mt-5 flex">
       <el-button @click="annimation6" type="primary">关键帧</el-button>
     </div>
     <div class="section">

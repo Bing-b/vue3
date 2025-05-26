@@ -2,10 +2,11 @@
   <div class="logo-box">
     <div class="logo" :class="{ w: isExpansion }">
       <img class="w-[30px]" :src="$getImg('logo/logo.png')" />
-      <h2 class="font-xht text-[24px] font-bold text-nowrap text-[#191919] dark:text-white">
+      <h2
+        v-show="!isExpansion"
+        class="font-Maoken text-[20px] font-bold text-nowrap text-[#512f1c] dark:text-white">
         花猫乐园
       </h2>
-      <!-- {{ !isExpansion ? '花猫乐园' : '' }} -->
     </div>
 
     <icon-tdesign:menu-unfold

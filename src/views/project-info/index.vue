@@ -1,10 +1,10 @@
 <template>
-  <div class="overflow-auto h-full">
+  <div class="h-full overflow-auto">
     <div class="card mb10">
       <h4 class="title">简介</h4>
-      <span class="font-[yt] font-bold text-[18px]">
-        <el-link type="primary" href="https://docs.spicyboy.cn" target="_blank">AgeraRs</el-link>
-        一款基于 Vue3.4、TypeScript、Vite5、Pinia、Element-Plus的功能技术系统
+      <span class="font-Maoken text-[18px] font-bold">
+        <el-link type="primary" href="/" target="_blank">花猫乐园</el-link>
+        一款基于 Vue3x+TypeScript+Vite6x+Element-Plus 技术探索实验田
       </span>
     </div>
     <div class="card mb10">

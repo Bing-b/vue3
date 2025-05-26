@@ -65,7 +65,7 @@ export const getPluginsList = (): Array<PluginOption> => {
     fileStatsPlugin(),
     // 打包分析
     visualizer({
-      open: true,
+      open: false,
       gzipSize: true,
       brotliSize: true,
       template: 'treemap',
@@ -77,7 +77,7 @@ export const getPluginsList = (): Array<PluginOption> => {
       deleteOriginFile: false, // 删除源文件
       threshold: 1024 * 20, // 压缩前最小文件大小
       algorithm: 'brotliCompress', // 压缩算法
-      ext: '.gz', // 文件类型
+      ext: '.br', // 文件类型
     }),
     process.env.NODE_ENV === 'development' && VitePluginVueDevtools(),
   ];

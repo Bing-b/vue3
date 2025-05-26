@@ -6,12 +6,14 @@
     <button class="switch" @click="toggleDark($event)" :class="{ active: isDark }">
       <div class="switch_action">
         <div class="switch_icon">
-          <el-icon v-if="!isDark" size="14">
+          <icon-solar:sun-line-duotone v-if="!isDark" width="12" height="12" />
+          <icon-system-uicons:moon v-else width="12" height="12" />
+          <!-- <el-icon v-if="!isDark" size="14">
             <Sunny />
           </el-icon>
           <el-icon v-else size="14">
             <Moon />
-          </el-icon>
+          </el-icon> -->
         </div>
       </div>
     </button>
@@ -110,7 +112,7 @@ onMounted(() => {
       width: 16px;
       height: 16px;
 
-      .el-icon {
+      svg {
         position: absolute;
         left: 1px;
         bottom: 1px;

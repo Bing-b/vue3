@@ -7,7 +7,6 @@
   color: #36363a;
   /* background-color: #242424;*/
   // background-color: #ffffff;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -54,17 +53,16 @@ html {
 }
 
 @font-face {
-  font-family: 'xht';
-  src: url('../assets/font/xihuanti.woff2') format('woff2');
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'MapleMono';
-  src: url('../assets/font/MapleMono-NF-CN-Medium.ttf');
+  src: url('../assets/font/MapleMono-NF-CN-Medium.woff2');
 }
 @font-face {
   font-family: 'HanSansSC';
   src: url('../assets/font/NotoSansSC-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Maoken';
+  src: url('../assets/font/Maoken.woff2') format('woff2');
   font-display: swap;
 }

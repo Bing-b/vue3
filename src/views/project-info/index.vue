@@ -2,10 +2,12 @@
   <div class="h-full overflow-auto">
     <div class="card mb10">
       <h4 class="title">简介</h4>
-      <span class="font-Maoken text-[18px] font-bold">
-        <el-link type="primary" href="/" target="_blank">花猫乐园</el-link>
-        一款基于 Vue3x+TypeScript+Vite6x+Element-Plus 技术探索实验田
-      </span>
+      <div class="font-Maoken text-[16px] font-bold">
+        <el-link type="primary" href="/" target="_blank" class="!text-[20px]">花猫乐园</el-link>
+        <span class="font-Maoken"
+          >一款基于 Vue3x+TypeScript+Vite6x+Element-Plus 技术探索实验田</span
+        >
+      </div>
     </div>
     <div class="card mb10">
       <h4 class="title">项目信息</h4>

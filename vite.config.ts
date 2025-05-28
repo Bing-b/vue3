@@ -45,7 +45,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     build: {
       // https://cn.vitejs.dev/guide/build.html#browser-compatibility
-      target: 'es2015',
+      target: 'es2020',
       minify: 'esbuild',
       reportCompressedSize: true, // 显示压缩后大小
       // 消除打包大小超过500kb警告
@@ -71,7 +71,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
           assetFileNames: 'static/assets/[name]-[hash].[ext]',
           // 分包 chunk 提升首屏加载 及 缓存利用率
           manualChunks: {
-            core: ['vue', 'vue-router', 'axios'],
+            core: ['vue', 'vue-router', 'pinia', 'axios'],
             ui: ['element-plus'],
           },
         },

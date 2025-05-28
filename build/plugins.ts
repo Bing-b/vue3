@@ -8,6 +8,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
 import VitePluginVueDevtools from 'vite-plugin-vue-devtools';
+import legacy from 'vite-plugin-legacy-swc'; // 兼容处理
 
 // 图标按需加载
 import Icons from 'unplugin-icons/vite';
@@ -63,6 +64,10 @@ export const getPluginsList = (): Array<PluginOption> => {
       // compiler:"vue3",// 设置图标的编译方式，有 vue3/vue2/jsx/null,默认值是null
     }),
     fileStatsPlugin(),
+    // legacy({
+    //   targets: ['defaults', 'not IE 11'],
+    //   modernPolyfills: true,
+    // }),
     // 打包分析
     visualizer({
       open: false,

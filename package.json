@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@eslint/create-config": "^0.4.3",
+    "@iconify-json/lets-icons": "^1.2.1",
     "@iconify-json/line-md": "^1.2.8",
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/material-symbols": "^1.2.20",
@@ -101,6 +102,7 @@
     "unplugin-vue-components": "^0.24.1",
     "vite": "6.3.5",
     "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-legacy-swc": "^1.2.3",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-devtools": "^7.7.2",
     "vue-eslint-parser": "^9.1.1",

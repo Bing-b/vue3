@@ -5,7 +5,7 @@ import piniaPersist from 'pinia-plugin-persist'; // pinia 持久化存储插件
 import ElementPlus from 'element-plus';
 // import * as ElIcons from '@element-plus/icons-vue';
 import router from './router';
-// import 'virtual:svg-icons-register'; // svg
+import 'virtual:svg-icons-register'; // svg
 import { MotionPlugin } from '@vueuse/motion';
 import mitt from 'mitt'; // 事件总线
 import directives from '@/directives/index'; // 自定义指令

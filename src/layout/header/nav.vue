@@ -6,7 +6,7 @@
     <button class="switch" @click="toggleDark($event)" :class="{ active: isDark }">
       <div class="switch_action">
         <div class="switch_icon">
-          <icon-solar:sun-line-duotone v-if="!isDark" width="12" height="12" />
+          <icon-lets-icons:sun-light v-if="!isDark" width="12" height="12" />
           <icon-system-uicons:moon v-else width="12" height="12" />
           <!-- <el-icon v-if="!isDark" size="14">
             <Sunny />

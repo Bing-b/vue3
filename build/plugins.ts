@@ -15,9 +15,12 @@ import Icons from 'unplugin-icons/vite';
 import IconsResolver from 'unplugin-icons/resolver';
 import { FileSystemIconLoader } from 'unplugin-icons/loaders';
 import path from 'node:path';
+
 const localIconPath = path.join(process.cwd(), 'src/assets/icons');
 
 import { generateLangStats } from '../src/utils/file-stats';
+
+import { templateCompilerOptions } from '@tresjs/core';
 
 function fileStatsPlugin() {
   return {
@@ -32,7 +35,7 @@ function fileStatsPlugin() {
 /** 获取插件列表 */
 export const getPluginsList = (): Array<PluginOption> => {
   return [
-    vue(),
+    vue({ ...templateCompilerOptions }),
     // svg 配置，用于全局使用svg 组件
     createSvgIconsPlugin({
       iconDirs: [resolve(__dirname, '../src/assets/icons')],

@@ -184,11 +184,11 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: '/threejs',
-        name: 'threejs',
+        path: '/web3D',
+        name: 'web3D',
         redirect: '/test',
         meta: {
-          title: 'threejs',
+          title: 'web3D',
           icon: 'menu-menu_threejs',
         },
         children: [
@@ -201,11 +201,11 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             },
           },
           {
-            path: '/star',
-            name: 'star',
-            component: () => import('@/views/threejs/star.vue'),
+            path: '/tresjs',
+            name: 'tresjs',
+            component: () => import('@/views/tresjs/index.vue'),
             meta: {
-              title: '卫星',
+              title: 'tresjs',
             },
           },
         ],

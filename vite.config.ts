@@ -58,7 +58,7 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       // },
 
       commonjsOptions: {
-        transformMixedEsModules: true,
+        transformMixedEsModules: true, // 优化cjs加载方式
       },
       cssCodeSplit: true,
       rollupOptions: {

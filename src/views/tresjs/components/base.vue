@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { TresCanvas } from '@tresjs/core';
 import { extend } from '@tresjs/core';
-// import { OrbitControls } from 'three/addons/controls/OrbitControls';
+import { OrbitControls } from 'three/addons/controls/OrbitControls';
 
-// extend({ OrbitControls });
+extend({ OrbitControls });
 </script>

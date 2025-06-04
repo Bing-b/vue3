@@ -66,11 +66,15 @@ export const getPluginsList = (): Array<PluginOption> => {
       // defaultClass:"",// 默认值 空字符串; 设置默认 class 的
       // compiler:"vue3",// 设置图标的编译方式，有 vue3/vue2/jsx/null,默认值是null
     }),
+
     fileStatsPlugin(),
+
+    // 处理旧浏览器兼容
     // legacy({
     //   targets: ['defaults', 'not IE 11'],
     //   modernPolyfills: true,
     // }),
+
     // 打包分析
     visualizer({
       open: false,

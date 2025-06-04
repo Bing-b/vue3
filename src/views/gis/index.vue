@@ -1065,11 +1065,11 @@ const initAntLine = () => {
   const makerEnd = L.marker(paths[paths.length - 1], { icon: iconPoint });
 
   const lineLayer = antPath(paths, {
-    paused: true, // 暂停  初始化状态
+    paused: false, // 暂停  初始化状态
     reverse: false, // 方向反转
-    delay: 10000, // 延迟，数值越大效果越缓慢
+    delay: 2000, // 延迟，数值越大效果越缓慢
     dashArray: [10, 20], // 间隔样式
-    weight: 3, // 线宽
+    weight: 4, // 线宽
     opacity: 0.7, // 透明度
     color: '#459c50',
     pulseColor: '#fff', // 块颜色
@@ -1144,17 +1144,23 @@ const initMap = () => {
   );
 
   // 灰色主题
-  const grayLayer = L.tileLayer.colorizr(`${window.gis.PROXY_URL}`, {
-    colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
-      const gray = (pixel.r + pixel.g + pixel.b) / 3;
-      return { r: gray, g: gray, b: gray, a: pixel.a };
+  const grayLayer = L.tileLayer.colorizr(
+    `http://10.13.4.225:18081/styles/test-style/{z}/{x}/{y}.png`,
+    {
+      colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
+        const gray = (pixel.r + pixel.g + pixel.b) / 3;
+        return { r: gray, g: gray, b: gray, a: pixel.a };
+      },
     },
-  });
+  );
 
   // 区域控制
-  const cn = L.TileLayer.boundaryCanvas(`${window.gis.PROXY_URL}`, {
-    boundary: cnGeoJson,
-  });
+  const cn = L.TileLayer.boundaryCanvas(
+    `http://10.13.4.225:18081/styles/test-style/{z}/{x}/{y}.png`,
+    {
+      boundary: cnGeoJson,
+    },
+  );
 
   // 基础图层
   const baseLayers = {
@@ -1205,7 +1211,10 @@ const initMap = () => {
   layerControl = L.control.layers(baseLayers, overlayLayers).addTo(baseMap);
 
   // 小地图
-  const minMap = new L.TileLayer(`${window.gis.PROXY_URL}`, { minZoom: 0, maxZoom: 20 });
+  const minMap = new L.TileLayer(`http://10.13.4.225:18081/styles/test-style/{z}/{x}/{y}.png`, {
+    minZoom: 0,
+    maxZoom: 20,
+  });
   const m = new L.Control.MiniMap(minMap, { toggleDisplay: true }).addTo(baseMap);
 
   // 加载地图控件

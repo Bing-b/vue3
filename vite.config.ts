@@ -45,9 +45,9 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     },
     build: {
       // https://cn.vitejs.dev/guide/build.html#browser-compatibility
-      target: 'es2020',
+      target: 'es2015',
       minify: 'esbuild',
-      reportCompressedSize: true, // 显示压缩后大小
+      reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度
       // 消除打包大小超过500kb警告
       chunkSizeWarningLimit: 20 * 1024,
       // terserOptions: {
@@ -60,7 +60,6 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       commonjsOptions: {
         transformMixedEsModules: true, // 优化cjs加载方式
       },
-      cssCodeSplit: true,
       rollupOptions: {
         input: {
           main: resolve(__dirname, 'index.html'),

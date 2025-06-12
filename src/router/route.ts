@@ -100,6 +100,15 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               icon: 'other',
             },
           },
+          {
+            path: '/echarts',
+            name: 'echarts',
+            component: () => import('@/views/echarts/index.vue'),
+            meta: {
+              title: 'echarts',
+              icon: 'other',
+            },
+          },
         ],
       },
       {

@@ -20,6 +20,7 @@
         :data="treeData"
         :props="defaultProps"
         :expand-on-click-node="false"
+        :default-expand-all="true"
         node-key="id"
         draggable
         @node-click="handleNodeClick">
@@ -57,9 +58,7 @@
             <!-- 下拉操作菜单 -->
             <el-dropdown trigger="click" class="el-drop">
               <span class="el-dropdown-link">
-                <el-icon class="el-icon--right">
-                  <More />
-                </el-icon>
+                <icon-weui:more-outlined />
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -208,7 +207,7 @@ const treeData = ref<Tree[]>([
       },
       {
         id: 8,
-        label: 'python',
+        label: '如何阅读一本书.pdf',
         showInput: false,
       },
     ],

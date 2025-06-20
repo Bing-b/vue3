@@ -1,10 +1,9 @@
-import { ConfigEnv, UserConfigExport, loadEnv } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import { __APP_INFO__, alias, extensions, root, warpperEnv } from './build/utils';
-import { getPluginsList } from './build/plugins';
+import { createVitePlugins } from './build/plugins';
 import { resolve } from 'path';
 
-export default ({ mode }: ConfigEnv): UserConfigExport => {
-  // 环境变量
+export default defineConfig(({ mode, command }) => {
   const { VITE_PORT, VITE_PUBLIC_PATH } = warpperEnv(loadEnv(mode, root));
 
   return {
@@ -32,24 +31,24 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
     optimizeDeps: {
       exclude: ['@vueuse/core'], // pip
     },
-    plugins: getPluginsList(),
+    plugins: createVitePlugins(command),
     css: {
       preprocessorOptions: {
         scss: {
-          api: 'modern-compiler', // or 'modern'
+          api: 'modern-compiler', // 消除sass api 警告
         },
       },
     },
-    esbuild: {
-      drop: ['debugger', 'console'], // 移除调试语句和日志
-    },
+
     build: {
       // https://cn.vitejs.dev/guide/build.html#browser-compatibility
-      target: 'es2015',
-      minify: 'esbuild',
       reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度
-      // 消除打包大小超过500kb警告
-      chunkSizeWarningLimit: 20 * 1024,
+      chunkSizeWarningLimit: 20480,
+      ...(command === 'build' && {
+        esbuild: {
+          drop: ['console', 'debugger'],
+        },
+      }),
       // terserOptions: {
       //   compress: {
       //     drop_console: true, // 移除所有的 console.* 调用
@@ -81,4 +80,4 @@ export default ({ mode }: ConfigEnv): UserConfigExport => {
       __APP_INFO__: JSON.stringify(__APP_INFO__),
     },
   };
-};
+});

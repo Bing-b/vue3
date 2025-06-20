@@ -22,11 +22,12 @@ NProgress.configure({
 router.beforeEach((to, from, next) => {
   //if (to.meta.title)
   NProgress.start();
-  if (to.path === '/' && from.path !== '/home') {
-    next({ path: '/home' });
-  } else {
-    next();
-  }
+  next();
+  // if (to.path === '/' && from.path !== '/home') {
+  //   next({ path: '/home' });
+  // } else {
+  //   next();
+  // }
 });
 
 router.afterEach(() => {

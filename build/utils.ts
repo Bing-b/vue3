@@ -21,12 +21,8 @@ const alias: Record<string, string> = {
 const extensions: Array<string> = ['.js', '.ts', '.jsx', '.tsx', '.json', '.d.ts'];
 
 /** 处理环境变量 */
-const warpperEnv = (envConf: Recordable): ViteEnv => {
-  const ret: ViteEnv = {
-    VITE_PORT: 8848,
-    VITE_PUBLIC_PATH: '/',
-    VITE_CDN: false,
-  };
+const warpperEnv = (envConf: Recordable) => {
+  const ret: Recordable = {};
 
   for (const envName of Object.keys(envConf)) {
     let realName = envConf[envName].replace(/\\n/g, '\n');
@@ -42,4 +38,21 @@ const warpperEnv = (envConf: Recordable): ViteEnv => {
   return ret;
 };
 
-export { root, alias, extensions, warpperEnv, pathResolve, __APP_INFO__ };
+/**
+ * 命令行参数读取 eg: pnpm build -- --legacy=true
+ * @returns
+ */
+function getArgs(): Record<string, string | boolean> {
+  const args = process.argv.slice(2);
+  const result: Record<string, string | boolean> = {};
+  for (const arg of args) {
+    const [key, value] = arg.split('=');
+    const cleanedKey = key.replace(/^--/, '');
+    if (value === 'true') result[cleanedKey] = true;
+    else if (value === 'false') result[cleanedKey] = false;
+    else result[cleanedKey] = value ?? true;
+  }
+  return result;
+}
+
+export { root, alias, extensions, warpperEnv, pathResolve, getArgs, __APP_INFO__ };

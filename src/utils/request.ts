@@ -8,9 +8,12 @@ const proBaseURL = 'http://prod.xxxx';
 const baseURL = process.env.NODE_ENV === 'development' ? devBaseURL : proBaseURL;
 
 const instance = axios.create({
-  baseURL: baseURL,
+  baseURL:
+    import.meta.env.MODE === 'production'
+      ? window.api.url
+      : (import.meta.env.VITE_SERVER_BASE_URL as string),
   timeout: 5000, // 设置超时时间
-  withCredentials: true, // 设置是否允许跨域传递的 cookie 携带凭证
+  // withCredentials: true, // 设置是否允许跨域传递的 cookie 携带凭证
 });
 
 // 配置请求参数传递格式，默认是JSON格式，根据服务器决定
@@ -21,7 +24,7 @@ instance.defaults.headers['Content-Type'] = 'application/json';
 instance.interceptors.request.use(
   (config) => {
     // 配置每次发送请求之前判断是否存在 token,存在则在请求头 header 上添加 token,
-    let token = localStorage.getItem('token');
+    let token = window.token;
     token && (config.headers.Authorization = token);
     return config;
   },

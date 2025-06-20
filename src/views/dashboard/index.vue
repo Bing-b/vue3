@@ -46,6 +46,7 @@ import Weather from './components/weather.vue';
 import AmCharts from './components/amcharts.vue';
 import LottieWeb from '@/views/lottie-web/index.vue';
 import Motion from '@/utils/motion';
+import { listAllOntology } from '@/api/common';
 
 // 启动引导页
 const initIntor = () => {
@@ -55,6 +56,10 @@ const initIntor = () => {
     .setOption('doneLabel', ' 完成 ')
     .start();
 };
+
+onMounted(() => {
+  listAllOntology().then(() => {});
+});
 </script>
 <style lang="scss" scoped>
 :deep(.el-progress__text) {

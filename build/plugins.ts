@@ -18,9 +18,10 @@ import path from 'node:path';
 
 const localIconPath = path.join(process.cwd(), 'src/assets/icons');
 
-import { generateLangStats } from '../src/utils/file-stats';
+import { generateLangStats } from '../src/utils/file-stats'; // 统计项目文件脚本
 
 import { templateCompilerOptions } from '@tresjs/core';
+import { getArgs } from './utils';
 
 function fileStatsPlugin() {
   return {
@@ -32,8 +33,16 @@ function fileStatsPlugin() {
   };
 }
 
-/** 获取插件列表 */
-export const getPluginsList = (): Array<PluginOption> => {
+const args = getArgs(); // 解析package:scripts 命令行参数
+const isLegacy = args.legacy === true; // 是否兼容旧浏览器
+
+/**
+ * 创建 Vite 插件列表，根据当前运行模式（开发 or 构建）自动注入所需插件
+ * @param command
+ * @returns
+ */
+export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOption> => {
+  const isProd = command === 'build';
   return [
     vue({ ...templateCompilerOptions }),
     // svg 配置，用于全局使用svg 组件
@@ -70,10 +79,12 @@ export const getPluginsList = (): Array<PluginOption> => {
     fileStatsPlugin(),
 
     // 处理旧浏览器兼容
-    // legacy({
-    //   targets: ['defaults', 'not IE 11'],
-    //   modernPolyfills: true,
-    // }),
+    isProd &&
+      isLegacy &&
+      legacy({
+        targets: ['defaults', 'not IE 11'],
+        modernPolyfills: true,
+      }),
 
     // 打包分析
     visualizer({
@@ -84,13 +95,11 @@ export const getPluginsList = (): Array<PluginOption> => {
       filename: 'visualizer.html',
     }),
     viteCompression({
-      verbose: true, // 默认即可
-      disable: true, // 开启压缩(不禁用)，默认即可
       deleteOriginFile: false, // 删除源文件
       threshold: 1024 * 20, // 压缩前最小文件大小
       algorithm: 'brotliCompress', // 压缩算法
       ext: '.br', // 文件类型
     }),
-    process.env.NODE_ENV === 'development' && VitePluginVueDevtools(),
-  ];
+    !isProd && VitePluginVueDevtools(),
+  ].filter(Boolean);
 };

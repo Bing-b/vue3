@@ -14,3 +14,18 @@ export function getWeather<T>() {
     method: 'get',
   });
 }
+
+enum RequestEnum {
+  GET = 'GET',
+  POST = 'POST',
+  PATCH = 'PATCH',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+
+export function listAllOntology() {
+  return request<{ ontologyId: string; ontologyName: string; isDraft: boolean }[]>({
+    url: '/ontology/getAllOntologyOfUser',
+    method: RequestEnum.GET,
+  });
+}

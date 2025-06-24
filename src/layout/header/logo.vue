@@ -13,7 +13,7 @@
       @click.stop="switchMenu"
       color="#333"
       width="24"
-      class="mr-6 cursor-pointer"
+      class="mr-6 cursor-pointer dark:text-white"
       :class="{ 'rotate-180': isExpansion }" />
 
     <el-breadcrumb separator="/">

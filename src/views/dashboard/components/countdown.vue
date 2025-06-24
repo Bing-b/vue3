@@ -1,13 +1,13 @@
 <template>
   <!-- 时间倒计时 -->
   <div
-    class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5">
+    class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5 dark:bg-[linear-gradient(135deg,_#1c1e23_0%,_#555555_100%)]">
     <div class="font-hsans">
       <p class="text-xs font-medium">{{ date.year }} 年余额</p>
       <h4 class="text-[40px] font-bold"
         >{{ date.remainingDays }}<span class="ml-1 text-xs font-normal">天</span></h4
       >
-      <p class="text-[#444]"
+      <p class="text-[#444] dark:text-[#767676]"
         >{{ date.hour }}<span class="mr-1 text-xs">h</span>{{ date.minute
         }}<span class="mr-1 text-xs">m</span>{{ date.second }}<span class="text-xs">s</span></p
       >

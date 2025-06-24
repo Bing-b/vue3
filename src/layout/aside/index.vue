@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-box dark:border-r-dark-border shadow-md dark:border-r">
+  <div class="menu-box dark:border-r-base-border shadow-md dark:border-r">
     <el-menu
       router
       :default-active="defaultActive"

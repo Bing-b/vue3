@@ -82,7 +82,7 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
     isProd &&
       isLegacy &&
       legacy({
-        targets: ['defaults', 'not IE 11'],
+        targets: ['defaults', 'not IE 11', 'chrome >= 60'],
         modernPolyfills: true,
       }),
 
@@ -97,8 +97,8 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
     viteCompression({
       deleteOriginFile: false, // 删除源文件
       threshold: 1024 * 20, // 压缩前最小文件大小
-      algorithm: 'brotliCompress', // 压缩算法
-      ext: '.br', // 文件类型
+      // algorithm: 'brotliCompress', // 压缩算法
+      // ext: '.br', // 文件类型
     }),
     !isProd && VitePluginVueDevtools(),
   ].filter(Boolean);

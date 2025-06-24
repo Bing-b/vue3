@@ -20,7 +20,6 @@ NProgress.configure({
 
 // 路由前置守卫
 router.beforeEach((to, from, next) => {
-  //if (to.meta.title)
   NProgress.start();
   next();
   // if (to.path === '/' && from.path !== '/home') {

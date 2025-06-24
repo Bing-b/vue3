@@ -1,11 +1,12 @@
 <template>
-  <div class="weather relative flex h-[204px] w-[204px] flex-col rounded-[25px] p-2">
-    <h1 class="px-2 text-[48px] text-[#1c1c1e]">{{ weather.temperature }}°</h1>
-    <p class="mt-1 px-2 text-sm text-[#3a3a3c]"> {{ weather.city }}</p>
-    <p class="mb-2 p-2 pt-0 text-sm text-[#3a3a3c]"
+  <div
+    class="weather relative flex h-[204px] w-[204px] flex-col rounded-[25px] p-2 dark:!bg-[linear-gradient(35deg,_#1c1e23_0%,_#555555_100%)]">
+    <h1 class="px-2 text-[48px] text-[#1c1c1e] dark:text-white">{{ weather.temperature }}°</h1>
+    <p class="mt-1 px-2 text-sm text-[#3a3a3c] dark:text-[#666]"> {{ weather.city }}</p>
+    <p class="mb-2 p-2 pt-0 text-sm text-[#3a3a3c] dark:text-[#767676]"
       >{{ weather.weather }} {{ weather.temperature }}° ~ {{ Number(weather.temperature) + 2 }}°</p
     >
-    <div class="item flex">
+    <div class="item bg-content-bg flex">
       <p>
         {{ weather.humidity }}%
         <span>湿度</span>
@@ -94,7 +95,6 @@ onMounted(() => {
 }
 
 .item {
-  background-color: #fff;
   border-radius: 12px;
   height: 60px;
   align-items: center;

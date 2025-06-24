@@ -1,7 +1,7 @@
 <template>
   <el-main id="main" class="h-full bg-[#f0f2f5] !px-3 !py-3">
     <div
-      class="dark:bg-dark-bg dark:border-dark-border h-full overflow-hidden rounded bg-white dark:border">
+      class="dark:border-base-border bg-base-background h-full overflow-hidden rounded dark:border">
       <router-view #default="{ Component }">
         <transition name="slide" mode="out-in">
           <component :is="Component" :key="route.path" />

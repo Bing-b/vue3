@@ -1,6 +1,6 @@
 <template>
   <div
-    class="font-hsans chart relative flex h-[200px] w-[480px] flex-col items-center rounded-[24px] px-3">
+    class="font-hsans chart border-base-border relative flex h-[200px] w-[480px] flex-col items-center rounded-[24px] px-3">
     <p class="absolute top-4 left-5 text-sm font-medium">代码统计:</p>
     <div ref="chartdiv" class="half-donut-chart font-hsans"></div>
   </div>
@@ -149,6 +149,11 @@ onUnmounted(() => {
 .chart {
   background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
 }
+
+.dark .chart {
+  background-image: linear-gradient(120deg, #3e3e3e 0%, #2c2c2c 100%);
+}
+
 .half-donut-chart {
   width: 100%;
   height: 180px;

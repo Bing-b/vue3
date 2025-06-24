@@ -3,13 +3,20 @@
 @theme {
   --font-hsans: 'HanSansSC';
   --font-Maoken: 'Maoken';
-  --color-dark-border: var(--color-border);
-  --color-dark-bg: var(--color-background);
-  --color-dark-sec-bg: var(--color-border);
+
+  --color-base-background: var(--base-background);
+  --color-base-border: var(--base-border);
+  --color-content-bg: var(--content-bg);
 }
-@layer base {
-  .dark {
-    --color-border: #36363a;
-    --color-background: #141414;
-  }
+
+:root {
+  --base-background: #ffffff;
+  --content-bg: #ffffff;
+  --base-border: transparent;
+}
+
+.dark {
+  --base-background: #141414;
+  --base-border: #36363a;
+  --content-bg: #1c1e23;
 }

@@ -1,4 +1,11 @@
 import request from '@/utils/request';
+enum RequestEnum {
+  GET = 'GET',
+  POST = 'POST',
+  PATCH = 'PATCH',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
 
 export function getWeathers<T>(data: { city: string }) {
   return request<T>({
@@ -15,17 +22,11 @@ export function getWeather<T>() {
   });
 }
 
-enum RequestEnum {
-  GET = 'GET',
-  POST = 'POST',
-  PATCH = 'PATCH',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-}
-
-export function listAllOntology() {
-  return request<{ ontologyId: string; ontologyName: string; isDraft: boolean }[]>({
-    url: '/ontology/getAllOntologyOfUser',
-    method: RequestEnum.GET,
+export function testCancelApi<T>(data: string, signal: AbortSignal) {
+  return request<T>({
+    url: '/api/v1/test',
+    method: RequestEnum.POST,
+    data,
+    signal,
   });
 }

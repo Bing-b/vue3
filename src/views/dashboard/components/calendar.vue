@@ -1,5 +1,6 @@
 <template>
-  <div class="flex h-[200px] gap-10 overflow-hidden rounded-[24px] shadow-md">
+  <div
+    class="border-base-border flex h-[200px] gap-10 overflow-hidden rounded-[24px] border shadow-md">
     <!-- 今日 -->
     <div class="flex flex-col justify-between py-4 pl-5">
       <div>
@@ -18,7 +19,7 @@
     </div>
 
     <!-- 日历 -->
-    <div class="calendar flex w-[280px] flex-wrap bg-[#f8f8f8] px-7 py-4">
+    <div class="calendar dark:bg-base-background flex w-[280px] flex-wrap bg-[#f8f8f8] px-7 py-4">
       <div
         :class="{ '!text-[#ff4d4f]': idx > 4 }"
         class="w-[calc(100%/7)] text-center text-sm text-[#1c1c1e]"

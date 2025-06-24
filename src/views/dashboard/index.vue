@@ -46,7 +46,11 @@ import Weather from './components/weather.vue';
 import AmCharts from './components/amcharts.vue';
 import LottieWeb from '@/views/lottie-web/index.vue';
 import Motion from '@/utils/motion';
-import { listAllOntology } from '@/api/common';
+import useCancelRequest from '@/hooks/useCancelRequest';
+import { testCancelApi } from '@/api/common';
+import { ElMessage, ElMessageBox } from 'element-plus';
+
+const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 
 // 启动引导页
 const initIntor = () => {
@@ -57,9 +61,19 @@ const initIntor = () => {
     .start();
 };
 
-onMounted(() => {
-  listAllOntology().then(() => {});
-});
+const testCancel = () => {
+  loadCancelAlert();
+  testCancelApi('', signal.value)
+    .then(() => {
+      cancelPendingAlert();
+    })
+    .finally(() => {
+      cancelPendingAlert();
+      ElMessageBox.close();
+    });
+};
+
+onMounted(() => {});
 </script>
 <style lang="scss" scoped>
 :deep(.el-progress__text) {
@@ -70,6 +84,10 @@ onMounted(() => {
 
 :deep(.el-progress-circle__track) {
   stroke: #e7f0fd !important;
+}
+
+.dark .lottie {
+  background-image: linear-gradient(120deg, #3e3e3e 0%, #2c2c2c 100%);
 }
 
 .lottie {

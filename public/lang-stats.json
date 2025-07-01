@@ -2,12 +2,12 @@
   {
     "lang": "TypeScript",
     "bytes": 1404754,
-    "percent": "51.77"
+    "percent": "51.79"
   },
   {
     "lang": "JavaScript",
     "bytes": 1087104,
-    "percent": "40.06"
+    "percent": "40.08"
   },
   {
     "lang": "Vue",
@@ -16,7 +16,7 @@
   },
   {
     "lang": "SCSS",
-    "bytes": 18723,
-    "percent": "0.69"
+    "bytes": 17835,
+    "percent": "0.66"
   }
 ]

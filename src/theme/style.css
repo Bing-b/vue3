@@ -3,7 +3,6 @@
 @theme {
   --font-hsans: 'HanSansSC';
   --font-Maoken: 'Maoken';
-
   --color-base-background: var(--base-background);
   --color-base-border: var(--base-border);
   --color-content-bg: var(--content-bg);

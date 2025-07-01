@@ -66,3 +66,22 @@ html {
   src: url('../assets/font/Maoken.woff2') format('woff2');
   font-display: swap;
 }
+
+.title {
+  position: relative;
+  padding: 8px 16px;
+  background-color: #fff;
+  border-bottom: 1px solid #f0f2f5;
+  font-family: 'jy';
+  opacity: 0.9;
+  &::before {
+    position: absolute;
+    content: '';
+    width: 2px;
+    height: 20px;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgb(36, 131, 234);
+  }
+}

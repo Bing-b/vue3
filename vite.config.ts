@@ -41,7 +41,6 @@ export default defineConfig(({ mode, command }) => {
     },
 
     build: {
-      // https://cn.vitejs.dev/guide/build.html#browser-compatibility
       reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度
       chunkSizeWarningLimit: 20480,
       ...(command === 'build' && {

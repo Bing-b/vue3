@@ -1,11 +1,6 @@
 <template>
   <div class="menu-box dark:border-r-base-border shadow-md dark:border-r">
-    <el-menu
-      router
-      :default-active="defaultActive"
-      class="el-menu-vertical-demo"
-      :collapse="isCollapse"
-      :unique-opened="true">
+    <el-menu router :default-active="defaultActive" :collapse="isCollapse" :unique-opened="true">
       <template v-for="menu in menuLists" :key="menu.path">
         <el-sub-menu
           :index="menu.path"

@@ -32,13 +32,13 @@ export default defineConfig(({ mode, command }) => {
       exclude: ['@vueuse/core'], // pip
     },
     plugins: createVitePlugins(command),
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: 'modern-compiler', // 消除sass api 警告
-        },
-      },
-    },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       api: 'modern-compiler', // 消除sass api 警告
+    //     },
+    //   },
+    // },
 
     build: {
       reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度

@@ -1,6 +1,6 @@
-# Vue 3x + Vite5x + element-plus + TypeScript
+# Vue 3x + Vite6x + element-plus + TypeScript 基于最新技术研发
 
-个人技术调研、功能实践系统
+本系统仅 个人技术调研、功能实践系统
 
 ## 安装 运行 打包
 

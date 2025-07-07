@@ -43,7 +43,7 @@ const warpperEnv = (envConf: Recordable) => {
  * @returns
  */
 function getArgs(): Record<string, string | boolean> {
-  const args = process.argv.slice(2);
+  const args = process.argv.slice(2); // 去除固定参数
   const result: Record<string, string | boolean> = {};
   for (const arg of args) {
     const [key, value] = arg.split('=');

@@ -1,12 +1,12 @@
 {
   "name": "agerars",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "sideEffects": false,
   "scripts": {
     "dev": "vite --open",
     "serve": "pnpm dev",
-    "build": "vite build",
+    "build": "vite build -- -- legacy=false",
     "build:prod": "pnpm build -- --legacy=true",
     "preinstall": "npx only-allow pnpm"
   },
@@ -81,7 +81,6 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "@vueuse/motion": "^2.1.0",
     "ace-builds": "^1.19.0",
-    "add": "^2.0.6",
     "autoprefixer": "^10.4.14",
     "commitizen": "^4.3.1",
     "cz-customizable": "^7.4.0",
@@ -98,7 +97,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rollup-plugin-visualizer": "^5.12.0",
-    "sass": "^1.42.1",
+    "sass-embedded": "^1.89.2",
     "sass-loader": "^12.1.0",
     "tailwindcss": "^4.0.17",
     "terser": "^5.19.2",
@@ -106,7 +105,7 @@
     "unplugin-auto-import": "^0.15.3",
     "unplugin-icons": "^22.1.0",
     "unplugin-vue-components": "^0.24.1",
-    "vite": "6.3.5",
+    "vite": "7.0.2",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-legacy-swc": "^1.2.3",
     "vite-plugin-svg-icons": "^2.0.1",
@@ -117,7 +116,7 @@
   },
   "packageManager": "pnpm@8.14.1",
   "engines": {
-    "node": ">=18",
+    "node": ">=20",
     "pnpm": ">=8.14.0"
   }
 }

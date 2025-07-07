@@ -1,0 +1,50 @@
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    width: 600px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .piece {
+    background-image: url('./src/assets/images/sh.png');
+    background-size: 600px 400px;
+    opacity: 0;
+    animation: reveal 0.8s forwards;
+  }
+
+  @keyframes reveal {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>
+
+<div class="grid" id="grid"></div>
+
+<script>
+  const grid = document.getElementById('grid');
+  const cols = 6;
+  const rows = 6;
+  const width = 600;
+  const height = 400;
+
+  const pieces = [];
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      const div = document.createElement('div');
+      div.className = 'piece';
+      div.style.backgroundPosition = `-${(x * width) / cols}px -${(y * height) / rows}px`;
+      div.style.animationDelay = `${(Math.random() * 2).toFixed(2)}s`; // 随机延时
+      grid.appendChild(div);
+    }
+  }
+</script>

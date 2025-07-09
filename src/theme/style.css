@@ -12,10 +12,12 @@
   --base-background: #ffffff;
   --content-bg: #ffffff;
   --base-border: transparent;
+  --base-menu-background: #edf1fc;
 }
 
 .dark {
   --base-background: #141414;
   --base-border: #36363a;
   --content-bg: #1c1e23;
+  --base-menu-background: #333333;
 }

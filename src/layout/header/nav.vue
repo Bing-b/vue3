@@ -1,19 +1,19 @@
 <template>
   <div class="flex items-center gap-5 pr-10">
     <!-- 全屏切换 -->
-    <FullScreen />
+    <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom" :show-after="0.5">
+      <span @click="toggle" class="flex h-4 cursor-pointer items-center justify-center">
+        <icon-material-symbols:fullscreen-rounded width="18" v-if="!isFullscreen" />
+        <icon-mingcute:fullscreen-exit-line width="18" v-else />
+      </span>
+    </el-tooltip>
+
     <!-- 暗黑切换 -->
     <button class="switch" @click="toggleDark($event)" :class="{ active: isDark }">
       <div class="switch_action">
         <div class="switch_icon">
           <icon-lets-icons:sun-light v-if="!isDark" width="12" height="12" />
           <icon-system-uicons:moon v-else width="12" height="12" />
-          <!-- <el-icon v-if="!isDark" size="14">
-            <Sunny />
-          </el-icon>
-          <el-icon v-else size="14">
-            <Moon />
-          </el-icon> -->
         </div>
       </div>
     </button>
@@ -22,7 +22,9 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import useGlobalConfig from '@/store/modules/global';
-import FullScreen from './fullScreen.vue';
+import { useFullscreen } from '@vueuse/core';
+
+const { toggle, isFullscreen } = useFullscreen();
 
 const globalConfigStore = useGlobalConfig();
 
@@ -65,6 +67,14 @@ const toggleDark = (e: MouseEvent) => {
   globalConfigStore.appDark = isDark.value;
 };
 
+// 重新检查全屏状态
+isFullscreen.value = !!(
+  document.fullscreenElement ||
+  document.webkitFullscreenElement ||
+  document.mozFullScreenElement ||
+  document.msFullscreenElement
+);
+
 onMounted(() => {
   // 初始化获取主题信息
   const cfg = window.localStorage.getItem('config') || '{}';
@@ -72,13 +82,6 @@ onMounted(() => {
 });
 </script>
 <style lang="scss" scoped>
-.header {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border-bottom: 1px solid #dedede;
-}
-
 .switch {
   position: relative;
   flex: none;

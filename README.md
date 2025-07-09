@@ -13,3 +13,5 @@ pnpm build
 ## 🧠 最近活跃情况
 
 ![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=Bing-b&theme=github-compact)
+
+![Your github stats](https://github-readme-stats.vercel.app/api?username=Bing-b&show_icons=true)

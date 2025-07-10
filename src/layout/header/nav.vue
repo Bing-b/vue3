@@ -150,6 +150,6 @@ onMounted(() => {
   animation: none;
 }
 .dark::view-transition-old(root) {
-  z-index: 100;
+  z-index: 1000;
 }
 </style>

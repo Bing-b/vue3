@@ -7,14 +7,11 @@ enum RequestEnum {
   DELETE = 'DELETE',
 }
 
-export function getWeathers<T>(data: { city: string }) {
-  return request<T>({
-    url: 'tq/version=v6&appid=21375891&appsecret=fTYv7v5E&city=南京',
-    method: 'get',
-    data,
-  });
-}
-
+/**
+ * 获取指定城市天气信息（高德）
+ * @param data
+ * @returns
+ */
 export function getWeather<T>() {
   return request<T>({
     url: `/api/v3/weather/weatherInfo?city=510100&key=850268c979fccb70b1ee1732dc64f20c`, // 动态传入 city
@@ -28,5 +25,15 @@ export function testCancelApi<T>(data: string, signal: AbortSignal) {
     method: RequestEnum.POST,
     data,
     signal,
+  });
+}
+
+export function getGitHubProject<T>() {
+  return request<T>({
+    url: '/github/users/Bing-b/repos',
+    method: RequestEnum.GET,
+    headers: {
+      token: import.meta.env.VITE_GITHUB_TOKEN,
+    },
   });
 }

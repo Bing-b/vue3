@@ -68,7 +68,7 @@ const filterRoutes = () => {
   let templateRoutes = [] as any;
   templateRoutes = mainRoutes.filter((item) => item.name === 'index');
   menuList.value = [...templateRoutes[0].children];
-  console.log(menuList.value);
+  // console.log(menuList.value);
 };
 
 /** 处理点击菜单 */

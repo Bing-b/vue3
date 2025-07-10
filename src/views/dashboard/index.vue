@@ -33,7 +33,11 @@
     </div>
 
     <!-- 板块二 -->
-    <div></div>
+    <div class="mt-2">
+      <h2 class="title flex items-center justify-between">项目</h2>
+
+      <div> </div>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -47,7 +51,7 @@ import AmCharts from './components/amcharts.vue';
 import LottieWeb from '@/views/lottie-web/index.vue';
 import Motion from '@/utils/motion';
 import useCancelRequest from '@/hooks/useCancelRequest';
-import { testCancelApi } from '@/api/common';
+import { getGitHubProject, testCancelApi } from '@/api/common';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
@@ -59,6 +63,10 @@ const initIntor = () => {
     .setOption('prevLabel', ' 上一步 ')
     .setOption('doneLabel', ' 完成 ')
     .start();
+};
+
+const getGitHubInof = () => {
+  getGitHubProject().then(() => {});
 };
 
 const testCancel = () => {
@@ -73,7 +81,9 @@ const testCancel = () => {
     });
 };
 
-onMounted(() => {});
+onMounted(() => {
+  getGitHubInof();
+});
 </script>
 <style lang="scss" scoped>
 :deep(.el-progress__text) {

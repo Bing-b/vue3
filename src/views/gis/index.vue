@@ -532,6 +532,7 @@ const drawBezier = () => {
     const marker = new L.Marker(new L.latLng(loc), { title, icon: iconGeo });
     marker.bindPopup(`名称: ${title}`);
     markersLayer.addLayer(marker);
+    createAntLine([loc, [19.2287, 110.5294]]);
   }
 
   const latlngs = [
@@ -546,7 +547,7 @@ const drawBezier = () => {
   //   L.polyline(bezierLine, { color: 'red' }).addTo(baseMap);
   // });
 
-  L.polyline(latlngs, { color: '#FF5722', weight: 2, dashArray: [10, 5] }).addTo(baseMap);
+  L.polyline(latlngs, { color: '#888', weight: 2 }).addTo(baseMap);
   // baseMap.panTo(L.latLng(19.2287, 110.5294)); // 移动画布中心
   baseMap.flyTo(L.latLng(19.2287, 110.5294), 12, { duration: 2 }); // 平滑移动到该点
 };
@@ -1047,6 +1048,25 @@ const markTarget = () => {
   baseMap.flyTo(L.latLng([39.9042, 116.4074]), 7.5, { duration: 2 });
   const pulsingIcon = L.icon.pulse({ iconSize: [20, 20], color: 'red' });
   L.marker([39.9042, 116.4074], { icon: pulsingIcon }).addTo(baseMap);
+};
+
+// 创建蚂蚁路线
+const createAntLine = (paths: number[][]) => {
+  const lineLayer = antPath(paths, {
+    paused: false, // 暂停  初始化状态
+    reverse: false, // 方向反转
+    delay: 1500, // 延迟，数值越大效果越缓慢
+    dashArray: [40, 20], // 间隔样式
+    weight: 6, // 线宽
+    opacity: 0.9, // 透明度
+    color: '#D32F2F',
+    pulseColor: '#cdcdcd', // 块颜色
+  });
+
+  const lineGroupLayer = L.layerGroup([]);
+  lineGroupLayer.addLayer(lineLayer);
+
+  baseMap.addLayer(lineGroupLayer);
 };
 
 // 蚂蚁轨迹效果

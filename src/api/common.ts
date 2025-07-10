@@ -19,6 +19,12 @@ export function getWeather<T>() {
   });
 }
 
+/**
+ * 测试
+ * @param data
+ * @param signal
+ * @returns
+ */
 export function testCancelApi<T>(data: string, signal: AbortSignal) {
   return request<T>({
     url: '/api/v1/test',

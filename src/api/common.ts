@@ -35,7 +35,7 @@ export function testCancelApi<T>(data: string, signal: AbortSignal) {
 }
 
 export function getGitHubProject<T>() {
-  return request<T>({
+  return request<any[]>({
     url: '/github/users/Bing-b/repos',
     method: RequestEnum.GET,
     headers: {

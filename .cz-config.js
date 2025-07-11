@@ -1,15 +1,15 @@
 module.exports = {
   // type 类型（定义之后，可通过上下键选择）
   types: [
-    { value: 'feat', name: '✨ feat:      新功能' },
-    { value: 'fix', name: '🐛 fix:      修复' },
+    { value: 'feat', name: '✨ feat:       新功能' },
+    { value: 'fix', name: '🐛 fix:        修复' },
     { value: 'docs', name: '📝 docs:      文档变更' },
     { value: 'style', name: '💄 style:     代码格式(不影响代码运行的变动)' },
     { value: 'refactor', name: '♻️  refactor:    重构 (既不增加feature, 也不是修复bug)' },
     { value: 'perf', name: '⚡️ perf:      性能优化' },
     {
       value: 'build',
-      name: '🚀 build:       构建流程、外部依赖变更（如升级 npm 包、修改 vite 配置等）',
+      name: '🚀 build:      构建流程、外部依赖变更（如升级 npm 包、修改 vite 配置等）',
     },
     { value: 'revert', name: '⏪ revert:     回退' },
   ],

@@ -6,6 +6,7 @@
   --color-base-background: var(--base-background);
   --color-base-border: var(--base-border);
   --color-content-bg: var(--content-bg);
+  --color-gary-border: var(--gary-border);
 }
 
 :root {
@@ -13,6 +14,7 @@
   --content-bg: #ffffff;
   --base-border: transparent;
   --base-menu-background: #edf1fc;
+  --gary-border: #e0e5eb;
 }
 
 .dark {

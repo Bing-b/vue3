@@ -1,1 +1,0 @@
-System.register(["./core-legacy-DGIjYafI.js"],(function(e,t){"use strict";var r;return{setters:[e=>{r=e.aW}],execute:function(){e("u",r("config",{state:()=>({appDark:!1}),persist:{enabled:!0,strategies:[{storage:localStorage}]}}))}}}));

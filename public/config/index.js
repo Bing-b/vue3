@@ -1,5 +1,6 @@
-window.token = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyU3RhdHVzIjowLCJzY29wZSI6WyJhbGwiXSwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJJZCI6MSwianRpIjoiLXZTb01zSkVyVDBYVW1mUGJXYTNpa1lmTUVvIiwiY2xpZW50X2lkIjoic3lzdGVtX2ludGVncmF0aW9uIn0.ArP1vG4gigyW3ZwElfBUzpjc5-3mNHVfVatR3BiJzbrBjyzdSDdKfKOdf7W4INxSpMZhsvUcUTOgvGHqCwpCG0OYBTKYyfNwZ1M7auXRkNK7V_QrL4jdvMJDZZi7NklfRX6KmVJq5mhDQKmfcpcvvfN6s_rdxjICKLdyX72ZXq35ixSQ3Lgj4fPLepC3ny4d3GwP5SrViXdBmuXlrZQP41cXnym5xiDG9GUW0nj60ehPLiEkni5711xOAoTMUgQvsEutHhFvQ98Tncp90Iko8iv2VpEVcP3yXqvOe9_w1xo6BOKtrNhZqhx7XBzkooQ8TQozWZIhFD0LZxax_oS_JA'
+window.token = ''
 
 window.api = {
   url: 'https://restapi.amap.com',
+  gis: "http://10.13.4.225:18081/styles/test-style/{z}/{x}/{y}.png",
 };

@@ -24,8 +24,8 @@ instance.defaults.headers['Content-Type'] = 'application/json';
 instance.interceptors.request.use(
   (config) => {
     // 配置每次发送请求之前判断是否存在 token,存在则在请求头 header 上添加 token,
-    let token = window.token;
-    token && (config.headers.Authorization = token);
+    // let token = window.token;
+    // token && (config.headers.Authorization = token);
     return config;
   },
   (error) => {

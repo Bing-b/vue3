@@ -9,6 +9,8 @@ pnpm run build
 # 进入生成的文件夹
 cd dist
 
+touch .nojekyll
+
 git init
 git add -A
 git commit -m 'deploy'

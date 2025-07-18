@@ -1175,14 +1175,14 @@ const initMap = () => {
 
   // 基础图层
   const baseLayers = {
-    默认: defaultMap,
+    // 默认: defaultMap,
     高德: gaoDeMap,
     高德卫星: gaoDeSatelliteMap,
     天地图: routeMap,
     地形图: tdTerrain,
     OSM: osm,
-    幻影黑: blackLayer,
-    远山黛: grayLayer,
+    // 幻影黑: blackLayer,
+    // 远山黛: grayLayer,
     中国版图: cn,
   };
 
@@ -1200,7 +1200,7 @@ const initMap = () => {
     zoom: 9,
     minZoom: 5,
     maxZoom: 18,
-    layers: [defaultMap, markers], // 控制默认显示图层
+    layers: [gaoDeMap, markers], // 控制默认显示图层
     attributionControl: false, // 控制版权信息控件
     zoomControl: false, // 缩放控件
     fullscreenControl: true, // 全屏控件

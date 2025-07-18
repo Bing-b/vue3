@@ -1,0 +1,22 @@
+[
+  {
+    "lang": "TypeScript",
+    "bytes": 1405067,
+    "percent": "51.08"
+  },
+  {
+    "lang": "JavaScript",
+    "bytes": 1108100,
+    "percent": "40.29"
+  },
+  {
+    "lang": "Vue",
+    "bytes": 219118,
+    "percent": "7.97"
+  },
+  {
+    "lang": "SCSS",
+    "bytes": 18347,
+    "percent": "0.67"
+  }
+]

@@ -1,24 +1,31 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script type="module" crossorigin src="/vue3/static/js/polyfills-jCZdXQSJ.js"></script>
+
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/static/assets/logo-D1YmWN8D.png" />
+    <link rel="icon" type="image/svg+xml" href="/vue3/static/assets/logo-D1YmWN8D.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>花猫乐园</title>
-    <script type="module" crossorigin src="/static/js/main-BKNTB96G.js"></script>
-    <link rel="modulepreload" crossorigin href="/static/js/core-BfEwNXui.js">
-    <link rel="modulepreload" crossorigin href="/static/js/ui-B3K06Owz.js">
-    <link rel="stylesheet" crossorigin href="/static/assets/main-BYXIrRcs.css">
+    <script type="module" crossorigin src="/vue3/static/js/main-Dcl6G1la.js"></script>
+    <link rel="modulepreload" crossorigin href="/vue3/static/js/core-DwZ6MPRT.js">
+    <link rel="modulepreload" crossorigin href="/vue3/static/js/ui-BeUbgTob.js">
+    <link rel="stylesheet" crossorigin href="/vue3/static/assets/main-CFXH-en1.css">
+    <script type="module">import.meta.url;import("_").catch(()=>1);(async function*(){})().next();if(location.protocol!="file:"){window.__vite_is_modern_browser=true}</script>
+    <script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy chunks, syntax error above and the same error below should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
   </head>
 
   <body>
     <div id="app"></div>
-    <script src="/config/index.js"></script>
+    <script src="/vue3/config/index.js"></script>
     <script>
       var config = window.localStorage.getItem('config');
       if (config && JSON.parse(config).appDark) {
         document.querySelector('html').classList.add('dark');
       }
     </script>
+    <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
+    <script nomodule crossorigin id="vite-legacy-polyfill" src="/vue3/static/js/polyfills-legacy-co5s11Nf.js"></script>
+    <script nomodule crossorigin id="vite-legacy-entry" data-src="/vue3/static/js/main-legacy-DA2-yfmK.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
   </body>
 </html>

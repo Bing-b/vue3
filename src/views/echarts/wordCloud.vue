@@ -8,8 +8,7 @@
 import * as echarts from 'echarts';
 import 'echarts-wordcloud';
 import { onMounted } from 'vue';
-// 引入 lodash 中的 merge、深克隆
-// deepMerge.ts
+
 const deepMerge = <T extends object, U extends object>(target: T, source: U): T & U => {
   for (const key in source) {
     if (source[key] instanceof Object && key in target && target[key] instanceof Object) {

@@ -11,7 +11,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
     component: () => import('@/layout/index.vue'),
     children: [
       {
-        path: '/home',
+        path: '',
         name: 'dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         meta: {

@@ -89,7 +89,7 @@ const initChart = async () => {
 
   const colors = ['#67b7dc', '#6794dc', '#6771dc', '#8067dc', '#a367dc'];
   const url = import.meta.env.PROD
-    ? '/lang-stats.json' // 生产环境：dist/lang-stats.json
+    ? '/vue3/lang-stats.json' // 生产环境：dist/lang-stats.json
     : '/public/lang-stats.json'; // 开发环境：public/lang-stats.json
   const res = await fetch(url);
   const langData = await res.json();

@@ -99,7 +99,7 @@ const getGitHubInof = async () => {
 // };
 
 onMounted(() => {
-  getGitHubInof();
+  // getGitHubInof();
 });
 </script>
 <style lang="scss" scoped>

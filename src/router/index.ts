@@ -4,7 +4,8 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 const router = createRouter({
-  history: createWebHistory('/'),
+  // history: createWebHistory('/'),
+  history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
   //history: createWebHashHistory(),
   routes: mainRoutes.concat(staticRoutes),
 });

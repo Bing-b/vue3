@@ -13,8 +13,10 @@ enum RequestEnum {
  * @returns
  */
 export function getWeather<T>() {
+  const isProd = import.meta.env.PROD; // true 生产环境，false 开发环境
+  const baseURL = isProd ? '' : '/api';
   return request<T>({
-    url: `/api/v3/weather/weatherInfo?city=510100&key=850268c979fccb70b1ee1732dc64f20c`, // 动态传入 city
+    url: `${baseURL}/v3/weather/weatherInfo?city=510100&key=850268c979fccb70b1ee1732dc64f20c`, // 动态传入 city
     method: 'get',
   });
 }

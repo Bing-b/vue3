@@ -114,7 +114,6 @@ const handleChangeComponent = (item: any) => {
 watchEffect(() => {
   // 初始化默认选中第一个
   //activeComponent.value = leftSideMenu[0];
-
   const id = useId();
 });
 </script>

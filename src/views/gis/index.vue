@@ -1145,6 +1145,21 @@ const initMap = () => {
   const gaoDeMap = L.layerGroup([gaoDem]);
   const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
 
+  // 天地图矢量底图
+  const vecLayer = L.tileLayer(
+    'http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=39a6e2f40d0bf47a673ff64807618838',
+    { tileSize: 256, maxZoom: 18, minZoom: 1 },
+  );
+
+  // 天地图矢量注记
+  const cvaLayer = L.tileLayer(
+    'http://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=39a6e2f40d0bf47a673ff64807618838',
+    { tileSize: 256, maxZoom: 18, minZoom: 1 },
+  );
+
+  // 把底图 + 注记组合成一个图层组
+  const Tianditu = L.layerGroup([vecLayer, cvaLayer]);
+
   // 暗色主题
   const blackLayer = L.tileLayer.colorizr(`${window.api.gis}`, {
     colorize: function (pixel: { r: number; g: number; b: number; a: number }) {
@@ -1175,7 +1190,8 @@ const initMap = () => {
 
   // 基础图层
   const baseLayers = {
-    // 默认: defaultMap,
+    默认: defaultMap,
+    天地: Tianditu,
     高德: gaoDeMap,
     高德卫星: gaoDeSatelliteMap,
     天地图: routeMap,
@@ -1200,7 +1216,7 @@ const initMap = () => {
     zoom: 9,
     minZoom: 5,
     maxZoom: 18,
-    layers: [gaoDeMap, markers], // 控制默认显示图层
+    layers: [defaultMap, markers], // 控制默认显示图层
     attributionControl: false, // 控制版权信息控件
     zoomControl: false, // 缩放控件
     fullscreenControl: true, // 全屏控件

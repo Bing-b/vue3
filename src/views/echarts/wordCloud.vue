@@ -49,7 +49,7 @@ const defaultSeries = [
      * shape选项将随着云的形状增长而继续应用
      * 有形状限制的时候，最好用背景图来实现，而且这个背景图一定要放base64的，不然词云画不出来
      */
-    // maskImage: maskImage,
+    //maskImage: maskImage,
 
     // 词云整个图表放置的位置 和 尺寸大小
     left: 'center',

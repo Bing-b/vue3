@@ -81,6 +81,9 @@ const heatmapVisualMap = {
     left: '5%',
     bottom: '5%',
     text: ['高', '低'],
+    // inRange: {
+    //   color: ['lightskyblue', 'yellow', 'orangered'],
+    // },
   },
 };
 

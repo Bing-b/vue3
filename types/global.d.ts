@@ -4,8 +4,8 @@
 
 declare global {
   interface Window {
-    gis: {
-      PROXY_URL: string;
+    api: {
+      gis: string;
     };
   }
 }

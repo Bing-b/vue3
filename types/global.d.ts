@@ -2,14 +2,12 @@
  * 全局类型声明，无需引入直接在 `.vue` 、`.ts` 、`.tsx` 文件使用即可获得类型提示
  */
 
-declare global {
-  interface Window {
-    api: {
-      gis: string;
-    };
-  }
+declare global {}
+interface Window {
+  api: {
+    gis: string;
+  };
 }
-
 interface ViteEnv {
   VITE_PORT: number; //  本地运行端口号
   VITE_PUBLIC_PATH: string; // 打包路径

@@ -1,5 +1,5 @@
 {
-  "name": "agerars",
+  "name": "ufo",
   "private": true,
   "version": "1.2.0",
   "sideEffects": false,
@@ -117,7 +117,7 @@
   },
   "packageManager": "pnpm@8.14.1",
   "engines": {
-    "node": ">=20",
+    "node": ">=22",
     "pnpm": ">=8.14.0"
   }
 }

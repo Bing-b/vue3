@@ -23,8 +23,8 @@ NProgress.configure({
 router.beforeEach((to, from, next) => {
   NProgress.start();
   next();
-  // if (to.path === '/' && from.path !== '/home') {
-  //   next({ path: '/home' });
+  // if (to.path === '/') {
+  //   next({ path: '/dashboard' });
   // } else {
   //   next();
   // }

@@ -1,28 +1,28 @@
-import { onMounted, onUnmounted, ref, Ref } from "vue";
+import { onMounted, onUnmounted, ref, Ref } from 'vue';
 
 interface MousePosition {
-  x: Ref<number>,
-  y: Ref<number>
+  x: Ref<number>;
+  y: Ref<number>;
 }
 
-const useMousePositon = ():MousePosition => {
+const useMousePositon = (): MousePosition => {
   const x = ref(0);
   const y = ref(0);
 
-  const updateMouse = (e:MouseEvent) => {
-    x.value = e.pageX
-    y.value = e.pageY
-  }
+  const updateMouse = (e: MouseEvent) => {
+    x.value = e.pageX;
+    y.value = e.pageY;
+  };
 
   onMounted(() => {
-    document.addEventListener('click', updateMouse)
-  })
+    document.addEventListener('click', updateMouse);
+  });
 
   onUnmounted(() => {
-    document.removeEventListener('click', updateMouse)
-  })
+    document.removeEventListener('click', updateMouse);
+  });
 
-  return {x, y}
-}
+  return { x, y };
+};
 
-export default useMousePositon
+export default useMousePositon;

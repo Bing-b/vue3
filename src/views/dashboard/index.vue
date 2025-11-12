@@ -34,16 +34,16 @@
 
     <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
       <h2 class="title flex items-center justify-between">项目</h2>
-      <!-- 仓库提交统计 -->
+      <!-- 仓库提交统计图 -->
       <div class="flex h-[calc(100%-50px)]">
         <img
           v-show="!globalConfigStore.appDark"
-          class="inline-block h-full"
+          class="inline-block h-full w-[800px]"
           src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-gitblock.svg"
           alt="" />
         <img
           v-show="globalConfigStore.appDark"
-          class="inline-block h-full"
+          class="inline-block h-full w-[800px]"
           src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-night-green.svg"
           alt="" />
       </div>
@@ -54,16 +54,16 @@
 import { reactive, onMounted, onUnmounted, ref } from 'vue';
 import intro from 'intro.js';
 import 'intro.js/introjs.css';
-import Calendar from './components/calendar.vue';
-import CountDown from './components/countdown.vue';
-import Weather from './components/weather.vue';
-import AmCharts from './components/amcharts.vue';
-import LottieWeb from '@/views/lottie-web/index.vue';
 import Motion from '@/utils/motion';
 import useCancelRequest from '@/hooks/useCancelRequest';
 import { getGitHubProject, testCancelApi } from '@/api/common';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import useGlobalConfig from '@/store/modules/global';
+import Calendar from './components/calendar.vue';
+import CountDown from './components/countdown.vue';
+import Weather from './components/weather.vue';
+import AmCharts from './components/amcharts.vue';
+import LottieWeb from '@/views/lottie-web/index.vue';
 
 // const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 

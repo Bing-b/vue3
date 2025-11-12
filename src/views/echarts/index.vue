@@ -143,7 +143,6 @@ const state = reactive({
         },
         emphasis: {
           focus: 'self',
-
           // textStyle: {
           //   fontSize: 20, // 点击的词放大
           // },

@@ -77,21 +77,21 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/garph',
         name: 'garph',
-        redirect: '/G6',
+        redirect: '/gis',
         meta: {
           title: '可视化',
           icon: 'menu-menu_graph',
         },
         children: [
-          {
-            path: '/G6',
-            name: 'G6',
-            component: () => import('@/views/graph/index.vue'),
-            meta: {
-              title: 'G6',
-              icon: 'other',
-            },
-          },
+          // {
+          //   path: '/G6',
+          //   name: 'G6',
+          //   component: () => import('@/views/graph/index.vue'),
+          //   meta: {
+          //     title: 'G6',
+          //     icon: 'other',
+          //   },
+          // },
           {
             path: '/gis',
             name: 'gis',

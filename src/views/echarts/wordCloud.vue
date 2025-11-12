@@ -18,12 +18,7 @@ const deepMerge = <T extends object, U extends object>(target: T, source: U): T 
   return { ...target, ...source };
 };
 
-const props = withDefaults(
-  defineProps<{
-    options: any;
-  }>(),
-  {},
-);
+const { options } = defineProps<{ options: any }>();
 
 // 词云图默认属性
 const defaultSeries = [
@@ -117,7 +112,7 @@ const defaultSeries = [
     data: [],
   },
 ];
-let seriesData = props.options.series;
+let seriesData = options.series;
 const series = deepMerge(defaultSeries[0], seriesData[0]); // {}表示合并后的新对象，可以传入一个空对象作为初始值
 
 function DrawWordCloud() {

@@ -1,5 +1,5 @@
 {
-  "name": "ufo",
+  "name": "catpark",
   "private": true,
   "version": "1.2.0",
   "sideEffects": false,
@@ -15,11 +15,10 @@
       "path": "./node_modules/cz-customizable"
     }
   },
-  "homepage": "https://bing-b.github.io/vue3/",
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@amcharts/amcharts5": "^5.12.2",
-    "@antv/g6": "^4.8.17",
+    "@antv/g6": "^5.0.50",
     "@tresjs/core": "^4.3.5",
     "@vueuse/core": "^10.11.0",
     "axios": "^1.4.0",

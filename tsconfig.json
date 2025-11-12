@@ -33,7 +33,7 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*",
     ".eslintrc.cjs",
     "types/leaflet.d.ts",
     "types/**/*.d.ts",
@@ -42,6 +42,5 @@
     "build/**/*.d.ts",
     "iii.ts",
     "script/gen-linguist.js"
-  ],
-  "exclude": ["dist", "**/*.js", "node_modules"]
+  ]
 }

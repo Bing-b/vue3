@@ -1328,7 +1328,6 @@ onMounted(() => {
 .leaflet-control-resetview {
   a {
     cursor: pointer;
-
     .leaflet-control-resetview-icon {
       display: inline-block;
       width: 16px;

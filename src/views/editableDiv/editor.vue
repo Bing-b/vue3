@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 const emit = defineEmits(['updateMatchList']);
 
@@ -24,27 +24,16 @@ const inputBoxRef = ref<HTMLElement | null>(null);
 // 组合输入（处理中文输入法键入）
 const isComposing = ref(false);
 
-const timerId = ref<number | null>(null);
-
 const onCompositionStart = () => {
   isComposing.value = true;
 };
 
-const onCompositionEnd = (e: CompositionEvent) => {
+// 处理组合输入结束
+const onCompositionEnd = () => {
   isComposing.value = false;
-  if (timerId.value !== null) {
-    clearTimeout(timerId.value);
-    timerId.value = null;
-  }
-  timerId.value = setTimeout(() => {
-    if (inputBoxRef.value) {
-      clearValue();
-      $matchList.value.forEach((i) => {
-        insertMatch(i.matchLabel);
-      });
-    }
-    timerId.value = null;
-  }, 0) as unknown as number;
+  if (!inputBoxRef.value) return;
+  clearValue();
+  $matchList.value.forEach((i) => insertMatch(i.matchLabel));
 };
 
 // 阻止手动换行
@@ -62,30 +51,38 @@ const clearValue = () => {
   inputBoxRef.value!.innerHTML = '';
 };
 
+// 插入零宽空格
+const insertZeroWidthSpace = (range: Range) => {
+  const zwsp = document.createTextNode('\u200B');
+  range.insertNode(zwsp);
+  range.setStartAfter(zwsp);
+  range.setEndAfter(zwsp);
+};
+
 // 插入匹配项
 const insertMatch = (character: string) => {
   const inputBox = inputBoxRef.value;
   if (!inputBox) return;
 
   const selection = window.getSelection();
+  if (!selection) return;
   if (selection?.rangeCount === 0) inputBox.focus();
-  let range = selection?.getRangeAt(0);
+  let range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
 
   // 如果光标不在输入框内，设置光标到末尾
   if (!range || !inputBox.contains(range.startContainer)) {
     inputBox.focus();
-    const tempRange = document.createRange();
-    tempRange.selectNodeContents(inputBox);
-    tempRange.collapse(false);
-    range = tempRange;
+    range = document.createRange();
+    range.selectNodeContents(inputBox);
+    range.collapse(false);
   }
 
   // 创建匹配项元素
-  const matchDiv = document.createElement('div');
+  const matchDiv = document.createElement('span');
   matchDiv.className = 'matchItem';
   matchDiv.contentEditable = 'false'; // 禁止进入内部
-  matchDiv.innerHTML = `${character} <span>x</span>`;
   matchDiv.dataset.character = character; // 自定属性存储匹配项label
+  matchDiv.innerHTML = `${character} <span>x</span>`;
 
   // 绑定删除事件
   matchDiv.querySelector('span')?.addEventListener('click', (e) => {
@@ -99,33 +96,18 @@ const insertMatch = (character: string) => {
 
   // 插入元素和光标位置调整
   range.deleteContents();
-
-  // 头部插入一个零宽空格
-  const beforeSpace = document.createTextNode('\u200B');
-  range.insertNode(beforeSpace);
-  range.setStartAfter(beforeSpace);
-  range.setEndAfter(beforeSpace);
+  insertZeroWidthSpace(range);
 
   // 插入当前 matchItem
   range.insertNode(matchDiv);
+
   range.setStartAfter(matchDiv);
   range.setEndAfter(matchDiv);
 
-  // 尾部插入一个零宽空格
-  const afterSpace = document.createTextNode('\u200B');
-  range.insertNode(afterSpace);
-  range.setStartAfter(afterSpace);
-  range.setEndAfter(afterSpace);
-
+  insertZeroWidthSpace(range);
   selection?.removeAllRanges();
   selection?.addRange(range);
 };
-
-onUnmounted(() => {
-  if (timerId.value !== null) {
-    clearTimeout(timerId.value);
-  }
-});
 
 defineExpose({
   insertMatch,
@@ -138,21 +120,21 @@ defineExpose({
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: 3px;
+  gap: 4px;
   padding: 9px;
   min-height: 100px;
   max-height: 160px;
   overflow: auto;
   white-space: pre-wrap; /* 自动换行 */
   word-wrap: break-word;
-  font-size: 20px; /* 控制光标高度 */
+  font-size: 16px; /* 控制光标高度 */
   border: 1px solid #e0e5eb;
   caret-color: #000;
   &::before {
     /* 添加前置占位符，解决编辑器最前端光标不显示问题 */
     content: ' ';
     display: inline-block;
-    width: 0.2px;
+    width: 0.1px;
     opacity: 0;
   }
 }

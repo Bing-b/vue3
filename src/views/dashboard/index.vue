@@ -38,32 +38,43 @@
       <div class="flex h-[calc(100%-50px)]">
         <img
           v-show="!globalConfigStore.appDark"
-          class="inline-block h-full w-[800px]"
+          class="inline-block h-full w-[750px] object-cover"
           src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-gitblock.svg"
           alt="" />
         <img
           v-show="globalConfigStore.appDark"
-          class="inline-block h-full w-[800px]"
+          class="inline-block h-full w-[750px] object-cover"
           src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-night-green.svg"
           alt="" />
+
+        <div class="h-full flex-1 overflow-hidden border-l border-l-[#ececec] bg-white">
+          <FallingText
+            text="Some people write stories. I write code — and somewhere in between,
+I build the world as I imagine it could be!"
+            :highlight-words="['stories', 'code']"
+            trigger="hover"
+            :gravity="1"
+            font-size="2rem"
+            :mouse-constraint-stiffness="0.2" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, onMounted, onUnmounted, ref } from 'vue';
+import { reactive, onMounted, useTemplateRef, ref } from 'vue';
 import intro from 'intro.js';
 import 'intro.js/introjs.css';
 import Motion from '@/utils/motion';
 import useCancelRequest from '@/hooks/useCancelRequest';
 import { getGitHubProject, testCancelApi } from '@/api/common';
-import { ElMessage, ElMessageBox } from 'element-plus';
 import useGlobalConfig from '@/store/modules/global';
 import Calendar from './components/calendar.vue';
 import CountDown from './components/countdown.vue';
 import Weather from './components/weather.vue';
 import AmCharts from './components/amcharts.vue';
 import LottieWeb from '@/views/lottie-web/index.vue';
+import FallingText from './components/fallingText.vue';
 
 // const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 

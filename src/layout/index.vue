@@ -1,20 +1,30 @@
 <template>
-  <el-container class="layout-content">
-    <Header v-model:menuCollsapse="menuCollsapse" />
-    <div class="layout-main">
-      <Aside :menuList="state.menuList" v-model:menuCollsapse="menuCollsapse" />
-      <el-main id="main" class="h-full bg-[#f0f2f5] !px-3 !py-3">
-        <div
-          class="dark:border-base-border bg-base-background h-full overflow-hidden rounded dark:border">
-          <router-view #default="{ Component }">
-            <transition name="slide" mode="out-in">
-              <component :is="Component" :key="route.path" />
-            </transition>
-          </router-view>
-        </div>
-      </el-main>
-    </div>
-  </el-container>
+  <ClickSpark
+    spark-color="#ff6b6b"
+    :spark-size="12"
+    :spark-radius="25"
+    :spark-count="12"
+    :duration="600"
+    easing="ease-out"
+    :extra-scale="1.2"
+    class="interactive-area">
+    <el-container class="layout-content">
+      <Header v-model:menuCollsapse="menuCollsapse" />
+      <div class="layout-main">
+        <Aside :menuList="state.menuList" v-model:menuCollsapse="menuCollsapse" />
+        <el-main id="main" class="h-full bg-[#f0f2f5] !px-3 !py-3">
+          <div
+            class="dark:border-base-border bg-base-background h-full overflow-hidden rounded dark:border">
+            <router-view #default="{ Component }">
+              <transition name="slide" mode="out-in">
+                <component :is="Component" :key="route.path" />
+              </transition>
+            </router-view>
+          </div>
+        </el-main>
+      </div>
+    </el-container>
+  </ClickSpark>
 </template>
 <script lang="ts" setup>
 import Header from '@/layout/header/index.vue';
@@ -22,6 +32,7 @@ import Aside from './aside.vue';
 import { mainRoutes } from '@/router/route';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import ClickSpark from './clickspark.vue';
 
 const route = useRoute();
 

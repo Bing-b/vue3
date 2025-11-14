@@ -17,9 +17,6 @@ dependencies:
   '@tresjs/core':
     specifier: ^4.3.5
     version: 4.3.5(three@0.169.0)(typescript@5.7.3)(vue@3.5.10)
-  '@types/matter-js':
-    specifier: ^0.20.2
-    version: 0.20.2
   '@vueuse/core':
     specifier: ^10.11.0
     version: 10.11.1(vue@3.5.10)
@@ -101,9 +98,6 @@ dependencies:
   lunar-javascript:
     specifier: ^1.7.3
     version: 1.7.3
-  matter-js:
-    specifier: ^0.20.0
-    version: 0.20.0
   mitt:
     specifier: ^3.0.0
     version: 3.0.1
@@ -3523,10 +3517,6 @@ packages:
 
   /@types/lodash@4.17.15:
     resolution: {integrity: sha512-w/P33JFeySuhN6JLkysYUK2gEmy9kHHFN7E8ro0tkfmlDOgxBDzWEZ/J8cWA+fHqFevpswDTFZnDx+R9lbL6xw==}
-    dev: false
-
-  /@types/matter-js@0.20.2:
-    resolution: {integrity: sha512-3PPKy3QxvZ89h9+wdBV2488I1JLVs7DEpIkPvgO8JC1mUdiVSO37ZIvVctOTD7hIq8OAL2gJ3ugGSuUip6DhCw==}
     dev: false
 
   /@types/node@14.18.63:
@@ -9104,10 +9094,6 @@ packages:
   /math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
-
-  /matter-js@0.20.0:
-    resolution: {integrity: sha512-iC9fYR7zVT3HppNnsFsp9XOoQdQN2tUyfaKg4CHLH8bN+j6GT4Gw7IH2rP0tflAebrHFw730RR3DkVSZRX8hwA==}
-    dev: false
 
   /mdn-data@2.0.14:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}

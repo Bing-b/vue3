@@ -21,3 +21,4 @@ declare module 'sortablejs';
 declare module 'lunar-javascript';
 declare module 'file-stats';
 declare module '@tresjs/core';
+declare module 'matter-js';

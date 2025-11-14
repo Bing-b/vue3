@@ -1,7 +1,7 @@
 <template>
   <div id="home" class="relative h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
     <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
-      >概览 <el-button @click="initIntor">引导</el-button></h2
+      >组件 <el-button @click="initIntor">引导</el-button></h2
     >
     <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
       <Motion data-intro="这是第二步🦝" data-step="2">
@@ -33,7 +33,7 @@
     </div>
 
     <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
-      <h2 class="title flex items-center justify-between">项目</h2>
+      <h2 class="title flex items-center justify-between">概览</h2>
       <!-- 仓库提交统计图 -->
       <div class="flex h-[calc(100%-50px)]">
         <img
@@ -47,15 +47,16 @@
           src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-night-green.svg"
           alt="" />
 
-        <div class="h-full flex-1 overflow-hidden border-l border-l-[#ececec] bg-white">
-          <FallingText
-            text="Some people write stories. I write code — and somewhere in between,
-I build the world as I imagine it could be!"
-            :highlight-words="['stories', 'code']"
-            trigger="hover"
-            :gravity="1"
-            font-size="2rem"
-            :mouse-constraint-stiffness="0.2" />
+        <!-- 文本特效 -->
+        <div
+          class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 dark:!border-l-[#333]">
+          <Welcome />
+          <div
+            class="relative flex h-[calc(100%-120px)] w-full items-center justify-between overflow-hidden rounded-xl bg-white px-10 dark:bg-black">
+            <svgIcon name="hands-ok" size="160" />
+            <LottieCat />
+            <svgIcon name="hands-clac" size="160" />
+          </div>
         </div>
       </div>
     </div>
@@ -72,10 +73,10 @@ import useGlobalConfig from '@/store/modules/global';
 import Calendar from './components/calendar.vue';
 import CountDown from './components/countdown.vue';
 import Weather from './components/weather.vue';
-import AmCharts from './components/amcharts.vue';
+import AmCharts from './components/amCharts.vue';
 import LottieWeb from '@/views/lottie-web/index.vue';
-import FallingText from './components/fallingText.vue';
-
+import Welcome from './components/welcome.vue';
+import LottieCat from '@/views/lottie-web/cat.vue';
 // const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 
 const globalConfigStore = useGlobalConfig();

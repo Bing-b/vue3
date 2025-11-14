@@ -4,7 +4,7 @@ https://github.com/Akryum/vue-virtual-scroller/tree/master/packages/vue-virtual-
 <template>
   <DynamicScroller
     ref="scrollerRef"
-    :items="$data"
+    :items="data"
     :min-item-size="minItemSize"
     @scroll-end="emit('onScrollEnd')"
     :style="{ maxHeight: `${maxHeight}px`, overflowY: 'auto' }"
@@ -50,20 +50,20 @@ const maxHeight = computed(() => {
 });
 
 // 处理列表数据结构
-const $data = computed(() => {
-  if (!Array.isArray(data) || data.length === 0) return [];
+// const $data = computed(() => {
+//   if (!Array.isArray(data) || data.length === 0) return [];
 
-  if (typeof data[0] === 'object' && data[0] !== null) {
-    // 检查第一项是否有 `id` 属性
-    if ('id' in data[0]) {
-      return data;
-    }
-    return data.map((i, idx) => ({ ...i, id: idx }));
-  }
+//   if (typeof data[0] === 'object' && data[0] !== null) {
+//     // 检查第一项是否有 `id` 属性
+//     if ('id' in data[0]) {
+//       return data;
+//     }
+//     return data.map((i, idx) => ({ ...i, id: idx }));
+//   }
 
-  console.error('虚拟列表数据格式错误');
-  return [];
-});
+//   console.error('虚拟列表数据格式错误');
+//   return [];
+// });
 
 watch(
   () => data,
@@ -72,6 +72,6 @@ watch(
       if (scrollerRef.value && autoRrefresh) scrollerRef.value.forceUpdate(); // 强制刷新
     });
   },
-  { deep: 1 }
+  { deep: 1 },
 );
 </script>

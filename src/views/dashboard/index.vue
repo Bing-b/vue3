@@ -47,7 +47,7 @@
           src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-night-green.svg"
           alt="" />
 
-        <!-- 文本特效 -->
+        <!-- 欢迎 -->
         <div
           class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 dark:!border-l-[#333]">
           <Welcome />
@@ -79,6 +79,7 @@ import Welcome from './components/welcome.vue';
 import LottieCat from '@/views/lottie-web/cat.vue';
 // const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 
+// 获取全局配置
 const globalConfigStore = useGlobalConfig();
 
 const projectList = ref<any[]>([]);

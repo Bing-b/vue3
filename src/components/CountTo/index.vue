@@ -25,17 +25,8 @@ const props = defineProps({
   suffix: { type: String, default: '' },
   separator: { type: String, default: ',' },
   decimal: { type: String, default: '.' },
-  /**
-   * font color
-   */
   color: { type: String },
-  /**
-   * Turn on digital animation
-   */
   useEasing: { type: Boolean, default: true },
-  /**
-   * Digital animation
-   */
   transition: { type: String, default: 'linear' },
 });
 

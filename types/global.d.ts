@@ -22,3 +22,4 @@ declare module 'lunar-javascript';
 declare module 'file-stats';
 declare module '@tresjs/core';
 declare module 'matter-js';
+declare module 'vue-virtual-scroller';

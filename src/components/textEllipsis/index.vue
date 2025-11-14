@@ -3,11 +3,13 @@
     <template #content>
       <slot :name="$slots.content ? 'content' : 'default'"></slot>
     </template>
-    <span ref="triggerRef" :class="{
-      'text-ellipsis': true,
-      'text-ellipsis-line-clamp': lineClamp,
-    }
-      " @mouseenter="setTooltipDisabled">
+    <span
+      ref="triggerRef"
+      :class="{
+        'text-ellipsis': true,
+        'text-ellipsis-line-clamp': lineClamp,
+      }"
+      @mouseenter="setTooltipDisabled">
       <span ref="triggerInnerRef" class="text-ellipsis-inner" :style="lineClampStyle">
         <slot></slot>
       </span>
@@ -18,10 +20,12 @@
 <script lang="ts" setup>
 import { computed, ComputedRef, ref, StyleValue } from 'vue';
 
-const props = withDefaults(defineProps<{
-  lineClamp: Number,
-}>(), {
-});
+const props = withDefaults(
+  defineProps<{
+    lineClamp: Number;
+  }>(),
+  {},
+);
 
 // 文本父级DOM
 const triggerRef = ref<HTMLElement | null>(null);
@@ -35,10 +39,10 @@ const disabledTooltip = ref(true);
 const lineClampStyle = computed(() => {
   return props.lineClamp
     ? {
-      display: '-webkit-inline-box',
-      '-webkit-box-orient': 'vertical',
-      '-webkit-line-clamp': props.lineClamp
-    }
+        display: '-webkit-inline-box',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': props.lineClamp,
+      }
     : {};
 }) as ComputedRef<StyleValue>;
 
@@ -51,7 +55,8 @@ const setTooltipDisabled = () => {
     } else {
       const { value: $triggerInner } = triggerInnerRef;
       if ($triggerInner) {
-        disabledTooltip.value = $triggerInner.getBoundingClientRect().width <= $trigger.getBoundingClientRect().width;
+        disabledTooltip.value =
+          $triggerInner.getBoundingClientRect().width <= $trigger.getBoundingClientRect().width;
       }
     }
   }

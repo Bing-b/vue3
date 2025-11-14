@@ -15,7 +15,7 @@ export default {
     const targetEl = el.querySelector('.el-table__body-wrapper tbody') as HTMLElement;
     if (targetEl) {
       Sortable.create(targetEl, {
-        onEnd(evt) {
+        onEnd(evt: any) {
           const { oldIndex, newIndex } = evt;
           const movedItem = data.splice(oldIndex as number, 1)[0];
           data.splice(newIndex as number, 0, movedItem);

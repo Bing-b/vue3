@@ -9,7 +9,7 @@
         <span class="txt">Error: </span>{{ file.error }}
       </li>
     </ul>
-    <div class="w-full mb-4 flex gap-5">
+    <div class="mb-4 flex w-full gap-5">
       <VueUpload
         ref="upload"
         :post-action="postUrl"

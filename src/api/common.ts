@@ -45,3 +45,45 @@ export function getGitHubProject<T>() {
     },
   });
 }
+
+/**
+ * 获取地点坐标信息
+ * @param params
+ * @returns
+ */
+export function getPlaceGeo(params: { keyword: string }) {
+  const ds = JSON.stringify({ keyWord: params.keyword });
+
+  return request<{
+    location: {
+      lon: string;
+      lat: string;
+    };
+  }>({
+    url: `/td/geocoder?ds=${encodeURIComponent(ds)}&tk=b40e3cf3d6fa4b1a6c1dc2d2a5288b7e`,
+    method: RequestEnum.GET,
+  });
+}
+
+/**
+ * 获取高度区间道路信息
+ * @param params
+ * @returns
+ */
+export function getloadGeo<T>(params: { orig: string; dest: string }) {
+  const postStr = JSON.stringify({
+    orig: params.orig,
+    dest: params.dest,
+    style: '0',
+  });
+
+  return request<string>({
+    url: `/td/drive`,
+    method: RequestEnum.GET,
+    params: {
+      postStr,
+      type: 'search',
+      tk: 'b40e3cf3d6fa4b1a6c1dc2d2a5288b7e',
+    },
+  });
+}

@@ -83,6 +83,9 @@ dependencies:
   leaflet-pulse-icon:
     specifier: ^0.1.0
     version: 0.1.0
+  leaflet-trackplayer:
+    specifier: ^2.0.3
+    version: 2.0.3
   leaflet.fullscreen:
     specifier: ^3.0.1
     version: 3.0.2
@@ -8702,6 +8705,10 @@ packages:
 
   /leaflet-rotatedmarker@0.2.0:
     resolution: {integrity: sha512-yc97gxLXwbZa+Gk9VCcqI0CkvIBC9oNTTjFsHqq4EQvANrvaboib4UdeQLyTnEqDpaXHCqzwwVIDHtvz2mUiDg==}
+    dev: false
+
+  /leaflet-trackplayer@2.0.3:
+    resolution: {integrity: sha512-5NALZ2U2//LX/PwSPGMYZ0vMuXdy2AnqF/C5jTE9W4oPVEqnwPBvypLadXuLk+4EZ6KWzGOp8msc+dsKhc8djA==}
     dev: false
 
   /leaflet.fullscreen@3.0.2:

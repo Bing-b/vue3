@@ -7,8 +7,9 @@
 
     <div
       class="absolute top-2 right-2 z-[888] flex items-center gap-5 rounded bg-white px-3 py-2 text-xs">
-      <div class="flex items-center"
-        ><el-button @click="trackControl.start()">开始</el-button>
+      <div class="flex items-center">
+        <el-button @click="creatTrack" :disabled="track">生成路线</el-button>
+        <el-button @click="trackControl.start()">开始</el-button>
         <el-button @click="trackControl.pause()">暂停</el-button></div
       >
       <div class="flex w-[300px] items-center gap-5">
@@ -38,7 +39,7 @@ import { setIcon } from './ts/utils';
 import { Arrayable } from 'element-plus/es/utils/typescript';
 import './js/leaflet.ChineseTmsProviders';
 
-const iconCar = setIcon('../../../assets/images/car.png', [27, 54], [13.5, 27]);
+const iconCar = setIcon('../../../assets/images/car.png', [24, 46], [12, 23]);
 
 let map = {} as any;
 
@@ -49,7 +50,7 @@ const trackControl = reactive({
   speed: track?.options?.speed ?? 600,
   progress: track?.options?.progress * 100 || 0,
   start: () => {
-    map.setZoom(16);
+    map.setZoom(17);
     track.start();
   },
   pause: () => track.pause(),
@@ -87,7 +88,7 @@ const creatLoadlatlng = (routelation: string) => {
   });
 };
 
-const handleChangeProgress = (val: Arrayable<number>) => {
+const handleChangeProgress = (val: number) => {
   track.setProgress(val / 100);
 };
 
@@ -111,7 +112,7 @@ const creatTrack = async () => {
     notPassedLineColor: '#F44336', // 未行驶轨迹部分的颜色
     panTo: true, // 地图跟随移动
     markerRotation: true, // 是否开启marker的旋转
-    markerRotationOffset: 30, // 处理图标偏移角度
+    markerRotationOffset: 0, // 处理图标偏移角度
   });
 
   track.addTo(map);
@@ -150,12 +151,16 @@ const drawMap = () => {
 
   const Tianditu = L.layerGroup([tiandituVecLayer, tiandituCvaLayer]);
 
+  const googleLayer = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+  });
+
   map = L.map('gisMap', {
     center: L.latLng(30.5728, 104.0665), // Leaflet必须纬度(lat)在前经度(lng)在后！
     zoom: 12,
     minZoom: 5,
     maxZoom: 18,
-    layers: [Tianditu], // 控制默认显示图层
+    layers: [googleLayer], // 控制默认显示图层
     attributionControl: false, // 控制版权信息控件
     zoomControl: true, // 缩放控件
     fullscreenControl: true, // 全屏控件
@@ -167,7 +172,6 @@ const drawMap = () => {
 
 onMounted(() => {
   drawMap();
-  creatTrack();
 });
 </script>
 

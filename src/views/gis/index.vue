@@ -369,6 +369,7 @@ const initSearch = () => {
   ];
 
   const markersLayer = new L.LayerGroup();
+
   baseMap.addLayer(markersLayer);
 
   controlSearch = new L.Control.Search({

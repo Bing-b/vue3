@@ -61,6 +61,7 @@ const getAddressGeo = async (address: string) => {
   return `${res.data.location.lon},${res.data.location.lat}`;
 };
 
+// 处理处理驾驶路线接口返回 xml 文件读取路径 geo 数据
 const getRouteLatLonStr = (xmlText: string): string => {
   const match = xmlText.match(/<routelatlon>([\s\S]*?)<\/routelatlon>/);
   return match ? match[1].trim() : '';
@@ -79,8 +80,8 @@ const creatLoadlatlng = (routelation: string) => {
     if (i !== '') {
       const geo = i.split(',');
       return {
-        lat: geo[1],
         lng: geo[0],
+        lat: geo[1],
       };
     }
   });
@@ -96,10 +97,11 @@ const handleChangeSpeed = (val: Arrayable<number>) => {
 
 // 创建轨迹
 const creatTrack = async () => {
-  const startAddress = await getAddressGeo('成都万安');
+  const startAddress = await getAddressGeo('天府香山');
   const endAddress = await getAddressGeo('都江堰');
   const routelation = await getLoadGeoInfo(startAddress, endAddress);
-  const path = await creatLoadlatlng(routelation).filter((i) => i);
+  let path = creatLoadlatlng(routelation).filter((i) => i);
+
   map.fitBounds(path);
   track = new L.TrackPlayer(path, {
     markerIcon: iconCar,
@@ -109,10 +111,12 @@ const creatTrack = async () => {
     notPassedLineColor: '#F44336', // 未行驶轨迹部分的颜色
     panTo: true, // 地图跟随移动
     markerRotation: true, // 是否开启marker的旋转
-    markerRotationOffset: 30,
+    markerRotationOffset: 30, // 处理图标偏移角度
   });
+
   track.addTo(map);
 
+  // 添加车牌
   const carnum = '川A888888';
   const numMarker = L.marker(startAddress.split(','), {
     icon: L.divIcon({
@@ -124,7 +128,7 @@ const creatTrack = async () => {
     }),
   }).addTo(map);
 
-  track.on('progress', (progress: number, { lng, lat }, index) => {
+  track.on('progress', (progress: number, { lng, lat }) => {
     numMarker.setLatLng([lat, lng]);
     trackControl.progress = progress * 100;
     // trackControl.status = '行驶中';
@@ -144,12 +148,6 @@ const drawMap = () => {
     { tileSize: 256, maxZoom: 18, minZoom: 5 },
   );
 
-  // 高德卫星地图瓦片图层
-  const gaoDems = L.tileLayer.chinaProvider('GaoDe.Satellite.Map');
-  const gaoDesa = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion');
-
-  const gaoDeSatelliteMap = L.layerGroup([gaoDems, gaoDesa]);
-
   const Tianditu = L.layerGroup([tiandituVecLayer, tiandituCvaLayer]);
 
   map = L.map('gisMap', {
@@ -157,14 +155,13 @@ const drawMap = () => {
     zoom: 12,
     minZoom: 5,
     maxZoom: 18,
-    layers: [gaoDeSatelliteMap], // 控制默认显示图层
+    layers: [Tianditu], // 控制默认显示图层
     attributionControl: false, // 控制版权信息控件
     zoomControl: true, // 缩放控件
     fullscreenControl: true, // 全屏控件
     fullscreenControlOptions: {
       position: 'topleft',
     },
-    // maxBounds:[] 区域限制
   });
 };
 
@@ -182,7 +179,6 @@ onMounted(() => {
   margin-bottom: 50px;
   border-radius: 4px;
   border: 2px solid #01861a;
-
   .carnumbox-text {
     color: black;
     white-space: nowrap;

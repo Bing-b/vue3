@@ -1,4 +1,5 @@
 import * as L from 'leaflet';
+import gcoord from 'gcoord';
 
 /**
  * 生成图标icon
@@ -19,4 +20,12 @@ const setIcon = (
   });
 };
 
-export { setIcon };
+// 坐标转换 国测局转GPS
+const GCJ02TOWGS84 = (lng: number, lat: number) => {
+  const coordinate = [] as number[];
+  const WGS84 = gcoord.transform([lng, lat], gcoord.GCJ02, gcoord.WGS84);
+  coordinate.push(WGS84[1], WGS84[0]);
+  return coordinate;
+};
+
+export { setIcon, GCJ02TOWGS84 };

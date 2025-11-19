@@ -40,7 +40,6 @@ import { onMounted, ref, reactive } from 'vue';
 // import { Warning } from '@element-plus/icons-vue';
 import L from 'leaflet';
 import utils from '@/utils/commonFuction';
-import gcoord from 'gcoord';
 import 'leaflet-draw';
 import 'leaflet-polylinedecorator';
 import 'leaflet-boundary-canvas'; // 控制显示边界
@@ -65,7 +64,7 @@ import { hainanRiverCoordinates } from './js/route';
 import * as cnGeoJson from './js/china.json';
 import * as siChuanJson from './js/sichuan.json';
 import * as chinaLine from './js/chinaLine.json';
-import { setIcon } from './ts/utils';
+import { GCJ02TOWGS84, setIcon } from './ts/utils';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet.vectorgrid';
@@ -157,14 +156,6 @@ const parisKievLL = [
 ];
 
 let layerControl = {} as any;
-
-// 坐标转换 国测局转GPS
-const GCJ02TOWGS84 = (lng: number, lat: number) => {
-  const coordinate = [] as number[];
-  const WGS84 = gcoord.transform([lng, lat], gcoord.GCJ02, gcoord.WGS84);
-  coordinate.push(WGS84[1], WGS84[0]);
-  return coordinate;
-};
 
 // 初始化绘图控件
 const initControls = () => {

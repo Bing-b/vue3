@@ -8,7 +8,7 @@
     <div
       class="absolute top-2 right-2 z-[888] flex items-center gap-5 rounded bg-white px-3 py-2 text-xs">
       <div class="flex items-center">
-        <el-button @click="creatTrack" :disabled="track">生成路线</el-button>
+        <el-button @click="creatTrack">生成路线</el-button>
         <el-button @click="trackControl.start()">开始</el-button>
         <el-button @click="trackControl.pause()">暂停</el-button></div
       >
@@ -98,8 +98,8 @@ const handleChangeSpeed = (val: Arrayable<number>) => {
 
 // 创建轨迹
 const creatTrack = async () => {
-  const startAddress = await getAddressGeo('天府香山');
-  const endAddress = await getAddressGeo('都江堰');
+  const startAddress = await getAddressGeo('成都科学城');
+  const endAddress = await getAddressGeo('成都天府香山');
   const routelation = await getLoadGeoInfo(startAddress, endAddress);
   let path = creatLoadlatlng(routelation).filter((i) => i);
 

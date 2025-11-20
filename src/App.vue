@@ -6,13 +6,14 @@
 import { onBeforeMount, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { checkVersion } from 'version-rocket';
+import { version, name } from '../package.json';
 
 // const route = useRoute();
 // // 监听路由的变化，设置网站标题
 // watch(() => route.path, () => { title(); });
 
 onBeforeMount(() => {
-  const { version, name: title } = __APP_INFO__.pkg;
+  // const { version, name: title } = __APP_INFO__.pkg;
   const { VITE_PUBLIC_PATH, MODE } = import.meta.env;
 
   if (MODE === 'production') {
@@ -23,7 +24,7 @@ onBeforeMount(() => {
         originVersionFileUrl: `${location.origin}${VITE_PUBLIC_PATH}version.json`,
       },
       {
-        title,
+        title: name,
         description: '检测到新版本',
         buttonText: '立即更新',
       },

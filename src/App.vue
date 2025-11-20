@@ -15,7 +15,7 @@ import { version, name } from '../package.json';
 onBeforeMount(() => {
   // const { version, name: title } = __APP_INFO__.pkg;
   const { VITE_PUBLIC_PATH, MODE } = import.meta.env;
-
+  // 生产环境更新检查
   if (MODE === 'production') {
     checkVersion(
       {

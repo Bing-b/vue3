@@ -227,6 +227,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
               title: 'tresjs',
             },
           },
+          {
+            path: '/leaferjs',
+            name: 'leaferjs',
+            component: () => import('@/views/leaferjs/index.vue'),
+            meta: {
+              title: 'leaferjs',
+            },
+          },
         ],
       },
       // {

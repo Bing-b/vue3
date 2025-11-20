@@ -88,8 +88,9 @@ const creatLoadlatlng = (routelation: string) => {
   });
 };
 
-const handleChangeProgress = (val: number) => {
-  track.setProgress(val / 100);
+// 改变进程
+const handleChangeProgress = (val: Arrayable<number>) => {
+  track.setProgress(Number(val) / 100);
 };
 
 const handleChangeSpeed = (val: Arrayable<number>) => {
@@ -129,7 +130,7 @@ const creatTrack = async () => {
     }),
   }).addTo(map);
 
-  track.on('progress', (progress: number, { lng, lat }) => {
+  track.on('progress', (progress: number, { lng, lat }: { lng: string; lat: string }) => {
     numMarker.setLatLng([lat, lng]);
     trackControl.progress = progress * 100;
     // trackControl.status = '行驶中';

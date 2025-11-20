@@ -6,7 +6,6 @@
 import { onBeforeMount, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { checkVersion } from 'version-rocket';
-import { __APP_INFO__ } from 'build/utils';
 
 // const route = useRoute();
 // // 监听路由的变化，设置网站标题

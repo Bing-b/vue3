@@ -35,14 +35,6 @@ import {
   defineAsyncComponent,
   shallowRef,
 } from 'vue';
-// import ElTooltipPlus from './components/el-tooltip-plus.vue';
-// import ClickOutSide from './components/click-outside.vue';
-// import UseResizeObserve from './components/use-resize-observer.vue';
-// import PLimit from './components/p-limit.vue';
-// import RowScroll from './components/row-scroll.vue';
-// import { defineAsyncComponent } from 'vue';
-// import Progress from './components/progress.vue';
-// import { shallowRef } from 'vue';
 
 const ElTooltipPlus = defineAsyncComponent(() => import('./components/el-tooltip-plus.vue'));
 const ClickOutSide = defineAsyncComponent(() => import('./components/click-outside.vue'));

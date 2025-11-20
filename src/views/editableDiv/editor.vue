@@ -137,6 +137,9 @@ defineExpose({
     width: 0.1px;
     opacity: 0;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 #editor-box:empty::before {

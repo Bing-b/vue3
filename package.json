@@ -1,12 +1,12 @@
 {
   "name": "catpark",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "sideEffects": false,
   "scripts": {
     "dev": "vite --open",
     "serve": "pnpm dev",
-    "build": "vite build -- -- legacy=false",
+    "build": "vite build -- -- legacy=false && generate-version-file",
     "build:prod": "pnpm build -- --legacy=true",
     "preinstall": "npx only-allow pnpm"
   },
@@ -58,6 +58,7 @@
     "poplar-annotation": "^2.0.3",
     "sortablejs": "^1.15.6",
     "three": "^0.169.0",
+    "version-rocket": "^1.7.4",
     "vue": "3.5.10",
     "vue-clipboard3": "^2.0.0",
     "vue-pdf-embed": "^2.0.4",

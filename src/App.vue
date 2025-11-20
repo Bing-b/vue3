@@ -3,12 +3,34 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { onBeforeMount, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { checkVersion } from 'version-rocket';
+import { __APP_INFO__ } from 'build/utils';
 
 // const route = useRoute();
 // // 监听路由的变化，设置网站标题
 // watch(() => route.path, () => { title(); });
+
+onBeforeMount(() => {
+  const { version, name: title } = __APP_INFO__.pkg;
+  const { VITE_PUBLIC_PATH, MODE } = import.meta.env;
+
+  if (MODE === 'production') {
+    checkVersion(
+      {
+        pollingTime: 300000,
+        localPackageVersion: version,
+        originVersionFileUrl: `${location.origin}${VITE_PUBLIC_PATH}version.json`,
+      },
+      {
+        title,
+        description: '检测到新版本',
+        buttonText: '立即更新',
+      },
+    );
+  }
+});
 </script>
 
 <style scoped>

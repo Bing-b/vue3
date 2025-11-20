@@ -5,7 +5,7 @@ import 'nprogress/nprogress.css';
 
 const router = createRouter({
   // history: createWebHistory('/'),
-  history: createWebHistory('/vue3/'),
+  history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
   //history: createWebHashHistory(),
   routes: mainRoutes.concat(staticRoutes),
 });

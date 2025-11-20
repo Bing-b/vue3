@@ -12,7 +12,7 @@
         :typingSpeed="75"
         :pauseDuration="1500"
         :showCursor="true"
-        :textColors="() => ['#666666']"
+        :textColors="['#666666']"
         cursorCharacter="_" />
     </div>
   </div>

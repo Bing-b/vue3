@@ -4,32 +4,22 @@
       >组件 <el-button @click="initIntor">引导</el-button></h2
     >
     <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
-      <Motion data-intro="这是第二步🦝" data-step="2">
-        <!-- 倒计时 -->
-        <CountDown />
-      </Motion>
+      <!-- 倒计时 -->
+      <CountDown data-intro="这是第二步🦝" data-step="2" />
 
-      <Motion :delay="200">
-        <!-- 日历 -->
-        <calendar />
-      </Motion>
+      <!-- 日历 -->
+      <calendar />
 
-      <Motion :delay="300">
-        <!-- 天气 -->
-        <weather />
-      </Motion>
+      <!-- 天气 -->
+      <weather />
 
-      <Motion :delay="400" data-intro="结束了你嘞" data-step="3">
-        <!-- 代码统计 -->
-        <am-charts />
-      </Motion>
+      <!-- 代码统计 -->
+      <am-charts data-intro="结束了你嘞" data-step="3" />
 
-      <Motion :delay="400">
-        <div class="lottie rounded-[25px]">
-          <!-- 动画 -->
-          <LottieWeb />
-        </div>
-      </Motion>
+      <div class="lottie rounded-[25px]">
+        <!-- 动画 -->
+        <LottieWeb />
+      </div>
     </div>
 
     <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
@@ -66,7 +56,6 @@
 import { reactive, onMounted, useTemplateRef, ref } from 'vue';
 import intro from 'intro.js';
 import 'intro.js/introjs.css';
-import Motion from '@/utils/motion';
 import useCancelRequest from '@/hooks/useCancelRequest';
 import { getGitHubProject, testCancelApi } from '@/api/common';
 import useGlobalConfig from '@/store/modules/global';

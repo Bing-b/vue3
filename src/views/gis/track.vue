@@ -4,7 +4,6 @@
     <div id="gisMap" class="absolute top-0 right-0 bottom-0 left-0"></div>
 
     <!-- 控制面板 -->
-
     <div
       class="absolute top-2 right-2 z-[888] flex items-center gap-5 rounded bg-white px-3 py-2 text-xs">
       <div class="flex items-center">
@@ -35,11 +34,9 @@ import L from 'leaflet';
 import { onMounted, reactive } from 'vue';
 import { getPlaceGeo, getloadGeo } from '@/api/common';
 import 'leaflet-trackplayer';
-import { setIcon } from './ts/utils';
 import { Arrayable } from 'element-plus/es/utils/typescript';
 import './js/leaflet.ChineseTmsProviders';
-
-const iconCar = setIcon('../../../assets/images/car.png', [24, 46], [12, 23]);
+import carImg from './../../assets/images/car.png';
 
 let map = {} as any;
 
@@ -71,7 +68,7 @@ const getRouteLatLonStr = (xmlText: string): string => {
 // 获取高速区间信息
 const getLoadGeoInfo = async (orig: string, dest: string) => {
   const res = await getloadGeo<{ data: string }>({ orig, dest });
-  console.log(getRouteLatLonStr(res.data));
+  // console.log(getRouteLatLonStr(res.data));
   return getRouteLatLonStr(res.data);
 };
 
@@ -104,6 +101,12 @@ const creatTrack = async () => {
   const routelation = await getLoadGeoInfo(startAddress, endAddress);
   let path = creatLoadlatlng(routelation).filter((i) => i);
 
+  const iconCar = L.icon({
+    iconUrl: carImg,
+    iconSize: [22, 42],
+    iconAnchor: [11, 21],
+  });
+
   map.fitBounds(path);
   track = new L.TrackPlayer(path, {
     markerIcon: iconCar,
@@ -113,7 +116,7 @@ const creatTrack = async () => {
     notPassedLineColor: '#F44336', // 未行驶轨迹部分的颜色
     panTo: true, // 地图跟随移动
     markerRotation: true, // 是否开启marker的旋转
-    markerRotationOffset: 0, // 处理图标偏移角度
+    // markerRotationOffset: -20, // 处理图标偏移角度
   });
 
   track.addTo(map);

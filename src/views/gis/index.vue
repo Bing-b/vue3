@@ -70,31 +70,31 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet.vectorgrid';
 
 // 小汽车图标
-const iconCar = setIcon('../../../assets/icons/mycar.svg');
+const iconCar = setIcon('mycar.svg');
 
 // 坐标图标
-const iconGeo = setIcon('../../../assets/icons/marker.svg');
+const iconGeo = setIcon('marker.svg');
 
 // 点图标
-const iconPoint = setIcon('../../../assets/icons/point.svg');
+const iconPoint = setIcon('point.svg');
 
 // 小船图标
-const iconBoat = setIcon('../../../assets/icons/boat.svg');
+const iconBoat = setIcon('boat.svg');
 
 // 卡车图标
-const iconTruck = setIcon('../../../assets/icons/car1.svg');
+const iconTruck = setIcon('car1.svg');
 
 // 大船图标
-const iconBigBoat = setIcon('../../../assets/icons/boat1.svg');
+const iconBigBoat = setIcon('boat1.svg');
 
 // 飞机图标
-const iconPlane = setIcon('../../../assets/icons/plane1.svg');
+const iconPlane = setIcon('plane1.svg');
 
 // 城市图标
-const iconCity = setIcon('../../../assets/icons/city.svg');
+const iconCity = setIcon('city.svg');
 
 // 人图标
-const iconPeople = setIcon('../../../assets/icons/people.svg');
+const iconPeople = setIcon('people.svg');
 
 // 画布宽高变化监测
 let resizeObserver: ResizeObserver;

@@ -9,12 +9,12 @@ import gcoord from 'gcoord';
  * @returns
  */
 const setIcon = (
-  url: string,
+  name: string,
   size: [number, number] = [30, 30],
   anchor: [number, number] = [15, 15],
 ) => {
   return L.icon({
-    iconUrl: new URL(url, import.meta.url).href,
+    iconUrl: new URL(`../../../assets/icons/${name}`, import.meta.url).href,
     iconSize: size,
     iconAnchor: anchor,
   });

@@ -15,7 +15,7 @@ import { version, name } from '../package.json';
 onBeforeMount(() => {
   // const { version, name: title } = __APP_INFO__.pkg;
   const { VITE_PUBLIC_PATH, MODE } = import.meta.env;
-  // 生产环境更新检查
+  // 生产环境更新检查 https://github.com/guMcrey/version-rocket/blob/main/README.zh-CN.md
   if (MODE === 'production') {
     checkVersion(
       {
@@ -24,7 +24,7 @@ onBeforeMount(() => {
         originVersionFileUrl: `${location.origin}${VITE_PUBLIC_PATH}version.json`,
       },
       {
-        title: name,
+        title: name + version,
         description: '检测到新版本',
         buttonText: '立即更新',
       },

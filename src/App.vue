@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { onBeforeMount, watch } from 'vue';
-import { useRoute } from 'vue-router';
+// import { useRoute } from 'vue-router';
 import { checkVersion } from 'version-rocket';
 import { version, name } from '../package.json';
 

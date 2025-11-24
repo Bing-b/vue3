@@ -237,15 +237,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           },
         ],
       },
-      // {
-      //   path: '/funny',
-      //   name: 'funny',
-      //   component: () => import('@/views/funny/index.vue'),
-      //   meta: {
-      //     title: 'funny',
-      //     icon: 'menu-menu_funny',
-      //   },
-      // },
       {
         path: '/gsap',
         name: 'gsap',
@@ -274,14 +265,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
  * @returns 返回路由菜单数据
  */
 export const staticRoutes: Array<RouteRecordRaw> = [
-  // {
-  //   path: '/login',
-  //   name: 'login',
-  //   //component: '',
-  //   meta: {
-  //     title: '登录'
-  //   }
-  // },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      title: '登录',
+    },
+  },
   {
     path: '/404',
     name: 'notFound',

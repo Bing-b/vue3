@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router
 import { mainRoutes, staticRoutes } from './route';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
+import useUserStore from '@/store/modules/user';
 
 const router = createRouter({
   // history: createWebHistory('/'),
@@ -19,15 +20,31 @@ NProgress.configure({
   minimum: 0.3, // 初始化时的最小百分比
 });
 
+// 定义白名单：不需要登录就能访问的页面
+const whiteList = ['/login', '/register', '/404'];
+
 // 路由前置守卫
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  next();
-  // if (to.path === '/') {
-  //   next({ path: '/dashboard' });
-  // } else {
-  //   next();
-  // }
+
+  const userStore = useUserStore();
+  const hasToken = userStore.token;
+
+  if (hasToken) {
+    if (to.path === '/login') {
+      next({ path: '/dashboard' });
+      NProgress.done();
+    } else {
+      next();
+    }
+  } else {
+    if (whiteList.includes(to.path)) {
+      next();
+    } else {
+      next(`/login?redirect=${to.fullPath}`);
+      NProgress.done();
+    }
+  }
 });
 
 router.afterEach(() => {

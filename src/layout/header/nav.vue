@@ -17,19 +17,71 @@
         </div>
       </div>
     </button>
+
+    <el-popover
+      trigger="click"
+      :width="240"
+      popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 0px;">
+      <template #reference>
+        <svgIcon name="奶牛猫" size="38" />
+      </template>
+      <template #default>
+        <div>
+          <div class="flex gap-2 border-b border-b-[#ececec] p-3">
+            <el-avatar> <svgIcon name="奶牛猫" size="38" /> </el-avatar>
+            <p class="font-blod flex flex-col gap-2 text-black"
+              >Bing
+              <span class="!text-[#767676]">catcoffe@123.com</span>
+            </p>
+          </div>
+          <div class="li-item">
+            <svgIcon name="center" size="18" />
+            <p>个人中心</p>
+          </div>
+          <div class="li-item">
+            <svgIcon name="github_2" size="18" />
+            <p><a href="https://github.com/Bing-b/vue3" target="_blank">GitHub</a> </p>
+          </div>
+          <div class="li-item" @click="handleLogout">
+            <svgIcon name="logout" size="18" />
+            <p>退出登录</p>
+          </div>
+        </div>
+      </template>
+    </el-popover>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import useGlobalConfig from '@/store/modules/global';
 import { useFullscreen } from '@vueuse/core';
+import userStore from '@/store/modules/user';
+import { useRouter } from 'vue-router';
+import { ElMessageBox } from 'element-plus';
 
 const { toggle, isFullscreen } = useFullscreen();
 
 const globalConfigStore = useGlobalConfig();
 
+const useUserStore = userStore();
+
+const router = useRouter();
+
 // 是否暗夜模式
 const isDark = ref(false);
+
+const handleLogout = () => {
+  ElMessageBox.confirm('确定退出登录吗?', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  })
+    .then(() => {
+      useUserStore.clear();
+      router.push('/login');
+    })
+    .catch(() => {});
+};
 
 // 切换主题
 const toggleDark = (e: MouseEvent) => {
@@ -141,6 +193,21 @@ onMounted(() => {
 .dark .switch {
   background: #141414;
   border-color: #414243;
+}
+
+.li-item {
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    background-color: #fafafa;
+    border-radius: 4px;
+  }
 }
 </style>
 <style lang="scss">

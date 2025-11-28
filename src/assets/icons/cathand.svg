@@ -1,0 +1,88 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 定义裁剪区域，用于保持眼睛和斑块在脸部圆内 -->
+    <clipPath id="face-clip">
+      <circle cx="100" cy="95" r="55" />
+    </clipPath>
+  </defs>
+
+  <style>
+    /* 挥手动画定义 */
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(25deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    .waving-paw {
+      /* 设置旋转中心点在手臂根部 */
+      transform-origin: 130px 110px;
+      animation: wave 1s ease-in-out infinite;
+    }
+
+    /* 眨眼动画（可选，增加生动感） */
+    @keyframes blink {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+    
+    .eyes {
+      transform-origin: 100px 95px;
+      animation: blink 4s infinite;
+    }
+  </style>
+
+  <!-- 身体 -->
+  <ellipse cx="100" cy="160" rx="45" ry="40" fill="#ffffff" />
+  <!-- 身体上的黑色斑块 -->
+  <path d="M65 160 Q80 140 90 180 L70 190 Z" fill="#333333" />
+
+  <!-- 尾巴 -->
+  <path d="M140 170 Q160 160 155 140" fill="none" stroke="#333333" stroke-width="8" stroke-linecap="round" />
+
+  <!-- 左手 (静止) -->
+  <ellipse cx="70" cy="150" rx="12" ry="18" fill="#ffffff" stroke="#eeeeee" stroke-width="1"/>
+  
+  <!-- 右手 (挥动的部分) -->
+  <g class="waving-paw">
+    <!-- 手臂 -->
+    <ellipse cx="130" cy="100" rx="14" ry="20" fill="#ffffff" transform="rotate(-10 130 130)" stroke="#eeeeee" stroke-width="1"/>
+    <!-- 肉球细节 -->
+    <circle cx="130" cy="95" r="3" fill="#ffb6c1" />
+  </g>
+
+  <!-- 头部 -->
+  <circle cx="100" cy="95" r="55" fill="#ffffff" />
+
+  <!-- 头部黑色斑块 (奶牛猫特征) -->
+  <!-- 左耳/左脸斑块 -->
+  <path d="M45 95 C45 60 60 40 100 40 L40 40 L45 95 Z" fill="#333333" clip-path="url(#face-clip)" />
+  
+  <!-- 耳朵 -->
+  <!-- 左耳 (黑色) -->
+  <path d="M55 55 L35 25 L80 45 Z" fill="#333333" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+  <!-- 右耳 (白色) -->
+  <path d="M145 55 L165 25 L120 45 Z" fill="#ffffff" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M145 50 L155 35 L135 45 Z" fill="#ffb6c1" /> <!-- 右耳粉色内耳 -->
+
+  <!-- 面部细节 -->
+  <g class="eyes">
+    <circle cx="80" cy="95" r="5" fill="#ffffff" /> <!-- 左眼 (在黑斑上，所以是白色) -->
+    <circle cx="120" cy="95" r="5" fill="#333333" /> <!-- 右眼 (在白脸上，所以是黑色) -->
+  </g>
+
+  <!-- 鼻子 -->
+  <ellipse cx="100" cy="105" rx="4" ry="3" fill="#ffb6c1" />
+
+  <!-- 嘴巴 -->
+  <path d="M92 112 Q100 118 108 112" fill="none" stroke="#333333" stroke-width="2" stroke-linecap="round" />
+
+  <!-- 胡须 -->
+  <g stroke="#dddddd" stroke-width="2">
+    <line x1="50" y1="105" x2="30" y2="100" />
+    <line x1="50" y1="110" x2="32" y2="112" />
+    <line x1="150" y1="105" x2="170" y2="100" stroke="#333333" /> <!-- 右边胡须深色一点因为在白底上 -->
+    <line x1="150" y1="110" x2="168" y2="112" stroke="#333333" />
+  </g>
+
+</svg>

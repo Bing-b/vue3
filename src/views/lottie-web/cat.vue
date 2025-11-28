@@ -3,7 +3,7 @@
     <LottieWeb
       :options="options"
       :style="{
-        height: '200px',
+        height: `${height}px`,
         opacity: showLottieWeb ? 1 : 0,
         'margin-top': '0px',
       }"
@@ -14,6 +14,8 @@
 <script lang="ts" setup>
 import LottieWeb from '@/views/error/LottieWeb/index.vue';
 import { ref } from 'vue';
+
+const { height = 200 } = defineProps<{ height?: number }>();
 
 const showLottieWeb = ref(false);
 const options = ref({

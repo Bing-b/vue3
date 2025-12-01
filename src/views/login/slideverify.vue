@@ -55,7 +55,7 @@ const props = withDefaults(defineProps<Props>(), {
   text: '请按住滑块，拖动到最右边',
   successText: '验证通过',
   background: '#f2f3f5',
-  progressBarBg: '#76c61d', // 接近 Vben 的绿色
+  progressBarBg: '#76c61d',
   completedBg: '#76c61d',
   radius: '4px',
 });

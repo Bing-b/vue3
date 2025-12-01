@@ -47,6 +47,7 @@ const InfinteVirtualList = defineAsyncComponent(
 );
 
 const SortTable = defineAsyncComponent(() => import('./components/sortTable.vue'));
+const Bolb = defineAsyncComponent(() => import('./components/blob.vue'));
 
 const componentsMap: Recordable = {
   componentA: ElTooltipPlus,
@@ -57,6 +58,7 @@ const componentsMap: Recordable = {
   componentF: Progress,
   componentG: InfinteVirtualList,
   componentH: SortTable,
+  componentI: Bolb,
 };
 
 // 左侧菜单
@@ -92,6 +94,10 @@ const leftSideMenu: Array<{ name: string; component: any }> = [
   {
     name: '可拖拽表格',
     component: 'componentH',
+  },
+  {
+    name: 'Bolb',
+    component: 'componentI',
   },
 ];
 

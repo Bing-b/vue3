@@ -68,6 +68,7 @@ const loginFrom = reactive({
 
 const verifyRef = ref<InstanceType<typeof SlideVerify> | null>(null);
 
+// 校验标识
 const isVerified = ref(false);
 
 const resetVerify = () => {

@@ -72,29 +72,8 @@ import 'leaflet.vectorgrid';
 // 小汽车图标
 const iconCar = setIcon('mycar.svg');
 
-// 坐标图标
-const iconGeo = setIcon('marker.svg');
-
 // 点图标
 const iconPoint = setIcon('point.svg');
-
-// 小船图标
-const iconBoat = setIcon('boat.svg');
-
-// 卡车图标
-const iconTruck = setIcon('car1.svg');
-
-// 大船图标
-const iconBigBoat = setIcon('boat1.svg');
-
-// 飞机图标
-const iconPlane = setIcon('plane1.svg');
-
-// 城市图标
-const iconCity = setIcon('city.svg');
-
-// 人图标
-const iconPeople = setIcon('people.svg');
 
 // 画布宽高变化监测
 let resizeObserver: ResizeObserver;
@@ -109,10 +88,10 @@ const editControls = new L.FeatureGroup();
 const markers = new L.FeatureGroup();
 
 // 圆
-const circles = new L.LayerGroup();
+// const circles = new L.LayerGroup();
 
 // 路径图层
-const paths = new L.FeatureGroup();
+// const paths = new L.FeatureGroup();
 
 // 演示数据
 const cityMarkers = new L.FeatureGroup();
@@ -137,7 +116,7 @@ let marker2 = null as any;
 
 let marker2Path = [] as any[];
 
-const pathMarkers = new L.FeatureGroup();
+// const pathMarkers = new L.FeatureGroup();
 
 const infoDialogVisible = ref(false);
 
@@ -290,7 +269,6 @@ const bindEvent = () => {
     drawlayer
       .bindPopup(
         `<div class="btns">
-
               <div class="gis-edit">编辑</div>
               <div class="gis-save">保存</div>
               <div class="gis-delete">删除</div>
@@ -521,6 +499,9 @@ const drawBezier = () => {
   for (const i in points) {
     const { title } = points[i];
     const { loc } = points[i];
+
+    // 坐标图标
+    const iconGeo = setIcon('marker.svg');
     const marker = new L.Marker(new L.latLng(loc), { title, icon: iconGeo });
     marker.bindPopup(`名称: ${title}`);
     markersLayer.addLayer(marker);
@@ -571,6 +552,8 @@ const polylineAnimation = () => {
     dashSpeed: -30,
   }).addTo(baseMap);
 
+  // 小船图标
+  const iconBoat = setIcon('boat.svg');
   const movingMarker = L.Marker.movingMarker(latlngs, 20000, {
     autostart: true,
     icon: iconBoat,
@@ -640,7 +623,7 @@ const trafficRoute = () => {
           },
           {
             removeOnEnd: false,
-            icon: iconTruck,
+            icon: setIcon('car1.svg'),
           },
         )
         .motionDuration(4000),
@@ -657,7 +640,7 @@ const trafficRoute = () => {
           {
             removeOnEnd: false,
             // showMarker: true,
-            icon: iconBigBoat,
+            icon: setIcon('boat1.svg'),
           },
         )
         .motionDuration(6000),
@@ -672,7 +655,7 @@ const trafficRoute = () => {
             null,
             {
               removeOnEnd: false,
-              icon: iconPlane,
+              icon: setIcon('plane1.svg'),
             },
           )
           .motionDuration(5000),
@@ -898,12 +881,12 @@ const toggleMarker = () => {
   ];
 
   citys.forEach((item) => {
-    const marker = new L.Marker(L.latLng(item), { icon: iconCity });
+    const marker = new L.Marker(L.latLng(item), { icon: setIcon('city.svg') });
     cityMarkers.addLayer(marker);
   });
 
   peoples.forEach((item) => {
-    const marker = new L.Marker(L.latLng(item), { icon: iconPeople });
+    const marker = new L.Marker(L.latLng(item), { icon: setIcon('people.svg') });
     peopleMarkers.addLayer(marker);
   });
   baseMap.addLayer(cityMarkers);
@@ -1101,7 +1084,7 @@ const initAntLine = () => {
 
   const movingMarker = L.Marker.movingMarker(latlngs, 20000, {
     autostart: true,
-    icon: iconTruck,
+    icon: iconCar,
   }).addTo(baseMap);
 
   // 将 MovingMarker 添加到地图

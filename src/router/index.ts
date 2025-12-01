@@ -6,8 +6,8 @@ import useUserStore from '@/store/modules/user';
 
 const router = createRouter({
   // history: createWebHistory('/'),
-  history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
-  //history: createWebHashHistory(),
+  //history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
+  history: createWebHashHistory(),
   routes: mainRoutes.concat(staticRoutes),
 });
 

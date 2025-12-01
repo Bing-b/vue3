@@ -1,0 +1,2 @@
+/* empty css             *//* empty css                 */import{f as l}from"./main-BMMNymCR.js";import{q as c}from"./ui-BEU9Ux_B.js";import{x as i,r as a,y as p,z as u,P as m,A as _,M as f}from"./core-DMyUAmhm.js";const b=i({__name:"use-resize-observer",setup(d){const t=a(""),r=a(null);return l(r,s=>{const[o]=s,{width:e,height:n}=o.contentRect;t.value=`width: ${e}
+height: ${n}`}),(s,o)=>{const e=c;return u(),p("div",null,[m(e,{ref_key:"testResizeObserver",ref:r,type:"textarea",placeholder:"拖动右下角改变尺寸"},null,512),_("p",null,f(t.value),1)])}}});export{b as default};

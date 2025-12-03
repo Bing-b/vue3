@@ -27,7 +27,7 @@ onBeforeMount(() => {
         title: name + version,
         description: '检测到新版本',
         buttonText: '立即更新',
-        imageUrl: `${VITE_PUBLIC_PATH}/奶牛猫.svg`,
+        // imageUrl: `${VITE_PUBLIC_PATH}/奶牛猫.svg`,
       },
     );
   }

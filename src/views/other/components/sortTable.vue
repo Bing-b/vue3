@@ -2,7 +2,7 @@
   <div>
     <el-button @click="checkData1">数据1</el-button>
     <el-button @click="checkData2">数据2</el-button>
-    <el-table :data="data" ref="dragWrapperRef" row-key="name">
+    <el-table :data="dragData" ref="dragWrapperRef" row-key="name">
       <el-table-column label="姓名" prop="name" />
       <el-table-column label="数量" prop="value" />
     </el-table>
@@ -50,21 +50,14 @@ const data2 = ref([
 ]);
 
 const checkData1 = () => {
-  dragDataKey.value = '1';
+  dragDataKey.value = 'name';
   dragData.value = data1.value;
 };
 
 const checkData2 = () => {
-  dragDataKey.value = '2';
+  dragDataKey.value = 'name';
   dragData.value = data2.value;
 };
-
-watch(
-  () => data.value,
-  () => {
-    console.log(data1.value, data2.value);
-  }
-);
 </script>
 
 <style lang="scss" scoped>

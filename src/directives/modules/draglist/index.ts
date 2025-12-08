@@ -1,3 +1,4 @@
+import { DirectiveBinding } from 'vue';
 import { Flip } from './flip';
 
 const DRAGGING_CLASS = 'vue-drag-list-directive__dragging';
@@ -28,16 +29,24 @@ const globalDragEvents = {
 // 全局变量 跟踪当前正在拖拽的列表id
 let currentDraggingListId: string | null = null;
 
+interface ElType extends HTMLElement {
+  currentDragNode: any;
+  _isDragAllowed: boolean;
+  _isDragging: boolean;
+  _actualClickTarget: any;
+  _dragListHandlers: Recordable;
+}
+
 const vDragList = {
   /**
    * 组件挂载时调研，促使化拖拽列表
    * @param el
    * @param binding  vue 指令的绑定值
    */
-  mounted(el, binding) {
+  mounted(el: ElType, binding: DirectiveBinding) {
     injectStyles();
 
-    const { list, canDrag = true, dragItemClass = 'app-item', dragHandleClass } = binding.value;
+    const { list, canDrag = true, dragItemClass = 'drag-item', dragHandleClass } = binding.value;
 
     if (canDrag) {
       setChildrenDraggable(el, true);
@@ -63,7 +72,7 @@ const vDragList = {
     clearDraggingClass(el);
 
     // 检查数据是否发生变化
-    const { list, canDrag, dragItemClass = 'app-item', dragHandleClass } = binding.value;
+    const { list, canDrag, dragItemClass = 'drag-item', dragHandleClass } = binding.value;
 
     // 如果数据有变化
     if (!isEqual(binding.value, binding.oldValue)) {
@@ -151,18 +160,7 @@ function clearDraggingClass(el: HTMLElement) {
  * @param dragItemClass 可拖拽项的类名
  * @param dragHandleClass
  */
-function initDragList(
-  el: HTMLElement & {
-    currentDragNode: any;
-    _isDragAllowed: boolean;
-    _isDragging: boolean;
-    _actualClickTarget: any;
-    _dragListHandlers: Recordable;
-  },
-  data: any[],
-  dragItemClass: string,
-  dragHandleClass: string,
-) {
+function initDragList(el: ElType, data: any[], dragItemClass: string, dragHandleClass: string) {
   el.currentDragNode = null;
   const list = el;
   list._isDragAllowed = false;

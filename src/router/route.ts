@@ -57,10 +57,10 @@ export const mainRoutes: Array<RouteRecordRaw> = [
 
           {
             path: '/annotation',
-            name: '标注',
+            name: '文本标注',
             component: () => import('@/views/text-annotation/index.vue'),
             meta: {
-              title: '标注',
+              title: '文本标注',
             },
           },
           {
@@ -152,6 +152,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/directives/sort-table/index.vue'),
             meta: {
               title: '拖拽表格指令',
+            },
+          },
+          {
+            path: '/draglist',
+            name: '拖拽列表',
+            component: () => import('@/views/directives/draglist/index.vue'),
+            meta: {
+              title: '拖拽列表指令',
             },
           },
         ],

@@ -1,20 +1,24 @@
 <template>
-  <div class="container">
-    <div class="header">
-      <h1>{{ title }}</h1>
-      <p>可以拖拽九宫格中的任意方块 - 颜色固定不变</p>
-    </div>
-    <div
-      class="grid-container"
-      v-drag-list="{
-        list: gridItems,
-        canDrag: true,
-        dragItemClass: 'app-item',
-      }"
-      @drag-mode-end="handleDragModeEnd"
-      @drag-mode-start="onDragModeStart">
-      <div v-for="item in gridItems" :key="item.id" :data-id="item.id" class="app-item">
-        {{ item.id }}
+  <div class="card content-box h-full">
+    <h2 class="title">拖拽列表指令 🍇🍇🍓</h2>
+
+    <div class="container">
+      <div class="header">
+        <h1>{{ title }}</h1>
+        <p>可以拖拽九宫格中的任意方块 - 颜色固定不变</p>
+      </div>
+      <div
+        class="grid-container"
+        v-drag-list="{
+          list: gridItems,
+          canDrag: true,
+          dragItemClass: 'app-item',
+        }"
+        @drag-mode-end="handleDragModeEnd"
+        @drag-mode-start="onDragModeStart">
+        <div v-for="item in gridItems" :key="item.id" :data-id="item.id" class="app-item">
+          {{ item.id }}
+        </div>
       </div>
     </div>
   </div>
@@ -42,22 +46,6 @@ function handleDragModeEnd(event) {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-  padding: 20px;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .container {
   max-width: 600px;
   margin: 0 auto;

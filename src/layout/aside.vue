@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-box dark:border-r-base-border shadow-md dark:border-r">
+  <div class="menu-box dark:border-r-base-border shadow-md select-none dark:border-r">
     <el-menu router :default-active="defaultActive" :collapse="menuCollsapse" :unique-opened="true">
       <template v-for="menu in menuList" :key="menu.path">
         <!-- 有子菜单 -->

@@ -2,7 +2,7 @@
   <div class="card content-box h-full">
     <h2 class="title">拖拽表格指令 🍇🍇🍇🍓🍓🍓</h2>
 
-    <el-table v-sort-table="data" :data="data" style="width: 100%">
+    <el-table :data="data" style="width: 100%">
       <el-table-column prop="name" label="姓名"> </el-table-column>
       <el-table-column prop="age" label="年龄"> </el-table-column>
     </el-table>
@@ -12,7 +12,9 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted, useTemplateRef } from 'vue';
 import { ref } from 'vue';
+
 const data = ref([
   {
     name: '张三',

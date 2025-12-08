@@ -12,7 +12,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useDragTable } from '@/hooks/useSortTable';
-import { watch } from 'vue';
 
 // 初始化可拖拽表格
 const { dragWrapperRef, dragDataKey, dragData } = useDragTable();

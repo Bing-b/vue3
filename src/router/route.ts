@@ -106,7 +106,7 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             name: 'gistrack',
             component: () => import('@/views/gis/track.vue'),
             meta: {
-              title: '轨迹回放',
+              title: '导航',
               icon: 'other',
             },
           },

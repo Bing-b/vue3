@@ -68,6 +68,7 @@ import { GCJ02TOWGS84, setIcon } from './ts/utils';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet.vectorgrid';
+import './js/Control.OSMGeocoder.js';
 
 // 小汽车图标
 const iconCar = setIcon('mycar.svg');
@@ -1183,14 +1184,14 @@ const initMap = () => {
   };
 
   // 中心点位置
-  const coordinate = GCJ02TOWGS84(110, 19.2);
+  const coordinate = GCJ02TOWGS84(104.0665, 30.5728); // 成都
 
   baseMap = L.map('gisMap', {
     center: L.latLng(coordinate[0], coordinate[1]), // Leaflet必须纬度(lat)在前经度(lng)在后！
     zoom: 9,
     minZoom: 5,
     maxZoom: 18,
-    layers: [Tianditu, markers], // 控制默认显示图层
+    layers: [osm, markers], // 控制默认显示图层
     attributionControl: false, // 控制版权信息控件
     zoomControl: false, // 缩放控件
     fullscreenControl: true, // 全屏控件
@@ -1233,6 +1234,11 @@ const initMap = () => {
       position: 'bottomright',
     })
     .addTo(baseMap);
+
+  var osmGeocoder = new L.Control.OSMGeocoder({ placeholder: '搜索...' });
+
+  baseMap.addControl(osmGeocoder);
+
   // 监听地图的缩放级别变化
   // baseMap.on('zoomend', function () {
   //   const zoomLevel = baseMap.getZoom();
@@ -1269,6 +1275,7 @@ onMounted(() => {
 @import url('leaflet.fullscreen/Control.FullScreen.css');
 @import url('./css/leaflet-routing-machine');
 @import url('./css/Control.MiniMap');
+@import url('./css/Control.OSMGeocoder');
 @import url('leaflet-pulse-icon/src/L.Icon.Pulse.css');
 
 .leaflet-touch .leaflet-control-layers-toggle {

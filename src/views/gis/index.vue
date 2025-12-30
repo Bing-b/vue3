@@ -16,6 +16,7 @@
       <el-button @click="toggleMarker" size="small">标记分类显示</el-button>
       <el-button @click="createArrowPath" size="small">迁徙效果</el-button>
       <el-button @click="initRouteMachine" size="small">路径分析</el-button>
+      <el-button @click="highRoad" size="small">高发路段</el-button>
     </div>
 
     <!-- 地图 -->
@@ -1092,6 +1093,65 @@ const initAntLine = () => {
   movingMarker.once('click', function () {
     movingMarker.start();
   });
+};
+
+// 高发路段demo
+const highRoad = () => {
+  const road1 = [
+    [104.0732989, 30.3958094],
+    [104.0732918, 30.3960566],
+    [104.0732258, 30.3965098],
+    [104.0731247, 30.3968118],
+    [104.0729369, 30.3972271],
+    [104.0725674, 30.3978234],
+    [104.0722332, 30.3983347],
+    [104.0719605, 30.3987888],
+    [104.0718416, 30.3990559],
+    [104.0717653, 30.3993499],
+    [104.0717552, 30.3994055],
+    [104.0717605, 30.4015218],
+    [104.0717505, 30.4043031],
+    [104.071743, 30.4044978],
+    [104.071744, 30.4046125],
+    [104.0717513, 30.4047098],
+    [104.0717522, 30.4053696],
+  ];
+
+  const road2 = [
+    [104.0739315, 30.4069143],
+    [104.0738457, 30.4069138],
+    [104.0736245, 30.4068857],
+    [104.0734327, 30.4068313],
+    [104.0732588, 30.4067709],
+    [104.0730299, 30.4066839],
+    [104.0720183, 30.4062372],
+    [104.0718679, 30.4061626],
+    [104.0718059, 30.4061063],
+    [104.071687, 30.4059339],
+    [104.0716558, 30.4058407],
+    [104.0716561, 30.4056112],
+  ];
+  // 辅助函数：转换坐标并绘制
+  function drawSegment(coords, color) {
+    // Leaflet 需要 [lat, lng]，所以要用 reverse()
+    const latLngs = coords.map((p) => [p[1], p[0]]);
+    L.polyline(latLngs, {
+      color: color,
+      weight: 8, // 线宽
+      opacity: 0.9, // 透明度
+      lineJoin: 'round', // 转角连接处圆润
+      lineCap: 'butt',
+    }).addTo(baseMap);
+  }
+
+  // 注意：每一段的终点应该是下一段的起点，否则路口会有裂缝
+  drawSegment(road1.slice(0, 4), '#2E7D32'); // 顺畅
+  drawSegment(road1.slice(3, 7), '#F9A825'); // 一般拥堵
+  drawSegment(road1.slice(6, 10), '#B71C1C'); // 严重拥堵
+  drawSegment(road1.slice(9, 17), '#2E7D32'); // 顺畅
+  drawSegment(road2, '#2E7D32'); // 顺畅
+
+  baseMap.flyTo(L.latLng([30.4069143, 104.0739315]), 15, { duration: 2 });
 };
 
 // 初始化地图

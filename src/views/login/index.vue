@@ -26,7 +26,7 @@
         <el-input
           class="!h-[40px]"
           v-model.trim="loginFrom.name"
-          placeholder="请输入用户名:wang"
+          placeholder="请输入用户名:admin"
           maxlength="20" />
 
         <!-- 密码 -->
@@ -78,7 +78,7 @@ const resetVerify = () => {
 
 // 处理登录
 const handleLogin = () => {
-  if (loginFrom.name !== 'wang' || loginFrom.password !== '666') {
+  if (loginFrom.name !== 'admin' || loginFrom.password !== '666') {
     ElMessage.warning('账户或密码错误');
     resetVerify();
   } else if (!isVerified.value) {

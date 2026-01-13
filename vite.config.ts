@@ -39,7 +39,7 @@ export default defineConfig(({ mode, command }) => {
       },
     },
     optimizeDeps: {
-      exclude: ['@vueuse/core'], // pip
+      exclude: ['@vueuse/core', 'poplar-annotation'],
     },
     plugins: createVitePlugins(command),
     // css: {
@@ -53,11 +53,9 @@ export default defineConfig(({ mode, command }) => {
     build: {
       reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度
       chunkSizeWarningLimit: 20480,
-      ...(command === 'build' && {
-        esbuild: {
-          drop: ['console', 'debugger'],
-        },
-      }),
+      // esbuild: {
+      //   drop: ['console', 'debugger'],
+      // },
       // terserOptions: {
       //   compress: {
       //     drop_console: true, // 移除所有的 console.* 调用
@@ -68,21 +66,21 @@ export default defineConfig(({ mode, command }) => {
       commonjsOptions: {
         transformMixedEsModules: true, // 优化cjs加载方式
       },
-      rollupOptions: {
-        input: {
-          main: resolve(__dirname, 'index.html'),
-        },
-        output: {
-          chunkFileNames: 'static/js/[name]-[hash].js',
-          entryFileNames: 'static/js/[name]-[hash].js',
-          assetFileNames: 'static/assets/[name]-[hash].[ext]',
-          // 分包 chunk 提升首屏加载 及 缓存利用率
-          manualChunks: {
-            core: ['vue', 'vue-router', 'pinia', 'axios'],
-            ui: ['element-plus'],
-          },
-        },
-      },
+      // rollupOptions: {
+      //   input: {
+      //     main: resolve(__dirname, 'index.html'),
+      //   },
+      //   output: {
+      //     chunkFileNames: 'static/js/[name]-[hash].js',
+      //     entryFileNames: 'static/js/[name]-[hash].js',
+      //     assetFileNames: 'static/assets/[name]-[hash].[ext]',
+      //     // 分包 chunk 提升首屏加载 及 缓存利用率
+      //     manualChunks: {
+      //       core: ['vue', 'vue-router', 'pinia', 'axios'],
+      //       ui: ['element-plus'],
+      //     },
+      //   },
+      // },
     },
     define: {
       __INTLIFY_PROD_DEVTOOLS__: false,

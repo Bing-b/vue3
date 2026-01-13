@@ -90,6 +90,7 @@ const handleChangeProgress = (val: Arrayable<number>) => {
   track.setProgress(Number(val) / 100);
 };
 
+// 改变速度
 const handleChangeSpeed = (val: Arrayable<number>) => {
   track.setSpeed(val);
 };

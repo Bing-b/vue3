@@ -43,9 +43,6 @@
           <Welcome />
           <div
             class="relative flex h-[calc(100%-120px)] w-full items-center justify-between overflow-hidden rounded-xl bg-white px-10 dark:bg-black">
-            <svgIcon name="hands-ok" size="160" />
-            <LottieCat />
-            <svgIcon name="hands-clac" size="160" />
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import * as L from 'leaflet';
 import 'leaflet-draw/dist/leaflet.draw.css';
 import 'leaflet/dist/leaflet.css';
@@ -16,10 +16,6 @@ import '@/utils/gis/leaflet-heat';
 import 'leaflet-pulse-icon'; // 标记目标脉冲效果
 import 'leaflet.markercluster'; // marker 聚合插件
 import { GCJ02TOWGS84 } from './ts/utils';
-
-const emit = defineEmits(['openAddressDetail']);
-
-const { place } = defineProps<{ place: string }>();
 
 // 标记样式
 const STYLES = {
@@ -48,9 +44,6 @@ const markerIdMap = new Map<string, Recordable>();
 
 // 最后选择的markerid
 let lastSelectedId: string | null = null;
-
-// 热力图
-let heatMap = null as any;
 
 // 高亮的ids
 const highlightMarkerIds = ref<string[]>([]);
@@ -236,6 +229,7 @@ onMounted(() => {
   initMap();
 });
 </script>
+
 
 <style lang="scss">
 @import url('leaflet-pulse-icon/src/L.Icon.Pulse.css');

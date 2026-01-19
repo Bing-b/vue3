@@ -4,8 +4,7 @@
 
 <script lang="ts" setup>
 import { App, Leafer, Line, Rect, PointerEvent } from 'leafer-ui';
-import { onMounted, ref } from 'vue';
-import { shallowRef } from 'vue';
+import { onMounted, ref, shallowRef } from 'vue';
 
 // const leafer = shallowRef<Leafer | null>(null);
 

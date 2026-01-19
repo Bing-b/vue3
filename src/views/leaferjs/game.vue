@@ -115,7 +115,7 @@ const spawnPiece = () => {
   const typeIdx = Math.floor(Math.random() * SHAPES.length);
   const shape = SHAPES[typeIdx];
   activePiece = {
-    shape: shape,
+    shape,
     colorIndex: typeIdx + 1,
     x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2),
     y: 0,

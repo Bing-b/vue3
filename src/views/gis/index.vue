@@ -1136,7 +1136,7 @@ const highRoad = () => {
     // Leaflet 需要 [lat, lng]，所以要用 reverse()
     const latLngs = coords.map((p) => [p[1], p[0]]);
     L.polyline(latLngs, {
-      color: color,
+      color,
       weight: 8, // 线宽
       opacity: 0.9, // 透明度
       lineJoin: 'round', // 转角连接处圆润
@@ -1183,13 +1183,13 @@ const initMap = () => {
 
   // 天地图底图
   const tiandituVecLayer = L.tileLayer(
-    `http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=39a6e2f40d0bf47a673ff64807618838`,
+    'http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=39a6e2f40d0bf47a673ff64807618838',
     { tileSize: 256, maxZoom: 18, minZoom: 5 },
   );
 
   // 天地图地理名称注记
   const tiandituCvaLayer = L.tileLayer(
-    `http://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=39a6e2f40d0bf47a673ff64807618838`,
+    'http://t0.tianditu.gov.cn/cva_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=39a6e2f40d0bf47a673ff64807618838',
     { tileSize: 256, maxZoom: 18, minZoom: 5 },
   );
 
@@ -1296,7 +1296,7 @@ const initMap = () => {
     })
     .addTo(baseMap);
 
-  var osmGeocoder = new L.Control.OSMGeocoder({ placeholder: '搜索...' });
+  const osmGeocoder = new L.Control.OSMGeocoder({ placeholder: '搜索...' });
 
   baseMap.addControl(osmGeocoder);
 

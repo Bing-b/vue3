@@ -19,8 +19,9 @@
       <el-button @click="highRoad" size="small">高发路段</el-button>
     </div>
 
-    <!-- 地图 -->
-    <div id="gisMap" class="absolute top-0 right-0 bottom-0 left-0"></div>
+    <!-- 地图（首次渲染时延迟初始化，以提升首屏渲染速度） -->
+    <div v-if="loading" class="loading-shell">正在初始化地图，请稍后…</div>
+    <div id="gisMap" class="absolute top-0 right-0 bottom-0 left-0" v-else></div>
 
     <el-dialog v-model="infoDialogVisible" title="文档预览" width="60%">
       <div class="pdf-container">
@@ -1319,7 +1320,11 @@ const handleElementResize = () => {
 window.addEventListener('resize', handleElementResize);
 
 onMounted(() => {
-  initMap();
+  // 延迟初始化地图，提升首屏渲染速度
+  // 先展示 loading，再初始化地图
+  setTimeout(() => {
+    initMap();
+  }, 0);
 
   // 监听地图容器窗口变化
   const target = document.getElementById('gisMap') as HTMLElement;

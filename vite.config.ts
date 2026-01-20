@@ -35,34 +35,29 @@ export default defineConfig(({ mode, command }) => {
       },
       // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布
       warmup: {
-        clientFiles: ['./index.html', './src/{components}/*'],
+        // clientFiles: ['./index.html', './src/{components}/*'],
       },
     },
     optimizeDeps: {
       exclude: ['@vueuse/core', 'poplar-annotation'],
     },
     plugins: createVitePlugins(command),
-    // css: {
-    //   preprocessorOptions: {
-    //     scss: {
-    //       api: 'modern-compiler', // 消除sass api 警告
-    //     },
-    //   },
-    // },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler', // 消除sass api 警告
+        },
+      },
+    },
 
     build: {
+      target: 'esnext',
+      minify: 'esbuild',
+      esbuild: {
+        drop: ['console', 'debugger'], // 生产环境自动清理，不再需要单独配 ESLint 规则
+      },
       reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度
       chunkSizeWarningLimit: 20480,
-      // esbuild: {
-      //   drop: ['console', 'debugger'],
-      // },
-      // terserOptions: {
-      //   compress: {
-      //     drop_console: true, // 移除所有的 console.* 调用
-      //     drop_debugger: true, // 移除所有的 debugger 语句
-      //   },
-      // },
-
       commonjsOptions: {
         transformMixedEsModules: true, // 优化cjs加载方式
       },

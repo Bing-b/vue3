@@ -3,8 +3,7 @@
     <!-- 全屏切换 -->
     <el-tooltip :content="isFullscreen ? '退出全屏' : '全屏'" placement="bottom" :show-after="0.5">
       <span @click="toggle" class="flex h-4 cursor-pointer items-center justify-center">
-        <icon-material-symbols:fullscreen-rounded width="18" v-if="!isFullscreen" />
-        <icon-mingcute:fullscreen-exit-line width="18" v-else />
+        <el-icon :size="18"><FullScreen v-if="!isFullscreen" /><Close v-else /></el-icon>
       </span>
     </el-tooltip>
 
@@ -12,8 +11,7 @@
     <button class="switch" @click="toggleDark($event)" :class="{ active: isDark }">
       <div class="switch_action">
         <div class="switch_icon">
-          <icon-lets-icons:sun-light v-if="!isDark" width="12" height="12" />
-          <icon-system-uicons:moon v-else width="12" height="12" />
+          <el-icon :size="12"><Sunny v-if="!isDark" /><Moon v-else /></el-icon>
         </div>
       </div>
     </button>

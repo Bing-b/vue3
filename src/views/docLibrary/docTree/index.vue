@@ -58,7 +58,7 @@
             <!-- 下拉操作菜单 -->
             <el-dropdown trigger="click" class="el-drop">
               <span class="el-dropdown-link">
-                <icon-weui:more-outlined />
+                <el-icon><More /></el-icon>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>

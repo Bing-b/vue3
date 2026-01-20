@@ -17,12 +17,13 @@
       </div>
 
       <!-- 菜单收展按钮 -->
-      <icon-tdesign:menu-unfold
+      <el-icon
+        :size="24"
         @click.stop="menuCollsapse = !menuCollsapse"
-        color="#333"
-        width="24"
-        class="mr-6 cursor-pointer dark:text-white"
-        :class="{ 'rotate-180': menuCollsapse }" />
+        class="mr-6 cursor-pointer transition-transform dark:text-white"
+        :class="{ 'rotate-180': menuCollsapse }">
+        <Expand />
+      </el-icon>
 
       <!-- 面包屑  -->
       <el-breadcrumb separator="/">
@@ -41,6 +42,7 @@
 import { useRoute } from 'vue-router';
 import NavBox from './nav.vue';
 import { computed } from 'vue';
+import { Expand } from '@element-plus/icons-vue';
 
 // 菜单收展
 const menuCollsapse = defineModel('menuCollsapse', { default: false });

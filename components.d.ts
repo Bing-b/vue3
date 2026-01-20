@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Clickspark: typeof import('./src/components/clickspark.vue')['default']
     CountTo: typeof import('./src/components/CountTo/index.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBadge: typeof import('element-plus/es')['ElBadge']
@@ -49,13 +50,6 @@ declare module '@vue/runtime-core' {
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElUpload: typeof import('element-plus/es')['ElUpload']
-    'IconLetsIcons:sunLight': typeof import('~icons/lets-icons/sun-light')['default']
-    'IconMaterialSymbols:closeRounded': typeof import('~icons/material-symbols/close-rounded')['default']
-    'IconMaterialSymbols:fullscreenRounded': typeof import('~icons/material-symbols/fullscreen-rounded')['default']
-    'IconMingcute:fullscreenExitLine': typeof import('~icons/mingcute/fullscreen-exit-line')['default']
-    'IconSystemUicons:moon': typeof import('~icons/system-uicons/moon')['default']
-    'IconTdesign:menuUnfold': typeof import('~icons/tdesign/menu-unfold')['default']
-    'IconWeui:moreOutlined': typeof import('~icons/weui/more-outlined')['default']
     Index1: typeof import('./src/components/virtualList/index1.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

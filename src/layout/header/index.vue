@@ -17,18 +17,26 @@
       </div>
 
       <!-- 菜单收展按钮 -->
+<<<<<<< HEAD
       <!-- <el-icon
+=======
+      <el-icon
+>>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
         :size="24"
         @click.stop="menuCollsapse = !menuCollsapse"
         class="mr-6 cursor-pointer transition-transform dark:text-white"
         :class="{ 'rotate-180': menuCollsapse }">
         <Expand />
+<<<<<<< HEAD
       </el-icon> -->
 
       <svgIcon name="menu":size="24"
         @click.stop="menuCollsapse = !menuCollsapse"
         class="mr-6 cursor-pointer transition-transform dark:text-white"
         :class="{ 'rotate-180': menuCollsapse }" />
+=======
+      </el-icon>
+>>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
 
       <!-- 面包屑  -->
       <el-breadcrumb separator="/">

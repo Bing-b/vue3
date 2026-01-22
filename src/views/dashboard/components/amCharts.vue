@@ -1,167 +1,164 @@
 <template>
   <div
-    class="font-hsans chart border-base-border relative flex h-[200px] w-[480px] flex-col items-center rounded-[24px] px-3">
-    <p class="absolute top-4 left-5 text-sm font-medium">代码统计:</p>
-    <div ref="chartdiv" class="half-donut-chart font-hsans"></div>
+    class="stats-card border-base-border relative h-[200px] w-[480px] overflow-hidden rounded-[24px] border p-5 shadow-lg transition-all duration-500 hover:shadow-xl">
+    <!-- 背景装饰 -->
+    <div class="bg-decoration"></div>
+
+    <!-- 头部信息 -->
+    <div class="mb-6 flex items-end justify-between">
+      <div>
+        <h3 class="flex items-center gap-2 text-sm font-bold tracking-wider text-gray-700 dark:text-gray-200">
+          <span class="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
+          项目代码分析
+        </h3>
+        <p class="mt-1 text-[10px] uppercase text-gray-400">Project Language Composition</p>
+      </div>
+      <div class="text-right">
+        <p class="text-[10px] font-medium text-gray-400">TOTAL CAPACITY</p>
+        <p class="text-lg font-black italic tracking-tighter text-blue-600 dark:text-blue-400">
+          {{ formatBytes(totalBytes) }}
+        </p>
+      </div>
+    </div>
+
+    <!-- 分段进度条 -->
+    <div class="relative mb-8 h-3 w-full overflow-hidden rounded-full bg-gray-100/50 shadow-inner backdrop-blur-sm dark:bg-gray-800/50">
+      <div class="flex h-full w-full">
+        <div
+          v-for="(item, index) in langStats"
+          :key="item.lang"
+          class="bar-segment transition-all duration-1000 ease-out"
+          :style="{ 
+            width: isMounted ? item.percent + '%' : '0%', 
+            background: getGradient(item.lang),
+            zIndex: 10 - index 
+          }"
+          :title="`${item.lang}: ${item.percent}%`"
+        >
+          <!-- 光影效果 -->
+          <div class="h-full w-full bg-white/20 opacity-0 transition-opacity hover:opacity-100"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 详细列表 (Legend) -->
+    <div class="grid grid-cols-2 gap-x-8 gap-y-3">
+      <div 
+        v-for="item in langStats" 
+        :key="item.lang" 
+        class="group flex items-center justify-between transition-transform hover:translate-x-1"
+      >
+        <div class="flex items-center gap-3">
+          <div 
+            class="h-2 w-2 rounded-full shadow-sm shadow-black/10" 
+            :style="{ background: getGradient(item.lang) }"
+          ></div>
+          <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">{{ item.lang }}</span>
+        </div>
+        <div class="text-right">
+          <span class="text-[11px] font-bold text-gray-900 dark:text-gray-100">{{ item.percent }}%</span>
+          <span class="ml-2 hidden text-[9px] text-gray-400 group-hover:inline">{{ formatBytes(item.bytes) }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import * as am5 from '@amcharts/amcharts5';
-import * as am5percent from '@amcharts/amcharts5/percent';
-import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import { onMounted, ref, computed } from 'vue';
 
-const chartdiv = ref(null);
+interface LangStat {
+  lang: string;
+  bytes: number;
+  percent: string;
+}
 
-let root: any = null;
+const langStats = ref<LangStat[]>([]);
+const isMounted = ref(false);
 
-let series: any = null;
-
-const extendedData = ref([]);
-
-// 默认数据
-const initChart = async () => {
-  // 初始化根元素
-  root = am5.Root.new(chartdiv.value);
-
-  // 移出logo
-  root._logo.dispose();
-
-  // 设置主题
-  root.setThemes([am5themes_Animated.new(root)]);
-
-  // 创建半圆环图表
-  const chart = root.container.children.push(
-    am5percent.PieChart.new(root, {
-      startAngle: 180,
-      endAngle: 360,
-      width: am5.percent(60),
-      layout: root.verticalLayout,
-      innerRadius: am5.percent(50), // 调整为圆环
-      radius: am5.percent(65),
-    }),
-  );
-
-  root.container.setAll({
-    layout: root.horizontalLayout,
-    alignContent: 'center',
-  });
-  // 创建系列
-  series = chart.series.push(
-    am5percent.PieSeries.new(root, {
-      startAngle: 180,
-      endAngle: 360,
-      valueField: 'value',
-      height: am5.percent(100),
-      layout: root.verticalLayout,
-      categoryField: 'category',
-      fillField: 'color',
-      alignLabels: false,
-    }),
-  );
-
-  // 配置系列状态
-  series.states.create('hidden', {
-    startAngle: 180,
-    endAngle: 180,
-  });
-
-  // 切片样式
-  series.slices.template.setAll({
-    cornerRadius: 5,
-    strokeWidth: 2,
-    stroke: am5.color(0xffffff),
-  });
-
-  // 隐藏刻度线
-  series.ticks.template.setAll({
-    forceHidden: true,
-  });
-
-  // 标签配置
-  series.labels.template.setAll({
-    fontSize: 12,
-    fill: am5.color(0x666666),
-    text: '{category}',
-    populateText: true,
-  });
-
-  const colors = ['#67b7dc', '#6794dc', '#6771dc', '#8067dc', '#a367dc'];
-  const url = import.meta.env.PROD
-    ? '/vue3/lang-stats.json' // 生产环境：dist/lang-stats.json
-    : '/public/lang-stats.json'; // 开发环境：public/lang-stats.json
-  const res = await fetch(url);
-  const langData = await res.json();
-  const defaultData = langData.map((i, idx) => ({
-    category: i.lang,
-    value: i.percent,
-    color: colors[idx],
-  }));
-
-  extendedData.value = [...defaultData];
-
-  // 配置图例
-  let legend = root.container.children.push(
-    am5.Legend.new(root, {
-      width: am5.percent(40),
-      height: am5.percent(60),
-      centerY: am5.percent(50),
-      y: am5.percent(50),
-      layout: root.verticalLayout,
-      marginLeft: 30,
-      marginTop: 40,
-    }),
-  );
-
-  legend.labels.template.setAll({
-    fontSize: 12, // 设置字体大小（单位：px）
-    fill: am5.color(0x333333), // 设置字体颜色（可选）
-    fontWeight: '400', // 字体粗细（可选，如 "bold"）
-  });
-
-  legend.valueLabels.template.setAll({
-    fontSize: 12,
-    fill: am5.color(0x999999),
-  });
-
-  series.events.on('datavalidated', function () {
-    legend.data.setAll(series.dataItems);
-  });
-
-  // 设置数据
-  series.data.setAll(defaultData);
-
-  // 动画效果
-  series.appear(1000, 100);
-};
-
-onMounted(() => {
-  if (chartdiv.value) initChart();
+const totalBytes = computed(() => {
+  return langStats.value.reduce((acc, curr) => acc + curr.bytes, 0);
 });
 
-onUnmounted(() => {
-  if (root) root.dispose();
+const formatBytes = (bytes: number) => {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+};
+
+const getGradient = (lang: string) => {
+  const gradients: Record<string, string> = {
+    TypeScript: 'linear-gradient(135deg, #3178c6 0%, #4b91e2 100%)',
+    JavaScript: 'linear-gradient(135deg, #f7df1e 0%, #e8c600 100%)',
+    Vue: 'linear-gradient(135deg, #41b883 0%, #34495e 100%)',
+    SCSS: 'linear-gradient(135deg, #c6538c 0%, #933d69 100%)',
+    Default: 'linear-gradient(135deg, #9ca3af 0%, #4b5563 100%)'
+  };
+  return gradients[lang] || gradients.Default;
+};
+
+const fetchData = async () => {
+  try {
+    const url = import.meta.env.PROD ? '/vue3/lang-stats.json' : '/lang-stats.json';
+    const res = await fetch(url);
+    langStats.value = await res.json();
+  } catch (error) {
+    console.error('Fetch lang-stats error:', error);
+  }
+};
+
+onMounted(async () => {
+  await fetchData();
+  // 延迟触发动画以获得丝滑感
+  setTimeout(() => {
+    isMounted.value = true;
+  }, 100);
 });
 </script>
 
-<style>
-.chart {
-  background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+<style scoped lang="scss">
+.stats-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  :global(.dark) & {
+    background: rgba(18, 18, 18, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
 }
 
-.dark .chart {
-  background-image: linear-gradient(120deg, #3e3e3e 0%, #2c2c2c 100%);
+.bg-decoration {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.half-donut-chart {
-  width: 100%;
-  height: 180px;
-  margin: 0 auto;
-  margin-top: 20px;
+.bar-segment {
+  position: relative;
+  &:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+  }
 }
-/* 通过CSS隐藏 */
-.amcharts-logo {
-  display: none !important;
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

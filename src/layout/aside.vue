@@ -82,8 +82,12 @@ const handleClickMenu = (menu: Menu) => {
   menu.choose = true;
   const isCurrentPath = menu.children?.find((i) => i.path === defaultActive.value);
   if (!isCurrentPath) {
-    defaultActive.value = menu.children[0].path;
-    router.push(defaultActive.value);
+    const firstChildPath = menu.children[0].path;
+    defaultActive.value = firstChildPath;
+    // 只有当路径不同时才进行路由跳转
+    if (route.path !== firstChildPath) {
+      router.push(firstChildPath);
+    }
   }
 };
 

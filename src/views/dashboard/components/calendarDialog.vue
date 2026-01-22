@@ -8,8 +8,9 @@
         <div
           @click="visible = false"
           class="flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-[#ff7330] duration-300 hover:scale-[1.1] hover:bg-[#ff6565]">
-          <icon-material-symbols:close-rounded color="#fff" width="12"
-        /></div>
+          <svgIcon name="close" :size="12" color="#fff" />
+        </div
+>
         <p class="ml-5 text-sm text-[#8e8e94]">{{ lunarYear }} {{ lunarMonth }}月 {{ lunarDay }}</p>
       </div>
 
@@ -98,13 +99,15 @@ const solarDays = computed(() => {
 
 // 上月阳历日子
 const prevSolarDays = computed(() => {
-  const solarMonth = SolarMonth.fromYm(now.value.getFullYear(), now.value.getMonth());
+  const date = new Date(now.value.getFullYear(), now.value.getMonth() - 1, 1);
+  const solarMonth = SolarMonth.fromYm(date.getFullYear(), date.getMonth() + 1);
   return solarMonth.getDays();
 });
 
 // 下月阳历日子
 const nextSolarDays = computed(() => {
-  const solarMonth = SolarMonth.fromYm(now.value.getFullYear(), now.value.getMonth() + 2);
+  const date = new Date(now.value.getFullYear(), now.value.getMonth() + 1, 1);
+  const solarMonth = SolarMonth.fromYm(date.getFullYear(), date.getMonth() + 1);
   return solarMonth.getDays();
 });
 

@@ -1,53 +1,43 @@
 <template>
-  <div id="home" class="relative h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
-    <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
-      >组件 <el-button @click="initIntor">引导</el-button></h2
-    >
-    <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
-      <!-- 倒计时 -->
-      <CountDown data-intro="这是第二步🦝" data-step="2" />
+    <div id="home" class="relative h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
+      <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
+        >组件 <el-button @click="initIntor">引导</el-button></h2
+      >
+      <div class="flex gap-8 rounded bg-white p-5 dark:bg-black">
+        <!-- 倒计时 -->
+        <CountDown data-intro="这是第二步🦝" data-step="2" />
 
-      <!-- 日历 -->
-      <calendar />
+        <!-- 日历 -->
+        <calendar />
 
-      <!-- 天气 -->
-      <weather />
+        <!-- 天气 -->
+        <weather />
 
-      <!-- 代码统计 -->
-      <am-charts data-intro="结束了你嘞" data-step="3" />
+        <!-- 代码统计 -->
+        <am-charts data-intro="结束了你嘞" data-step="3" />
 
-      <div class="lottie rounded-[25px]">
-        <!-- 动画 -->
-        <LottieWeb />
+        <!-- 存储空间 -->
+        <StorageInsight />
       </div>
-    </div>
 
-    <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
-      <h2 class="title flex items-center justify-between">概览</h2>
-      <!-- 仓库提交统计图 -->
-      <div class="flex h-[calc(100%-50px)]">
-        <img
-          v-show="!globalConfigStore.appDark"
-          class="inline-block h-full w-[750px] object-cover"
-          src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-gitblock.svg"
-          alt="" />
-        <img
-          v-show="globalConfigStore.appDark"
-          class="inline-block h-full w-[750px] object-cover"
-          src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-night-green.svg"
-          alt="" />
+      <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
+        <h2 class="title flex items-center justify-between">概览</h2>
+        <!-- 仓库提交统计图 -->
+        <div class="flex h-[calc(100%-50px)] gap-4">
+           <CommitStats />
 
-        <!-- 欢迎 -->
-        <div
-          class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 dark:!border-l-[#333]">
-          <Welcome />
+          <!-- 欢迎 -->
           <div
-            class="relative flex h-[calc(100%-120px)] w-full items-center justify-between overflow-hidden rounded-xl bg-white px-10 dark:bg-black">
+            class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 pl-0 dark:!border-l-[#333]">
+            <Welcome />
+            <div
+              class="relative flex h-[calc(100%-120px)] w-full items-center justify-between overflow-hidden rounded-xl bg-white dark:bg-black">
+              <info />
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, useTemplateRef, ref } from 'vue';
@@ -60,9 +50,11 @@ import Calendar from './components/calendar.vue';
 import CountDown from './components/countdown.vue';
 import Weather from './components/weather.vue';
 import AmCharts from './components/amCharts.vue';
-import LottieWeb from '@/views/lottie-web/index.vue';
+import StorageInsight from './components/StorageInsight.vue';
+import CommitStats from './components/CommitStats.vue';
 import Welcome from './components/welcome.vue';
-import LottieCat from '@/views/lottie-web/cat.vue';
+import Info from './components/info.vue';
+
 // const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 
 // 获取全局配置

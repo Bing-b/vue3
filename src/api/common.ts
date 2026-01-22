@@ -37,12 +37,47 @@ export function testCancelApi<T>(data: string, signal: AbortSignal) {
 }
 
 export function getGitHubProject<T>() {
+  const token = import.meta.env.VITE_GITHUB_TOKEN;
+  const headers: any = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
   return request<any[]>({
     url: '/github/users/Bing-b/repos',
     method: RequestEnum.GET,
-    headers: {
-      token: import.meta.env.VITE_GITHUB_TOKEN,
-    },
+    headers,
+  });
+}
+
+export function getGithubUser(username: string) {
+
+  const token = import.meta.env.VITE_GITHUB_TOKEN;
+  const headers: any = {};
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return request<any>({
+    url: `/github/users/${username}`,
+    method: RequestEnum.GET,
+    headers,
+  });
+}
+
+export function getGithubEvents(username: string) {
+  const token = import.meta.env.VITE_GITHUB_TOKEN;
+  const headers: any = {};
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  return request<any[]>({
+    url: `/github/users/${username}/events`,
+    method: RequestEnum.GET,
+    params: { per_page: 20 },
+    headers,
   });
 }
 

@@ -1,110 +1,95 @@
 <template>
-  <div class="info-container">
-    <div class="info-header">
-      <h3 class="info-title">系统信息</h3>
-      <el-tag :type="systemStatus.type" size="small">
-        {{ systemStatus.text }}
-      </el-tag>
+  <div class="info-container group relative flex h-full w-full flex-col overflow-hidden rounded-[24px] bg-white p-6 shadow-sm transition-all hover:shadow-md dark:bg-[#1c1e23]">
+    <!-- Header -->
+    <div class="mb-6 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">系统状态</h3>
+        <div class="flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full opacity-75" :class="statusColorClass"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full" :class="statusColorClass"></span>
+        </div>
+      </div>
+      <span class="text-xs font-medium text-gray-400 dark:text-gray-500">{{ lastUpdate }}</span>
     </div>
 
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="info-icon">
-          <el-icon><Monitor /></el-icon>
+    <!-- Main Grid -->
+    <div class="grid flex-1 grid-cols-2 gap-4">
+      <!-- CPU -->
+      <div class="rounded-2xl bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:bg-[#2a2c31] dark:hover:bg-[#323439]">
+        <div class="mb-3 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+            <el-icon :size="20"><Cpu /></el-icon>
+          </div>
+          <div>
+            <div class="text-xs font-medium text-gray-500 dark:text-gray-400">CPU 使用率</div>
+            <div class="text-lg font-bold text-gray-900 dark:text-white">{{ cpuUsage }}%</div>
+          </div>
         </div>
-        <div class="info-content">
-          <div class="info-label">运行时间</div>
-          <div class="info-value">{{ uptime }}</div>
-        </div>
+        <el-progress 
+          :percentage="cpuUsage" 
+          :stroke-width="6" 
+          :show-text="false" 
+          :color="getProgressColor(cpuUsage)"
+          class="!m-0"
+        />
       </div>
 
-      <div class="info-item">
-        <div class="info-icon">
-          <el-icon><Cpu /></el-icon>
+      <!-- Memory -->
+      <div class="rounded-2xl bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:bg-[#2a2c31] dark:hover:bg-[#323439]">
+        <div class="mb-3 flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400">
+            <el-icon :size="20"><memo /></el-icon>
+          </div>
+          <div>
+            <div class="text-xs font-medium text-gray-500 dark:text-gray-400">内存使用</div>
+            <div class="text-lg font-bold text-gray-900 dark:text-white">{{ memoryUsage }}%</div>
+          </div>
         </div>
-        <div class="info-content">
-          <div class="info-label">CPU 使用率</div>
-          <div class="info-value">{{ cpuUsage }}%</div>
-          <el-progress
-            :percentage="cpuUsage"
-            :stroke-width="4"
-            :show-text="false"
-            :color="getProgressColor(cpuUsage)" />
-        </div>
+        <el-progress 
+          :percentage="memoryUsage" 
+          :stroke-width="6" 
+          :show-text="false" 
+          :color="getProgressColor(memoryUsage)"
+          class="!m-0"
+        />
       </div>
 
-      <div class="info-item">
-        <div class="info-icon">
-          <el-icon><Memo /></el-icon>
+      <!-- Uptime -->
+      <div class="rounded-2xl bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:bg-[#2a2c31] dark:hover:bg-[#323439]">
+        <div class="mb-2 flex items-center gap-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+            <el-icon :size="16"><Timer /></el-icon>
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">运行时间</div>
         </div>
-        <div class="info-content">
-          <div class="info-label">内存使用</div>
-          <div class="info-value">{{ memoryUsage }}%</div>
-          <el-progress
-            :percentage="memoryUsage"
-            :stroke-width="4"
-            :show-text="false"
-            :color="getProgressColor(memoryUsage)" />
-        </div>
+        <div class="pl-1 text-sm font-bold text-gray-900 dark:text-white">{{ uptime }}</div>
       </div>
 
-      <div class="info-item">
-        <div class="info-icon">
-          <el-icon><Document /></el-icon>
+      <!-- Online Users -->
+      <div class="rounded-2xl bg-gray-50 p-4 transition-colors hover:bg-gray-100 dark:bg-[#2a2c31] dark:hover:bg-[#323439]">
+        <div class="mb-2 flex items-center gap-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">
+            <el-icon :size="16"><User /></el-icon>
+          </div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">在线用户</div>
         </div>
-        <div class="info-content">
-          <div class="info-label">项目版本</div>
-          <div class="info-value">v1.2.5</div>
-        </div>
-      </div>
-
-      <div class="info-item">
-        <div class="info-icon">
-          <el-icon><Calendar /></el-icon>
-        </div>
-        <div class="info-content">
-          <div class="info-label">最后更新</div>
-          <div class="info-value">{{ lastUpdate }}</div>
-        </div>
-      </div>
-
-      <div class="info-item">
-        <div class="info-icon">
-          <el-icon><User /></el-icon>
-        </div>
-        <div class="info-content">
-          <div class="info-label">在线用户</div>
-          <div class="info-value">{{ onlineUsers }}</div>
-        </div>
+        <div class="pl-1 text-sm font-bold text-gray-900 dark:text-white">{{ onlineUsers }}</div>
       </div>
     </div>
 
-    <div class="info-footer">
-      <div class="info-stats">
-        <span class="stat-item">
-          <el-icon><View /></el-icon>
-          今日访问: {{ todayVisits }}
-        </span>
-        <span class="stat-item">
-          <el-icon><Download /></el-icon>
-          总下载: {{ totalDownloads }}
-        </span>
-      </div>
-    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, onUnmounted } from 'vue';
 import {
-  Monitor,
   Cpu,
-  Document,
-  Calendar,
   User,
   View,
   Download,
   Memo,
+  Timer
 } from '@element-plus/icons-vue';
 
 // 响应式数据
@@ -113,160 +98,56 @@ const memoryUsage = ref(62);
 const onlineUsers = ref(128);
 const todayVisits = ref(1234);
 const totalDownloads = ref(5678);
+const timer = ref<NodeJS.Timeout>();
 
 // 计算属性
 const uptime = computed(() => {
   const hours = Math.floor(Math.random() * 24) + 1;
   const minutes = Math.floor(Math.random() * 60);
-  return `${hours}小时${minutes}分钟`;
+  return `${hours}h ${minutes}m`;
 });
 
 const lastUpdate = computed(() => {
   const date = new Date();
-  return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+  return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 });
 
-const systemStatus = computed(() => {
-  if (cpuUsage.value > 80 || memoryUsage.value > 80) {
-    return { type: 'warning', text: '高负载' };
-  }
-  return { type: 'success', text: '正常' };
+const statusColorClass = computed(() => {
+  if (cpuUsage.value > 80 || memoryUsage.value > 80) return 'bg-red-500';
+  if (cpuUsage.value > 60 || memoryUsage.value > 60) return 'bg-yellow-500';
+  return 'bg-green-500';
 });
 
 // 方法
 const getProgressColor = (percentage: number) => {
-  if (percentage > 80) return '#f56c6c';
-  if (percentage > 60) return '#e6a23c';
-  return '#67c23a';
+  if (percentage > 80) return '#ef4444'; // red-500
+  if (percentage > 60) return '#f59e0b'; // amber-500
+  return '#3b82f6'; // blue-500 (changed from green for better aesthetic)
 };
 
 // 模拟数据更新
 const updateStats = () => {
-  cpuUsage.value = Math.min(100, Math.max(20, cpuUsage.value + (Math.random() - 0.5) * 10));
-  memoryUsage.value = Math.min(100, Math.max(30, memoryUsage.value + (Math.random() - 0.5) * 8));
-  onlineUsers.value = Math.max(50, onlineUsers.value + Math.floor((Math.random() - 0.5) * 20));
-  todayVisits.value += Math.floor(Math.random() * 5);
+  cpuUsage.value = Math.min(100, Math.max(20, Math.floor(cpuUsage.value + (Math.random() - 0.5) * 10)));
+  memoryUsage.value = Math.min(100, Math.max(30, Math.floor(memoryUsage.value + (Math.random() - 0.5) * 8)));
+  onlineUsers.value = Math.max(50, onlineUsers.value + Math.floor((Math.random() - 0.5) * 5));
+  todayVisits.value += Math.floor(Math.random() * 2);
 };
 
 onMounted(() => {
-  // 每5秒更新一次数据
-  setInterval(updateStats, 5000);
+  timer.value = setInterval(updateStats, 3000);
+});
+
+onUnmounted(() => {
+  clearInterval(timer.value);
 });
 </script>
 
 <style scoped lang="scss">
-.info-container {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.info-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .info-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0;
-  }
-}
-
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  flex: 1;
-}
-
-.info-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-2px);
-  }
-}
-
-.info-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-
-  .el-icon {
-    font-size: 20px;
-  }
-}
-
-.info-content {
-  flex: 1;
-
-  .info-label {
-    font-size: 12px;
-    opacity: 0.8;
-    margin-bottom: 4px;
-  }
-
-  .info-value {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-}
-
-.info-footer {
-  .info-stats {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-  }
-
-  .stat-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-
-    .el-icon {
-      font-size: 16px;
-    }
-  }
-}
-
-// 暗色主题适配
-.dark .info-container {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
 :deep(.el-progress-bar__outer) {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #e5e7eb; // bg-gray-200
 }
 
-:deep(.el-tag) {
-  border: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+:global(.dark) :deep(.el-progress-bar__outer) {
+  background-color: #374151; // bg-gray-700
 }
 </style>

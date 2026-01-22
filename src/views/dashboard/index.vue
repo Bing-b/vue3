@@ -1,16 +1,4 @@
 <template>
-<<<<<<< HEAD
-=======
-  <ClickSpark
-    spark-color="#ff6b6b"
-    :spark-size="12"
-    :spark-radius="25"
-    :spark-count="12"
-    :duration="600"
-    easing="ease-out"
-    :extra-scale="1.2"
-    class="interactive-area">
->>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
     <div id="home" class="relative h-full overflow-auto bg-[#f0f2f5] dark:bg-black dark:text-white">
       <h2 class="title flex items-center justify-between" data-intro="这是第一步😃" data-step="1"
         >组件 <el-button @click="initIntor">引导</el-button></h2
@@ -28,44 +16,19 @@
         <!-- 代码统计 -->
         <am-charts data-intro="结束了你嘞" data-step="3" />
 
-<<<<<<< HEAD
         <!-- 存储空间 -->
         <StorageInsight />
-=======
-        <div class="lottie rounded-[25px]">
-          <!-- 动画 -->
-          <LottieWeb />
-        </div>
->>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
       </div>
 
       <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
         <h2 class="title flex items-center justify-between">概览</h2>
         <!-- 仓库提交统计图 -->
-<<<<<<< HEAD
         <div class="flex h-[calc(100%-50px)] gap-4">
            <CommitStats />
 
           <!-- 欢迎 -->
           <div
             class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 pl-0 dark:!border-l-[#333]">
-=======
-        <div class="flex h-[calc(100%-50px)]">
-          <img
-            v-show="!globalConfigStore.appDark"
-            class="inline-block h-full w-[750px] object-cover"
-            src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-gitblock.svg"
-            alt="" />
-          <img
-            v-show="globalConfigStore.appDark"
-            class="inline-block h-full w-[750px] object-cover"
-            src="https://raw.githubusercontent.com/Bing-b/Bing-b/main/profile-3d-contrib/profile-night-green.svg"
-            alt="" />
-
-          <!-- 欢迎 -->
-          <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 dark:!border-l-[#333]">
->>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
             <Welcome />
             <div
               class="relative flex h-[calc(100%-120px)] w-full items-center justify-between overflow-hidden rounded-xl bg-white dark:bg-black">
@@ -75,10 +38,6 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-=======
-  </ClickSpark>
->>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
 </template>
 <script lang="ts" setup>
 import { reactive, onMounted, useTemplateRef, ref } from 'vue';
@@ -95,10 +54,6 @@ import StorageInsight from './components/StorageInsight.vue';
 import CommitStats from './components/CommitStats.vue';
 import Welcome from './components/welcome.vue';
 import Info from './components/info.vue';
-<<<<<<< HEAD
-=======
-import ClickSpark from '@/components/clickspark.vue';
->>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
 
 // const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
 

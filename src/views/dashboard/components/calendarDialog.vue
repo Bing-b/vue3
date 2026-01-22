@@ -8,15 +8,9 @@
         <div
           @click="visible = false"
           class="flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-[#ff7330] duration-300 hover:scale-[1.1] hover:bg-[#ff6565]">
-<<<<<<< HEAD
           <svgIcon name="close" :size="12" color="#fff" />
         </div
 >
-=======
-          <el-icon :size="12" color="#fff"><Close /></el-icon>
-          /></div
-        >
->>>>>>> 4793dfcb50747cbbf9bf751dc79ab3c1bcbdce6f
         <p class="ml-5 text-sm text-[#8e8e94]">{{ lunarYear }} {{ lunarMonth }}月 {{ lunarDay }}</p>
       </div>
 

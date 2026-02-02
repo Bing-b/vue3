@@ -28,4 +28,20 @@ const GCJ02TOWGS84 = (lng: number, lat: number) => {
   return coordinate;
 };
 
-export { setIcon, GCJ02TOWGS84 };
+// 批量生成随机坐标点
+const generateMockMarkers = (count: number, center: [number, number]) => {
+  const data = [];
+  for (let i = 0; i < count; i++) {
+    // 随机偏移，约在城市10-20公里范围内
+    const lat = center[0] + (Math.random() - 0.5) * 0.3;
+    const lng = center[1] + (Math.random() - 0.5) * 0.3;
+    data.push({
+      id: `id_${i}`,
+      coordinate: [lat, lng],
+      name: `测试点位_${i}`,
+    });
+  }
+  return data;
+};
+
+export { setIcon, GCJ02TOWGS84, generateMockMarkers };

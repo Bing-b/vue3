@@ -4,26 +4,39 @@
     <div id="gisMap" class="absolute top-0 right-0 bottom-0 left-0"></div>
 
     <!-- 控制面板 -->
-    <div
-      class="absolute top-2 right-2 z-[888] flex items-center gap-5 rounded bg-white px-3 py-2 text-xs">
-      <div class="flex items-center">
-        <el-button @click="creatTrack">生成路线</el-button>
-        <el-button @click="trackControl.start()">开始</el-button>
-        <el-button @click="trackControl.pause()">暂停</el-button></div
-      >
-      <div class="flex w-[300px] items-center gap-5">
-        <p class="text-nowrap">速度</p>
-        <el-slider @change="handleChangeSpeed" v-model="trackControl.speed" :max="1000" :min="0" />
-        <p class="text-nowrap">{{ trackControl.speed }} （km/h）</p>
+    <div class="track-toolbar-container">
+      <div class="control-section">
+        <el-button-group>
+          <el-button type="primary" :icon="Position" @click="creatTrack">生成路线</el-button>
+          <el-button type="success" :icon="VideoPlay" @click="trackControl.start()">开始</el-button>
+          <el-button type="warning" :icon="VideoPause" @click="trackControl.pause()">暂停</el-button>
+        </el-button-group>
       </div>
-      <div class="flex w-[350px] items-center gap-5">
-        <p class="text-nowrap">进程</p>
-        <el-slider
-          @change="handleChangeProgress"
-          v-model="trackControl.progress"
-          :max="100"
-          :min="0" />
-        <p>{{ Math.floor(trackControl.progress) }}%</p>
+
+      <div class="divider"></div>
+
+      <div class="slider-section">
+        <div class="slider-item">
+          <span class="label">速度</span>
+          <el-slider
+            v-model="trackControl.speed"
+            :max="1000"
+            :min="0"
+            @change="handleChangeSpeed"
+          />
+          <span class="value">{{ trackControl.speed }} <small>km/h</small></span>
+        </div>
+
+        <div class="slider-item">
+          <span class="label">进程</span>
+          <el-slider
+            v-model="trackControl.progress"
+            :max="100"
+            :min="0"
+            @change="handleChangeProgress"
+          />
+          <span class="value">{{ Math.floor(trackControl.progress) }}%</span>
+        </div>
       </div>
     </div>
   </div>
@@ -32,6 +45,7 @@
 <script lang="ts" setup>
 import L from 'leaflet';
 import { onMounted, reactive } from 'vue';
+import { VideoPlay, VideoPause, Position } from '@element-plus/icons-vue';
 import { getPlaceGeo, getloadGeo } from '@/api/common';
 import 'leaflet-trackplayer';
 import { Arrayable } from 'element-plus/es/utils/typescript';
@@ -181,17 +195,101 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+.track-toolbar-container {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 888;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+  }
+
+  .divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .slider-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 400px;
+
+    .slider-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 24px;
+
+      .label {
+        font-size: 13px;
+        font-weight: 500;
+        color: #333;
+        min-width: 30px;
+      }
+
+      .el-slider {
+        flex: 1;
+        --el-slider-button-size: 14px;
+      }
+
+      .value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #409eff;
+        min-width: 70px;
+        text-align: right;
+
+        small {
+          font-weight: normal;
+          color: #999;
+          font-size: 10px;
+          margin-left: 2px;
+        }
+      }
+    }
+  }
+}
+
 .carnumbox {
   position: relative;
-  background-color: rgb(52, 159, 75);
-  margin-left: 30px;
-  margin-bottom: 50px;
+  background-color: #349f4b;
+  padding: 4px 8px;
   border-radius: 4px;
   border: 2px solid #01861a;
+  box-shadow: 0 2px 8px rgba(0, 134, 26, 0.3);
+  transform: translateY(-40px) translateX(20px);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 10px;
+    border-top: 8px solid #01861a;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+  }
+
   .carnumbox-text {
-    color: black;
+    color: white;
+    font-weight: bold;
     white-space: nowrap;
     font-size: 12px;
+    letter-spacing: 0.5px;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="other-view-container h-full">
+  <div class="directives-view-container h-full">
     <!-- 背景装饰 -->
     <div class="bg-decoration"></div>
 
@@ -8,9 +8,9 @@
       <aside class="sidebar-wrapper">
         <div class="sidebar-header">
           <div class="logo-icon">
-            <el-icon><Menu /></el-icon>
+            <el-icon><MagicStick /></el-icon>
           </div>
-          <h3 class="sidebar-title">功能实验室</h3>
+          <h3 class="sidebar-title">指令实验室</h3>
         </div>
 
         <nav class="menu-list">
@@ -33,17 +33,15 @@
       <main class="content-wrapper flex-1">
         <header class="content-header">
           <h2 class="current-title">{{ currentMenuName }}</h2>
-          <p class="current-desc">组件测试与功能验证记录</p>
+          <p class="current-desc">自定义指令功能测试与应用示例集</p>
         </header>
 
         <div class="component-view">
-          <router-view v-slot="{ Component }">
-            <transition name="fade-slide" mode="out-in">
-              <KeepAlive>
-                <component :is="componentsMap[activeComponent]" v-bind="$attrs" />
-              </KeepAlive>
-            </transition>
-          </router-view>
+          <transition name="fade-slide" mode="out-in">
+            <KeepAlive>
+              <component :is="componentsMap[activeComponent]" v-bind="$attrs" />
+            </KeepAlive>
+          </transition>
         </div>
       </main>
     </div>
@@ -52,99 +50,55 @@
 
 <script lang="ts" setup>
 import {
-  ref,
   computed,
   defineAsyncComponent,
   shallowRef,
 } from 'vue';
 import {
-  Menu,
-  Mouse,
-  View,
-  ScaleToOriginal,
-  Clock,
-  ArrowRight,
-  List,
+  MagicStick,
+  Rank,
+  DocumentCopy,
   Sort,
-  Basketball,
-  Pointer,
 } from '@element-plus/icons-vue';
 
-const ElTooltipPlus = defineAsyncComponent(() => import('./components/el-tooltip-plus.vue'));
-const ClickOutSide = defineAsyncComponent(() => import('./components/click-outside.vue'));
-const UseResizeObserve = defineAsyncComponent(() => import('./components/use-resize-observer.vue'));
-const PLimit = defineAsyncComponent(() => import('./components/p-limit.vue'));
-const RowScroll = defineAsyncComponent(() => import('./components/row-scroll.vue'));
-const Progress = defineAsyncComponent(() => import('./components/progress.vue'));
-const InfinteVirtualList = defineAsyncComponent(
-  () => import('./components/infinite-virtual-list.vue'),
-);
-const SortTable = defineAsyncComponent(() => import('./components/sortTable.vue'));
-const Bolb = defineAsyncComponent(() => import('./components/blob.vue'));
+const DragDrect = defineAsyncComponent(() => import('./dragDrect/index.vue'));
+const Copy = defineAsyncComponent(() => import('./copy/index.vue'));
+const SortTable = defineAsyncComponent(() => import('./sort-table/index.vue'));
+const DragList = defineAsyncComponent(() => import('./draglist/index.vue'));
 
-const componentsMap: Recordable = {
-  componentA: ElTooltipPlus,
-  componentB: ClickOutSide,
-  componentC: UseResizeObserve,
-  componentD: PLimit,
-  componentE: RowScroll,
-  componentF: Progress,
-  componentG: InfinteVirtualList,
-  componentH: SortTable,
-  componentI: Bolb,
+const componentsMap: Record<string, any> = {
+  drag: DragDrect,
+  copy: Copy,
+  sorttable: SortTable,
+  draglist: DragList,
 };
 
 // 左侧菜单
 const leftSideMenu = [
   {
-    name: 'Tooltip 增强',
-    component: 'componentA',
-    icon: Pointer,
+    name: '元素拖拽',
+    component: 'drag',
+    icon: Rank,
   },
   {
-    name: '点击外部监听',
-    component: 'componentB',
-    icon: Mouse,
+    name: '文本复制',
+    component: 'copy',
+    icon: DocumentCopy,
   },
   {
-    name: '调整尺寸观察',
-    component: 'componentC',
-    icon: ScaleToOriginal,
-  },
-  {
-    name: '并发请求限制',
-    component: 'componentD',
-    icon: Clock,
-  },
-  {
-    name: '横向滚动列表',
-    component: 'componentE',
-    icon: ArrowRight,
-  },
-  {
-    name: '智能进度条',
-    component: 'componentF',
-    icon: List,
-  },
-  {
-    name: '虚拟长列表',
-    component: 'componentG',
-    icon: View,
-  },
-  {
-    name: '可拖动表格',
-    component: 'componentH',
+    name: '表格排序',
+    component: 'sorttable',
     icon: Sort,
   },
   {
-    name: 'Blob 数据处理',
-    component: 'componentI',
-    icon: Basketball,
+    name: '列表排序',
+    component: 'draglist',
+    icon: Rank,
   },
 ];
 
 // 当前活动的组件
-const activeComponent = shallowRef('componentA');
+const activeComponent = shallowRef('drag');
 
 const currentMenuName = computed(() => {
   return leftSideMenu.find((i) => i.component === activeComponent.value)?.name || '';
@@ -157,7 +111,7 @@ const handleChangeComponent = (item: any) => {
 </script>
 
 <style lang="scss" scoped>
-.other-view-container {
+.directives-view-container {
   position: relative;
   background-color: #f8fafc;
   overflow: hidden;
@@ -199,14 +153,14 @@ const handleChangeComponent = (item: any) => {
     .logo-icon {
       width: 40px;
       height: 40px;
-      background: linear-gradient(135deg, #409eff 0%, #3a8ee6 100%);
+      background: linear-gradient(135deg, #67c23a 0%, #4caf50 100%);
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-size: 20px;
-      box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(103, 194, 58, 0.3);
     }
 
     .sidebar-title {
@@ -239,8 +193,8 @@ const handleChangeComponent = (item: any) => {
       }
 
       &:hover {
-        background: rgba(64, 158, 255, 0.05);
-        color: #409eff;
+        background: rgba(103, 194, 58, 0.05);
+        color: #67c23a;
 
         .item-icon {
           transform: translateX(2px);
@@ -248,9 +202,9 @@ const handleChangeComponent = (item: any) => {
       }
 
       &.active {
-        background: #409eff;
+        background: #67c23a;
         color: white;
-        box-shadow: 0 4px 12px rgba(64, 158, 255, 0.25);
+        box-shadow: 0 4px 12px rgba(103, 194, 58, 0.25);
 
         .item-icon {
           transform: scale(1.1);

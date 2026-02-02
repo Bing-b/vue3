@@ -28,7 +28,7 @@
 
           <!-- 欢迎 -->
           <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-hidden border-l border-l-[#ececec] p-3 pl-0 dark:!border-l-[#333]">
+            class="flex h-full flex-1 flex-col gap-4 overflow-hidden p-3 pl-0 ">
             <Welcome />
             <div
               class="relative flex h-[calc(100%-120px)] w-full items-center justify-between overflow-hidden rounded-xl bg-white dark:bg-black">

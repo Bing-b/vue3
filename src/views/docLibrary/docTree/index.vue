@@ -1,457 +1,270 @@
 <template>
-  <div class="box flex h-full">
-    <div
-      id="targetBox"
-      class="dark:bg-dark-sec-bg relative h-full max-w-[400px] min-w-[260px] px-2 py-2"
-      v-move>
-      <div class="mb-2 rounded bg-slate-600 px-4 py-2">
-        <p class="text-white">文件目录</p>
-      </div>
-      <el-input
-        v-model="keywords"
-        placeholder="请输入"
-        suffix-icon="search"
-        @change="search"></el-input>
-
-      <el-tree
-        ref="xTree"
-        class="h-[calc(100%-80px)]"
-        v-model="expandedKeys"
-        :data="treeData"
-        :props="defaultProps"
-        :expand-on-click-node="false"
-        :default-expand-all="true"
-        node-key="id"
-        draggable
-        @node-click="handleNodeClick">
-        <template #default="{ node, data }">
-          <span class="mr-1">
-            <svgIcon name="word" v-if="!data.children" />
-            <svgIcon name="folderOpen" v-else-if="node.expanded" />
-            <svgIcon name="folderClose" v-else />
-          </span>
-          <span class="custom-tree-node flex w-full items-center justify-between">
-            <!-- label 文本与输入框动态切换 -->
-            <span v-if="!data.showInput">{{ node.label }}</span>
-            <el-popover
-              trigger="focus"
-              v-else
-              :visible="showPopover"
-              placement="bottom"
-              title="提示"
-              :width="180"
-              content="必须提供文件或文件名。">
-              <template #reference>
-                <el-input
-                  size="small"
-                  v-model="data.label"
-                  @focus="focus(data, $event)"
-                  @input="(val) => input(val)"
-                  @change="handleChange(node, data)"
-                  @blur="blur(node, data)"
-                  @keydown.enter="blur(node, data)"
-                  v-focus>
-                </el-input>
-              </template>
-            </el-popover>
-
-            <!-- 下拉操作菜单 -->
-            <el-dropdown trigger="click" class="el-drop">
-              <span class="el-dropdown-link">
-                <el-icon><More /></el-icon>
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item
-                    v-if="data.children"
-                    @click.stop="handleOperation(OPERATION.CREATE_FOLDER, node, data)">
-                    新增文件夹
-                  </el-dropdown-item>
-                  <el-dropdown-item
-                    v-if="data.children"
-                    @click.stop="handleOperation(OPERATION.CREATE_FILE, node, data)">
-                    新增文件
-                  </el-dropdown-item>
-                  <el-dropdown-item @click.stop="handleOperation(OPERATION.EDIT, node, data)">
-                    编辑
-                  </el-dropdown-item>
-                  <el-dropdown-item @click.stop="handleOperation(OPERATION.DELETE, node, data)">
-                    删除
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </span>
-        </template>
-      </el-tree>
-      <div
-        class="drag absolute top-[50%] right-[-2px] h-7 w-1 translate-y-[-50%] cursor-col-resize bg-slate-400">
+  <div class="doc-tree-wrapper h-full flex flex-col p-4">
+    <div class="tree-header mb-6">
+      <div class="search-box">
+        <el-input
+          v-model="keywords"
+          placeholder="搜索文档..."
+          @input="search"
+          class="custom-search">
+          <template #prefix>
+            <el-icon><Search /></el-icon>
+          </template>
+        </el-input>
       </div>
     </div>
-    <div class="flex-1"> </div>
+
+    <div class="tree-container flex-1 overflow-hidden">
+      <el-scrollbar>
+        <el-tree
+          ref="xTree"
+          :data="treeData"
+          :props="defaultProps"
+          :expand-on-click-node="false"
+          :default-expand-all="true"
+          node-key="id"
+          highlight-current
+          @node-click="handleNodeClick"
+          class="modern-tree"
+        >
+          <template #default="{ node, data }">
+            <div class="tree-node-content group">
+              <span class="node-icon">
+                <svgIcon name="word" v-if="!data.children" />
+                <svgIcon name="folderOpen" v-else-if="node.expanded" />
+                <svgIcon name="folderClose" v-else />
+              </span>
+              
+              <span class="node-label">
+                <span v-if="!data.showInput">{{ node.label }}</span>
+                <el-input
+                  v-else
+                  size="small"
+                  v-model="data.label"
+                  @blur="blur(node, data)"
+                  @keydown.enter="blur(node, data)"
+                  v-focus
+                  class="node-input"
+                />
+              </span>
+
+              <div class="node-actions opacity-0 group-hover:opacity-100">
+                <el-dropdown trigger="click">
+                  <span class="action-trigger">
+                    <el-icon><MoreFilled /></el-icon>
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <template v-if="data.children">
+                        <el-dropdown-item @click="handleOperation(OPERATION.CREATE_FOLDER, node, data)">新增文件夹</el-dropdown-item>
+                        <el-dropdown-item @click="handleOperation(OPERATION.CREATE_FILE, node, data)">新增文件</el-dropdown-item>
+                        <el-divider class="my-1" />
+                      </template>
+                      <el-dropdown-item @click="handleOperation(OPERATION.EDIT, node, data)">重命名</el-dropdown-item>
+                      <el-dropdown-item @click="handleOperation(OPERATION.DELETE, node, data)" class="!text-red-500">删除</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </div>
+            </div>
+          </template>
+        </el-tree>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref } from 'vue';
 import { ElMessage, ElMessageBox, ElTree } from 'element-plus';
+import { Search, MoreFilled } from '@element-plus/icons-vue';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import { Tree } from './type';
 import { OPERATION } from './enum';
-
-// 自定义指定拖拽监听改变宽度
-const vMove = {
-  mounted: (el: HTMLElement) => {
-    el.onmousedown = function (e: MouseEvent) {
-      const init = e.clientX;
-      const parent = document.getElementById('targetBox');
-      const initWidth = parent!.offsetWidth;
-      document.onmousemove = function (e: MouseEvent) {
-        const end = e.clientX;
-        const newWidth = end - init + initWidth;
-        parent!.style.width = newWidth + 'px';
-      };
-      document.onmouseup = function () {
-        document.onmousemove = document.onmouseup = null;
-      };
-    };
-  },
-};
 
 // 文档路径
 const docLabel = defineModel('docLabel', { default: '' });
 
 const xTree = ref<InstanceType<typeof ElTree>>();
-
-// 新增节点初始id
-let id = 5;
-
-// 显示输入框提示
-const showPopover = ref(false);
-
-// 当前下拉菜单操作 type
+let id = 100;
 const operationType = ref<OPERATION>(OPERATION.CREATE_FILE);
-
-// 当前编辑节点原始 label 数据
 const historyLabel = ref<string>('');
 
-// 注册获取 el-input 输入框焦点指令
 const vFocus = {
   mounted: (el: any) => {
-    const timer = setTimeout(() => {
-      nextTick(() => {
-        el.querySelector('.el-input__inner').focus();
-        clearTimeout(timer);
-      });
-    }, 500);
+    nextTick(() => {
+      el.querySelector('.el-input__inner').focus();
+    });
   },
 };
 
 const keywords = ref('');
-
 const defaultProps = {
   children: 'children',
   label: 'label',
 };
 
-const handleNodeClick = (data: Tree) => {
-  // console.log(data);
-  if (data.children?.length) return;
-  docLabel.value = data.label;
-};
-
 const treeData = ref<Tree[]>([
   {
-    id: 0,
-    label: '技术调研',
-    showInput: false,
+    id: 1,
+    label: '技术方案',
     children: [
-      {
-        id: 1,
-        label: 'leaflet技术调研.pdf',
-        showInput: false,
-      },
-      {
-        id: 12,
-        label: 'AceEditor调研文档.pdf',
-        showInput: false,
-      },
+      { id: 11, label: 'leaflet技术调研.pdf' },
+      { id: 12, label: 'AceEditor调研文档.pdf' },
     ],
   },
   {
     id: 2,
-    label: '前端',
-    showInput: false,
+    label: '产品文档',
     children: [
-      {
-        id: 3,
-        label: '接口文档.pdf',
-        showInput: false,
-      },
-      {
-        id: 4,
-        label: 'vite',
-        showInput: false,
-      },
-    ],
-  },
-  {
-    id: 6,
-    label: '后端',
-    showInput: false,
-    children: [
-      {
-        id: 7,
-        label: 'docker',
-        showInput: false,
-      },
-      {
-        id: 8,
-        label: '如何阅读一本书.pdf',
-        showInput: false,
-      },
+      { id: 21, label: '接口协议规范.pdf' },
+      { id: 22, label: '需求分析报告.pdf' },
     ],
   },
 ]);
 
-// 节点输入框获取到焦点
-const focus = (data: Tree, $event: FocusEvent) => {
-  console.log('获取焦点');
-  // $event.currentTarget.select(); // 选择文本
+const handleNodeClick = (data: Tree) => {
+  if (data.children) return;
+  docLabel.value = data.label;
 };
 
-// 节点输入框失去焦点
-const blur = (node: Node, data: Tree) => {
-  console.log('失去焦点');
-  data.showInput = false;
-  if (
-    (operationType.value === OPERATION.CREATE_FILE ||
-      operationType.value === OPERATION.CREATE_FOLDER) &&
-    !data.label
-  ) {
-    const parent = node.parent;
-    const children: Tree[] = parent.data.children || parent.data;
-    const index = children.findIndex((d) => d.id === data.id);
-    children.splice(index, 1);
-  }
-};
-
-// 监听节点输入框输入
-const input = (val: string) => {
-  if (!val) showPopover.value = true;
-  else showPopover.value = false;
-};
-
-// 输入框值改变时，树节点输入框失焦或 enter 时触发更新树数据
-const handleChange = (node: Node, data: Tree) => {
-  showPopover.value = false;
-  const targetNode = traverseTree(treeData.value, data);
-  console.log('s' + targetNode);
-  if (targetNode) {
-    if (operationType.value !== OPERATION.DELETE && data.label) {
-      targetNode.label = data.label;
-    } else {
-      targetNode.label = historyLabel.value;
-    }
-    data.showInput = false;
-  }
-};
-
-// 递归遍历树目录数据找出目标节点
-const traverseTree = (data: Tree[], targetNode: Tree): Tree | undefined => {
-  for (let i = 0; i < data.length; i++) {
-    const node = data[i];
-    if (node.id === targetNode.id) return node;
-    if (node.children && node.children.length > 0) {
-      const result = traverseTree(node.children, targetNode);
-      if (result) return result;
-    }
-  }
-};
-
-// 树节点下拉菜单操作：新增文件夹、新增文件、编辑、删除
 const handleOperation = (type: OPERATION, node: Node, data: any) => {
   operationType.value = type;
   if (type === OPERATION.CREATE_FOLDER || type === OPERATION.CREATE_FILE) {
-    addTreeNode(type, node, data);
+    const newNode: Tree = {
+      id: id++,
+      label: '',
+      showInput: true,
+      ...(type === OPERATION.CREATE_FOLDER ? { children: [] } : {}),
+    };
+    if (!data.children) data.children = [];
+    data.children.push(newNode);
+    node.expand();
   } else if (type === OPERATION.EDIT) {
     historyLabel.value = data.label;
     data.showInput = true;
-  } else {
-    deleteTreeNode(node, data);
-  }
-};
-
-// 目录新增文件夹/文件
-const addTreeNode = (type: OPERATION, node: Node, data: Tree) => {
-  const newNode: Tree = {
-    id: id++,
-    label: '',
-    showInput: true,
-  };
-  if (type === OPERATION.CREATE_FOLDER) {
-    newNode.children = [];
-  }
-  if (!data.children) {
-    data.children = [];
-  }
-  node.expand();
-  data.children.push(newNode);
-};
-
-// 目录删除文件夹/文件
-const deleteTreeNode = (node: Node, data: Tree) => {
-  ElMessageBox.confirm('确定要删除该文件夹/文件?', '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning',
-  })
-    .then(() => {
-      ElMessage({
-        type: 'success',
-        message: '删除成功',
-      });
+  } else if (type === OPERATION.DELETE) {
+    ElMessageBox.confirm('确定删除该项吗？', '提示', { type: 'warning' }).then(() => {
       const parent = node.parent;
       const children: Tree[] = parent.data.children || parent.data;
       const index = children.findIndex((d) => d.id === data.id);
       children.splice(index, 1);
-    })
-    .catch(() => {
-      ElMessage({
-        type: 'info',
-        message: '已取消',
-      });
+      ElMessage.success('已删除');
     });
+  }
 };
 
-// 搜索
-const search = () => {
-  treeData.value.forEach((node) => {
-    expandNode(node);
-    console.log(node);
-  });
-};
-
-// 展开节点
-const expandNode = (node: Tree) => {
-  const treeNode = xTree.value?.getNode(node.id);
-  if (node.label.includes(keywords.value)) {
-    treeNode?.expand();
-    if (node.children) {
-      node.children.forEach((cnode) => {
-        expandNode(cnode);
-      });
-    }
-  } else {
-    if (node.children) {
-      node.children.forEach((cnode) => {
-        expandNode(cnode);
-      });
+const blur = (node: Node, data: Tree) => {
+  data.showInput = false;
+  if (!data.label) {
+    if (operationType.value === OPERATION.EDIT) {
+      data.label = historyLabel.value;
     } else {
-      collapseNode(node);
+      const parent = node.parent;
+      const children: Tree[] = parent.data.children || parent.data;
+      const index = children.findIndex((d) => d.id === data.id);
+      children.splice(index, 1);
     }
   }
 };
 
-// 收拢节点
-const collapseNode = (node: Tree) => {
-  node.expanded = false;
-  const treeNode = xTree.value?.getNode(node.id);
-  treeNode?.collapse();
-  if (node.children) {
-    node.children.forEach((childNode) => {
-      collapseNode(childNode);
-    });
-  }
+const search = () => {
+  xTree.value?.filter(keywords.value);
 };
-
-const expandedKeys = ref([]);
-
-watch(
-  () => expandedKeys.value,
-  () => {
-    console.log(expandedKeys.value);
-  },
-);
 </script>
 
-<style scoped lang="scss">
-@import url(@/assets/font/iconfont/iconfont.css);
+<style lang="scss" scoped>
+.doc-tree-wrapper {
+  background: white;
 
-.el-drop {
-  margin-right: 6px;
-  opacity: 0;
-}
-
-.custom-tree-node:hover {
-  .el-drop {
-    opacity: 1;
+  .search-box {
+    :deep(.el-input__wrapper) {
+      background-color: #f1f5f9;
+      box-shadow: none !important;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      padding: 4px 12px;
+      
+      &:hover, &.is-focus {
+        background-color: white;
+        border-color: #6366f1;
+      }
+    }
   }
-}
 
-// :deep .el-tree-node__expand-icon.expanded {
-//   transform: rotate(90deg);
-// }
+  .modern-tree {
+    background: transparent;
 
-// :deep .el-icon-arrow-down:before {
-//   content: "\e73c"; // 这里可替换成自己需要的图标字体
-// }
+    :deep(.el-tree-node__content) {
+      height: 48px;
+      margin: 2px 0;
+      border-radius: 8px;
+      padding: 0 8px !important;
 
-// :deep .el-icon-arrow-right:before {
-//   content: "\e64e"; // 这里可替换成自己需要的图标字体
-// }
+      &:hover {
+        background-color: #f8fafc;
+      }
+    }
 
-// :deep .el-tree-node__expand-icon {
-//   background-color: aqua;
-// }
+    :deep(.el-tree-node.is-current > .el-tree-node__content) {
+      background-color: #6366f110;
+      color: #6366f1;
+      font-weight: 600;
+    }
+  }
 
-:deep(.el-tree .el-tree-node__expand-icon svg) {
-  //原有的箭头 去掉
-  display: none !important;
-  height: 0;
-  width: 0;
+  .tree-node-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    min-width: 0;
+
+    .node-icon {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .node-label {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .node-actions {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #e2e8f0;
+      }
+
+      .action-trigger {
+        color: #94a3b8;
+        cursor: pointer;
+        padding: 4px;
+      }
+    }
+  }
 }
 
 :deep(.el-tree-node__expand-icon) {
-  //引入的图标（图片）size大小 => 树节点前的预留空间大小
-  font-size: 16px;
-}
-
-//图标是否旋转，如果是箭头类型的，可以设置旋转90度。如果是两张图片，则设为0
-:deep(.el-tree .el-tree-node__expand-icon.expanded) {
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-
-:deep(.el-tree .el-tree-node__expand-icon:before) {
-  // 未展开的节点
-  background: url('@/assets/icons/right_arrow.svg');
-  content: '';
-  display: block;
-  width: 16px;
-  height: 16px;
-  background-size: contain;
-  transition: all 0.3s;
-}
-
-// :deep .el-tree .el-tree-node__expand-icon.expanded:before {
-//   //展开的节点
-//   background: url("@/assets/icons/down_arrow.svg");
-//   content: '';
-//   display: block;
-//   width: 18px;
-//   height: 18px;
-//   margin-top: 4px;
-//   background-size: contain;
-//   transition: all .3s;
-// }
-
-:deep(.el-tree .is-leaf.el-tree-node__expand-icon::before) {
-  //叶子节点（不显示图标）
-  display: block;
-  background: none !important;
-  content: '';
-  width: 18px;
-  height: 18px;
+  color: #94a3b8;
+  font-size: 14px;
+  
+  &.expanded {
+    transform: rotate(90deg);
+  }
 }
 </style>

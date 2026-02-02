@@ -23,55 +23,11 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/components',
         name: 'components',
-        redirect: '/tree',
         meta: {
           title: '功能组件',
           icon: 'menu-menu_style',
         },
-        children: [
-          {
-            path: '/docLibrary',
-            name: 'docLibrary',
-            component: () => import('@/views/docLibrary/index.vue'),
-            meta: {
-              title: '文档库',
-            },
-          },
-          {
-            path: '/upload',
-            name: 'upload',
-            component: () => import('@/views/upload/index.vue'),
-            meta: {
-              title: '文件上传',
-              icon: 'other',
-            },
-          },
-          {
-            path: '/ace',
-            name: '代码编辑器',
-            component: () => import('@/views/ace-editor/index.vue'),
-            meta: {
-              title: '代码编辑器',
-            },
-          },
-
-          {
-            path: '/annotation',
-            name: '文本标注',
-            component: () => import('@/views/text-annotation/index.vue'),
-            meta: {
-              title: '文本标注',
-            },
-          },
-          {
-            path: '/canEditeable',
-            name: '插入编辑器',
-            component: () => import('@/views/editableDiv/index.vue'),
-            meta: {
-              title: '插入编辑器',
-            },
-          },
-        ],
+        component: () => import('@/views/components/index.vue'),
       },
 
       {
@@ -122,84 +78,23 @@ export const mainRoutes: Array<RouteRecordRaw> = [
         ],
       },
       {
-        path: '/animation',
-        name: 'animation',
-        redirect: '/btn',
+        path: '/directives',
+        name: 'directives',
         meta: {
           title: '指令',
           icon: 'menu-menu_animation',
         },
-        children: [
-          {
-            path: '/drag',
-            name: '拖拽指令',
-            component: () => import('@/views/directives/dragDrect/index.vue'),
-            meta: {
-              title: '拖拽指令',
-            },
-          },
-          {
-            path: '/copy',
-            name: '复制指令',
-            component: () => import('@/views/directives/copy/index.vue'),
-            meta: {
-              title: '复制指令',
-            },
-          },
-          {
-            path: '/copytable',
-            name: '拖拽表格指令',
-            component: () => import('@/views/directives/sort-table/index.vue'),
-            meta: {
-              title: '拖拽表格指令',
-            },
-          },
-          {
-            path: '/draglist',
-            name: '拖拽列表',
-            component: () => import('@/views/directives/draglist/index.vue'),
-            meta: {
-              title: '拖拽列表指令',
-            },
-          },
-        ],
+        component: () => import('@/views/directives/index.vue'),
       },
       {
         path: '/other',
         name: 'other',
-        redirect: '/ot',
         meta: {
           title: '其他',
           icon: 'menu-menu_other',
         },
-        children: [
-          {
-            path: '/ot',
-            name: 'ot',
-            component: () => import('@/views/other/index.vue'),
-            meta: {
-              title: '砸碎',
-            },
-          },
-          {
-            path: '/lottieWeb',
-            name: 'lottieWeb',
-            component: () => import('@/views/lottie-web/index.vue'),
-            meta: {
-              title: 'Lottie 动画',
-              icon: 'animate',
-            },
-          },
-          {
-            path: '/iframe',
-            name: '内嵌',
-            component: () => import('@/views/iframe/index.vue'),
-            meta: {
-              title: '内嵌',
-              icon: 'inside',
-            },
-          },
-        ],
+        component: () => import('@/views/other/index.vue'),
+
       },
       {
         path: '/css',

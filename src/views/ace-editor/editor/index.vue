@@ -1,139 +1,107 @@
 <template>
-  <div class="aceEditor" ref="aceEditor"></div>
+  <div class="ace-wrapper h-full flex flex-col">
+    <div class="editor-container flex-1" ref="aceEditor"></div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import useGlobalConfig from '@/store/modules/global';
+import { onBeforeUnmount, onMounted, ref, watch, nextTick } from 'vue';
 import * as ace from 'ace-builds';
-import 'ace-builds/src-noconflict/mode-javascript'; // 语言模式
-import 'ace-builds/src-noconflict/theme-monokai'; // 主题
-import 'ace-builds/src-noconflict/ext-language_tools'; // 语法提示
-import 'ace-builds/src-noconflict/snippets/javascript'; // 语法段提示模块
-import './mode-mylang';
-import { computed } from 'vue';
+import 'ace-builds/src-noconflict/ext-language_tools';
 
-const globalConfigStore = useGlobalConfig();
+// 导入常用语言
+import 'ace-builds/src-noconflict/mode-javascript';
+import 'ace-builds/src-noconflict/mode-typescript';
+import 'ace-builds/src-noconflict/mode-html';
+import 'ace-builds/src-noconflict/mode-css';
+import 'ace-builds/src-noconflict/mode-json';
 
-// 编辑器内容
-const $value = defineModel('value', { default: '' });
+// 导入常用主题
+import 'ace-builds/src-noconflict/theme-monokai';
+import 'ace-builds/src-noconflict/theme-chrome';
+import 'ace-builds/src-noconflict/theme-github';
+import 'ace-builds/src-noconflict/theme-tomorrow_night';
 
-const editorTheme = computed(() =>
-  globalConfigStore.appDark
-    ? {
-        gutter: '#303135',
-        activeLine: '#fafafa',
-        background: '#212226',
-        keyWord: '#e77a29',
-        word: '#fff',
-      }
-    : {
-        gutter: '#eff2f8',
-        activeLine: '#333',
-        background: '#F7F8FB',
-        keyWord: '#1b5fdf',
-        word: '#333',
-      },
-);
-
-let editor: any = null;
-
-const aceEditor = ref<HTMLElement | string>('');
-
-// 编辑器默认配置项
-const options = {
-  theme: 'ace/theme/theme-monokai',
-  mode: 'ace/mode/javascript',
-  //mode: 'ace/mode/mylang',
-  tabSize: 1,
-  maxLines: 25,
-  minLines: 25,
-  showPrintMargin: false,
+const props = withDefaults(defineProps<{
+  value?: string;
+  mode?: string;
+  theme?: string;
+  fontSize?: number;
+}>(), {
+  value: '',
+  mode: 'javascript',
+  theme: 'monokai',
   fontSize: 14,
-  printMarginColumn: 20,
-  useWorker: false,
-  showLineNumbers: true, // 显示行号
-  showGutter: true, // 显示行号区域
-  highlightActiveLine: false,
-  highlightSelectedWord: false, // 高亮选中文本
-  readOnly: false, // 控制编辑器是否只读
-  enableSnippets: true, // 启用代码段
-  enableLiveAutocompletion: true, // 启用实时自动完成
-  enableBasicAutocompletion: true, // 启用基本自动完成
-};
+});
 
-// 初始化编辑器
+const emit = defineEmits(['update:value']);
+
+const aceEditor = ref<HTMLElement | null>(null);
+let editor: ace.Ace.Editor | null = null;
+
 const initEditor = () => {
-  if (editor) editor.destroy();
-  // 初始化
-  editor = ace.edit(aceEditor.value, options);
-  // 切换自动换行
-  editor.getSession().setUseWrapMode(true);
+  if (!aceEditor.value) return;
+  
+  editor = ace.edit(aceEditor.value, {
+    mode: `ace/mode/${props.mode}`,
+    theme: `ace/theme/${props.theme}`,
+    fontSize: props.fontSize,
+    tabSize: 2,
+    showPrintMargin: false,
+    useWorker: false,
+    enableBasicAutocompletion: true,
+    enableLiveAutocompletion: true,
+    enableSnippets: true,
+  });
 
-  // 支持双向绑定
-  editor.setValue($value.value ? $value.value : '');
+  editor.setValue(props.value, 1);
+  
+  editor.on('change', () => {
+    emit('update:value', editor?.getValue());
+  });
 };
 
-watch(
-  () => $value.value,
-  (newProps) => {
-    // 解决光标移动问题
-    const position = editor.getCursorPosition();
-    editor.getSession().setValue(newProps);
-    editor.clearSelection();
-    editor.moveCursorToPosition(position);
-  },
-);
+watch(() => props.value, (newVal) => {
+  if (editor && newVal !== editor.getValue()) {
+    const pos = editor.getCursorPosition();
+    editor.setValue(newVal, 1);
+    editor.moveCursorToPosition(pos);
+  }
+});
+
+watch(() => props.mode, (newMode) => {
+  editor?.setOption('mode', `ace/mode/${newMode}`);
+});
+
+watch(() => props.theme, (newTheme) => {
+  editor?.setOption('theme', `ace/theme/${newTheme}`);
+});
+
+watch(() => props.fontSize, (newSize) => {
+  editor?.setOption('fontSize', newSize);
+});
 
 onMounted(() => {
-  initEditor();
+  nextTick(() => initEditor());
 });
 
 onBeforeUnmount(() => {
-  editor.destroy();
+  editor?.destroy();
+  editor = null;
 });
 </script>
-<style>
-.aceEditor {
-  width: 100%;
-  height: 100%;
-  background-color: v-bind('editorTheme.background') !important;
-  * {
-    font-family: 'MapleMono' !important;
+
+<style lang="scss" scoped>
+.ace-wrapper {
+  background: #1e1e1e;
+  
+  .editor-container {
+    width: 100%;
+    height: 100%;
+    
+    :deep(.ace_gutter) {
+      background: transparent !important;
+    }
   }
-}
-
-:deep(.ace-tm .ace_gutter) {
-  background: v-bind('editorTheme.gutter') !important;
-}
-:deep(.ace-tm .ace_gutter-active-line) {
-  background: v-bind('editorTheme.gutter') !important;
-  color: v-bind('editorTheme.activeLine');
-}
-
-:deep(.ace_text-layer) {
-  width: 100% !important;
-}
-
-/* 自定义语言，匹配不同类型关键词高亮颜色 */
-:deep(.ace-tm .ace_keyword) {
-  color: v-bind('editorTheme.keyWord') !important;
-  font-weight: bold !important;
-}
-
-:deep(.ace-tm .ace_line) {
-  color: v-bind('editorTheme.word') !important;
-}
-
-.ace_mylang {
-  color: aquamarine;
-}
-
-.ace_keyword {
-  color: blue !important;
-}
-
-:deep(.ace_text-layer) {
-  width: 100% !important;
 }
 </style>

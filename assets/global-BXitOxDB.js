@@ -1,0 +1,1 @@
+import{Zt as defineStore}from"./index-DZPgKVk5.js";var global_default=defineStore(`config`,{state:()=>({appDark:!1}),persist:{enabled:!0,strategies:[{storage:localStorage}]}});export{global_default as t};

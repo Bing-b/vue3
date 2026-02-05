@@ -39,15 +39,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           icon: 'menu-menu_graph',
         },
         children: [
-          // {
-          //   path: '/G6',
-          //   name: 'G6',
-          //   component: () => import('@/views/graph/index.vue'),
-          //   meta: {
-          //     title: 'G6',
-          //     icon: 'other',
-          //   },
-          // },
           {
             path: '/gis',
             name: 'gis',

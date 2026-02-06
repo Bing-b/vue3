@@ -5,9 +5,7 @@ import 'nprogress/nprogress.css';
 import useUserStore from '@/store/modules/user';
 
 const router = createRouter({
-  history: createWebHistory('/'),
-  //history: createWebHistory(import.meta.env.VITE_PUBLIC_PATH),
-  //history: createWebHashHistory(),
+  history: createWebHashHistory(import.meta.env.VITE_PUBLIC_PATH),
   routes: mainRoutes.concat(staticRoutes),
 });
 

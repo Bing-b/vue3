@@ -12,7 +12,6 @@ import legacy from 'vite-plugin-legacy-swc'; // 兼容处理
 
 // import { generateLangStats } from '../src/utils/file-stats'; // 统计项目文件脚本
 
-import { templateCompilerOptions } from '@tresjs/core';
 import { getArgs } from './utils';
 
 // function fileStatsPlugin() {
@@ -36,7 +35,7 @@ const isLegacy = args.legacy === true; // 是否兼容旧浏览器
 export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOption> => {
   const isProd = command === 'build';
   return [
-    vue({ ...templateCompilerOptions }),
+    vue(),
     // svg 配置，用于全局使用svg 组件
     createSvgIconsPlugin({
       iconDirs: [resolve(__dirname, '../src/assets/icons')],
@@ -54,11 +53,11 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
 
     // 处理旧浏览器兼容
     isProd &&
-      isLegacy &&
-      legacy({
-        targets: ['defaults', 'not IE 11', 'chrome >= 60'],
-        modernPolyfills: true,
-      }),
+    isLegacy &&
+    legacy({
+      targets: ['defaults', 'not IE 11', 'chrome >= 60'],
+      modernPolyfills: true,
+    }),
 
     // 打包分析
     visualizer({

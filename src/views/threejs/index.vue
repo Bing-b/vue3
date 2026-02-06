@@ -1,184 +1,216 @@
 <template>
-  <div class="h-full overflow-y-scroll p-5">
-    <div ref="webglRef" id="webgl" style="margin-top: 10px; margin-left: 10px"></div>
+  <div class="relative h-full w-full overflow-hidden bg-slate-50 dark:bg-[#0b0e14]">
+    <!-- Scene Container -->
+    <div ref="containerRef" class="h-full w-full"></div>
 
-    <el-button @click="render">旋转动画</el-button>
-    <el-button @click="fullSecreen">全屏</el-button>
-    <el-button @click="creatMoreBox" type="primary">阵列立方体</el-button>
-    <div id="moreBox"></div>
+    <!-- Floating Toolbar -->
+    <div class="absolute left-6 top-6 z-10">
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-xl font-black tracking-tight text-slate-800 dark:text-white">ThreeJS Lab</h2>
+          <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Experimental 3D Workspace</p>
+        </div>
+
+        <div class="flex flex-col gap-2 rounded-2xl border border-white/40 bg-white/60 p-2 shadow-xl backdrop-blur-md dark:border-white/5 dark:bg-white/5">
+          <div class="flex items-center gap-2 p-1">
+            <el-button @click="toggleRotation" :type="isRotating ? 'primary' : 'info'" circle size="small">
+              <el-icon><RefreshRight /></el-icon>
+            </el-button>
+            <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Rotation</span>
+          </div>
+          
+          <div class="h-px bg-slate-200 dark:bg-white/10"></div>
+          
+          <div class="flex flex-col gap-1">
+            <el-button @click="creatMoreBox" type="primary" size="small" round plain>
+              Array Cubes
+            </el-button>
+            <el-button @click="fullScreen" size="small" round plain>
+              Enter Fullscreen
+            </el-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats / Coordinates Display (Optional) -->
+    <div class="absolute bottom-6 right-6 z-10 hidden sm:block">
+      <div class="rounded-xl border border-white/20 bg-black/5 p-4 py-2 text-[10px] font-mono font-medium text-slate-500 backdrop-blur-sm dark:bg-white/5 dark:text-slate-400">
+        RENDERER: WebGL 2.0 | SCENE: Active
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import * as THREE from 'three';
-// 引入轨道控制器扩展库OrbitControls.js
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { onBeforeUnmount, ref } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
+import { RefreshRight } from '@element-plus/icons-vue';
 
-import { onMounted } from 'vue';
+// --- State ---
+const containerRef = ref<HTMLElement | null>(null);
+const isRotating = ref(false);
+let animationId: number;
+let resizeObserver: ResizeObserver;
 
-let resizeObserver: any;
+// Three.js Objects
+let scene: THREE.Scene;
+let camera: THREE.PerspectiveCamera;
+let renderer: THREE.WebGLRenderer;
+let controls: OrbitControls;
+let mesh: THREE.Mesh;
+let gridHelper: THREE.GridHelper;
+let axesHelper: THREE.AxesHelper;
 
-const webglRef = ref();
+// --- Initialization ---
+const initScene = () => {
+  if (!containerRef.value) return;
 
-// 创建场景
-const scene = new THREE.Scene();
+  const width = containerRef.value.clientWidth;
+  const height = containerRef.value.clientHeight;
 
-// 创建长方体
-const geometry = new THREE.BoxGeometry(100, 60, 20);
+  // Scene
+  scene = new THREE.Scene();
+  const isDark = document.documentElement.classList.contains('dark');
+  scene.background = new THREE.Color(isDark ? 0x0b0e14 : 0xf8fafc);
 
-// 材料
-const material = new THREE.MeshLambertMaterial({
-  color: 0xff0000, // 添加红色的零
-  transparent: true, //开启透明
-  opacity: 0.5, //设置透明度
-});
+  // Camera
+  camera = new THREE.PerspectiveCamera(45, width / height, 1, 5000);
+  camera.position.set(400, 300, 400);
 
-// 构建网格模型
-const mesh = new THREE.Mesh(geometry, material);
-mesh.position.set(100, 60, 20);
-scene.add(mesh);
+  // Renderer
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  containerRef.value.appendChild(renderer.domElement);
 
-// 实例化一个透视投影相机
-const width = 800;
-const height = 500;
-const camera = new THREE.PerspectiveCamera(30, width / height, 1, 3000);
+  // Helpers
+  gridHelper = new THREE.GridHelper(1000, 20, isDark ? 0x333333 : 0xcccccc, isDark ? 0x222222 : 0xeeeeee);
+  scene.add(gridHelper);
+  
+  axesHelper = new THREE.AxesHelper(200);
+  scene.add(axesHelper);
 
-// 相机位置
-camera.position.set(400, 200, 400);
-camera.lookAt(mesh.position);
-
-// 创建渲染器
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(width, height);
-
-const asesHelper = new THREE.AxesHelper(150); // 坐标系
-
-scene.add(asesHelper);
-
-// 动画
-const render = () => {
-  renderer.render(scene, camera);
-  mesh.rotateX(0.01);
-  requestAnimationFrame(render);
-};
-
-// 全屏
-const fullSecreen = () => {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  renderer.setSize(w, h);
-};
-
-// 阵列立方体
-const creatMoreBox = () => {
-  // 创建场景
-  const scene = new THREE.Scene();
-  const geometry = new THREE.BoxGeometry(50, 50, 50);
-  const material = new THREE.MeshLambertMaterial({
-    color: 0x00ffff,
+  // Core Mesh
+  const geometry = new THREE.BoxGeometry(100, 100, 100);
+  const material = new THREE.MeshPhongMaterial({
+    color: 0x409eff,
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.8,
+    shininess: 100
   });
-  for (let i = 0; i < 5; i++) {
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(i * 100, 0, 0);
-    scene.add(mesh);
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.position.y = 50;
+  scene.add(mesh);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+
+  const directLight = new THREE.DirectionalLight(0xffffff, 1);
+  directLight.position.set(200, 400, 200);
+  scene.add(directLight);
+
+  // Controls
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+
+  animate();
+};
+
+const animate = () => {
+  animationId = requestAnimationFrame(animate);
+  
+  if (isRotating.value && mesh) {
+    mesh.rotation.y += 0.01;
+    mesh.rotation.x += 0.005;
   }
-  // 创建渲染器
-  const renderer = new THREE.WebGLRenderer();
-  const camera = new THREE.PerspectiveCamera(30, width / height, 1, 3000);
-
-  // 相机位置
-  camera.position.set(400, 200, 400);
-  camera.lookAt(mesh.position);
-  renderer.setSize(1000, 500);
-  const asesHelper = new THREE.AxesHelper(150); // 坐标系
-
-  scene.add(asesHelper);
-  document.getElementById('moreBox')?.appendChild(renderer.domElement);
-  const pointLight = new THREE.PointLight(0xffffff, 1.0);
-
-  pointLight.intensity = 4.0; //光照强度
-
-  pointLight.decay = 0.0; //设置光源不随距离衰减
-
-  const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-  scene.add(ambient);
-
-  // 设置相机控件轨道控制器OrbitControls
-  const controls = new OrbitControls(camera, renderer.domElement);
-  // 如果OrbitControls改变了相机参数，重新调用渲染器渲染三维场景
-  controls.addEventListener('change', function () {
-    renderer.render(scene, camera); //执行渲染操作
-  }); //监听鼠标、键盘事件
-
-  // 执行渲染
+  
+  controls.update();
   renderer.render(scene, camera);
 };
 
-const listenerResize = () => {
-  resizeObserver = new ResizeObserver(() => {
-    // 重置渲染器输出画布canvas尺寸
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    // 全屏情况下：设置观察范围长宽比aspect为窗口宽高比
-    camera.aspect = window.innerWidth / window.innerHeight;
-    // 渲染器执行render方法的时候会读取相机对象的投影矩阵属性projectionMatrix
-    // 但是不会每渲染一帧，就通过相机的属性计算投影矩阵(节约计算资源)
-    // 如果相机的一些属性发生了变化，需要执行updateProjectionMatrix ()方法更新相机的投影矩阵
-    camera.updateProjectionMatrix();
-  });
-  resizeObserver.observe(webglRef.value);
+// --- Actions ---
+const toggleRotation = () => {
+  isRotating.value = !isRotating.value;
 };
 
+const creatMoreBox = () => {
+  // Clear previous group if exists or just add to scene
+  const group = new THREE.Group();
+  const geometry = new THREE.BoxGeometry(40, 40, 40);
+  
+  for (let i = -2; i <= 2; i++) {
+    for (let j = -2; j <= 2; j++) {
+      if (i === 0 && j === 0) continue; // Skip center
+      const material = new THREE.MeshPhongMaterial({
+        color: new THREE.Color(`hsl(${Math.random() * 360}, 70%, 60%)`),
+        transparent: true,
+        opacity: 0.6
+      });
+      const m = new THREE.Mesh(geometry, material);
+      m.position.set(i * 100, 20, j * 100);
+      group.add(m);
+    }
+  }
+  scene.add(group);
+};
+
+const fullScreen = () => {
+  if (!document.fullscreenElement) {
+    containerRef.value?.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+};
+
+// --- Lifecycle ---
 onMounted(() => {
-  document.getElementById('webgl')?.appendChild(renderer.domElement);
+  initScene();
 
-  const pointLight = new THREE.PointLight(0xffffff, 1.0);
+  // Watch for theme changes
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        const isDark = document.documentElement.classList.contains('dark');
+        scene.background = new THREE.Color(isDark ? 0x0b0e14 : 0xf8fafc);
+        if (gridHelper) {
+          scene.remove(gridHelper);
+          gridHelper = new THREE.GridHelper(1000, 20, isDark ? 0x333333 : 0xcccccc, isDark ? 0x222222 : 0xeeeeee);
+          scene.add(gridHelper);
+        }
+      }
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true });
 
-  pointLight.intensity = 4.0; //光照强度
-
-  pointLight.decay = 0.0; //设置光源不随距离衰减
-
-  //点光源位置
-  pointLight.position.set(100, 100, 150); //点光源放在x轴上
-
-  scene.add(pointLight); //点光源添加到场景中
-
-  // 设置相机控件轨道控制器OrbitControls
-  const controls = new OrbitControls(camera, renderer.domElement);
-  // 如果OrbitControls改变了相机参数，重新调用渲染器渲染三维场景
-  controls.addEventListener('change', function () {
-    renderer.render(scene, camera); //执行渲染操作
-  }); //监听鼠标、键盘事件
-
-  // 光源辅助观察  PointLightHelper 点光源辅助观察
-  // const pointLightHelper = new THREE.PointLightHelper(pointLight, 4);
-
-  // scene.add(pointLightHelper);
-
-  // 环境光
-
-  // const ambient = new THREE.AmbientLight(0xffffff, 0.4);
-  // scene.add(ambient);
-
-  // 平行光
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  directionalLight.position.set(100, 100, 100);
-  directionalLight.target = mesh;
-  scene.add(directionalLight);
-
-  // DirectionalLightHelper：可视化平行光
-  const dirLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5, 0xff0000);
-  scene.add(dirLightHelper);
-
-  // 执行渲染
-  renderer.render(scene, camera);
+  // Handle Resize
+  resizeObserver = new ResizeObserver(() => {
+    if (containerRef.value && renderer && camera) {
+      const w = containerRef.value.clientWidth;
+      const h = containerRef.value.clientHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+  });
+  resizeObserver.observe(containerRef.value!);
 });
 
 onBeforeUnmount(() => {
-  if (resizeObserver) resizeObserver.unobserve(webglRef.value);
+  cancelAnimationFrame(animationId);
+  if (resizeObserver) resizeObserver.disconnect();
+  if (renderer) {
+    renderer.dispose();
+    renderer.forceContextLoss();
+  }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep(.el-button--primary.is-plain) {
+  --el-button-bg-color: transparent;
+}
+</style>

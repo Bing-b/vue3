@@ -97,22 +97,27 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, shallowRef, reactive, watch } from 'vue';
+import { onMounted, shallowRef, reactive, watch, nextTick } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { antPath } from 'leaflet-ant-path';
 import { InfoFilled, VideoPlay, VideoPause, RefreshLeft, Delete, Search, Connection } from '@element-plus/icons-vue';
 import { setIcon, generateMockMarkers } from './ts/utils';
 import * as chengduJson from './js/成都市.json';
 import { hainanRiverCoordinates, highRoadData } from './js/route';
 
-// 引入插件
-import './js/leaflet.ChineseTmsProviders';
-import './js/movingMarker';
-import './js/Control.OSMGeocoder';
-import './js/Control.MiniMap';
-import './js/fullScreen';
-import 'leaflet.markercluster';
+// Initialize global L for legacy plugins
+(window as any).L = L;
+
+// Plugins will be loaded dynamically in onMounted
+const loadPlugins = async () => {
+  await import('./js/leaflet.ChineseTmsProviders');
+  await import('./js/movingMarker');
+  await import('./js/Control.OSMGeocoder');
+  await import('./js/Control.MiniMap');
+  await import('./js/fullScreen');
+  await import('leaflet.markercluster');
+  await import('leaflet-ant-path');
+};
 
 // 地图实例
 const map = shallowRef<any | null>(null);
@@ -157,6 +162,8 @@ const stationPoints = [
 ];
 
 const initMap = () => {
+  if (!document.getElementById('gisMap')) return;
+
   const gaoDeNormal = (L.tileLayer as any).chinaProvider('GaoDe.Normal.Map', {
     maxZoom: 18,
     minZoom: 5,
@@ -194,39 +201,46 @@ const initMap = () => {
   map.value.addControl(zoomControl);
 
   // 初始化全屏控件
-  (L.control as any).fullscreen({
-    position: 'topleft',
-    title: '全屏切换',
-    titleCancel: '退出全屏',
-    forceSeparateButton: true,
-  }).addTo(map.value);
+  if ((L.control as any).fullscreen) {
+    (L.control as any).fullscreen({
+      position: 'topleft',
+      title: '全屏切换',
+      titleCancel: '退出全屏',
+      forceSeparateButton: true,
+    }).addTo(map.value);
+  }
 
   // 初始化搜索控件
-  const osmGeocoder = new (L.Control as any).OSMGeocoder({
-    placeholder: '搜索地点...',
-    position: 'topright',
-    text: '',
-  });
-  map.value.addControl(osmGeocoder);
+  if ((L.Control as any).OSMGeocoder) {
+    const osmGeocoder = new (L.Control as any).OSMGeocoder({
+      placeholder: '搜索地点...',
+      position: 'topright',
+      text: '',
+    });
+    map.value.addControl(osmGeocoder);
+  }
 
   demoMarkers.addTo(map.value);
 
   // 初始化小地图
-  const miniMapLayer = (L.tileLayer as any).chinaProvider('GaoDe.Normal.Map', {
-    maxZoom: 18,
-    minZoom: 5,
-  });
-  new (L.Control as any).MiniMap(miniMapLayer, {
-    toggleDisplay: true,
-    minimized: false,
-    position: 'bottomright',
-    strings: { hideText: '收起', showText: '展开' },
-  }).addTo(map.value);
+  if ((L.Control as any).MiniMap) {
+    const miniMapLayer = (L.tileLayer as any).chinaProvider('GaoDe.Normal.Map', {
+      maxZoom: 18,
+      minZoom: 5,
+    });
+    new (L.Control as any).MiniMap(miniMapLayer, {
+      toggleDisplay: true,
+      minimized: false,
+      position: 'bottomright',
+      strings: { hideText: '收起', showText: '展开' },
+    }).addTo(map.value);
+  }
 };
 
 // --- 轨迹播放逻辑 ---
 
 const initTrajectory = () => {
+  if (!map.value) return;
   clearDemo();
   const carIcon = setIcon('mycar.svg', [32, 32], [16, 16]);
   const trail: any[] = [];
@@ -236,10 +250,10 @@ const initTrajectory = () => {
       autostart: false,
       icon: carIcon,
     })
-    .addTo(map.value!);
+    .addTo(map.value);
 
   trajectoryPath.value = L.polyline([], { color: '#3388ff', weight: 4, opacity: 0.8 }).addTo(
-    map.value!,
+    map.value,
   );
 
   let currentStationIndex = 0;
@@ -301,8 +315,9 @@ const resetPlayback = () => {
 
 // --- 区域板块逻辑 ---
 const initRegionDemo = () => {
+  if (!map.value) return;
   clearDemo();
-  map.value?.flyTo([30.657, 104.066], 9, { duration: 2 });
+  map.value.flyTo([30.657, 104.066], 9, { duration: 2 });
 
   // 预置颜色列表
   const colors = [
@@ -384,7 +399,7 @@ const initRegionDemo = () => {
   regionLayer.value = L.geoJSON(chengduJson as any, {
     style,
     onEachFeature,
-  }).addTo(map.value!);
+  }).addTo(map.value);
 };
 
 // --- 通用清空 ---
@@ -392,22 +407,26 @@ const initRegionDemo = () => {
 // --- 数据聚合逻辑 ---
 
 const initClusterDemo = () => {
+  if (!map.value) return;
   clearDemo();
-  map.value?.flyTo([30.657, 104.066], 11, { duration: 2 });
+  map.value.flyTo([30.657, 104.066], 11, { duration: 2 });
 
   // 初始化聚合组
-  clusterGroup.value = (L as any).markerClusterGroup({
-    disableClusteringAtZoom: 16,
-    chunkedLoading: true,
-    showCoverageOnHover: false,
-    spiderfyOnMaxZoom: false,
-  });
+  if ((L as any).markerClusterGroup) {
+    clusterGroup.value = (L as any).markerClusterGroup({
+      disableClusteringAtZoom: 16,
+      chunkedLoading: true,
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: false,
+    });
 
-  const mockData = generateMockMarkers(5000, [30.657, 104.066]);
-  renderClusterMarkers(mockData);
+    const mockData = generateMockMarkers(5000, [30.657, 104.066]);
+    renderClusterMarkers(mockData);
+  }
 };
 
 const renderClusterMarkers = (data: any[]) => {
+  if (!map.value || !clusterGroup.value) return;
   const canvasRenderer = L.canvas({ padding: 0.5 });
   let index = 0;
   const CHUNK_SIZE = 1000;
@@ -418,7 +437,7 @@ const renderClusterMarkers = (data: any[]) => {
 
     for (; index < end; index++) {
       const node = data[index];
-      const marker = L.circleMarker(node.coordinate, {
+      const marker = L.circleMarker(node.coordinate as any, {
         radius: 12,
         color: '#fff',
         fillColor: '#409eff',
@@ -449,8 +468,9 @@ const renderClusterMarkers = (data: any[]) => {
 // --- 高发路段逻辑 ---
 
 const initHighRoadDemo = () => {
+  if (!map.value) return;
   clearDemo();
-  map.value?.flyTo([30.4069143, 104.0739315], 15, { duration: 2 });
+  map.value.flyTo([30.4069143, 104.0739315], 15, { duration: 2 });
 
   highRoadLayer.value = L.layerGroup().addTo(map.value);
 
@@ -460,7 +480,10 @@ const initHighRoadDemo = () => {
     // 数据转换：[lng, lat] -> [lat, lng]
     const latLngs = coords.map(p => [p[1], p[0]]);
     
-    const path = antPath(latLngs, {
+    // antPath is attached to L.polyline by leaflet-ant-path
+    if (!(L.polyline as any).antPath) return;
+
+    const path = (L.polyline as any).antPath(latLngs, {
       delay: delay,
       dashArray: [10, 20],
       weight: weight,
@@ -499,11 +522,12 @@ const initHighRoadDemo = () => {
 };
 
 const clearDemo = () => {
-  if (movingMarker.value) map.value?.removeLayer(movingMarker.value);
-  if (trajectoryPath.value) map.value?.removeLayer(trajectoryPath.value);
-  if (regionLayer.value) map.value?.removeLayer(regionLayer.value);
-  if (clusterGroup.value) map.value?.removeLayer(clusterGroup.value);
-  if (highRoadLayer.value) map.value?.removeLayer(highRoadLayer.value);
+  if (!map.value) return;
+  if (movingMarker.value) map.value.removeLayer(movingMarker.value);
+  if (trajectoryPath.value) map.value.removeLayer(trajectoryPath.value);
+  if (regionLayer.value) map.value.removeLayer(regionLayer.value);
+  if (clusterGroup.value) map.value.removeLayer(clusterGroup.value);
+  if (highRoadLayer.value) map.value.removeLayer(highRoadLayer.value);
   demoMarkers.clearLayers();
 
   movingMarker.value = null;
@@ -520,6 +544,7 @@ const clearDemo = () => {
 
 // 监听演示切换
 watch(currentDemo, (val) => {
+  if (!map.value) return;
   clearDemo();
   if (val === 'region') {
     initRegionDemo();
@@ -530,7 +555,9 @@ watch(currentDemo, (val) => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
+  await loadPlugins();
+  await nextTick();
   initMap();
 });
 </script>

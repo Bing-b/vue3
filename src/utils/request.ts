@@ -1,83 +1,91 @@
 import router from '@/router';
 import axios from 'axios';
-// import qs from "qs"
+import { ElMessage, ElMessageBox } from 'element-plus';
 
-// 配置开发&生产环境接口，根据 node 环境变量来进行判断
-const devBaseURL = '/';
-const proBaseURL = 'http://prod.xxxx';
-const baseURL = process.env.NODE_ENV === 'development' ? devBaseURL : proBaseURL;
+// --- Auth Utilities ---
+export const logout = (message?: string) => {
+  localStorage.removeItem('token');
+  // Clear other session data if needed
+  if (message) ElMessage.warning(message);
+  router.push({ path: '/login' }); // Ensure this matches your login route name or path
+};
 
 const instance = axios.create({
   baseURL:
     import.meta.env.MODE === 'production'
       ? window.api.url
       : (import.meta.env.VITE_SERVER_BASE_URL as string),
-  timeout: 5000, // 设置超时时间
-  // withCredentials: true, // 设置是否允许跨域传递的 cookie 携带凭证
+  timeout: 10000,
 });
 
-// 配置请求参数传递格式，默认是JSON格式，根据服务器决定
 instance.defaults.headers['Content-Type'] = 'application/json';
-//instance.defaults.transformRequest = data => qs.stringify(data)
 
-// 配置 axios 请求拦截器, 配置 token 登录认证
+// --- Request Interceptor ---
 instance.interceptors.request.use(
   (config) => {
-    // 配置每次发送请求之前判断是否存在 token,存在则在请求头 header 上添加 token,
-    // let token = window.token;
-    // token && (config.headers.Authorization = token);
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  },
+  (error) => Promise.reject(error),
 );
 
-// 配置 axios 响应拦截器
+// --- Response Interceptor ---
 instance.interceptors.response.use(
-  // 判断返回状态码，进行对应的数据返回与异常抛出操作
   (response) => {
     if (response.status === 200) {
-      return Promise.resolve(response);
-    } else {
-      return Promise.reject(response);
+      return response;
     }
+    return Promise.reject(response);
   },
-  // 配置服务器状态码不是200的情况
   (error) => {
     if (error.response) {
-      switch (error.response.status) {
-        // 401: 未登录
+      const { status, config } = error.response;
+
+      const isExternal =
+        config.url.includes('github.com') ||
+        config.url.includes('amap.com') ||
+        config.url.includes('tianditu.gov.cn') ||
+        config.url.startsWith('/github') ||
+        config.url.startsWith('/api') ||
+        config.url.startsWith('/td');
+
+      switch (status) {
         case 401:
-          localStorage.removeItem('token');
-          alert('连接超时，请重新登录');
-          router.push({ path: '/' });
+          if (!isExternal) {
+            logout('Session expired, please login again.');
+          }
           break;
-        // 403： 登录过期
         case 403:
-          alert('登录过期，请重新登录');
-          localStorage.removeItem('token');
-          router.push({ path: '/' });
+          if (!isExternal) {
+            ElMessageBox.confirm('Login expired, do you want to stay on this page or login again?', 'System Hint', {
+              confirmButtonText: 'Relogin',
+              cancelButtonText: 'Cancel',
+              type: 'warning',
+            }).then(() => {
+              logout();
+            });
+          } else {
+            console.warn('External API Forbidden:', config.url);
+          }
           break;
-        // 404: 请求不存在
         case 404:
-          alert('网络请求不存在');
+          ElMessage.error('API endpoint not found');
           break;
-        // 500: 服务错误
         case 500:
-          alert('网络请求有误');
+          ElMessage.error('Internal server error');
+          break;
         default:
-          alert('服务错误');
+          ElMessage.error(`Request failed: ${status}`);
       }
-      //return Promise.reject('服务错误')
+    } else if (!window.navigator.onLine) {
+      ElMessage.error('Network disconnected');
     } else {
-      // 配置服务器没有返回结果情况
-      if (!window.navigator.onLine) {
-        // 断网情况，进行断网处理
-        return;
-      }
-      return Promise.reject(error);
+      ElMessage.error(error.message || 'Request Error');
     }
+    return Promise.reject(error);
   },
 );
 

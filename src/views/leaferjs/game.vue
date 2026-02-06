@@ -1,28 +1,75 @@
 <template>
-  <div class="tetris-container">
-    <div class="game-info">
-      <h1>Leafer Tetris</h1>
-      <div class="score-board">
-        <p>得分: {{ score }}</p>
-        <p>状态: {{ isGameOver ? '游戏结束' : isPaused ? '暂停' : '进行中' }}</p>
+  <div class="flex flex-col items-center justify-center gap-8 lg:flex-row lg:items-start transition-colors duration-300">
+    <!-- Game View -->
+    <div class="relative rounded-3xl border-8 border-slate-200 bg-black p-1 shadow-2xl dark:border-white/10">
+      <div id="leafer-view" class="canvas-area overflow-hidden rounded-2xl"></div>
+      
+      <!-- Overlay for Game Over -->
+      <div v-if="isGameOver" class="absolute inset-x-2 inset-y-2 z-10 flex flex-col items-center justify-center rounded-2xl bg-black/80 backdrop-blur-sm">
+        <h2 class="mb-4 text-4xl font-black text-white italic tracking-widest">GAME OVER</h2>
+        <el-button type="primary" size="large" round class="px-8 scale-110" @click="startGame">RESTART</el-button>
       </div>
-      <div class="controls">
-        <button @click="startGame" v-if="isGameOver">开始游戏</button>
-        <button @click="togglePause" v-else>{{ isPaused ? '继续' : '暂停' }}</button>
-      </div>
-      <div class="tips">
-        <p>↑: 旋转 | ↓: 加速</p>
-        <p>← →: 移动 | Space: 暂停</p>
+
+      <!-- Overlay for Pause -->
+      <div v-if="!isGameOver && isPaused" class="absolute inset-x-2 inset-y-2 z-10 flex flex-col items-center justify-center rounded-2xl bg-black/40 backdrop-blur-sm">
+        <h2 class="mb-4 text-3xl font-black text-white tracking-widest">PAUSED</h2>
+        <el-button type="primary" circle size="large" icon="VideoPlay" @click="togglePause"></el-button>
       </div>
     </div>
-    <!-- Leafer 将挂载在这个 div 上 -->
-    <div id="leafer-view" class="canvas-area"></div>
+
+    <!-- Info Panel -->
+    <div class="flex w-64 flex-col gap-6">
+      <div class="rounded-3xl border border-white bg-white/80 p-6 shadow-sm dark:border-white/5 dark:bg-white/5 backdrop-blur-md">
+        <h3 class="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">Score Control</h3>
+        
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col">
+            <span class="text-[10px] font-bold text-slate-400">CURRENT SCORE</span>
+            <span class="text-4xl font-black text-slate-800 dark:text-white tabular-nums">{{ score }}</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="h-2 w-2 rounded-full" :class="isGameOver ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-emerald-500'"></div>
+            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">
+              {{ isGameOver ? 'Stopped' : isPaused ? 'Paused' : 'Playing' }}
+            </span>
+          </div>
+
+          <el-button v-if="!isGameOver" @click="togglePause" :type="isPaused ? 'success' : 'warning'" size="small" round plain block>
+            {{ isPaused ? 'Resume' : 'Pause' }}
+          </el-button>
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-white bg-white/80 p-6 shadow-sm dark:border-white/5 dark:bg-white/5 backdrop-blur-md">
+        <h3 class="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">How to Play</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex flex-col">
+            <kbd class="mb-1 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">↑</kbd>
+            <span class="text-[10px] font-medium text-slate-500">ROTATE</span>
+          </div>
+          <div class="flex flex-col">
+            <kbd class="mb-1 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">↓</kbd>
+            <span class="text-[10px] font-medium text-slate-500">SPEED</span>
+          </div>
+          <div class="flex flex-col">
+            <kbd class="mb-1 inline-flex h-8 w-16 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">← →</kbd>
+            <span class="text-[10px] font-medium text-slate-500">MOVE</span>
+          </div>
+          <div class="flex flex-col">
+            <kbd class="mb-1 inline-flex h-8 w-16 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">SP</kbd>
+            <span class="text-[10px] font-medium text-slate-500">PAUSE</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
-import { Leafer, Rect, Group } from 'leafer-ui'; // 1. 引入 Leafer
+import { Leafer, Rect, Group } from 'leafer-ui';
+import { VideoPlay } from '@element-plus/icons-vue';
 
 // --- 配置常量 ---
 const ROWS = 20;
@@ -30,36 +77,17 @@ const COLS = 10;
 const BLOCK_SIZE = 30;
 const TICK_RATE = 500;
 
-// --- 方块形状定义 (保持不变) ---
 const SHAPES = [
   [[1, 1, 1, 1]],
-  [
-    [1, 1],
-    [1, 1],
-  ],
-  [
-    [0, 1, 0],
-    [1, 1, 1],
-  ],
-  [
-    [1, 0, 0],
-    [1, 1, 1],
-  ],
-  [
-    [0, 0, 1],
-    [1, 1, 1],
-  ],
-  [
-    [0, 1, 1],
-    [1, 1, 0],
-  ],
-  [
-    [1, 1, 0],
-    [0, 1, 1],
-  ],
+  [[1, 1], [1, 1]],
+  [[0, 1, 0], [1, 1, 1]],
+  [[1, 0, 0], [1, 1, 1]],
+  [[0, 0, 1], [1, 1, 1]],
+  [[0, 1, 1], [1, 1, 0]],
+  [[1, 1, 0], [0, 1, 1]],
 ];
 
-const COLORS = [null, '#00FFFF', '#FFFF00', '#800080', '#FFA500', '#0000FF', '#00FF00', '#FF0000'];
+const COLORS = [null, '#00d2ff', '#f5af19', '#9d50bb', '#ff4b1f', '#2575fc', '#84fab0', '#ff0000'];
 
 // --- 状态变量 ---
 const score = ref(0);
@@ -72,19 +100,16 @@ let boardData = [];
 let activePiece = null;
 let gameInterval = null;
 
-// --- 初始化 (核心修改点) ---
+// --- 初始化 ---
 const initLeafer = () => {
-  // 2. 实例化 Leafer
   leaferApp = new Leafer({
     view: 'leafer-view',
     width: COLS * BLOCK_SIZE,
     height: ROWS * BLOCK_SIZE,
-    fill: '#1a1a1a',
+    fill: '#000',
   });
 
   gameLayer = new Group();
-
-  // 3. 直接添加到 leaferApp
   leaferApp.add(gameLayer);
 
   drawGrid();
@@ -93,20 +118,15 @@ const initLeafer = () => {
 const drawGrid = () => {
   const gridGroup = new Group({ opacity: 0.1 });
   for (let i = 0; i <= COLS; i++) {
-    gridGroup.add(
-      new Rect({ x: i * BLOCK_SIZE, y: 0, width: 1, height: ROWS * BLOCK_SIZE, fill: '#fff' }),
-    );
+    gridGroup.add(new Rect({ x: i * BLOCK_SIZE, y: 0, width: 1, height: ROWS * BLOCK_SIZE, fill: '#fff' }));
   }
   for (let j = 0; j <= ROWS; j++) {
-    gridGroup.add(
-      new Rect({ x: 0, y: j * BLOCK_SIZE, width: COLS * BLOCK_SIZE, height: 1, fill: '#fff' }),
-    );
+    gridGroup.add(new Rect({ x: 0, y: j * BLOCK_SIZE, width: COLS * BLOCK_SIZE, height: 1, fill: '#fff' }));
   }
-  // 4. 直接添加到 leaferApp
   leaferApp.add(gridGroup);
 };
 
-// --- 游戏逻辑 (保持不变) ---
+// --- 游戏逻辑 ---
 const initBoardData = () => {
   boardData = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 };
@@ -137,9 +157,7 @@ const checkCollision = (offsetX, offsetY, shape) => {
   return false;
 };
 
-const rotateShape = (shape) => {
-  return shape[0].map((_, index) => shape.map((row) => row[index]).reverse());
-};
+const rotateShape = (shape) => shape[0].map((_, index) => shape.map((row) => row[index]).reverse());
 
 const lockPiece = () => {
   activePiece.shape.forEach((row, r) => {
@@ -171,22 +189,20 @@ const clearLines = () => {
 
 const render = () => {
   if (!gameLayer) return;
-  gameLayer.clear(); // Leafer 的 Group 支持 clear()
+  gameLayer.clear();
 
   // 绘制棋盘
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
       if (boardData[r][c]) {
-        gameLayer.add(
-          new Rect({
-            x: c * BLOCK_SIZE,
-            y: r * BLOCK_SIZE,
-            width: BLOCK_SIZE - 1,
-            height: BLOCK_SIZE - 1,
-            fill: COLORS[boardData[r][c]],
-            cornerRadius: 2,
-          }),
-        );
+        gameLayer.add(new Rect({
+          x: c * BLOCK_SIZE,
+          y: r * BLOCK_SIZE,
+          width: BLOCK_SIZE - 1,
+          height: BLOCK_SIZE - 1,
+          fill: COLORS[boardData[r][c]],
+          cornerRadius: 4,
+        }));
       }
     }
   }
@@ -196,17 +212,15 @@ const render = () => {
     activePiece.shape.forEach((row, r) => {
       row.forEach((val, c) => {
         if (val) {
-          gameLayer.add(
-            new Rect({
-              x: (activePiece.x + c) * BLOCK_SIZE,
-              y: (activePiece.y + r) * BLOCK_SIZE,
-              width: BLOCK_SIZE - 1,
-              height: BLOCK_SIZE - 1,
-              fill: COLORS[activePiece.colorIndex],
-              cornerRadius: 2,
-              shadow: { x: 2, y: 2, blur: 4, color: 'rgba(0,0,0,0.3)' },
-            }),
-          );
+          gameLayer.add(new Rect({
+            x: (activePiece.x + c) * BLOCK_SIZE,
+            y: (activePiece.y + r) * BLOCK_SIZE,
+            width: BLOCK_SIZE - 1,
+            height: BLOCK_SIZE - 1,
+            fill: COLORS[activePiece.colorIndex],
+            cornerRadius: 4,
+            shadow: { x: 0, y: 0, blur: 10, color: COLORS[activePiece.colorIndex] },
+          }));
         }
       });
     });
@@ -239,7 +253,6 @@ const rotate = () => {
   render();
 };
 
-// --- 控制与生命周期 ---
 const startGame = () => {
   initBoardData();
   score.value = 0;
@@ -261,27 +274,16 @@ const togglePause = () => {
 const gameOver = () => {
   isGameOver.value = true;
   clearInterval(gameInterval);
-  alert(`游戏结束! 得分: ${score.value}`);
 };
 
 const handleKeydown = (e) => {
   if (isGameOver.value) return;
   switch (e.code) {
-    case 'ArrowLeft':
-      move(-1, 0);
-      break;
-    case 'ArrowRight':
-      move(1, 0);
-      break;
-    case 'ArrowDown':
-      move(0, 1);
-      break;
-    case 'ArrowUp':
-      rotate();
-      break;
-    case 'Space':
-      togglePause();
-      break;
+    case 'ArrowLeft': move(-1, 0); break;
+    case 'ArrowRight': move(1, 0); break;
+    case 'ArrowDown': move(0, 1); break;
+    case 'ArrowUp': rotate(); break;
+    case 'Space': togglePause(); break;
   }
 };
 
@@ -298,56 +300,14 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.tetris-container {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-  background-color: #2c3e50;
-  min-height: 100vh;
-  color: white;
-}
-
-.game-info {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-}
-
 .canvas-area {
-  width: 300px; /* 10 cols * 30px */
-  height: 600px; /* 20 rows * 30px */
-  border: 4px solid #444;
+  width: 300px;
+  height: 600px;
   background-color: #000;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #42b983;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-button:hover {
-  background-color: #3aa876;
-}
-
-.score-board {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.tips {
-  font-size: 12px;
-  color: #aaa;
-  margin-top: auto;
+kbd {
+  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
 }
 </style>

@@ -23,6 +23,7 @@ declare global {
 interface Window {
   api: {
     gis: string;
+    url: string;
   };
 }
 interface ViteEnv {
@@ -37,6 +38,5 @@ declare module 'three';
 declare module 'sortablejs';
 declare module 'lunar-javascript';
 declare module 'file-stats';
-declare module '@tresjs/core';
 declare module 'matter-js';
 declare module 'vue-virtual-scroller';

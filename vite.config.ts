@@ -52,9 +52,16 @@ export default defineConfig(({ mode, command }) => {
 
     build: {
       target: 'esnext',
-      minify: 'esbuild',
-      esbuild: {
-        drop: ['console', 'debugger'], // 生产环境自动清理，不再需要单独配 ESLint 规则
+      minify: 'oxc',
+      rolldownOptions: {
+        output: {
+          minify: {
+            compress: {
+              dropConsole: true,
+              dropDebugger: true,
+            },
+          },
+        },
       },
       reportCompressedSize: false, // 显示压缩后大小 禁用提示构建速度
       chunkSizeWarningLimit: 20480,

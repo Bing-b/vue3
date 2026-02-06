@@ -22,9 +22,9 @@
 
       <div class="mt-2 h-[calc(100%-300px)] bg-[#f0f2f5] dark:bg-black dark:text-white">
         <h2 class="title flex items-center justify-between">概览</h2>
-        <!-- 仓库提交统计图 -->
+        <!-- 概览面板 -->
         <div class="flex h-[calc(100%-50px)] gap-4">
-           <CommitStats />
+           <InteractivePanel />
 
           <!-- 欢迎 -->
           <div
@@ -43,24 +43,18 @@
 import { reactive, onMounted, useTemplateRef, ref } from 'vue';
 import intro from 'intro.js';
 import 'intro.js/introjs.css';
-import useCancelRequest from '@/hooks/useCancelRequest';
-import { getGitHubProject, testCancelApi } from '@/api/common';
 import useGlobalConfig from '@/store/modules/global';
 import Calendar from './components/calendar.vue';
 import CountDown from './components/countdown.vue';
 import Weather from './components/weather.vue';
 import AmCharts from './components/amCharts.vue';
 import StorageInsight from './components/StorageInsight.vue';
-import CommitStats from './components/CommitStats.vue';
+import InteractivePanel from './components/InteractivePanel.vue';
 import Welcome from './components/welcome.vue';
 import Info from './components/info.vue';
 
-// const { loadCancelAlert, cancelPendingAlert, signal } = useCancelRequest();
-
 // 获取全局配置
 const globalConfigStore = useGlobalConfig();
-
-const projectList = ref<any[]>([]);
 
 // 启动引导页
 const initIntor = () => {
@@ -71,26 +65,7 @@ const initIntor = () => {
     .start();
 };
 
-/** 获取github 项目信息 */
-const getGitHubInof = async () => {
-  const { data } = await getGitHubProject();
-  if (data && data.length) projectList.value = [...data];
-};
-
-// const testCancel = () => {
-//   loadCancelAlert();
-//   testCancelApi('', signal.value)
-//     .then(() => {
-//       cancelPendingAlert();
-//     })
-//     .finally(() => {
-//       cancelPendingAlert();
-//       ElMessageBox.close();
-//     });
-// };
-
 onMounted(() => {
-  // getGitHubInof();
 });
 </script>
 <style lang="scss" scoped>

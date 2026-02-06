@@ -99,26 +99,18 @@ export const mainRoutes: Array<RouteRecordRaw> = [
       {
         path: '/web3D',
         name: 'web3D',
-        redirect: '/test',
+        redirect: '/leaferjs',
         meta: {
           title: 'web3D',
           icon: 'menu-menu_threejs',
         },
         children: [
           {
-            path: '/test',
-            name: 'test',
+            path: '/threejs',
+            name: 'threejs',
             component: () => import('@/views/threejs/index.vue'),
             meta: {
-              title: 'demo',
-            },
-          },
-          {
-            path: '/tresjs',
-            name: 'tresjs',
-            component: () => import('@/views/tresjs/index.vue'),
-            meta: {
-              title: 'tresjs',
+              title: 'threejs',
             },
           },
           {

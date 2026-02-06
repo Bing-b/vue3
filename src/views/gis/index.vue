@@ -20,39 +20,36 @@
         <!-- 轨迹播放控制栏 -->
         <div v-if="currentDemo === 'trajectory'" class="flex items-center gap-2">
           <div class="divider mx-2 h-4 w-[1px] bg-white/30"></div>
-          
+
           <el-tooltip :content="playbackState.isRunning ? '暂停' : '播放'" placement="top">
             <el-button
               type="primary"
               :icon="playbackState.isRunning ? VideoPause : VideoPlay"
               size="small"
               class="playback-btn"
-              @click="togglePlayback"
-            />
+              @click="togglePlayback" />
           </el-tooltip>
 
           <el-tooltip content="重播" placement="top">
-            <el-button 
-              type="warning" 
-              :icon="RefreshLeft" 
-              size="small" 
+            <el-button
+              type="warning"
+              :icon="RefreshLeft"
+              size="small"
               class="playback-btn"
-              @click="resetPlayback" 
-            />
+              @click="resetPlayback" />
           </el-tooltip>
 
           <div class="divider mx-2 h-4 w-[1px] bg-white/30"></div>
 
-          <div class="status-indicator flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-black/10 text-[10px] font-bold uppercase tracking-wider">
+          <div
+            class="status-indicator flex items-center gap-1.5 rounded-full bg-black/10 px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase">
             <span class="relative flex h-2 w-2">
-              <span 
-                class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                :class="playbackState.isRunning ? 'bg-green-400' : 'bg-orange-400'"
-              ></span>
-              <span 
-                class="relative inline-flex rounded-full h-2 w-2"
-                :class="playbackState.isRunning ? 'bg-green-500' : 'bg-orange-500'"
-              ></span>
+              <span
+                class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                :class="playbackState.isRunning ? 'bg-green-400' : 'bg-orange-400'"></span>
+              <span
+                class="relative inline-flex h-2 w-2 rounded-full"
+                :class="playbackState.isRunning ? 'bg-green-500' : 'bg-orange-500'"></span>
             </span>
             <span :class="playbackState.isRunning ? 'text-green-500' : 'text-orange-500'">
               {{ playbackState.statusText }}
@@ -60,19 +57,20 @@
           </div>
 
           <el-tooltip content="清除轨迹" placement="top">
-            <el-button 
-              type="danger" 
-              link 
-              :icon="Delete" 
-              size="small" 
+            <el-button
+              type="danger"
+              link
+              :icon="Delete"
+              size="small"
               class="playback-btn !text-red-400 hover:!text-red-500"
-              @click="clearDemo" 
-            />
+              @click="clearDemo" />
           </el-tooltip>
         </div>
 
         <!-- 区域板块说明 -->
-        <div v-if="currentDemo === 'region'" class="flex items-center gap-2 px-4 text-xs text-gray-600">
+        <div
+          v-if="currentDemo === 'region'"
+          class="flex items-center gap-2 px-4 text-xs text-gray-600">
           <el-icon class="text-blue-500"><InfoFilled /></el-icon>
           <span>将鼠标悬停在区域上查看详情</span>
           <el-button type="danger" link size="small" icon="Delete" @click="clearDemo">
@@ -85,7 +83,7 @@
     <!-- 区域信息浮窗 -->
     <div
       v-if="currentDemo === 'region' && hoverInfo.show"
-      class="absolute right-4 bottom-20 z-[1000] w-48 rounded-lg bg-white/90 p-3 shadow-xl backdrop-blur-sm pointer-events-none">
+      class="pointer-events-none absolute right-4 bottom-20 z-[1000] w-48 rounded-lg bg-white/90 p-3 shadow-xl backdrop-blur-sm">
       <h4 class="mb-2 border-b pb-1 text-sm font-bold text-blue-600">板块信息</h4>
       <div class="space-y-1 text-xs text-gray-700">
         <p><span class="font-semibold">名称:</span> {{ hoverInfo.name }}</p>
@@ -100,7 +98,15 @@
 import { onMounted, shallowRef, reactive, watch, nextTick } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { InfoFilled, VideoPlay, VideoPause, RefreshLeft, Delete, Search, Connection } from '@element-plus/icons-vue';
+import {
+  InfoFilled,
+  VideoPlay,
+  VideoPause,
+  RefreshLeft,
+  Delete,
+  Search,
+  Connection,
+} from '@element-plus/icons-vue';
 import { setIcon, generateMockMarkers } from './ts/utils';
 import * as chengduJson from './js/成都市.json';
 import { hainanRiverCoordinates, highRoadData } from './js/route';
@@ -202,12 +208,14 @@ const initMap = () => {
 
   // 初始化全屏控件
   if ((L.control as any).fullscreen) {
-    (L.control as any).fullscreen({
-      position: 'topleft',
-      title: '全屏切换',
-      titleCancel: '退出全屏',
-      forceSeparateButton: true,
-    }).addTo(map.value);
+    (L.control as any)
+      .fullscreen({
+        position: 'topleft',
+        title: '全屏切换',
+        titleCancel: '退出全屏',
+        forceSeparateButton: true,
+      })
+      .addTo(map.value);
   }
 
   // 初始化搜索控件
@@ -311,7 +319,6 @@ const resetPlayback = () => {
   playbackState.isEnded = false;
   playbackState.statusText = '进行中';
 };
-
 
 // --- 区域板块逻辑 ---
 const initRegionDemo = () => {
@@ -476,10 +483,16 @@ const initHighRoadDemo = () => {
 
   // 渲染路段 - 结合蚂蚁路径使其生动
   // 顺畅路段 (绿色，快)
-  const drawAntSegment = (coords: number[][], color: string, pulseColor: string, delay: number, weight: number = 8) => {
+  const drawAntSegment = (
+    coords: number[][],
+    color: string,
+    pulseColor: string,
+    delay: number,
+    weight: number = 8,
+  ) => {
     // 数据转换：[lng, lat] -> [lat, lng]
-    const latLngs = coords.map(p => [p[1], p[0]]);
-    
+    const latLngs = coords.map((p) => [p[1], p[0]]);
+
     // antPath is attached to L.polyline by leaflet-ant-path
     if (!(L.polyline as any).antPath) return;
 
@@ -490,17 +503,17 @@ const initHighRoadDemo = () => {
       color: color,
       pulseColor: pulseColor,
       paused: false,
-      opacity: 0.8
+      opacity: 0.8,
     });
-    
+
     highRoadLayer.value.addLayer(path);
   };
 
   const { road1, road2 } = highRoadData;
 
   // Road 1 细分渲染
-  drawAntSegment(road1.slice(0, 4), '#2E7D32', '#A5D6A7', 1000);  // 顺畅 - 绿色快
-  drawAntSegment(road1.slice(3, 7), '#F9A825', '#FFF59D', 3000);  // 拥堵 - 黄色中
+  drawAntSegment(road1.slice(0, 4), '#2E7D32', '#A5D6A7', 1000); // 顺畅 - 绿色快
+  drawAntSegment(road1.slice(3, 7), '#F9A825', '#FFF59D', 3000); // 拥堵 - 黄色中
   drawAntSegment(road1.slice(6, 10), '#B71C1C', '#EF9A9A', 6000); // 严重 - 红色慢
   drawAntSegment(road1.slice(9, 17), '#2E7D32', '#A5D6A7', 1000); // 恢复 - 绿色快
 
@@ -508,14 +521,14 @@ const initHighRoadDemo = () => {
   drawAntSegment(road2, '#2E7D32', '#A5D6A7', 1200);
 
   // 添加一些动态标记点作为更生动的提示
-  road1.slice(7, 8).forEach(p => {
+  road1.slice(7, 8).forEach((p) => {
     const marker = L.circleMarker([p[1], p[0]], {
       radius: 12,
       fillColor: '#B71C1C',
       color: '#fff',
       weight: 2,
       fillOpacity: 0.9,
-      className: 'animate-pulse'
+      className: 'animate-pulse',
     }).addTo(highRoadLayer.value);
     marker.bindPopup('<b>交通预警</b><br>当前路段严重拥堵，预计延迟15分钟').openPopup();
   });

@@ -1,1 +1,0 @@
-import{tn as defineStore}from"./index-BSx7YI45.js";var global_default=defineStore(`config`,{state:()=>({appDark:!1}),persist:{enabled:!0,strategies:[{storage:localStorage}]}});export{global_default as t};

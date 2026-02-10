@@ -53,20 +53,20 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
 
     // 处理旧浏览器兼容
     isProd &&
-    isLegacy &&
-    legacy({
-      targets: ['defaults', 'not IE 11', 'chrome >= 60'],
-      modernPolyfills: true,
-    }),
+      isLegacy &&
+      legacy({
+        targets: ['defaults', 'not IE 11', 'chrome >= 60'],
+        modernPolyfills: true,
+      }),
 
     // 打包分析
-    visualizer({
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-      template: 'treemap',
-      filename: 'visualizer.html',
-    }),
+    // visualizer({
+    //   open: false,
+    //   gzipSize: true,
+    //   brotliSize: true,
+    //   template: 'treemap',
+    //   filename: 'visualizer.html',
+    // }),
     viteCompression({
       deleteOriginFile: false, // 删除源文件
       threshold: 1024 * 20, // 压缩前最小文件大小

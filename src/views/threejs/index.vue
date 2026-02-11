@@ -4,38 +4,46 @@
     <div ref="containerRef" class="h-full w-full"></div>
 
     <!-- Floating Toolbar -->
-    <div class="absolute left-6 top-6 z-10">
+    <div class="absolute top-6 left-6 z-10">
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1">
-          <h2 class="text-xl font-black tracking-tight text-slate-800 dark:text-white">ThreeJS Lab</h2>
-          <p class="text-xs font-medium text-slate-500 dark:text-slate-400">Experimental 3D Workspace</p>
+          <h2 class="text-xl font-black tracking-tight text-slate-800 dark:text-white"
+            >ThreeJS Lab</h2
+          >
+          <p class="text-xs font-medium text-slate-500 dark:text-slate-400"
+            >Experimental 3D Workspace</p
+          >
         </div>
 
-        <div class="flex flex-col gap-2 rounded-2xl border border-white/40 bg-white/60 p-2 shadow-xl backdrop-blur-md dark:border-white/5 dark:bg-white/5">
+        <div
+          class="flex flex-col gap-2 rounded-2xl border border-white/40 bg-white/60 p-2 shadow-xl backdrop-blur-md dark:border-white/5 dark:bg-white/5">
           <div class="flex items-center gap-2 p-1">
-            <el-button @click="toggleRotation" :type="isRotating ? 'primary' : 'info'" circle size="small">
+            <el-button
+              @click="toggleRotation"
+              :type="isRotating ? 'primary' : 'info'"
+              circle
+              size="small">
               <el-icon><RefreshRight /></el-icon>
             </el-button>
             <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Rotation</span>
           </div>
-          
+
           <div class="h-px bg-slate-200 dark:bg-white/10"></div>
-          
+
           <div class="flex flex-col gap-1">
             <el-button @click="creatMoreBox" type="primary" size="small" round plain>
               Array Cubes
             </el-button>
-            <el-button @click="fullScreen" size="small" round plain>
-              Enter Fullscreen
-            </el-button>
+            <el-button @click="fullScreen" size="small" round plain> Enter Fullscreen </el-button>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Stats / Coordinates Display (Optional) -->
-    <div class="absolute bottom-6 right-6 z-10 hidden sm:block">
-      <div class="rounded-xl border border-white/20 bg-black/5 p-4 py-2 text-[10px] font-mono font-medium text-slate-500 backdrop-blur-sm dark:bg-white/5 dark:text-slate-400">
+    <div class="absolute right-6 bottom-6 z-10 hidden sm:block">
+      <div
+        class="rounded-xl border border-white/20 bg-black/5 p-4 py-2 font-mono text-[10px] font-medium text-slate-500 backdrop-blur-sm dark:bg-white/5 dark:text-slate-400">
         RENDERER: WebGL 2.0 | SCENE: Active
       </div>
     </div>
@@ -86,9 +94,14 @@ const initScene = () => {
   containerRef.value.appendChild(renderer.domElement);
 
   // Helpers
-  gridHelper = new THREE.GridHelper(1000, 20, isDark ? 0x333333 : 0xcccccc, isDark ? 0x222222 : 0xeeeeee);
+  gridHelper = new THREE.GridHelper(
+    1000,
+    20,
+    isDark ? 0x333333 : 0xcccccc,
+    isDark ? 0x222222 : 0xeeeeee,
+  );
   scene.add(gridHelper);
-  
+
   axesHelper = new THREE.AxesHelper(200);
   scene.add(axesHelper);
 
@@ -98,7 +111,7 @@ const initScene = () => {
     color: 0x409eff,
     transparent: true,
     opacity: 0.8,
-    shininess: 100
+    shininess: 100,
   });
   mesh = new THREE.Mesh(geometry, material);
   mesh.position.y = 50;
@@ -122,12 +135,12 @@ const initScene = () => {
 
 const animate = () => {
   animationId = requestAnimationFrame(animate);
-  
+
   if (isRotating.value && mesh) {
     mesh.rotation.y += 0.01;
     mesh.rotation.x += 0.005;
   }
-  
+
   controls.update();
   renderer.render(scene, camera);
 };
@@ -141,14 +154,14 @@ const creatMoreBox = () => {
   // Clear previous group if exists or just add to scene
   const group = new THREE.Group();
   const geometry = new THREE.BoxGeometry(40, 40, 40);
-  
+
   for (let i = -2; i <= 2; i++) {
     for (let j = -2; j <= 2; j++) {
       if (i === 0 && j === 0) continue; // Skip center
       const material = new THREE.MeshPhongMaterial({
         color: new THREE.Color(`hsl(${Math.random() * 360}, 70%, 60%)`),
         transparent: true,
-        opacity: 0.6
+        opacity: 0.6,
       });
       const m = new THREE.Mesh(geometry, material);
       m.position.set(i * 100, 20, j * 100);
@@ -178,7 +191,12 @@ onMounted(() => {
         scene.background = new THREE.Color(isDark ? 0x0b0e14 : 0xf8fafc);
         if (gridHelper) {
           scene.remove(gridHelper);
-          gridHelper = new THREE.GridHelper(1000, 20, isDark ? 0x333333 : 0xcccccc, isDark ? 0x222222 : 0xeeeeee);
+          gridHelper = new THREE.GridHelper(
+            1000,
+            20,
+            isDark ? 0x333333 : 0xcccccc,
+            isDark ? 0x222222 : 0xeeeeee,
+          );
           scene.add(gridHelper);
         }
       }

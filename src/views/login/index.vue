@@ -156,7 +156,6 @@ const handleLogin = () => {
       const userStore = useUserStore();
       userStore.name = loginForm.name;
       userStore.token = `CAT-${Math.random().toString(36).substr(2, 9)}`;
-      
       ElMessage({
         message: '登录成功. 正在跳转...',
         type: 'success',
@@ -170,7 +169,7 @@ const handleLogin = () => {
 };
 
 const handleRegister = () => {
-  ElMessage.warning('哦，没有管理员！！');
+  ElMessage.warning('哦，没有管理员！！！');
 };
 </script>
 

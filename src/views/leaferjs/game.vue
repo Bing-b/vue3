@@ -1,63 +1,107 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-8 lg:flex-row lg:items-start transition-colors duration-300">
+  <div
+    class="flex flex-col items-center justify-center gap-8 transition-colors duration-300 lg:flex-row lg:items-start">
     <!-- Game View -->
-    <div class="relative rounded-3xl border-8 border-slate-200 bg-black p-1 shadow-2xl dark:border-white/10">
+    <div
+      class="relative rounded-3xl border-8 border-slate-200 bg-black p-1 shadow-2xl dark:border-white/10">
       <div id="leafer-view" class="canvas-area overflow-hidden rounded-2xl"></div>
-      
+
       <!-- Overlay for Game Over -->
-      <div v-if="isGameOver" class="absolute inset-x-2 inset-y-2 z-10 flex flex-col items-center justify-center rounded-2xl bg-black/80 backdrop-blur-sm">
-        <h2 class="mb-4 text-4xl font-black text-white italic tracking-widest">GAME OVER</h2>
-        <el-button type="primary" size="large" round class="px-8 scale-110" @click="startGame">RESTART</el-button>
+      <div
+        v-if="isGameOver"
+        class="absolute inset-x-2 inset-y-2 z-10 flex flex-col items-center justify-center rounded-2xl bg-black/80 backdrop-blur-sm">
+        <h2 class="mb-4 text-4xl font-black tracking-widest text-white italic">GAME OVER</h2>
+        <el-button type="primary" size="large" round class="scale-110 px-8" @click="startGame"
+          >RESTART</el-button
+        >
       </div>
 
       <!-- Overlay for Pause -->
-      <div v-if="!isGameOver && isPaused" class="absolute inset-x-2 inset-y-2 z-10 flex flex-col items-center justify-center rounded-2xl bg-black/40 backdrop-blur-sm">
-        <h2 class="mb-4 text-3xl font-black text-white tracking-widest">PAUSED</h2>
-        <el-button type="primary" circle size="large" icon="VideoPlay" @click="togglePause"></el-button>
+      <div
+        v-if="!isGameOver && isPaused"
+        class="absolute inset-x-2 inset-y-2 z-10 flex flex-col items-center justify-center rounded-2xl bg-black/40 backdrop-blur-sm">
+        <h2 class="mb-4 text-3xl font-black tracking-widest text-white">PAUSED</h2>
+        <el-button
+          type="primary"
+          circle
+          size="large"
+          icon="VideoPlay"
+          @click="togglePause"></el-button>
       </div>
     </div>
 
     <!-- Info Panel -->
     <div class="flex w-64 flex-col gap-6">
-      <div class="rounded-3xl border border-white bg-white/80 p-6 shadow-sm dark:border-white/5 dark:bg-white/5 backdrop-blur-md">
-        <h3 class="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">Score Control</h3>
-        
+      <div
+        class="rounded-3xl border border-white bg-white/80 p-6 shadow-sm backdrop-blur-md dark:border-white/5 dark:bg-white/5">
+        <h3 class="mb-4 text-xs font-black tracking-widest text-slate-400 uppercase"
+          >Score Control</h3
+        >
+
         <div class="flex flex-col gap-4">
           <div class="flex flex-col">
             <span class="text-[10px] font-bold text-slate-400">CURRENT SCORE</span>
-            <span class="text-4xl font-black text-slate-800 dark:text-white tabular-nums">{{ score }}</span>
+            <span class="text-4xl font-black text-slate-800 tabular-nums dark:text-white">{{
+              score
+            }}</span>
           </div>
 
           <div class="flex items-center gap-2">
-            <div class="h-2 w-2 rounded-full" :class="isGameOver ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-emerald-500'"></div>
-            <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">
+            <div
+              class="h-2 w-2 rounded-full"
+              :class="
+                isGameOver ? 'bg-red-500' : isPaused ? 'bg-yellow-500' : 'bg-emerald-500'
+              "></div>
+            <span class="text-xs font-bold text-slate-500 uppercase dark:text-slate-400">
               {{ isGameOver ? 'Stopped' : isPaused ? 'Paused' : 'Playing' }}
             </span>
           </div>
 
-          <el-button v-if="!isGameOver" @click="togglePause" :type="isPaused ? 'success' : 'warning'" size="small" round plain block>
+          <el-button
+            v-if="!isGameOver"
+            @click="togglePause"
+            :type="isPaused ? 'success' : 'warning'"
+            size="small"
+            round
+            plain
+            block>
             {{ isPaused ? 'Resume' : 'Pause' }}
           </el-button>
         </div>
       </div>
 
-      <div class="rounded-3xl border border-white bg-white/80 p-6 shadow-sm dark:border-white/5 dark:bg-white/5 backdrop-blur-md">
-        <h3 class="mb-4 text-xs font-black uppercase tracking-widest text-slate-400">How to Play</h3>
+      <div
+        class="rounded-3xl border border-white bg-white/80 p-6 shadow-sm backdrop-blur-md dark:border-white/5 dark:bg-white/5">
+        <h3 class="mb-4 text-xs font-black tracking-widest text-slate-400 uppercase"
+          >How to Play</h3
+        >
         <div class="grid grid-cols-2 gap-4">
           <div class="flex flex-col">
-            <kbd class="mb-1 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">↑</kbd>
+            <kbd
+              class="mb-1 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 font-bold text-slate-800 dark:bg-white/10 dark:text-white"
+              >↑</kbd
+            >
             <span class="text-[10px] font-medium text-slate-500">ROTATE</span>
           </div>
           <div class="flex flex-col">
-            <kbd class="mb-1 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">↓</kbd>
+            <kbd
+              class="mb-1 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 font-bold text-slate-800 dark:bg-white/10 dark:text-white"
+              >↓</kbd
+            >
             <span class="text-[10px] font-medium text-slate-500">SPEED</span>
           </div>
           <div class="flex flex-col">
-            <kbd class="mb-1 inline-flex h-8 w-16 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">← →</kbd>
+            <kbd
+              class="mb-1 inline-flex h-8 w-16 items-center justify-center rounded-lg bg-slate-100 font-bold text-slate-800 dark:bg-white/10 dark:text-white"
+              >← →</kbd
+            >
             <span class="text-[10px] font-medium text-slate-500">MOVE</span>
           </div>
           <div class="flex flex-col">
-            <kbd class="mb-1 inline-flex h-8 w-16 items-center justify-center rounded-lg bg-slate-100 text-slate-800 dark:bg-white/10 dark:text-white font-bold">SP</kbd>
+            <kbd
+              class="mb-1 inline-flex h-8 w-16 items-center justify-center rounded-lg bg-slate-100 font-bold text-slate-800 dark:bg-white/10 dark:text-white"
+              >SP</kbd
+            >
             <span class="text-[10px] font-medium text-slate-500">PAUSE</span>
           </div>
         </div>
@@ -69,7 +113,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import { Leafer, Rect, Group } from 'leafer-ui';
-import { VideoPlay } from '@element-plus/icons-vue';
 
 // --- 配置常量 ---
 const ROWS = 20;
@@ -79,12 +122,30 @@ const TICK_RATE = 500;
 
 const SHAPES = [
   [[1, 1, 1, 1]],
-  [[1, 1], [1, 1]],
-  [[0, 1, 0], [1, 1, 1]],
-  [[1, 0, 0], [1, 1, 1]],
-  [[0, 0, 1], [1, 1, 1]],
-  [[0, 1, 1], [1, 1, 0]],
-  [[1, 1, 0], [0, 1, 1]],
+  [
+    [1, 1],
+    [1, 1],
+  ],
+  [
+    [0, 1, 0],
+    [1, 1, 1],
+  ],
+  [
+    [1, 0, 0],
+    [1, 1, 1],
+  ],
+  [
+    [0, 0, 1],
+    [1, 1, 1],
+  ],
+  [
+    [0, 1, 1],
+    [1, 1, 0],
+  ],
+  [
+    [1, 1, 0],
+    [0, 1, 1],
+  ],
 ];
 
 const COLORS = [null, '#00d2ff', '#f5af19', '#9d50bb', '#ff4b1f', '#2575fc', '#84fab0', '#ff0000'];
@@ -118,10 +179,14 @@ const initLeafer = () => {
 const drawGrid = () => {
   const gridGroup = new Group({ opacity: 0.1 });
   for (let i = 0; i <= COLS; i++) {
-    gridGroup.add(new Rect({ x: i * BLOCK_SIZE, y: 0, width: 1, height: ROWS * BLOCK_SIZE, fill: '#fff' }));
+    gridGroup.add(
+      new Rect({ x: i * BLOCK_SIZE, y: 0, width: 1, height: ROWS * BLOCK_SIZE, fill: '#fff' }),
+    );
   }
   for (let j = 0; j <= ROWS; j++) {
-    gridGroup.add(new Rect({ x: 0, y: j * BLOCK_SIZE, width: COLS * BLOCK_SIZE, height: 1, fill: '#fff' }));
+    gridGroup.add(
+      new Rect({ x: 0, y: j * BLOCK_SIZE, width: COLS * BLOCK_SIZE, height: 1, fill: '#fff' }),
+    );
   }
   leaferApp.add(gridGroup);
 };
@@ -195,14 +260,16 @@ const render = () => {
   for (let r = 0; r < ROWS; r++) {
     for (let c = 0; c < COLS; c++) {
       if (boardData[r][c]) {
-        gameLayer.add(new Rect({
-          x: c * BLOCK_SIZE,
-          y: r * BLOCK_SIZE,
-          width: BLOCK_SIZE - 1,
-          height: BLOCK_SIZE - 1,
-          fill: COLORS[boardData[r][c]],
-          cornerRadius: 4,
-        }));
+        gameLayer.add(
+          new Rect({
+            x: c * BLOCK_SIZE,
+            y: r * BLOCK_SIZE,
+            width: BLOCK_SIZE - 1,
+            height: BLOCK_SIZE - 1,
+            fill: COLORS[boardData[r][c]],
+            cornerRadius: 4,
+          }),
+        );
       }
     }
   }
@@ -212,15 +279,17 @@ const render = () => {
     activePiece.shape.forEach((row, r) => {
       row.forEach((val, c) => {
         if (val) {
-          gameLayer.add(new Rect({
-            x: (activePiece.x + c) * BLOCK_SIZE,
-            y: (activePiece.y + r) * BLOCK_SIZE,
-            width: BLOCK_SIZE - 1,
-            height: BLOCK_SIZE - 1,
-            fill: COLORS[activePiece.colorIndex],
-            cornerRadius: 4,
-            shadow: { x: 0, y: 0, blur: 10, color: COLORS[activePiece.colorIndex] },
-          }));
+          gameLayer.add(
+            new Rect({
+              x: (activePiece.x + c) * BLOCK_SIZE,
+              y: (activePiece.y + r) * BLOCK_SIZE,
+              width: BLOCK_SIZE - 1,
+              height: BLOCK_SIZE - 1,
+              fill: COLORS[activePiece.colorIndex],
+              cornerRadius: 4,
+              shadow: { x: 0, y: 0, blur: 10, color: COLORS[activePiece.colorIndex] },
+            }),
+          );
         }
       });
     });
@@ -279,11 +348,21 @@ const gameOver = () => {
 const handleKeydown = (e) => {
   if (isGameOver.value) return;
   switch (e.code) {
-    case 'ArrowLeft': move(-1, 0); break;
-    case 'ArrowRight': move(1, 0); break;
-    case 'ArrowDown': move(0, 1); break;
-    case 'ArrowUp': rotate(); break;
-    case 'Space': togglePause(); break;
+    case 'ArrowLeft':
+      move(-1, 0);
+      break;
+    case 'ArrowRight':
+      move(1, 0);
+      break;
+    case 'ArrowDown':
+      move(0, 1);
+      break;
+    case 'ArrowUp':
+      rotate();
+      break;
+    case 'Space':
+      togglePause();
+      break;
   }
 };
 
@@ -308,6 +387,6 @@ onUnmounted(() => {
 }
 
 kbd {
-  box-shadow: 0 4px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -12,8 +12,7 @@
           type="textarea"
           :rows="4"
           placeholder="拖动右下角的小手柄来改变文本框尺寸..."
-          class="custom-textarea"
-        />
+          class="custom-textarea" />
 
         <div class="dimension-badge">
           <div class="badge-item">

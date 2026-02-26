@@ -282,6 +282,7 @@ const renderChart = () => {
   connections.length = 0;
 
   // Create Layers (no background needed - App handles panning)
+  
   linkLayer.value = new Group();
   nodeLayer.value = new Group();
   leaferApp.value.tree.add(linkLayer.value);

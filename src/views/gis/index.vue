@@ -104,8 +104,6 @@ import {
   VideoPause,
   RefreshLeft,
   Delete,
-  Search,
-  Connection,
 } from '@element-plus/icons-vue';
 import { setIcon, generateMockMarkers } from './ts/utils';
 import * as chengduJson from './js/成都市.json';
@@ -124,6 +122,7 @@ const loadPlugins = async () => {
   await import('leaflet.markercluster');
   await import('leaflet-ant-path');
 };
+
 
 // 地图实例
 const map = shallowRef<any | null>(null);

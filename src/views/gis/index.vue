@@ -160,12 +160,14 @@ const pathCoords = [
   [30.71, 104.12],
   [30.72, 104.14],
 ];
+
 const stationPoints = [
   { loc: [30.665, 104.075], name: '成都市中心站' },
   { loc: [30.69, 104.1], name: '东路口站' },
   { loc: [30.72, 104.14], name: '终点站' },
 ];
 
+// 初始化地图
 const initMap = () => {
   if (!document.getElementById('gisMap')) return;
 

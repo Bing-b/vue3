@@ -81,6 +81,7 @@ const InfinteVirtualList = defineAsyncComponent(
 );
 const SortTable = defineAsyncComponent(() => import('./components/sortTable.vue'));
 const Bolb = defineAsyncComponent(() => import('./components/blob.vue'));
+const SSE = defineAsyncComponent(() => import('./components/sse.vue'));
 
 const componentsMap: Recordable = {
   componentA: ElTooltipPlus,
@@ -92,6 +93,7 @@ const componentsMap: Recordable = {
   componentG: InfinteVirtualList,
   componentH: SortTable,
   componentI: Bolb,
+  componentJ: SSE,
 };
 
 // 左侧菜单
@@ -140,6 +142,11 @@ const leftSideMenu = [
     name: 'Blob 数据处理',
     component: 'componentI',
     icon: Basketball,
+  },
+  {
+    name: 'SSE 实时通信',
+    component: 'componentJ',
+    icon: Pointer,
   },
 ];
 

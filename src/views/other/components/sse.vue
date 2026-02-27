@@ -65,7 +65,7 @@ import { ChatDotRound, InfoFilled } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 
 const messages = ref<any[]>([]);
-const isConnected = ref(false);
+const isConnected = ref(false); // 是否连接
 const eventSource = ref<EventSource | null>(null);
 
 const statusText = computed(() => isConnected.value ? '已连接' : '已断开');
@@ -100,6 +100,7 @@ const connect = () => {
   }
 };
 
+// 断开 sse 连接
 const disconnect = () => {
   if (eventSource.value) {
     eventSource.value.close();
@@ -108,6 +109,7 @@ const disconnect = () => {
   isConnected.value = false;
 };
 
+// 清空消息
 const clearMessages = () => {
   messages.value = [];
 };

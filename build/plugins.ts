@@ -13,6 +13,7 @@ import legacy from 'vite-plugin-legacy-swc'; // 兼容处理
 // import { generateLangStats } from '../src/utils/file-stats'; // 统计项目文件脚本
 
 import { getArgs } from './utils';
+import vitePluginBugRecorder from '../vite-plugin-bug-recorder';
 
 // function fileStatsPlugin() {
 //   return {
@@ -53,11 +54,11 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
 
     // 处理旧浏览器兼容
     isProd &&
-      isLegacy &&
-      legacy({
-        targets: ['defaults', 'not IE 11', 'chrome >= 60'],
-        modernPolyfills: true,
-      }),
+    isLegacy &&
+    legacy({
+      targets: ['defaults', 'not IE 11', 'chrome >= 60'],
+      modernPolyfills: true,
+    }),
 
     // 打包分析
     // visualizer({
@@ -73,6 +74,7 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
       // algorithm: 'brotliCompress', // 压缩算法
       // ext: '.br', // 文件类型
     }),
+    vitePluginBugRecorder({ enabled: true }),
     !isProd && VitePluginVueDevtools(),
   ].filter(Boolean);
 };

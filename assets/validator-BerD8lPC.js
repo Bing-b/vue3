@@ -1,0 +1,1 @@
+import{o as e}from"./use-form-common-props-BCo9rQq7.js";var t=[`year`,`years`,`month`,`months`,`date`,`dates`,`week`,`datetime`,`datetimerange`,`daterange`,`monthrange`,`yearrange`],n=[`sun`,`mon`,`tue`,`wed`,`thu`,`fri`,`sat`],r=t=>[``,...e].includes(t);export{n,t as r,r as t};

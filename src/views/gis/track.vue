@@ -9,7 +9,9 @@
         <el-button-group>
           <el-button type="primary" :icon="Position" @click="creatTrack">生成路线</el-button>
           <el-button type="success" :icon="VideoPlay" @click="trackControl.start()">开始</el-button>
-          <el-button type="warning" :icon="VideoPause" @click="trackControl.pause()">暂停</el-button>
+          <el-button type="warning" :icon="VideoPause" @click="trackControl.pause()"
+            >暂停</el-button
+          >
         </el-button-group>
       </div>
 
@@ -22,8 +24,7 @@
             v-model="trackControl.speed"
             :max="1000"
             :min="0"
-            @change="handleChangeSpeed"
-          />
+            @change="handleChangeSpeed" />
           <span class="value">{{ trackControl.speed }} <small>km/h</small></span>
         </div>
 
@@ -33,8 +34,7 @@
             v-model="trackControl.progress"
             :max="100"
             :min="0"
-            @change="handleChangeProgress"
-          />
+            @change="handleChangeProgress" />
           <span class="value">{{ Math.floor(trackControl.progress) }}%</span>
         </div>
       </div>

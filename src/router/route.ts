@@ -85,7 +85,6 @@ export const mainRoutes: Array<RouteRecordRaw> = [
           icon: 'menu-menu_other',
         },
         component: () => import('@/views/other/index.vue'),
-
       },
       {
         path: '/css',
@@ -119,6 +118,14 @@ export const mainRoutes: Array<RouteRecordRaw> = [
             component: () => import('@/views/leaferjs/index.vue'),
             meta: {
               title: 'leaferjs',
+            },
+          },
+          {
+            path: '/gomoku',
+            name: 'gomoku',
+            component: () => import('@/views/test/index.vue'),
+            meta: {
+              title: '五子棋',
             },
           },
         ],

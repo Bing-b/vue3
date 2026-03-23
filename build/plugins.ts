@@ -5,9 +5,8 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
-import { visualizer } from 'rollup-plugin-visualizer';
 import viteCompression from 'vite-plugin-compression';
-import VitePluginVueDevtools from 'vite-plugin-vue-devtools';
+import { codeInspectorPlugin } from 'code-inspector-plugin';
 import legacy from 'vite-plugin-legacy-swc'; // 兼容处理
 
 // import { generateLangStats } from '../src/utils/file-stats'; // 统计项目文件脚本
@@ -39,6 +38,7 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
     vue(),
     // svg 配置，用于全局使用svg 组件
     createSvgIconsPlugin({
+      // eslint-disable-next-line no-undef
       iconDirs: [resolve(__dirname, '../src/assets/icons')],
       symbolId: 'icon-[dir]-[name]',
     }),
@@ -54,13 +54,13 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
 
     // 处理旧浏览器兼容
     isProd &&
-    isLegacy &&
-    legacy({
-      targets: ['defaults', 'not IE 11', 'chrome >= 60'],
-      modernPolyfills: true,
-    }),
+      isLegacy &&
+      legacy({
+        targets: ['defaults', 'not IE 11', 'chrome >= 60'],
+        modernPolyfills: true,
+      }),
 
-    // 打包分析
+    // 打包分析 (需要时启用)
     // visualizer({
     //   open: false,
     //   gzipSize: true,
@@ -69,12 +69,12 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
     //   filename: 'visualizer.html',
     // }),
     viteCompression({
-      deleteOriginFile: false, // 删除源文件
-      threshold: 1024 * 20, // 压缩前最小文件大小
-      // algorithm: 'brotliCompress', // 压缩算法
-      // ext: '.br', // 文件类型
+      verbose: false,
+      threshold: 10240, // 超过 10kb 压缩
+      algorithm: 'gzip',
+      ext: '.gz',
     }),
     vitePluginBugRecorder({ enabled: true }),
-    !isProd && VitePluginVueDevtools(),
+    !isProd && codeInspectorPlugin({ bundler: 'vite' }),
   ].filter(Boolean);
 };

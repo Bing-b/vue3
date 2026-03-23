@@ -98,13 +98,7 @@
 import { onMounted, shallowRef, reactive, watch, nextTick } from 'vue';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {
-  InfoFilled,
-  VideoPlay,
-  VideoPause,
-  RefreshLeft,
-  Delete,
-} from '@element-plus/icons-vue';
+import { InfoFilled, VideoPlay, VideoPause, RefreshLeft, Delete } from '@element-plus/icons-vue';
 import { setIcon, generateMockMarkers } from './ts/utils';
 import * as chengduJson from './js/成都市.json';
 import { hainanRiverCoordinates, highRoadData } from './js/route';
@@ -122,7 +116,6 @@ const loadPlugins = async () => {
   await import('leaflet.markercluster');
   await import('leaflet-ant-path');
 };
-
 
 // 地图实例
 const map = shallowRef<any | null>(null);

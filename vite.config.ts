@@ -39,7 +39,8 @@ export default defineConfig(({ mode, command }) => {
       },
     },
     optimizeDeps: {
-      exclude: ['@vueuse/core', 'poplar-annotation'],
+      include: ['element-plus/es/locale/lang/zh-cn', 'element-plus/es/locale/lang/en'],
+      exclude: ['poplar-annotation'],
     },
     plugins: createVitePlugins(command),
     css: {
@@ -68,21 +69,26 @@ export default defineConfig(({ mode, command }) => {
       commonjsOptions: {
         transformMixedEsModules: true, // 优化cjs加载方式
       },
-      // rollupOptions: {
-      //   input: {
-      //     main: resolve(__dirname, 'index.html'),
-      //   },
-      //   output: {
-      //     chunkFileNames: 'static/js/[name]-[hash].js',
-      //     entryFileNames: 'static/js/[name]-[hash].js',
-      //     assetFileNames: 'static/assets/[name]-[hash].[ext]',
-      //     // 分包 chunk 提升首屏加载 及 缓存利用率
-      //     manualChunks: {
-      //       core: ['vue', 'vue-router', 'pinia', 'axios'],
-      //       ui: ['element-plus'],
-      //     },
-      //   },
-      // },
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/assets/[name]-[hash].[ext]',
+          // 优化分包策略
+          manualChunks: (id) => {
+            if (id.includes('node_modules')) {
+              if (id.includes('element-plus')) return 'ui-element';
+              if (id.includes('echarts') || id.includes('amcharts')) return 'ui-charts';
+              if (id.includes('three')) return 'ui-three';
+              if (id.includes('leaflet')) return 'ui-map';
+              if (id.includes('pdfjs-dist')) return 'ui-pdf';
+              if (id.includes('vue') || id.includes('pinia') || id.includes('axios'))
+                return 'ui-core';
+              return 'vendor';
+            }
+          },
+        },
+      },
     },
     define: {
       __INTLIFY_PROD_DEVTOOLS__: false,

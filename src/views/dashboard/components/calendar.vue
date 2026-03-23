@@ -73,8 +73,12 @@ const lunarData = reactive({
   happyDay: '',
 });
 
-// 每月第一天对应的号数
-const firstDateDay = computed(() => new Date(now.getFullYear(), now.getMonth(), 1).getDate()); // now.getMonth() 返回月份是从 0 开始
+// 每月第一天对应的星期 (0: 日, 1: 一, ..., 6: 六)
+const firstDateDay = computed(() => {
+  const day = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+  // 转换为以周一为起始的偏移 (周一: 0, ..., 周日: 6)
+  return day === 0 ? 6 : day - 1;
+});
 
 // 每月有多少天
 const days = computed(() => new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate());

@@ -1,16 +1,15 @@
 <template>
   <div
     v-if="visible"
-    class="absolute inset-0 z-2 flex h-full w-full items-center justify-center bg-white/10 backdrop-blur-md">
+    class="absolute inset-0 z-99 flex h-full w-full items-center justify-center bg-white/10 backdrop-blur-md">
     <div class="w-[1024px] overflow-hidden rounded-xl bg-white">
       <div class="flex items-center border-b border-[#0000000d] bg-[#f8f8f8] p-5">
         <!-- 关闭 -->
         <div
           @click="visible = false"
           class="flex h-4 w-4 cursor-pointer items-center justify-center rounded-full bg-[#ff7330] duration-300 hover:scale-[1.1] hover:bg-[#ff6565]">
-          <svgIcon name="close" :size="12" color="#fff" />
-        </div
->
+          <svgIcon name="close" :size="12" />
+        </div>
         <p class="ml-5 text-sm text-[#8e8e94]">{{ lunarYear }} {{ lunarMonth }}月 {{ lunarDay }}</p>
       </div>
 

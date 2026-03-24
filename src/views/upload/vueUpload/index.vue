@@ -1,7 +1,8 @@
 <template>
   <div class="vue-upload-wrapper">
     <!-- Action Bar -->
-    <div class="action-bar flex items-center justify-between mb-6 p-4 bg-white rounded-xl border border-slate-100 shadow-sm">
+    <div
+      class="action-bar mb-6 flex items-center justify-between rounded-xl border border-slate-100 bg-white p-4 shadow-sm">
       <div class="flex items-center gap-4">
         <VueUpload
           ref="upload"
@@ -9,56 +10,63 @@
           :post-action="postUrl"
           :multiple="true"
           @input-file="inputFile"
-          @input-filter="inputFilter"
-        >
+          @input-filter="inputFilter">
           <el-button type="primary" :icon="Plus" round>选择文件</el-button>
         </VueUpload>
-        <span class="text-xs font-bold text-slate-400" v-if="files.length">已选 {{ files.length }} 个文件</span>
+        <span class="text-xs font-bold text-slate-400" v-if="files.length"
+          >已选 {{ files.length }} 个文件</span
+        >
       </div>
 
-      <el-button 
-        type="success" 
-        :icon="Upload" 
-        :disabled="!files.length || uploading" 
+      <el-button
+        type="success"
+        :icon="Upload"
+        :disabled="!files.length || uploading"
         @click.prevent="uploadFiles"
-        round
-      >
+        round>
         开始上传
       </el-button>
     </div>
 
     <!-- File List -->
-    <div class="file-grid grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="file-grid grid grid-cols-1 gap-4 md:grid-cols-2">
       <transition-group name="list">
         <div v-for="file in files" :key="file.id" class="file-item-card group">
           <div class="flex items-center gap-4 p-4">
-            <div class="file-preview flex-none w-16 h-16 rounded-lg bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center">
-              <img v-if="file.blob" :src="file.blob" class="w-full h-full object-cover" />
+            <div
+              class="file-preview flex h-16 w-16 flex-none items-center justify-center overflow-hidden rounded-lg border border-slate-100 bg-slate-50">
+              <img v-if="file.blob" :src="file.blob" class="h-full w-full object-cover" />
               <el-icon v-else class="text-2xl text-slate-300"><Document /></el-icon>
             </div>
 
-            <div class="file-info flex-1 min-width-0">
-              <div class="flex items-center justify-between mb-1">
-                <h5 class="text-sm font-bold text-slate-700 truncate pr-4">{{ file.name }}</h5>
-                <el-icon v-if="file.success" class="text-emerald-500 font-bold"><CircleCheckFilled /></el-icon>
-                <el-icon v-if="file.error" class="text-red-500 font-bold"><CircleCloseFilled /></el-icon>
+            <div class="file-info min-width-0 flex-1">
+              <div class="mb-1 flex items-center justify-between">
+                <h5 class="truncate pr-4 text-sm font-bold text-slate-700">{{ file.name }}</h5>
+                <el-icon v-if="file.success" class="font-bold text-emerald-500"
+                  ><CircleCheckFilled
+                /></el-icon>
+                <el-icon v-if="file.error" class="font-bold text-red-500"
+                  ><CircleCloseFilled
+                /></el-icon>
               </div>
               <p class="text-[11px] font-bold text-slate-400">{{ formatSize(file.size) }}</p>
-              
+
               <!-- Progress -->
               <div v-if="file.active || file.progress !== '0.00'" class="mt-2">
-                <el-progress :percentage="parseFloat(file.progress)" :stroke-width="4" :show-text="false" />
+                <el-progress
+                  :percentage="parseFloat(file.progress)"
+                  :stroke-width="4"
+                  :show-text="false" />
               </div>
             </div>
 
-            <div class="file-actions opacity-0 group-hover:opacity-100 transition-opacity">
-              <el-button 
-                type="danger" 
-                :icon="Delete" 
-                circle 
-                size="small" 
-                @click="removeFile(file)" 
-              />
+            <div class="file-actions opacity-0 transition-opacity group-hover:opacity-100">
+              <el-button
+                type="danger"
+                :icon="Delete"
+                circle
+                size="small"
+                @click="removeFile(file)" />
             </div>
           </div>
         </div>
@@ -66,8 +74,10 @@
     </div>
 
     <!-- Empty State -->
-    <div v-if="!files.length" class="empty-upload p-12 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center bg-slate-50/50">
-      <el-icon class="text-5xl text-slate-200 mb-4"><UploadFilled /></el-icon>
+    <div
+      v-if="!files.length"
+      class="empty-upload flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 p-12">
+      <el-icon class="mb-4 text-5xl text-slate-200"><UploadFilled /></el-icon>
       <p class="text-sm font-bold text-slate-400">暂无待上传文件</p>
     </div>
   </div>
@@ -76,14 +86,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import VueUpload from 'vue-upload-component';
-import { 
-  Plus, 
-  Upload, 
-  Delete, 
-  Document, 
-  CircleCheckFilled, 
+import {
+  Plus,
+  Upload,
+  Delete,
+  Document,
+  CircleCheckFilled,
   CircleCloseFilled,
-  UploadFilled
+  UploadFilled,
 } from '@element-plus/icons-vue';
 
 const postUrl = 'http://127.0.0.1:3000/oss/upload';
@@ -148,7 +158,7 @@ const removeFile = (file: any) => {
   border: 1px solid #f1f5f9;
   border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     border-color: #6366f1;
     box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.1);

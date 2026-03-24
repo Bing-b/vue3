@@ -19,8 +19,7 @@
             :key="item.component"
             class="menu-item"
             :class="{ active: activeComponent === item.component }"
-            @click="activeComponent = item.component"
-          >
+            @click="activeComponent = item.component">
             <el-icon class="item-icon">
               <component :is="item.icon" />
             </el-icon>
@@ -49,19 +48,8 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  defineAsyncComponent,
-  shallowRef,
-} from 'vue';
-import {
-  Menu,
-  Folder,
-  Upload,
-  Edit,
-  Tickets,
-  Postcard,
-} from '@element-plus/icons-vue';
+import { computed, defineAsyncComponent, shallowRef } from 'vue';
+import { Menu, Folder, Upload, Edit, Tickets, Postcard } from '@element-plus/icons-vue';
 
 // 异步加载组件
 const DocLibrary = defineAsyncComponent(() => import('../docLibrary/index.vue'));

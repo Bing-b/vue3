@@ -1,7 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import { __APP_INFO__, alias, extensions, root, warpperEnv } from './build/utils';
 import { createVitePlugins } from './build/plugins';
-import { resolve } from 'path';
 
 export default defineConfig(({ mode, command }) => {
   const { VITE_PORT, VITE_PUBLIC_PATH } = warpperEnv(loadEnv(mode, root));

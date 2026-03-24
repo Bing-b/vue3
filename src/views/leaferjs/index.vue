@@ -27,6 +27,11 @@
             <Process />
           </div>
         </el-tab-pane>
+        <el-tab-pane label="Leafer Racer (NEW)">
+          <div class="p-4">
+            <Racing />
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -36,6 +41,7 @@
 import Game from './game.vue';
 import Process from './process.vue';
 import Base from './base.vue';
+import Racing from './racing.vue';
 </script>
 
 <style lang="scss" scoped>

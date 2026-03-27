@@ -12,7 +12,7 @@ import legacy from 'vite-plugin-legacy-swc'; // 兼容处理
 // import { generateLangStats } from '../src/utils/file-stats'; // 统计项目文件脚本
 
 import { getArgs } from './utils';
-import vitePluginBugRecorder from '../vite-plugin-bug-recorder';
+// import vitePluginBugRecorder from '../vite-plugin-bug-recorder';
 
 // function fileStatsPlugin() {
 //   return {
@@ -74,7 +74,8 @@ export const createVitePlugins = (command: 'build' | 'serve'): Array<PluginOptio
       algorithm: 'gzip',
       ext: '.gz',
     }),
-    vitePluginBugRecorder({ enabled: true }),
+
+    // vitePluginBugRecorder({ enabled: true }),
     !isProd && codeInspectorPlugin({ bundler: 'vite' }),
   ].filter(Boolean);
 };

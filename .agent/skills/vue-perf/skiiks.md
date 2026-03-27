@@ -7,8 +7,9 @@
 ## Context & Rules
 
 - **Tech Stack**: Vue 3 (Composition API), Vite 8, TypeScript.
-- **Rule 1**: 检查 `shallowRef` 代替 `ref` 处理大型不可变对象（如地图坐标数据）。
+- **Rule 1**: 检查 `shallowRef` 代替 `ref` 处理大型不可变对象。
 - **Rule 2**: 针对 Vite 8，优化 `optimizeDeps` 配置以适配 Rolldown 引擎。
+- **Rule 3**: 检查代码逻辑，简化代码，但要保持语义可读性。
 
 ## Instructions
 
@@ -16,6 +17,3 @@
 2. 检查模板中的计算属性是否有高频触发。
 3. 检查 `vite.config.ts` 中的插件顺序，确保 Rolldown 构建最优。
 4. 检查代码循环渲染，是否可以优化。
-5. 检查代码逻辑，简化代码，但要保持语义可读性。
-
-## example

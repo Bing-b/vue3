@@ -76,7 +76,7 @@ import ElUpload from './elUpload/index.vue';
 
     .upload-section {
       margin-bottom: 24px;
-      
+
       .section-badge {
         margin-bottom: 20px;
       }

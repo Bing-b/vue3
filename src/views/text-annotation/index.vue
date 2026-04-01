@@ -2,9 +2,9 @@
   <div class="h-full">
     <h2 class="title w-full">文本标注</h2>
     <div class="p-5">
-      <el-link href="https://github.com/synyi/poplar/blob/master/doc/zh.md" target="_blank"
-        >Poplar-annotator</el-link
-      >
+      <el-link href="https://github.com/synyi/poplar/blob/master/doc/zh.md" target="_blank">
+        Poplar-annotator
+      </el-link>
       <div class="flex">
         <!-- 抽取文本输入框 -->
         <div class="editor w-1/2">
@@ -36,8 +36,8 @@
             class="dark:border-dark-border h-[300px] overflow-hidden rounded border border-[#dedede]"></div>
           <div class="mt-4 flex items-center">
             <el-button v-show="annotator" type="primary" @click="exprotJson">导出JSON</el-button>
-            <el-button v-show="annotator" type="primary" @click="exportSVG">导出SVG</el-button></div
-          >
+            <el-button v-show="annotator" type="primary" @click="exportSVG">导出SVG</el-button>
+          </div>
         </div>
       </div>
     </div>
@@ -57,13 +57,18 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, ref, computed, reactive, ComputedRef } from 'vue';
-import { Annotator, Action } from 'poplar-annotation';
+import PoplarAnnotation from 'poplar-annotation';
 import { LabelCategory } from 'poplar-annotation/dist/Store/LabelCategory';
 import { ConnectionCategory } from 'poplar-annotation/dist/Store/ConnectionCategory';
 import { ConfigInput } from 'poplar-annotation/dist/Config';
 import { annototarData } from './interface/index';
 import LabelCategoryDialog from './labelCategoryDialog/index.vue';
 import ConnectionCategoryDialog from './connectionCategoryDialog/index.vue';
+
+const { Annotator, Action } = PoplarAnnotation as {
+  Annotator: new (...args: any[]) => any;
+  Action: any;
+};
 
 // 定义 label & connection 新增或修改的操作
 enum CategorySelectModes {
@@ -273,7 +278,7 @@ const LabelCategorys: ComputedRef<LabelCategory.Entity[]> = computed(() => {
     return [];
   }
   const result = [];
-  for (const [_, category] of annotator.value!.store.labelCategoryRepo) {
+  for (const [, category] of annotator.value!.store.labelCategoryRepo) {
     result.push(category);
   }
   return result;
@@ -285,7 +290,7 @@ const connectionCategories: ComputedRef<ConnectionCategory.Entity[]> = computed(
     return [];
   }
   const result = [];
-  for (const [_, category] of annotator.value.store.connectionCategoryRepo) {
+  for (const [, category] of annotator.value.store.connectionCategoryRepo) {
     result.push(category);
   }
   return result;
@@ -306,10 +311,10 @@ const labelStore: ComputedRef<
     borderColor: string;
     num?: number;
   }[] = [];
-  for (const [_, category] of annotator.value!.store.labelCategoryRepo) {
+  for (const [, category] of annotator.value!.store.labelCategoryRepo) {
     labelCategories.push(category);
   }
-  for (const [_, category] of annotator.value.store.labelRepo) {
+  for (const [, category] of annotator.value.store.labelRepo) {
     result.push(category.json);
   }
 

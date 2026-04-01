@@ -1,7 +1,7 @@
 <template>
   <div class="demo-card upload-container">
     <div class="demo-info">
-      <h4 class="title">高级文件上传</h4>
+      <h4 class="title">文件上传</h4>
       <p class="desc">支持拖拽、多选、类型限制及实时进度展示的多种上传解决方案</p>
     </div>
 

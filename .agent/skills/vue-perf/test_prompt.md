@@ -5,4 +5,4 @@
 4、视觉效果要震撼，有冲击力，机体可以大一点，占据画面中间位置
 5、输出海报质量高清
 
-请调用 Playwright MCP 执行以下任务：访问https://www.xiaohongshu.com
+请调用 Playwright MCP 执行以下任务：访问

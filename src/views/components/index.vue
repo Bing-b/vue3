@@ -68,7 +68,7 @@ const componentsMap: Record<string, any> = {
 
 const menuItems = [
   { name: '文档解析库', component: 'doc', icon: Folder },
-  { name: '高级文件上传', component: 'upload', icon: Upload },
+  { name: '文件上传', component: 'upload', icon: Upload },
   { name: 'ACE 编辑器', component: 'ace', icon: Edit },
   { name: 'NLP 文本标注', component: 'annotation', icon: Tickets },
   { name: '智能标签编辑', component: 'editable', icon: Postcard },

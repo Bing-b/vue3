@@ -1,117 +1,107 @@
 <template>
-  <div
-    class="interactive-panel flex h-full w-[800px] gap-4 p-4 pr-0 transition-colors duration-500">
+  <div class="interactive-panel flex h-full w-full gap-6 p-1">
     <!-- Left: 3D Visualization -->
-    <div
-      class="vison-container glass-card group relative flex w-1/3 min-w-[260px] flex-col items-center justify-center overflow-hidden rounded-[24px] border border-transparent bg-white p-4 shadow-sm transition-all hover:shadow-md dark:border-white/10 dark:!bg-[linear-gradient(35deg,_#1c1e23_0%,_#555555_100%)]">
-      <div class="absolute top-4 left-4 z-10">
-        <h3 class="text-sm font-black tracking-widest text-indigo-500 italic dark:text-indigo-400"
-          >SYSTEM CORE</h3
+    <div class="vison-section relative flex w-2/5 flex-col items-center justify-center">
+      <div class="absolute top-0 left-0">
+        <span
+          class="text-[9px] font-bold tracking-wider text-[#86868b] uppercase dark:text-[#a1a1a6]"
+          >Core</span
         >
-        <p class="font-mono text-[10px] text-gray-400 dark:text-gray-500">NEURAL_DENSITY: 0.84</p>
       </div>
 
-      <!-- Orb Visualizer -->
-      <div class="orb-visualizer relative h-40 w-40">
+      <!-- Compact Orb -->
+      <div class="orb-visualizer relative h-28 w-28">
         <div
-          class="orb-inner absolute inset-0 animate-pulse rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 opacity-30 blur-xl dark:opacity-50"></div>
+          class="orb-inner absolute inset-0 animate-pulse rounded-full bg-gradient-to-tr from-[#007aff] to-[#5856d6] opacity-15 blur-xl"></div>
         <div
-          class="orb-core animate-spin-slow absolute inset-4 flex items-center justify-center rounded-full border-2 border-indigo-400/50 dark:border-indigo-300/40">
-          <div class="absolute h-32 w-1 rotate-45 bg-indigo-500/20 dark:bg-indigo-300/20"></div>
-          <div class="absolute h-32 w-1 -rotate-45 bg-indigo-500/20 dark:bg-indigo-300/20"></div>
+          class="orb-core animate-spin-slow absolute inset-2 flex items-center justify-center rounded-full border border-[#007aff]/30">
+          <div class="absolute h-20 w-px rotate-45 bg-[#007aff]/20"></div>
+          <div class="absolute h-20 w-px -rotate-45 bg-[#007aff]/20"></div>
         </div>
         <div class="orb-content absolute inset-0 flex flex-col items-center justify-center">
-          <span class="text-2xl font-black text-indigo-600 dark:text-indigo-400">9800</span>
-          <span class="text-[8px] font-bold tracking-tighter text-gray-400 dark:text-gray-500"
-            >ALIVE</span
-          >
+          <span class="text-2xl font-bold text-[#007aff] dark:text-[#0a84ff]">9800</span>
+          <span class="text-[8px] font-bold tracking-widest text-[#86868b] uppercase">Alive</span>
         </div>
       </div>
 
-      <div class="mt-8 w-full space-y-2">
-        <div
-          class="flex justify-between text-[10px] font-bold text-gray-500 uppercase dark:text-gray-400">
-          <span>Synapse Load</span>
+      <div class="mt-4 w-full px-1">
+        <div class="flex justify-between pb-1 text-[9px] font-bold text-[#86868b] uppercase">
+          <span>Load</span>
           <span>{{ load }}%</span>
         </div>
-        <div class="h-1.5 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
+        <div class="h-1 w-full overflow-hidden rounded-full bg-black/5 dark:bg-white/5">
           <div
-            class="h-full bg-indigo-500 shadow-sm transition-all duration-1000 dark:bg-indigo-400"
+            class="h-full bg-[#007aff] transition-all duration-1000"
             :style="{ width: load + '%' }"></div>
         </div>
       </div>
     </div>
 
-    <!-- Right: Metrics & Interactive Grid -->
+    <!-- Right: Metrics Grid -->
     <div class="metrics-grid flex flex-1 flex-col gap-4">
-      <!-- Top Row: Vitals -->
-      <div class="grid h-1/2 grid-cols-2 gap-4">
+      <div class="grid flex-1 grid-cols-2 gap-4">
+        <!-- CPU Metric -->
         <div
-          class="glass-card group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-[24px] border border-transparent bg-white p-4 shadow-sm transition-all hover:border-indigo-500/50 hover:shadow-md dark:border-white/10 dark:bg-[#1c1e23] dark:hover:border-indigo-400/50">
-          <div class="flex items-start justify-between">
-            <span
-              class="text-[10px] font-black tracking-widest text-indigo-500 uppercase dark:text-indigo-400"
-              >进程</span
-            >
-            <el-icon class="text-indigo-500 opacity-50"><Monitor /></el-icon>
+          class="group flex flex-col justify-between rounded-[16px] bg-black/5 p-3 transition-all hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10">
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] font-bold tracking-wider text-[#007aff] uppercase">进程</span>
+            <el-icon class="text-[#007aff] opacity-60" :size="14"><Monitor /></el-icon>
           </div>
-          <div class="flex items-end gap-2 text-gray-800 dark:text-gray-100">
-            <span class="text-3xl font-black tracking-tighter">{{ cpu }}</span>
-            <span class="mb-1.5 text-xs font-bold text-gray-400 dark:text-gray-500">Mhz</span>
+          <div class="flex items-baseline gap-1 pt-1">
+            <span class="text-xl leading-none font-bold text-[#1d1d1f] dark:text-white">{{
+              cpu
+            }}</span>
+            <span class="text-[9px] font-bold text-[#86868b]">Mhz</span>
           </div>
-          <div class="mt-2 flex h-2 items-end gap-1">
+          <div class="mt-2 flex h-2 items-end gap-0.5">
             <div
               v-for="(h, n) in cpuHeights"
               :key="n"
-              class="flex-1 rounded-sm bg-indigo-500/20 transition-all group-hover:bg-indigo-500/40 dark:bg-indigo-400/20"
+              class="flex-1 rounded-full bg-[#007aff]/20"
               :style="{ height: h + '%' }"></div>
           </div>
         </div>
 
+        <!-- RAM Metric -->
         <div
-          class="glass-card group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-[24px] border border-transparent bg-white p-4 shadow-sm transition-all hover:border-emerald-500/50 hover:shadow-md dark:border-white/10 dark:bg-[#1c1e23] dark:hover:border-emerald-400/50">
-          <div class="flex items-start justify-between">
-            <span
-              class="text-[10px] font-black tracking-widest text-emerald-500 uppercase dark:text-emerald-400"
-              >内存 Ops</span
-            >
-            <el-icon class="text-emerald-500 opacity-50"><Cpu /></el-icon>
+          class="group flex flex-col justify-between rounded-[16px] bg-black/5 p-3 transition-all hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10">
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] font-bold tracking-wider text-[#34c759] uppercase">内存</span>
+            <el-icon class="text-[#34c759] opacity-60" :size="14"><Cpu /></el-icon>
           </div>
-          <div class="flex items-end gap-2 text-emerald-600 dark:text-emerald-400">
-            <span class="text-3xl font-black tracking-tighter">{{ memory }}</span>
-            <span class="mb-1.5 text-xs font-bold text-gray-400 dark:text-gray-500">Gbps</span>
+          <div class="flex items-baseline gap-1 pt-1">
+            <span class="text-xl leading-none font-bold text-[#1d1d1f] dark:text-white">{{
+              memory
+            }}</span>
+            <span class="text-[9px] font-bold text-[#86868b]">Gbps</span>
           </div>
-          <div class="mt-2 flex h-2 items-end gap-1">
+          <div class="mt-2 flex h-2 items-end gap-0.5">
             <div
               v-for="(h, n) in memoryHeights"
               :key="n"
-              class="flex-1 rounded-sm bg-emerald-500/20 transition-all group-hover:bg-emerald-500/40 dark:bg-emerald-400/20"
+              class="flex-1 rounded-full bg-[#34c759]/20"
               :style="{ height: h + '%' }"></div>
           </div>
         </div>
       </div>
 
-      <!-- Bottom Row: Stack Info -->
+      <!-- Stack -->
       <div
-        class="glass-card relative flex flex-1 flex-col overflow-hidden rounded-[24px] border border-transparent bg-white p-4 shadow-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-[#1c1e23]">
-        <h4
-          class="mb-4 text-[10px] font-black tracking-widest text-gray-400 uppercase dark:text-gray-500"
-          >Project 技术栈</h4
+        class="relative min-h-[80px] flex-1 overflow-hidden rounded-[16px] bg-black/5 p-3 dark:bg-white/5">
+        <span class="mb-2 block text-[9px] font-bold tracking-wider text-[#86868b] uppercase"
+          >Stack</span
         >
-        <div class="flex flex-wrap gap-4">
+        <div class="relative z-10 flex flex-wrap gap-1.5">
           <div
             v-for="tech in stack"
             :key="tech.name"
-            class="flex scale-95 cursor-default items-center gap-2 rounded-full border border-transparent bg-gray-100/80 px-3 py-1.5 transition-all hover:scale-100 hover:border-indigo-500/30 dark:bg-gray-800/80">
-            <div
-              class="h-1.5 w-1.5 rounded-full shadow-sm"
-              :style="{ backgroundColor: tech.color }"></div>
-            <span class="text-xs font-bold text-gray-600 dark:text-gray-300">{{ tech.name }}</span>
+            class="flex items-center gap-1.5 rounded-full border border-black/5 bg-white/60 px-2 py-0.5 dark:border-white/5 dark:bg-black/40">
+            <div class="h-1 w-1 rounded-full" :style="{ backgroundColor: tech.color }"></div>
+            <span class="text-[9px] font-bold text-[#1d1d1f] dark:text-[#f5f5f7]">{{
+              tech.name
+            }}</span>
           </div>
         </div>
-        <!-- Decorative curve -->
-        <div
-          class="absolute -right-6 -bottom-6 h-32 w-32 rounded-full border-4 border-indigo-500/5 dark:border-indigo-400/5"></div>
       </div>
     </div>
   </div>

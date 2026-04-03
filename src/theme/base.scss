@@ -71,19 +71,60 @@ html {
 
 .title {
   position: relative;
-  padding: 8px 16px;
-  background-color: #fff;
-  border-bottom: 1px solid #f0f2f5;
-  font-family: 'jy';
-  opacity: 0.9;
+  padding: 12px 20px;
+  background-color: transparent;
+  font-family: 'HanSansSC', sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--fontNormal);
   &::before {
     position: absolute;
     content: '';
-    width: 2px;
-    height: 20px;
+    width: 4px;
+    height: 18px;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgb(36, 131, 234);
+    background-color: #007aff;
+    border-radius: 2px;
+  }
+}
+
+/* Apple Style Tokens */
+:root {
+  --apple-blur: blur(20px) saturate(180%);
+  --apple-bg-light: rgba(255, 255, 255, 0.72);
+  --apple-bg-dark: rgba(28, 28, 30, 0.72);
+  --apple-border-light: rgba(255, 255, 255, 0.3);
+  --apple-border-dark: rgba(255, 255, 255, 0.1);
+  --apple-radius: 24px;
+  --apple-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+}
+
+.apple-glass {
+  backdrop-filter: var(--apple-blur);
+  -webkit-backdrop-filter: var(--apple-blur);
+  border: 1px solid var(--apple-border-light);
+  background-color: var(--apple-bg-light);
+
+  .dark & {
+    background-color: var(--apple-bg-dark);
+    border-color: var(--apple-border-dark);
+  }
+}
+
+.apple-card {
+  @extend .apple-glass;
+  border-radius: var(--apple-radius);
+  box-shadow: var(--apple-shadow);
+  padding: 20px;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.12);
   }
 }

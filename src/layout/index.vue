@@ -1,11 +1,10 @@
 <template>
-  <el-container class="layout-content">
+  <el-container class="layout-content !bg-[#f5f5f7] dark:!bg-[#000000]">
     <Header v-model:menuCollsapse="menuCollsapse" />
     <div class="layout-main">
       <Aside :menuList="state.menuList" v-model:menuCollsapse="menuCollsapse" />
-      <el-main id="main" class="h-full bg-[#f0f2f5] !px-3 !py-3">
-        <div
-          class="dark:border-base-border bg-base-background h-full overflow-hidden rounded dark:border">
+      <el-main id="main" class="h-full !p-4">
+        <div class="h-full overflow-hidden">
           <router-view #default="{ Component }">
             <transition name="slide" mode="out-in">
               <keep-alive>
@@ -18,6 +17,7 @@
     </div>
   </el-container>
 </template>
+
 <script lang="ts" setup>
 import Header from '@/layout/header/index.vue';
 import Aside from './aside.vue';
@@ -53,17 +53,30 @@ onMounted(() => {
   filterRoutes();
 });
 </script>
+
 <style lang="scss" scoped>
 .layout-content {
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
 
   .layout-main {
     display: flex;
-    height: calc(100% - 50px);
+    height: calc(100vh - 60px);
 
     main {
       flex: 1;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+      }
+      .dark &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+      }
     }
   }
 }

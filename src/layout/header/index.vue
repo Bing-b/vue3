@@ -1,13 +1,13 @@
 <template>
   <el-header
-    class="header border-base-border flex !h-[50px] items-center justify-between !p-0 shadow-sm dark:border-b">
-    <div class="flex items-center justify-between">
+    class="header apple-glass relative z-30 flex !h-[60px] items-center justify-between !border-none !p-0">
+    <div class="flex h-full items-center justify-between">
       <div
-        class="flex items-center gap-[10px] pl-5 transition-all duration-300 ease-in-out"
+        class="flex h-full items-center gap-[10px] pl-5 transition-all duration-300 ease-in-out"
         :class="{ 'w-[64px] overflow-hidden': menuCollsapse, 'w-[180px]': !menuCollsapse }">
-        <img class="w-[30px]" :src="$getImg('logo/logo.png')" />
+        <img class="w-[28px] drop-shadow-sm" :src="$getImg('logo/logo.png')" />
         <h2
-          class="font-Maoken origin-left text-[20px] font-bold text-nowrap text-[#512f1c] transition-all duration-300 ease-in-out dark:text-white"
+          class="font-Maoken origin-left text-[18px] font-bold text-nowrap text-[#1d1d1f] transition-all duration-300 ease-in-out dark:text-[#f5f5f7]"
           :class="{
             'scale-x-0 opacity-0': menuCollsapse,
             'scale-x-100 opacity-100': !menuCollsapse,
@@ -16,38 +16,32 @@
         </h2>
       </div>
 
-      <!-- 菜单收展按钮 -->
-      <!-- <el-icon
-        :size="24"
-        @click.stop="menuCollsapse = !menuCollsapse"
-        class="mr-6 cursor-pointer transition-transform dark:text-white"
-        :class="{ 'rotate-180': menuCollsapse }">
-        <Expand />
-      </el-icon> -->
+      <div class="ml-4 flex h-full items-center">
+        <div
+          @click.stop="menuCollsapse = !menuCollsapse"
+          class="mr-6 cursor-pointer rounded-lg p-1.5 text-[#86868b] transition-all hover:bg-black/5 dark:hover:bg-white/10"
+          :class="{ 'rotate-180': menuCollsapse }">
+          <svgIcon name="menu" :size="20" />
+        </div>
 
-      <svgIcon name="menu":size="24"
-        @click.stop="menuCollsapse = !menuCollsapse"
-        class="mr-6 cursor-pointer transition-transform dark:text-white"
-        :class="{ 'rotate-180': menuCollsapse }" />
-
-      <!-- 面包屑  -->
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item
-          v-for="(item, index) in breadcrumbList"
-          :key="index"
-          :to="item.path !== route.path ? { path: item.path } : undefined">
-          {{ item.meta.title }}
-        </el-breadcrumb-item>
-      </el-breadcrumb>
+        <el-breadcrumb separator="/" class="!text-[12px]">
+          <el-breadcrumb-item
+            v-for="(item, index) in breadcrumbList"
+            :key="index"
+            :to="item.path !== route.path ? { path: item.path } : undefined">
+            <span class="!font-medium">{{ item.meta.title }}</span>
+          </el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
     </div>
     <NavBox />
   </el-header>
 </template>
+
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import NavBox from './nav.vue';
 import { computed } from 'vue';
-import { Expand } from '@element-plus/icons-vue';
 
 // 菜单收展
 const menuCollsapse = defineModel('menuCollsapse', { default: false });
@@ -55,13 +49,18 @@ const menuCollsapse = defineModel('menuCollsapse', { default: false });
 const route = useRoute();
 
 const breadcrumbList = computed(() => {
-  // 只显示有 meta.title 的路由
   return route.matched.filter((r) => r.meta && r.meta.title);
 });
 </script>
+
 <style lang="scss" scoped>
-:deep(.el-breadcrumb__inner.is-link, .el-breadcrumb__separator) {
-  font-weight: 400 !important;
-  color: #8e8e94;
+:deep(.el-breadcrumb__inner) {
+  color: #86868b !important;
+  &.is-link:hover {
+    color: #007aff !important;
+  }
+}
+:deep(.el-breadcrumb__separator) {
+  color: #d1d1d6 !important;
 }
 </style>

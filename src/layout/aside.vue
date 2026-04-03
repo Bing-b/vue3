@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-box dark:border-r-base-border shadow-md select-none dark:border-r">
+  <div class="menu-box apple-glass relative z-20 !border-none select-none">
     <el-menu router :default-active="defaultActive" :collapse="menuCollsapse" :unique-opened="true">
       <template v-for="menu in menuList" :key="menu.path">
         <!-- 有子菜单 -->
@@ -9,23 +9,25 @@
           :index="menu.path"
           :class="{ choseMenu: menu.choose }">
           <template #title>
-            <svgIcon :name="menu.meta?.icon" size="20" />
-            <span class="ml-1">{{ menu.meta?.title }}</span>
+            <div class="flex w-full items-center gap-3">
+              <svgIcon :name="menu.meta?.icon" size="18" class="opacity-70" />
+              <span class="text-xs font-medium">{{ menu.meta?.title }}</span>
+            </div>
           </template>
 
           <!-- 子级菜单渲染 -->
           <template v-for="child in menu.children" :key="child.path">
             <el-sub-menu v-if="child.children && child.children.length > 0" :index="child.path">
               <template #title>
-                <span>{{ child.meta?.title }}</span>
+                <span class="text-xs">{{ child.meta?.title }}</span>
               </template>
               <el-menu-item v-for="sub in child.children" :key="sub.path" :index="sub.path">
-                {{ sub.meta?.title }}
+                <span class="text-[11px]">{{ sub.meta?.title }}</span>
               </el-menu-item>
             </el-sub-menu>
 
             <el-menu-item v-else :index="child.path">
-              {{ child.meta?.title }}
+              <span class="ml-4 text-[11px]">{{ child.meta?.title }}</span>
             </el-menu-item>
           </template>
         </el-sub-menu>
@@ -36,8 +38,10 @@
           :index="menu.path"
           :class="{ choseMenu: menu.choose }"
           @click="handleClickMenu(menu)">
-          <svgIcon :name="menu.meta?.icon" size="20" />
-          <span class="ml-1">{{ menu.meta?.title }}</span>
+          <div class="flex w-full items-center gap-3">
+            <svgIcon :name="menu.meta?.icon" size="18" class="opacity-70" />
+            <span class="text-xs font-medium">{{ menu.meta?.title }}</span>
+          </div>
         </el-menu-item>
       </template>
     </el-menu>
@@ -68,7 +72,6 @@ const filterRoutes = () => {
   let templateRoutes = [] as any;
   templateRoutes = mainRoutes.filter((item) => item.name === 'index');
   menuList.value = [...templateRoutes[0].children];
-  // console.log(menuList.value);
 };
 
 /** 处理点击菜单 */
@@ -84,7 +87,6 @@ const handleClickMenu = (menu: Menu) => {
   if (!isCurrentPath) {
     const firstChildPath = menu.children[0].path;
     defaultActive.value = firstChildPath;
-    // 只有当路径不同时才进行路由跳转
     if (route.path !== firstChildPath) {
       router.push(firstChildPath);
     }
@@ -111,7 +113,6 @@ const setCurrentRouterHighlight = (menu: Menu) => {
   });
 };
 
-// 路由更新时
 onBeforeRouteUpdate((to) => {
   setCurrentRouterHighlight(to as any);
 });
@@ -124,47 +125,60 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .menu-box {
-  padding-top: 15px;
-  height: calc(100vh - 60px);
+  height: 100%;
+  width: 180px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 10px;
 
-  svg {
-    flex: none;
+  &[data-collapse='true'] {
+    width: 64px;
   }
 
   :deep(.el-menu) {
+    background: transparent !important;
+    border-right: none;
     height: 100%;
-    border-right: 0;
 
-    .choseMenu {
-      .el-sub-menu__title {
-        color: #5f85e4 !important;
-        background-color: var(--base-menu-background);
+    .el-menu-item,
+    .el-sub-menu__title {
+      height: 36px !important;
+      line-height: 36px !important;
+      margin: 4px 0;
+      border-radius: 8px;
+      color: #1d1d1f !important;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+      }
+
+      i {
+        color: inherit !important;
       }
     }
 
-    .el-menu-item.is-active.choseMenu {
-      color: #5f85e4 !important;
-      background-color: var(--base-menu-background);
-    }
-
     .el-menu-item.is-active {
-      color: #5f85e4 !important;
+      background-color: #007aff !important;
+      color: #fff !important;
+      box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+
+      .opacity-70 {
+        opacity: 1 !important;
+      }
     }
 
-    .el-menu-item {
-      height: 50px;
-      line-height: 50px;
-    }
-
-    .el-sub-menu__title {
-      height: 50px;
-      line-height: 50px;
+    .dark & {
+      .el-menu-item,
+      .el-sub-menu__title {
+        color: #f5f5f7 !important;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+      }
+      .el-menu-item.is-active {
+        background-color: #0a84ff !important;
+      }
     }
   }
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 160px;
-  height: calc(100vh - 60px);
 }
 </style>

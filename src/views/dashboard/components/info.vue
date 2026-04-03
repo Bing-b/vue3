@@ -1,54 +1,73 @@
 <template>
-  <div class="info-container group relative flex h-full w-full flex-col overflow-hidden rounded-[24px] bg-white p-6 shadow-sm transition-all hover:shadow-md dark:bg-[#1c1e23] border border-transparent dark:border-white/10">
+  <div class="info-widget flex h-full w-full flex-col p-1">
     <!-- Header -->
-    <div class="z-10 mb-5 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-50 text-indigo-500 dark:bg-indigo-900/20 dark:text-indigo-400">
-           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
+    <div class="z-10 mb-2 flex items-center justify-between px-4 pt-4">
+      <div class="flex items-center gap-2.5">
+        <div
+          class="flex h-8 w-8 items-center justify-center rounded-[8px] bg-[#5856d6]/10 text-[#5856d6]">
+          <el-icon :size="18"><Compass /></el-icon>
         </div>
         <div>
-          <h3 class="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">Neural Core</h3>
-          <p class="text-[10px] text-gray-400">Live Computational Flux</p>
+          <span class="text-[8px] font-bold tracking-wider text-[#86868b] uppercase"
+            >Neural Core</span
+          >
+          <h3 class="mt-0 text-[11px] font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]"
+            >Computational Flux</h3
+          >
         </div>
       </div>
-      <div class="flex items-center gap-2 rounded-full bg-gray-50 px-2.5 py-1 dark:bg-gray-800">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="statusColorClass"></span>
-          <span class="relative inline-flex h-2 w-2 rounded-full" :class="statusColorClass"></span>
+      <div class="flex items-center gap-1.5 rounded-full bg-black/5 px-2.5 py-0.5 dark:bg-white/5">
+        <span class="relative flex h-1.5 w-1.5">
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+            :class="statusColorClass"></span>
+          <span
+            class="relative inline-flex h-1.5 w-1.5 rounded-full"
+            :class="statusColorClass"></span>
         </span>
-        <span class="text-[10px] font-medium text-gray-500 dark:text-gray-400 uppercase font-mono">{{ uptime }}</span>
+        <span class="font-mono text-[9px] font-bold text-[#86868b] uppercase">{{ uptime }}</span>
       </div>
     </div>
 
     <!-- Three.js Canvas Container -->
-    <div ref="containerRef" class="relative flex-1 w-full overflow-hidden rounded-xl bg-gray-50/30 dark:bg-black/20">
-       <!-- Overlay Stats -->
-       <div class="absolute inset-0 z-10 pointer-events-none p-4 flex flex-col justify-between">
-          <div class="flex justify-between items-start">
-             <div class="flex flex-col">
-                <span class="text-[8px] font-bold text-indigo-500/60 uppercase">Load_Index</span>
-                <span class="text-xs font-black text-gray-700 dark:text-gray-300">{{ cpuUsage }}%</span>
-             </div>
-             <div class="flex flex-col items-end">
-                <span class="text-[8px] font-bold text-purple-500/60 uppercase">Buffer_State</span>
-                <span class="text-xs font-black text-gray-700 dark:text-gray-300">{{ memoryUsage }}%</span>
-             </div>
+    <div
+      ref="containerRef"
+      class="relative mx-4 mb-4 w-[97%] flex-1 overflow-hidden rounded-[16px] bg-black/5 dark:bg-white/5">
+      <!-- Overlay Stats -->
+      <div class="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between p-3">
+        <div class="flex items-start justify-between">
+          <div class="flex flex-col">
+            <span class="text-[8px] font-bold tracking-widest text-[#5856d6]/60 uppercase"
+              >Load</span
+            >
+            <span class="text-xs font-bold text-[#1d1d1f] dark:text-[#f5f5f7]"
+              >{{ cpuUsage }}%</span
+            >
           </div>
-          <div class="flex justify-center">
-             <div class="flex gap-4">
-                <div class="flex flex-col items-center">
-                   <span class="text-[7px] text-gray-400 uppercase">Latency</span>
-                   <span class="text-[10px] font-bold text-emerald-500">12ms</span>
-                </div>
-                <div class="flex flex-col items-center">
-                   <span class="text-[7px] text-gray-400 uppercase">Agents</span>
-                   <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400">{{ onlineUsers }}</span>
-                </div>
-             </div>
+          <div class="flex flex-col items-end">
+            <span class="text-[8px] font-bold tracking-widest text-[#af52de]/60 uppercase"
+              >Buffer</span
+            >
+            <span class="text-xs font-bold text-[#1d1d1f] dark:text-[#f5f5f7]"
+              >{{ memoryUsage }}%</span
+            >
           </div>
-       </div>
+        </div>
+        <div class="flex justify-center pb-1">
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <span class="text-[7px] font-bold text-[#86868b] uppercase">Lat</span>
+              <span class="text-[10px] font-bold text-[#34c759]">12ms</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="text-[7px] font-bold text-[#86868b] uppercase">Agnt</span>
+              <span class="text-[10px] font-bold text-[#1d1d1f] dark:text-[#f5f5f7]">{{
+                onlineUsers
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -68,11 +87,11 @@ const containerRef = ref<HTMLElement>();
 const globalConfig = useGlobalConfig();
 
 // Three.js 变量
-let scene: THREE.Scene;
-let camera: THREE.PerspectiveCamera;
-let renderer: THREE.WebGLRenderer;
-let core: THREE.Mesh;
-let particles: THREE.Points;
+let scene: any;
+let camera: any;
+let renderer: any;
+let core: any;
+let particles: any;
 let animationId: number;
 
 const initThree = () => {
@@ -100,7 +119,7 @@ const initThree = () => {
     color: globalConfig.appDark ? 0x6366f1 : 0x4f46e5,
     wireframe: true,
     transparent: true,
-    opacity: 0.4
+    opacity: 0.4,
   });
   core = new THREE.Mesh(geometry, material);
   scene.add(core);
@@ -117,7 +136,7 @@ const initThree = () => {
     size: 0.05,
     color: globalConfig.appDark ? 0x818cf8 : 0x6366f1,
     transparent: true,
-    opacity: 0.6
+    opacity: 0.6,
   });
   particles = new THREE.Points(pointsGeometry, pointsMaterial);
   scene.add(particles);
@@ -131,7 +150,7 @@ const initThree = () => {
     core.rotation.x += speed * 0.5;
 
     particles.rotation.y -= speed * 0.2;
-    
+
     // Pulse scale based on memory usage
     const pulse = 1 + Math.sin(Date.now() * 0.002) * (memoryUsage.value / 500);
     core.scale.set(pulse, pulse, pulse);
@@ -152,14 +171,17 @@ const handleResize = () => {
 };
 
 // 监听暗黑模式切换
-watch(() => globalConfig.appDark, (isDark) => {
-  if (core && core.material instanceof THREE.MeshBasicMaterial) {
-    core.material.color.set(isDark ? 0x6366f1 : 0x4f46e5);
-  }
-  if (particles && particles.material instanceof THREE.PointsMaterial) {
-    particles.material.color.set(isDark ? 0x818cf8 : 0x6366f1);
-  }
-});
+watch(
+  () => globalConfig.appDark,
+  (isDark) => {
+    if (core && core.material instanceof THREE.MeshBasicMaterial) {
+      core.material.color.set(isDark ? 0x6366f1 : 0x4f46e5);
+    }
+    if (particles && particles.material instanceof THREE.PointsMaterial) {
+      particles.material.color.set(isDark ? 0x818cf8 : 0x6366f1);
+    }
+  },
+);
 
 // 计算属性
 const uptime = computed(() => `Active: 18d 4h`);
@@ -172,8 +194,14 @@ const statusColorClass = computed(() => {
 
 // 模拟数据更新
 const updateStats = () => {
-  cpuUsage.value = Math.min(100, Math.max(10, Math.floor(cpuUsage.value + (Math.random() - 0.5) * 15)));
-  memoryUsage.value = Math.min(100, Math.max(20, Math.floor(memoryUsage.value + (Math.random() - 0.5) * 5)));
+  cpuUsage.value = Math.min(
+    100,
+    Math.max(10, Math.floor(cpuUsage.value + (Math.random() - 0.5) * 15)),
+  );
+  memoryUsage.value = Math.min(
+    100,
+    Math.max(20, Math.floor(memoryUsage.value + (Math.random() - 0.5) * 5)),
+  );
   onlineUsers.value = Math.max(50, onlineUsers.value + Math.floor((Math.random() - 0.5) * 3));
 };
 
@@ -197,6 +225,8 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .info-container {
   /* Simple transition for bg and border */
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 </style>

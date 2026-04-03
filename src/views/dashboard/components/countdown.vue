@@ -1,24 +1,32 @@
 <template>
-  <!-- 时间倒计时 -->
-  <div
-    class="flex h-[200px] w-[300px] items-center justify-between gap-5 rounded-[25px] bg-[linear-gradient(135deg,_#f5f7fa_0%,_#c3cfe2_100%)] px-10 py-5 dark:bg-[linear-gradient(135deg,_#1c1e23_0%,_#555555_100%)]">
-    <div class="font-hsans">
-      <p class="text-xs font-medium">{{ date.year }} 年余额</p>
-      <h4 class="text-[40px] font-bold"
-        >{{ date.remainingDays }}<span class="ml-1 text-xs font-normal">天</span></h4
+  <div class="countdown-widget flex h-full w-full items-center justify-between px-2 py-1">
+    <div class="flex flex-col">
+      <span
+        class="text-[10px] font-bold tracking-wider text-[#86868b] uppercase dark:text-[#a1a1a6]"
+        >{{ date.year }} 年余额</span
       >
-      <p class="text-[#444] dark:text-[#767676]"
-        >{{ date.hour }}<span class="mr-1 text-xs">h</span>{{ date.minute
-        }}<span class="mr-1 text-xs">m</span>{{ date.second }}<span class="text-xs">s</span></p
-      >
+      <h4 class="mt-1 text-4xl font-bold text-[#1d1d1f] dark:text-white">
+        {{ date.remainingDays }}<span class="ml-1 text-sm font-medium text-[#86868b]">天</span>
+      </h4>
+      <p class="mt-2 flex items-baseline gap-1 text-xs font-medium text-[#86868b]">
+        <span>{{ date.hour }}</span
+        ><span class="text-[10px] opacity-60">h</span> <span>{{ date.minute }}</span
+        ><span class="text-[10px] opacity-60">m</span> <span>{{ date.second }}</span
+        ><span class="text-[10px] opacity-60">s</span>
+      </p>
     </div>
-    <el-progress
-      type="circle"
-      :percentage="date.process"
-      color="#368eff"
-      :width="90"
-      :stroke-width="14"
-      class="custom-circle" />
+    <div class="relative flex items-center justify-center">
+      <el-progress
+        type="circle"
+        :percentage="date.process"
+        :stroke-width="12"
+        :width="80"
+        color="#007aff"
+        class="apple-progress" />
+      <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <!-- <span class="text-[10px] font-bold text-[#007aff]">{{ date.process }}%</span> -->
+      </div>
+    </div>
   </div>
 </template>
 

@@ -1,22 +1,17 @@
 <template>
-  <div
-    class="stats-card border-base-border relative h-[200px] w-[480px] overflow-hidden rounded-[24px] border p-5 shadow-lg transition-all duration-500 hover:shadow-xl">
-    <!-- 背景装饰 -->
-    <div class="bg-decoration"></div>
-
+  <div class="stats-widget flex h-full w-full flex-col p-1">
     <!-- 头部信息 -->
-    <div class="mb-6 flex items-end justify-between">
+    <div class="mb-6 flex items-start justify-between">
       <div>
-        <h3
-          class="flex items-center gap-2 text-sm font-bold tracking-wider text-gray-700 dark:text-gray-200">
-          <span class="h-2 w-2 animate-pulse rounded-full bg-blue-500"></span>
-          项目代码分析
-        </h3>
-        <p class="mt-1 text-[10px] text-gray-400 uppercase">Project Language Composition</p>
+        <span
+          class="text-[10px] font-bold tracking-wider text-[#86868b] uppercase dark:text-[#a1a1a6]"
+          >项目代码分析</span
+        >
+        <h3 class="mt-1 text-lg font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]">语言占比</h3>
       </div>
       <div class="text-right">
-        <p class="text-[10px] font-medium text-gray-400">TOTAL CAPACITY</p>
-        <p class="text-lg font-black tracking-tighter text-blue-600 italic dark:text-blue-400">
+        <span class="text-[10px] font-bold text-[#86868b] uppercase">总容量</span>
+        <p class="mt-0.5 text-xl font-bold tracking-tight text-[#007aff]">
           {{ formatBytes(totalBytes) }}
         </p>
       </div>
@@ -24,46 +19,44 @@
 
     <!-- 分段进度条 -->
     <div
-      class="relative mb-8 h-3 w-full overflow-hidden rounded-full bg-gray-100/50 shadow-inner backdrop-blur-sm dark:bg-gray-800/50">
+      class="relative mb-6 h-4 w-full overflow-hidden rounded-full bg-black/5 shadow-inner dark:bg-white/5">
       <div class="flex h-full w-full">
         <div
           v-for="(item, index) in processedStats"
           :key="item.lang"
-          class="bar-segment transition-all duration-1000 ease-out"
+          class="bar-segment transition-all duration-1000 ease-out first:rounded-l-full last:rounded-r-full"
           :style="{
             width: isMounted ? item.percent + '%' : '0%',
             background: item.gradient,
             zIndex: 10 - index,
-          }"
-          :title="`${item.lang}: ${item.percent}%`">
-          <!-- 光影效果 -->
+          }">
           <div
-            class="h-full w-full bg-white/20 opacity-0 transition-opacity hover:opacity-100"></div>
+            class="h-full w-full cursor-help bg-white/10 opacity-0 transition-opacity hover:opacity-100"
+            :title="`${item.lang}: ${item.percent}%`"></div>
         </div>
       </div>
     </div>
 
     <!-- 详细列表 (Legend) -->
-    <div class="grid grid-cols-2 gap-x-8 gap-y-3">
+    <div class="grid flex-1 grid-cols-2 gap-x-6 gap-y-3 overflow-y-auto pr-1">
       <div
         v-for="item in processedStats"
         :key="item.lang"
-        class="group flex items-center justify-between transition-transform hover:translate-x-1">
-        <div class="flex items-center gap-3">
-          <div
-            class="h-2 w-2 rounded-full shadow-sm shadow-black/10"
-            :style="{ background: item.gradient }"></div>
-          <span class="text-xs font-semibold text-gray-600 dark:text-gray-300">{{
+        class="group flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="h-2 w-2 rounded-full" :style="{ background: item.gradient }"></div>
+          <span class="text-xs font-medium text-[#1d1d1f] dark:text-[#f5f5f7]">{{
             item.lang
           }}</span>
         </div>
-        <div class="text-right">
-          <span class="text-[11px] font-bold text-gray-900 dark:text-gray-100"
+        <div class="flex items-baseline gap-2">
+          <span class="text-xs font-bold text-[#1d1d1f] dark:text-[#f5f5f7]"
             >{{ item.percent }}%</span
           >
-          <span class="ml-2 hidden text-[9px] text-gray-400 group-hover:inline">{{
-            formatBytes(item.bytes)
-          }}</span>
+          <span
+            class="text-[10px] text-[#86868b] opacity-0 transition-opacity group-hover:opacity-100"
+            >{{ formatBytes(item.bytes) }}</span
+          >
         </div>
       </div>
     </div>
@@ -132,46 +125,14 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-.stats-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  :global(.dark) & {
-    background: rgba(18, 18, 18, 0.7);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-}
-
-.bg-decoration {
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
-  z-index: 0;
-  pointer-events: none;
+.stats-widget {
+  user-select: none;
 }
 
 .bar-segment {
   position: relative;
   &:not(:last-child) {
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
 

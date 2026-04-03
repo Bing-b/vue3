@@ -1,1 +1,0 @@
-import{c as e}from"./user-DUpdgj3C.js";var t=e(`config`,{state:()=>({appDark:!1}),persist:{enabled:!0,strategies:[{storage:localStorage}]}});export{t};

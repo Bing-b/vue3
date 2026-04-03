@@ -1,0 +1,1 @@
+import{c as e}from"./user-4c4bMTzV.js";var t=e(`config`,{state:()=>({appDark:!1}),persist:{enabled:!0,strategies:[{storage:localStorage}]}});export{t};

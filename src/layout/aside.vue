@@ -1,5 +1,7 @@
 <template>
-  <div class="menu-box apple-glass relative z-20 !border-none select-none">
+  <div
+    class="menu-box apple-glass relative z-20 !border-none select-none"
+    :data-collapse="menuCollsapse">
     <el-menu router :default-active="defaultActive" :collapse="menuCollsapse" :unique-opened="true">
       <template v-for="menu in menuList" :key="menu.path">
         <!-- 有子菜单 -->
@@ -129,7 +131,9 @@ onMounted(() => {
   width: 180px;
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 10px;
-
+  svg {
+    flex: none;
+  }
   &[data-collapse='true'] {
     width: 64px;
   }
@@ -178,6 +182,13 @@ onMounted(() => {
       .el-menu-item.is-active {
         background-color: #0a84ff !important;
       }
+    }
+  }
+
+  :deep(.el-menu.el-menu--collapse) {
+    .el-menu-item span,
+    .el-sub-menu__title span {
+      display: none !important;
     }
   }
 }
